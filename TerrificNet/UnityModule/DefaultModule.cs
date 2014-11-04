@@ -23,7 +23,9 @@ namespace TerrificNet.UnityModule
 		public void Configure(IUnityContainer container)
 		{
 			container.RegisterInstance<ITerrificNetConfig>(new TerrificNetConfig { Path = _path });
-            container.RegisterType<IViewEngine, PhysicalViewEngine>(new InjectionConstructor(Path.Combine(_path, "views")));
+            //container.RegisterType<IViewEngine, MustacheSharpPhysicalViewEngine>(new InjectionConstructor(Path.Combine(_path, "views")));
+            container.RegisterType<IViewEngine, NustachePhysicalViewEngine>(new InjectionConstructor(Path.Combine(_path, "views")));
+
             container.RegisterType<IModelProvider, JsonModelProvier>(new InjectionConstructor(Path.Combine(_path, "project/data")));
 		}
 

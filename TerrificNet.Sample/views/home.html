@@ -7,5 +7,14 @@
 </head>
 <body>
     Hello {{name}}
+    
+    {{#list}}
+        {{name}}
+    {{/list}}
+
+    {{#customer.orders}}
+        {{count}}
+    {{/customer.orders}}
+
 </body>
 </html>

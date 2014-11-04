@@ -37,6 +37,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nustache.Core">
+      <HintPath>..\packages\Nustache.1.13.8.22\lib\net20\Nustache.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,7 +54,8 @@
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />
     <Compile Include="JsonModelProvier.cs" />
-    <Compile Include="PhysicalViewEngine.cs" />
+    <Compile Include="MustacheSharpPhysicalViewEngine.cs" />
+    <Compile Include="NustachePhysicalViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
