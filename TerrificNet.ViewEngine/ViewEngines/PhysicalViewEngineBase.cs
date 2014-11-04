@@ -2,19 +2,20 @@
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
-    public abstract class PhysicalViewEngineBase : IViewEngine
-    {
-        private readonly string _basePath;
+	public abstract class PhysicalViewEngineBase : IViewEngine
+	{
+		private readonly string _basePath;
 
-        protected PhysicalViewEngineBase(string basePath)
-        {
-            _basePath = basePath;
-        }
+		protected PhysicalViewEngineBase(string basePath)
+		{
+			_basePath = basePath;
+		}
 
-        public bool TryCreateViewFromPath(string path, out IView view)
+		public bool TryCreateViewFromPath(string path, out IView view)
         {
             view = null;
             var filePath = Path.Combine(_basePath, path);
+			filePath = Path.ChangeExtension(filePath, "html");
             if (!File.Exists(filePath))
                 return false;
 
@@ -27,6 +28,6 @@ namespace TerrificNet.ViewEngine.ViewEngines
             }
         }
 
-        protected abstract IView CreateView(string content);
-    }
+		protected abstract IView CreateView(string content);
+	}
 }

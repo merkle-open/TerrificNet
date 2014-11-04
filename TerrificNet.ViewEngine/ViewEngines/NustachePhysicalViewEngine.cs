@@ -21,7 +21,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			var template = new Template();
 			template.Load(new StringReader(content));
 
-			DisplayHelpers.Register();
+			DisplayHelpers.Register(this);
 
 			return new NustacheView(template, _localBasePath);
 		}
