@@ -1,0 +1,10 @@
+﻿{
+    "type": "object",
+    "title":  "TestModel",
+    "properties": {
+        "name": {
+            "type": "integer",
+            "required":  true
+        }
+    }
+}

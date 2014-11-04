@@ -1,4 +1,15 @@
 ﻿<div>
     <h1>Submodule test_module</h1>
     {{test}}
+
+    {{value}}
+
+    {{#if items}}
+    <h2>Adressen</h2>
+    <ul>
+        {{#each items}}
+        <li>{{street}} {{zipCode}}</li>
+        {{/each}}
+    </ul>
+    {{/if}}
 </div>

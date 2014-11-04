@@ -97,7 +97,7 @@ namespace TerrificNet.ViewEngine.Schema
                     _schema.Properties.Add(property, propertySchema);
 
                     propertySchema.Type = JsonSchemaType.String;
-                    propertySchema.Required = true;                    
+                    propertySchema.Required = true;
                 }
                 return new PropertySchemaBuilder(propertySchema);
             }

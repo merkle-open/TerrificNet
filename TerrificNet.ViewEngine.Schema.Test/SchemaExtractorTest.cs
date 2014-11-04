@@ -16,7 +16,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor();
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "simpleSingleProperty.mustache"));
 
-            AssertSingleProperty(schema, "Name", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Name", JsonSchemaType.String);
         }
 
         [TestMethod]
@@ -26,8 +26,8 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor();
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "simpleSinglePropertyPath.mustache"));
 
-            AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
         }
 
         [TestMethod]
@@ -37,12 +37,12 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor();
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "multipleProperties.mustache"));
 
-            AssertSingleProperty(schema, "Title", JsonSchemaType.String);
-            AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
-            AssertSingleProperty(schema.Properties["Customer"], "Age", JsonSchemaType.String);
-            AssertSingleProperty(schema.Properties["Customer"], "Order", JsonSchemaType.Object);
-            AssertSingleProperty(schema.Properties["Customer"].Properties["Order"], "Count", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Title", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Age", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Order", JsonSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Order"], "Count", JsonSchemaType.String);
         }
 
         [TestMethod]
@@ -52,8 +52,8 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor();
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "noRequiredProperty.mustache"));
 
-            AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String, false);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String, false);
         }
 
         [TestMethod]
@@ -63,9 +63,9 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor();
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "booleanProperty.mustache"));
 
-            AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
-            AssertSingleProperty(schema.Properties["Customer"], "HasName", JsonSchemaType.Boolean, false);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "HasName", JsonSchemaType.Boolean, false);
         }
 
         [TestMethod]
@@ -75,24 +75,17 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor();
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "arrayProperty.mustache"));
 
-            AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            AssertSingleProperty(schema.Properties["Customer"], "Addresses", JsonSchemaType.Array);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Addresses", JsonSchemaType.Array);
             Assert.IsNotNull(schema.Properties["Customer"].Properties["Addresses"].Items, "an items array should be given for an array type.");
             Assert.AreEqual(1, schema.Properties["Customer"].Properties["Addresses"].Items.Count, "expectects exactly on item inside items");
 
-            AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "Street", JsonSchemaType.String);
-            AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "ZipCode", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "Street", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "ZipCode", JsonSchemaType.String);
         }
 
 
-        private static void AssertSingleProperty(JsonSchema schema, string propertyName, JsonSchemaType schemaType, bool required = true)
-        {
-            Assert.IsNotNull(schema);
-            Assert.IsNotNull(schema.Properties);
-            Assert.IsTrue(schema.Properties.ContainsKey(propertyName), string.Format("property with name '{0}' expected.", propertyName));
-            Assert.IsNotNull(schema.Properties[propertyName].Type);
-            Assert.AreEqual(schemaType, schema.Properties[propertyName].Type.Value);
-            Assert.AreEqual(required, schema.Properties[propertyName].Required);
-        }
+
     }
+
 }

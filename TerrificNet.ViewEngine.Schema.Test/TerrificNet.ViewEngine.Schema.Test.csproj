@@ -55,10 +55,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchemaAssertions.cs" />
+    <Compile Include="SchemaComparisionTest.cs" />
     <Compile Include="SchemaExtractorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Mocks\arrayProperty.mustache" />
+    <None Include="Mocks\Comparisions\invalidTypeChangeInBase.json" />
+    <None Include="Mocks\Comparisions\invalidTypeChangeInBase_base.json" />
+    <None Include="Mocks\Comparisions\moreSpecific_base.json" />
+    <None Include="Mocks\Comparisions\moreSpecific.json" />
     <None Include="Mocks\multipleProperties.mustache" />
     <None Include="Mocks\booleanProperty.mustache" />
     <None Include="Mocks\noRequiredProperty.mustache" />
@@ -72,6 +78,7 @@
       <Name>TerrificNet.ViewEngine.Schema</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -1,0 +1,15 @@
+﻿{
+    "type": "object",
+    "title": "TestModel",
+    "properties": {
+        "name": {
+            "type": "object",
+            "required": true,
+            "properties": {
+                "subProp": { 
+                    "type":  "string"
+                }
+            }
+        }
+    }
+}
