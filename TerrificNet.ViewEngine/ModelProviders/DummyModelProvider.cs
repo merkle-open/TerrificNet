@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.ModelProviders
 {
     public class DummyModelProvider : IModelProvider
     {
@@ -10,6 +11,11 @@ namespace TerrificNet.ViewEngine
             model["name"] = "Hans Muster";
 
             return model;
+        }
+
+        public void UpdateModelFromPath(string path, object content)
+        {
+            throw new NotSupportedException();
         }
     }
 }

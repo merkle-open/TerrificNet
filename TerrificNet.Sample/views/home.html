@@ -12,13 +12,15 @@
         {{module template="test_module"}}
     </div>
 
+    <ul>
     {{#list}}
-        {{name}}
+        <li>{{name}}</li>
     {{/list}}
-
+    </ul>
+    <ul>
     {{#customer.orders}}
-        {{count}}
+        <li>{{count}}</li>
     {{/customer.orders}}
-
+    </ul>
 </body>
 </html>
