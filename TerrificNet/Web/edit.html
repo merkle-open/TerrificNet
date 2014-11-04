@@ -2,52 +2,71 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Basic JSON Editor Example</title>
-    <script src="assets/jsoneditor.min.js"></script>
+    <title></title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</head>
-<body>
-    <h1>Basic JSON Editor Example</h1>
+    <!-- Foundation CSS framework (Bootstrap and jQueryUI also supported) -->
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/foundation/5.0.2/css/foundation.min.css'>
+    <!-- Font Awesome icons (Bootstrap, Foundation, and jQueryUI also supported) -->
+    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
 
-    <div id='editor_holder'></div>
-    <button id='submit'>Submit (console.log)</button>
+    <script src="assets/jsoneditor.min.js"></script>
 
     <script>
-        function getUrlVars() {
-            var vars = [], hash;
-            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-            for (var i = 0; i < hashes.length; i++) {
-                hash = hashes[i].split('=');
-                vars.push(hash[0]);
-                vars[hash[0]] = hash[1];
+        // Set the default CSS theme and icon library globally
+        JSONEditor.defaults.theme = 'foundation5';
+        JSONEditor.defaults.iconlib = 'fontawesome4';
+    </script>
+
+</head>
+<body>
+    <h1></h1>
+
+    <div id='editor_holder'></div>
+    <button id='submit'>Save</button>
+
+    <script>
+        $(document).ready(function () {
+
+            function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
             }
-            return vars;
-        }
 
-        var editor = null;
-        var variables = getUrlVars();
-        var template = variables["template"];
+            var editor = null;
+            var variables = getUrlVars();
+            var template = variables["template"];
 
-        $.get("../schema/" + template, function (data) {
-            editor = new JSONEditor(document.getElementById('editor_holder'), {
-                schema: data
+            $("h1").html(template);
+            document.title = template;
+
+            $.get("../schema/" + template, function (data) {
+                editor = new JSONEditor(document.getElementById('editor_holder'), {
+                    schema: data
+                });
+
+                $.get("../model/" + template, function (model) {
+                    editor.setValue(model);
+                });
             });
 
-            $.get("../model/" + template, function (model) {
-                editor.setValue(model);
-            });
-        });        
+            // Hook up the submit button to log to the console
+            $('#submit').click(function () {
+                // Get the value from the editor
+                console.log(editor.getValue());
 
-        // Hook up the submit button to log to the console
-        document.getElementById('submit').addEventListener('click', function () {
-            // Get the value from the editor
-            console.log(editor.getValue());
+                $.ajax({
+                    type: 'PUT',
+                    url: "../model/" + template,
+                    data: JSON.stringify(editor.getValue()),
+                    headers: { "Content-Type": "application/json" },
+                });
 
-            $.ajax({
-                type: 'PUT',
-                url: "../model/" + template,
-                data: JSON.stringify(editor.getValue()),
-                headers: { "Content-Type": "application/json" },
             });
 
         });
