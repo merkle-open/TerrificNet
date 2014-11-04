@@ -1,12 +1,15 @@
-﻿using System.IO;
+﻿using System.Collections.Specialized;
+using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using Nustache.Core;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
     public class NustachePhysicalViewEngine : PhysicalViewEngineBase
     {
-        public NustachePhysicalViewEngine(string basePath) : base(basePath)
+		public NustachePhysicalViewEngine(string basePath)
+			: base(basePath)
         {
         }
 
@@ -15,8 +18,15 @@ namespace TerrificNet.ViewEngine.ViewEngines
             var template = new Template();
             template.Load(new StringReader(content));
 
+			DisplayHelpers.Register();
+
             return new NustacheView(template);
         }
+
+		private static Template LoadTemplate(string name)
+		{
+			return null;
+		}
 
         private class NustacheView : IView
         {
@@ -32,7 +42,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
                 var builder = new StringBuilder();
                 using (var writer = new StringWriter(builder))
                 {
-                    _template.Render(model, writer, null);
+					_template.Render(model, writer, LoadTemplate);
                 }
 
                 return builder.ToString();
