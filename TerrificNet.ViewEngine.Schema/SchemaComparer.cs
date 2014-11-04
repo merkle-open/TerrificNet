@@ -39,6 +39,14 @@ namespace TerrificNet.ViewEngine.Schema.Test
                 }
             }
 
+            if (schema.Items != null && baseSchema.Items != null)
+            {
+                for (int i = 0; i < schema.Items.Count && i < baseSchema.Items.Count; i++)
+                {
+                    Apply(schema.Items[i], baseSchema.Items[i], failures);
+                }
+            }
+
             return schema;
         }
 

@@ -60,12 +60,14 @@
                 // Get the value from the editor
                 console.log(editor.getValue());
 
-                $.ajax({
-                    type: 'PUT',
-                    url: "../model/" + template,
-                    data: JSON.stringify(editor.getValue()),
-                    headers: { "Content-Type": "application/json" },
-                });
+                if (editor.validate()) {
+                    $.ajax({
+                        type: 'PUT',
+                        url: "../model/" + template,
+                        data: JSON.stringify(editor.getValue()),
+                        headers: { "Content-Type": "application/json" },
+                    });
+                }
 
             });
 

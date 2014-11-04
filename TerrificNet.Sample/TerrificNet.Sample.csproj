@@ -79,6 +79,9 @@
   <ItemGroup>
     <Content Include="views\schemas\home.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="views\schemas\test_module.json" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
