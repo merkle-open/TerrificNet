@@ -60,12 +60,6 @@
     <Content Include="assets\451821041.jpg" />
     <Content Include="project\data\home.json" />
     <Content Include="project\data\test_module.json" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\test_module.html">
@@ -74,7 +68,6 @@
     <Content Include="views\home.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

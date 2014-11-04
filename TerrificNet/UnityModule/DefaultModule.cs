@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using TerrificNet.Controller;
+using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.ModelProviders;
@@ -36,6 +37,7 @@ namespace TerrificNet.UnityModule
 			container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
 			container.RegisterType<IModelProvider,JsonModelProvier>();
 			container.RegisterType<ISchemaProvider, NustacheViewSchemaProvider>();
+			container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
 		}
 
 		private class TerrificNetConfig : ITerrificNetConfig
