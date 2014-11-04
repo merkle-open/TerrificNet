@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="Controller\ModelController.cs" />
+    <Compile Include="Controller\SchemaController.cs" />
     <Compile Include="Controller\TemplateController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,6 +9,7 @@ using TerrificNet.Config;
 using TerrificNet.Controller;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.ModelProviders;
+using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.UnityModule
@@ -27,8 +28,8 @@ namespace TerrificNet.UnityModule
 			container.RegisterInstance<ITerrificNetConfig>(new TerrificNetConfig { Path = _path });
             //container.RegisterType<IViewEngine, MustacheSharpPhysicalViewEngine>(new InjectionConstructor(Path.Combine(_path, "views")));
             container.RegisterType<IViewEngine, NustachePhysicalViewEngine>(new InjectionConstructor(Path.Combine(_path, "views")));
-
             container.RegisterType<IModelProvider, JsonModelProvier>(new InjectionConstructor(Path.Combine(_path, "project/data")));
+            container.RegisterType<ISchemaProvider, NustacheViewSchemaProvider>(new InjectionConstructor(Path.Combine(_path, "views")));
 		}
 
 		private class TerrificNetConfig : ITerrificNetConfig

@@ -46,11 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISchemaProvider.cs" />
     <Compile Include="ModelProviders\DummyModelProvider.cs" />
     <Compile Include="IModelProvider.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />
     <Compile Include="ModelProviders\JsonModelProvier.cs" />
+    <Compile Include="SchemaProviders\NustacheViewSchemaProvider.cs" />
     <Compile Include="ViewEngines\PhysicalViewEngineBase.cs" />
     <Compile Include="ViewEngines\NustachePhysicalViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
