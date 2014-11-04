@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TerrificNet.ViewEngine.ModelProviders
 {
@@ -10,6 +11,11 @@ namespace TerrificNet.ViewEngine.ModelProviders
             model["name"] = "Hans Muster";
 
             return model;
+        }
+
+        public void UpdateModelFromPath(string path, object content)
+        {
+            throw new NotSupportedException();
         }
     }
 }

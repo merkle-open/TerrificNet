@@ -12,7 +12,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
         protected override IView CreateView(string content)
         {
-            var template = new Nustache.Core.Template();
+            var template = new Template();
             template.Load(new StringReader(content));
 
             return new NustacheView(template);

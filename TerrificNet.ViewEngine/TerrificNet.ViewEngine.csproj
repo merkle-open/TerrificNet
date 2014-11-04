@@ -51,7 +51,7 @@
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />
     <Compile Include="ModelProviders\JsonModelProvier.cs" />
-    <Compile Include="ViewEngines\MustacheSharpPhysicalViewEngine.cs" />
+    <Compile Include="ViewEngines\PhysicalViewEngineBase.cs" />
     <Compile Include="ViewEngines\NustachePhysicalViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

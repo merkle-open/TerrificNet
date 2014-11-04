@@ -1,11 +1,15 @@
 ﻿{
-    "name": "hallo ",
+    "name": "hallo asdf",
     "list": [ { "name": "eins" }, { "name": "zwei" } ],
     "customer": {
         "name": "dummy customer",
         "orders": [
-            { "count": 4 },
-            { "count": 5 }
+            {
+                "count": 4
+            },
+            {
+                "count": 5
+            }
         ]
     }
 }
