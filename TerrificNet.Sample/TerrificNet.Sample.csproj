@@ -66,6 +66,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="views\test_module.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="views\home.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
