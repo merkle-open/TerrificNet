@@ -43,6 +43,19 @@ namespace TerrificNet.ViewEngine.Schema
                 _schema.Type = type;
                 return this;
             }
+
+            public SchemaBuilder ChangeToArray()
+            {
+                var arrayItemSchema = new JsonSchema();
+
+                _schema.Type = JsonSchemaType.Array;
+                _schema.Items = new List<JsonSchema>
+                {
+                    arrayItemSchema
+                };
+
+                return new SchemaBuilder(arrayItemSchema);
+            }
         }
 
         public class SchemaBuilder
@@ -122,9 +135,14 @@ namespace TerrificNet.ViewEngine.Schema
 
                         VisitParts(block);
                     }
-                    else if (parts[1] == "each")
+                    else if (parts[0] == "each")
                     {
-                        
+                        var tempBuilder = _schemaBuilder;
+                        var propertyBuilder = _schemaBuilder.PushPath(parts[1]);
+                        _schemaBuilder = propertyBuilder.ChangeToArray();
+                        VisitParts(block);
+
+                        _schemaBuilder = tempBuilder;
                     }
                 }
             }
