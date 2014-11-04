@@ -45,6 +45,18 @@ namespace TerrificNet.ViewEngine.Schema.Test
             AssertSingleProperty(schema.Properties["Customer"].Properties["Order"], "Count", JsonSchemaType.String);
         }
 
+        [TestMethod]
+        [Description("Test whether a multiple properties are included in the schema")]
+        public void TestNoRequiredPropertys()
+        {
+            var schemaExtractor = new SchemaExtractor();
+            var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "noRequiredProperty.mustache"));
+
+            AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
+            AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String, false);
+        }
+
+
         private static void AssertSingleProperty(JsonSchema schema, string propertyName, JsonSchemaType schemaType, bool required = true)
         {
             Assert.IsNotNull(schema);
