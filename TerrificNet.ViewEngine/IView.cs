@@ -1,4 +1,4 @@
-namespace TerrificNet.Controller
+namespace TerrificNet.ViewEngine
 {
     public interface IView
     {

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.ViewEngine
 {
     public class JsonModelProvier : IModelProvider
     {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using TerrificNet.Config;
 using TerrificNet.Controller;
+using TerrificNet.ViewEngine;
 
 namespace TerrificNet.UnityModule
 {

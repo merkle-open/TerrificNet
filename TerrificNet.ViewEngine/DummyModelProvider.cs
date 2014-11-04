@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.ViewEngine
 {
     public class DummyModelProvider : IModelProvider
     {
