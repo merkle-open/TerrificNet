@@ -44,7 +44,7 @@
         },
         "age": {
             "required": false,
-            "type": "string"
+            "type": "integer"
         }
     }
 }
