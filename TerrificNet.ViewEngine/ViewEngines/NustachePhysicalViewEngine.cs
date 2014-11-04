@@ -6,47 +6,62 @@ using Nustache.Core;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
-    public class NustachePhysicalViewEngine : PhysicalViewEngineBase
-    {
+	public class NustachePhysicalViewEngine : PhysicalViewEngineBase
+	{
+		private readonly string _localBasePath;
+
 		public NustachePhysicalViewEngine(string basePath)
 			: base(basePath)
-        {
-        }
+		{
+			_localBasePath = basePath;
+		}
 
-        protected override IView CreateView(string content)
-        {
-            var template = new Template();
-            template.Load(new StringReader(content));
+		protected override IView CreateView(string content)
+		{
+			var template = new Template();
+			template.Load(new StringReader(content));
 
 			DisplayHelpers.Register();
 
-            return new NustacheView(template);
-        }
-
-		private static Template LoadTemplate(string name)
-		{
-			return null;
+			return new NustacheView(template, _localBasePath);
 		}
 
-        private class NustacheView : IView
-        {
-            private readonly Template _template;
 
-            public NustacheView(Template template)
-            {
-                _template = template;
-            }
+		private class NustacheView : IView
+		{
+			private readonly Template _template;
+			private readonly string _localBasePath;
 
-            public string Render(object model)
-            {
-                var builder = new StringBuilder();
-                using (var writer = new StringWriter(builder))
-                {
+			public NustacheView(Template template, string localBasePath)
+			{
+				_template = template;
+				_localBasePath = localBasePath;
+			}
+
+			private Template LoadTemplate(string name)
+			{
+				var path = _localBasePath + "/" + name + ".html";
+				if(!File.Exists(path))
+				return null;
+
+				using (var reader = new StreamReader(path))
+				{
+					var template = new Template(name);
+					template.Load(reader);
+					return template;
+				}
+			}
+
+			public string Render(object model)
+			{
+				var builder = new StringBuilder();
+				using (var writer = new StringWriter(builder))
+				{
 					_template.Render(model, writer, LoadTemplate);
-                }
+				}
 
-                return builder.ToString();
-            }
-        }
-    }
+				return builder.ToString();
+			}
+		}
+	}
 }
