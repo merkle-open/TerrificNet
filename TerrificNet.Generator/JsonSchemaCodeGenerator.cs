@@ -31,12 +31,7 @@ namespace TerrificNet.Generator
 						Syntax.Token(SyntaxKind.ClassKeyword, Syntax.TriviaList(Syntax.Space)))
 					.WithOpenBraceToken(
 						Syntax.Token(SyntaxKind.OpenBraceToken))
-					.WithMembers(new SyntaxList<MemberDeclarationSyntax>()
-						.Add(Syntax.PropertyDeclaration(Syntax.ParseTypeName("string").WithTrailingTrivia(Syntax.Space), "Name")
-							.WithAccessorList(Syntax.AccessorList(Syntax.List(
-								Syntax.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration).WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken)),
-								Syntax.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken))
-								)))))
+					.WithMembers(new SyntaxList<MemberDeclarationSyntax>().AddProperties(schema))
 					.WithCloseBraceToken(
 						Syntax.Token(SyntaxKind.CloseBraceToken));
 			}
@@ -47,6 +42,33 @@ namespace TerrificNet.Generator
 		class TestClass
 		{
 			public string Name { get; set; }
+			public TestClass2 Complex { get; set; }
+			public string Name2 { get; set; }
+		}
+
+		class TestClass2
+		{
+			public string Test { get; set; }
+		}
+	}
+
+	public static class RoslynExtension
+	{
+		public static SyntaxList<MemberDeclarationSyntax> AddProperties(this SyntaxList<MemberDeclarationSyntax> memberList, JsonSchema schema)
+		{
+			var result = memberList;
+			foreach (var property in schema.Properties)
+			{
+				result = result.Add(Syntax.PropertyDeclaration(Syntax.ParseTypeName("string").WithTrailingTrivia(Syntax.Space), property.Key)
+					.WithAccessorList(Syntax.AccessorList(Syntax.List(
+						Syntax.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+					.WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken)),
+						Syntax.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+					.WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken))
+					))));
+			}
+
+			return result;
 		}
 	}
 }
