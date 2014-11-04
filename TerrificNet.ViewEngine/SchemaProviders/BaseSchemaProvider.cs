@@ -22,6 +22,9 @@ namespace TerrificNet.ViewEngine.SchemaProviders
         public JsonSchema GetSchemaFromPath(string path)
         {
             var file = Path.Combine(_config.ViewPath, "schemas", Path.ChangeExtension(path, "json"));
+            if (!File.Exists(file))
+                return null;
+
             return GetSchema(file);
         }
 

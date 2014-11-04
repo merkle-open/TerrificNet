@@ -14,7 +14,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
                 throw new ArgumentNullException("schema");
 
             if (baseSchema == null)
-                throw new ArgumentNullException("baseSchema");
+                return schema;
 
             if (!string.IsNullOrEmpty(baseSchema.Title))
                 schema.Title = baseSchema.Title;
