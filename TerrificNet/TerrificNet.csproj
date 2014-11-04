@@ -78,7 +78,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="Controller\AssetsController.cs" />
     <Compile Include="Controller\ModelController.cs" />
     <Compile Include="Controller\SchemaController.cs" />

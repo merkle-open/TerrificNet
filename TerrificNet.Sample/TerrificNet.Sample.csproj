@@ -59,6 +59,7 @@
   <ItemGroup>
     <Content Include="assets\451821041.jpg" />
     <Content Include="project\data\home.json" />
+    <Content Include="project\data\test_module.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

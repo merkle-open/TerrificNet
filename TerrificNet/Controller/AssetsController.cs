@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
-using TerrificNet.Config;
+using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.Controller
 {
@@ -22,7 +22,7 @@ namespace TerrificNet.Controller
 		[HttpGet]
 		public HttpResponseMessage Get(string path)
 		{
-			var filePath = Path.Combine(_config.Path, "assets", path);
+			var filePath = _config.AssetPath;
 			if (!File.Exists(filePath))
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 

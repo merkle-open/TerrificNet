@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Newtonsoft.Json.Schema;
+using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.Schema;
 
 namespace TerrificNet.ViewEngine.SchemaProviders
@@ -8,9 +9,9 @@ namespace TerrificNet.ViewEngine.SchemaProviders
     {
         private readonly string _basePath;
 
-        public NustacheViewSchemaProvider(string basePath)
+		public NustacheViewSchemaProvider(ITerrificNetConfig config)
         {
-            _basePath = basePath;
+            _basePath = config.ViewPath;
         }
 
         public JsonSchema GetSchemaFromPath(string path)

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.ModelProviders
 {
@@ -7,14 +8,18 @@ namespace TerrificNet.ViewEngine.ModelProviders
     {
         private readonly string _basePath;
 
-        public JsonModelProvier(string basePath)
+        public JsonModelProvier(ITerrificNetConfig config)
         {
-            _basePath = basePath;
+            _basePath = config.DataPath;
         }
 
         public object GetModelFromPath(string path)
         {
             var filePath = GetPath(path);
+
+	        if (!File.Exists(filePath))
+		        return null;
+
             using (var stream = new StreamReader(filePath))
             {
                 var content = stream.ReadToEnd();

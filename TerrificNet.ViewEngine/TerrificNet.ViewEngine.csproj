@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DisplayHelpers.cs" />
+    <Compile Include="Config\ITerrificNetConfig.cs" />
+    <Compile Include="TerrificModuleHelper.cs" />
+    <Compile Include="IMustacheHelper.cs" />
     <Compile Include="ISchemaProvider.cs" />
     <Compile Include="ModelProviders\DummyModelProvider.cs" />
     <Compile Include="IModelProvider.cs" />

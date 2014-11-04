@@ -1,8 +1,8 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using Nustache.Core;
+using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
@@ -10,10 +10,12 @@ namespace TerrificNet.ViewEngine.ViewEngines
 	{
 		private readonly string _localBasePath;
 
-		public NustachePhysicalViewEngine(string basePath)
-			: base(basePath)
+		public NustachePhysicalViewEngine(ITerrificNetConfig config, IModelProvider modelProvider)
+			: base(config.ViewPath)
 		{
-			_localBasePath = basePath;
+			_localBasePath = config.ViewPath;
+
+			new TerrificModuleHelper(this, modelProvider).Register(Helpers.Contains, Helpers.Register);
 		}
 
 		protected override IView CreateView(string content)
@@ -21,11 +23,8 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			var template = new Template();
 			template.Load(new StringReader(content));
 
-			DisplayHelpers.Register(this);
-
 			return new NustacheView(template, _localBasePath);
 		}
-
 
 		private class NustacheView : IView
 		{
@@ -40,9 +39,9 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 			private Template LoadTemplate(string name)
 			{
-				var path = _localBasePath + "/" + name + ".html";
-				if(!File.Exists(path))
-				return null;
+				var path = Path.Combine(_localBasePath, name, ".html");
+				if (!File.Exists(path))
+					return null;
 
 				using (var reader = new StreamReader(path))
 				{
