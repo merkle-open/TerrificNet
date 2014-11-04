@@ -1,30 +1,30 @@
 ﻿<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title>title</title>
-</head>
-<body>
-    Hello {{name}}
+    <head>
+        <meta charset="utf-8" />
+        <title>title</title>
+    </head>
+    <body>
+        Hello {{name}}
     
-    <div>
-        {{module template="test_module"}}
-    </div>
+        <div>
+            {{module template="test_module"}}
+        </div>
 
-    <ul>
-        {{#list}}
-        <li>{{name}}</li>
-        {{/list}}
-    </ul>
-    <ul>
-        {{#customer.orders}}
-        <li>{{count}}</li>
-        {{/customer.orders}}
+        <ul>
+            {{#list}}
+            <li>{{name}}</li>
+            {{/list}}
+        </ul>
+        <ul>
+            {{#customer.orders}}
+            <li>{{count}}</li>
+            {{/customer.orders}}
         
-        {{#if age}}
-        <h1>{{age}}</h1>
-        {{/if age}}
-    </ul>
-</body>
+            {{#if age}}
+            <h1>{{age}}</h1>
+            {{/if age}}
+        </ul>
+    </body>
 </html>
