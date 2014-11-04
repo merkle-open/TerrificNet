@@ -13,14 +13,14 @@
         </div>
 
         <ul>
-            {{#list}}
+            {{#each list}}
             <li>{{name}}</li>
-            {{/list}}
+            {{/each}}
         </ul>
         <ul>
-            {{#customer.orders}}
+            {{#each customer.orders}}
             <li>{{count}}</li>
-            {{/customer.orders}}
+            {{/each}}
         
             {{#if age}}
             <h1>{{age}}</h1>

@@ -39,9 +39,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Core">
-      <HintPath>..\packages\Nustache.1.13.8.22\lib\net20\Nustache.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -61,7 +58,9 @@
     <Compile Include="SchemaExtractorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Mocks\arrayProperty.mustache" />
     <None Include="Mocks\multipleProperties.mustache" />
+    <None Include="Mocks\booleanProperty.mustache" />
     <None Include="Mocks\noRequiredProperty.mustache" />
     <None Include="Mocks\simpleSingleProperty.mustache" />
     <None Include="Mocks\simpleSinglePropertyPath.mustache" />

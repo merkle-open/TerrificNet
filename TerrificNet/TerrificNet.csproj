@@ -78,8 +78,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\AssetsController.cs" />
     <Compile Include="Controller\CodeGeneratorController.cs" />
+    <Compile Include="Controller\WebFileController.cs" />
+    <Compile Include="Controller\AssetsController.cs" />
+    <Compile Include="Controller\StaticFileControllerBase.cs" />
     <Compile Include="Controller\ModelController.cs" />
     <Compile Include="Controller\SchemaController.cs" />
     <Compile Include="Controller\TemplateController.cs" />
@@ -101,6 +103,14 @@
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\edit.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Web\assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

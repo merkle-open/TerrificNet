@@ -18,7 +18,6 @@ namespace TerrificNet
 			config.DependencyResolver = new UnityDependencyResolver(container);
 
 			appBuilder.UseWebApi(config);
-			
 		}
 	}
 }
