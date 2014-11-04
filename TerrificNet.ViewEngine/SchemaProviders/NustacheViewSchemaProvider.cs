@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Schema;
+﻿using System.IO;
+using Newtonsoft.Json.Schema;
+using TerrificNet.ViewEngine.Schema;
 
 namespace TerrificNet.ViewEngine.SchemaProviders
 {
@@ -13,9 +15,8 @@ namespace TerrificNet.ViewEngine.SchemaProviders
 
         public JsonSchema GetSchemaFromPath(string path)
         {
-            var schema = new JsonSchema();
-
-            return schema;
+            var extractor = new SchemaExtractor();
+            return extractor.Run(Path.Combine(_basePath, path));
         }
     }
 }

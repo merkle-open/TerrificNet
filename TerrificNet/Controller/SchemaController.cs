@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web.Http;
 using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controller
@@ -14,9 +16,14 @@ namespace TerrificNet.Controller
 
         [Route("schema/{*path}")]
         [HttpGet]
-        public object Get(string path)
+        public HttpResponseMessage Get(string path)
         {
-            return Json(_schemaProvider.GetSchemaFromPath(path));
+            var message = new HttpResponseMessage
+            {
+                Content = new StringContent(_schemaProvider.GetSchemaFromPath(path).ToString())
+            };
+            message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            return message;
         }
     }
 }
