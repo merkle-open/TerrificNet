@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.ViewEngines
 {
     public abstract class PhysicalViewEngineBase : IViewEngine
     {

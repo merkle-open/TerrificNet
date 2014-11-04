@@ -8,6 +8,8 @@ using Microsoft.Practices.Unity;
 using TerrificNet.Config;
 using TerrificNet.Controller;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.ModelProviders;
+using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.UnityModule
 {

@@ -2,7 +2,7 @@
 using System.Text;
 using Nustache.Core;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.ViewEngines
 {
     public class NustachePhysicalViewEngine : PhysicalViewEngineBase
     {

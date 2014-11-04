@@ -2,7 +2,7 @@
     "name": "hallo ",
     "list": [ { "name": "eins" }, { "name": "zwei" } ],
     "customer": {
-        "name":  "dummy customer",
+        "name": "dummy customer",
         "orders": [
             { "count": 4 },
             { "count": 5 }

@@ -46,13 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DummyModelProvider.cs" />
+    <Compile Include="ModelProviders\DummyModelProvider.cs" />
     <Compile Include="IModelProvider.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />
-    <Compile Include="JsonModelProvier.cs" />
-    <Compile Include="MustacheSharpPhysicalViewEngine.cs" />
-    <Compile Include="NustachePhysicalViewEngine.cs" />
+    <Compile Include="ModelProviders\JsonModelProvier.cs" />
+    <Compile Include="ViewEngines\MustacheSharpPhysicalViewEngine.cs" />
+    <Compile Include="ViewEngines\NustachePhysicalViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,13 +8,15 @@
 <body>
     Hello {{name}}
     
-    {{#list}}
-        {{name}}
-    {{/list}}
-
-    {{#customer.orders}}
-        {{count}}
-    {{/customer.orders}}
-
+    <ul>
+        {{#list}}
+        <li>{{name}}</li>
+        {{/list}}
+    </ul>
+    <ul>
+        {{#customer.orders}}
+        <li>{{count}}</li>
+        {{/customer.orders}}
+    </ul>
 </body>
 </html>
