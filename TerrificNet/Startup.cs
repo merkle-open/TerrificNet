@@ -11,6 +11,8 @@ namespace TerrificNet
 		{
 			// Configure Web API for self-host. 
 			var config = new HttpConfiguration();
+		    UnityConfig.RegisterComponents(config);
+
 			config.MapHttpAttributeRoutes();
 
 			appBuilder.UseWebApi(config);
