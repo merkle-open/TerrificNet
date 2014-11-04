@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Schema;
+using Nustache.Core;
 
 namespace TerrificNet.ViewEngine.Schema.Test
 {
@@ -66,6 +67,23 @@ namespace TerrificNet.ViewEngine.Schema.Test
             SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
             SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
             SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "HasName", JsonSchemaType.Boolean, false);
+        }
+
+        [TestMethod]
+        [Description("The helper shoudn't be part of the schema.")]
+        public void TestIgnoreHelpers()
+        {
+            Helpers.Register("helper", (context, arguments, options, fn, inverse) => { });
+
+            var schemaExtractor = new SchemaExtractor();
+            var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "ignoreHelpers.mustache"));
+
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
+
+            Assert.IsFalse(schema.Properties.ContainsKey("helper param=\"val1\""), "No property helper should be inside the schema.");
+            Assert.IsTrue(schema.Properties.ContainsKey("noregistredHelper param=\"val1\""), "The none registred helpers should be still included.");
+            SchemaAssertions.AssertSingleProperty(schema, "variableExpressionWithWhitespace", JsonSchemaType.String);
         }
 
         [TestMethod]

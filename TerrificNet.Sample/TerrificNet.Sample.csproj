@@ -62,6 +62,7 @@
     <Content Include="project\data\test_module.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="views\nav_main.html" />
     <Content Include="views\test_module.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -73,7 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="components\modules\" />
+    <Folder Include="components\modules\NavMain\" />
     <Folder Include="project\templates\" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\schemas\test_module.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="project\data\nav_main.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

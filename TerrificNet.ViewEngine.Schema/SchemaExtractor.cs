@@ -165,7 +165,15 @@ namespace TerrificNet.ViewEngine.Schema
 
             public void Visit(VariableReference variable)
             {
-                var builder = _schemaBuilder.PushPath(variable.Path);
+                var path = variable.Path;
+                var splittedPath = path.Split(' ');
+                if (splittedPath.Length > 1)
+                {
+                    if (Helpers.Contains(splittedPath[0]))
+                        return;
+                }
+
+                var builder = _schemaBuilder.PushPath(path);
                 builder.ChangeType(JsonSchemaType.String);
             }
 

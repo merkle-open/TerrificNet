@@ -1,5 +1,6 @@
 {
     "type": "object",
+    "title":  "TestModuleModel",
     "properties": {
         "test": {
             "required": true,
