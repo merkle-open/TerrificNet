@@ -1,0 +1,50 @@
+{
+    "type": "object",
+    "title": "HomeModel",
+    "properties": {
+        "name": {
+            "required": true,
+            "type": "string"
+        },
+        "list": {
+            "required": true,
+            "type": "array",
+            "items": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "required": true,
+                            "type": "string"
+                        }
+                    }
+                }
+            ]
+        },
+        "customer": {
+            "required": true,
+            "type": "object",
+            "properties": {
+                "orders": {
+                    "required": true,
+                    "type": "array",
+                    "items": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "required": true,
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "age": {
+            "required": false,
+            "type": "string"
+        }
+    }
+}

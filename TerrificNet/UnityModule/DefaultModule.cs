@@ -30,7 +30,7 @@ namespace TerrificNet.UnityModule
 
 			container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
 			container.RegisterType<IModelProvider,JsonModelProvier>();
-			container.RegisterType<ISchemaProvider, NustacheViewSchemaProvider>();
+			container.RegisterType<ISchemaProvider, SchemaMergeProvider>(new InjectionConstructor(new ResolvedParameter<NustacheViewSchemaProvider>(), new ResolvedParameter<BaseSchemaProvider>()));
 			container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
 		}
 

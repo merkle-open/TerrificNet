@@ -31,6 +31,9 @@ namespace TerrificNet.ViewEngine.Schema.Test
             {
                 foreach (var property in schema.Properties)
                 {
+                    if (baseSchema.Properties == null || !baseSchema.Properties.ContainsKey(property.Key))
+                        continue;
+
                     var baseProperty = baseSchema.Properties[property.Key];
                     Apply(property.Value, baseProperty, failures, property.Key);
                 }
