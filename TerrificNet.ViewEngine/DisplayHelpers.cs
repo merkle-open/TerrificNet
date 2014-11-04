@@ -22,7 +22,6 @@ namespace TerrificNet.ViewEngine
 			if (string.IsNullOrEmpty(templateName))
 				return;
 
-			ctx.Write("start("+templateName+")");
 			ctx.Include(templateName, "");
 		}
 	}
