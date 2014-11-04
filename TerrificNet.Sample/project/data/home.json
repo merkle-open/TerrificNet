@@ -1,16 +1,1 @@
-﻿{
-    "name": "hallo asdf",
-    "list": [ { "name": "eins" }, { "name": "zwei" } ],
-    "customer": {
-        "name": "dummy customer",
-        "orders": [
-            {
-                "count": 4
-            },
-            {
-                "count": 5
-            }
-        ]
-    },
-    "age": "45"
-}
+{"name":"name","module template=\"test_module\"":"","list":[{"name":"eins"},{"name":"zwei"}],"customer":{"orders":[{"count":"4"},{"count":"5"},{"count":"233"},{"count":"33"}],"name":"dummy customer"},"age":"45"}
