@@ -1,14 +1,13 @@
-﻿using Newtonsoft.Json.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Newtonsoft.Json.Schema;
 
-namespace TerrificNet.ViewEngine.Schema.Test
+namespace TerrificNet.ViewEngine.Schema
 {
     public class SchemaComparer
     {
-        public JsonSchema Apply(JsonSchema schema, JsonSchema baseSchema, List<SchemaComparisonFailure> failures, string propertyName = null)
+        public JsonSchema Apply(JsonSchema schema, JsonSchema baseSchema, SchemaComparisionReport report, string propertyName = null)
         {
             if (schema == null)
                 throw new ArgumentNullException("schema");
@@ -22,7 +21,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
             if (baseSchema.Type != null)
             {
                 if (!CanConvert(schema.Type, baseSchema.Type))
-                    failures.Add(new TypeChangeFailure(propertyName, schema, baseSchema));
+                    report.Push(new TypeChangeFailure(propertyName, schema, baseSchema));
                 else
                     schema.Type = baseSchema.Type;
             }
@@ -32,10 +31,13 @@ namespace TerrificNet.ViewEngine.Schema.Test
                 foreach (var property in schema.Properties)
                 {
                     if (baseSchema.Properties == null || !baseSchema.Properties.ContainsKey(property.Key))
+                    {
+                        report.Push(new MissingPropertyInfo(property.Key, schema, baseSchema));
                         continue;
+                    }
 
                     var baseProperty = baseSchema.Properties[property.Key];
-                    Apply(property.Value, baseProperty, failures, property.Key);
+                    Apply(property.Value, baseProperty, report, property.Key);
                 }
             }
 
@@ -43,7 +45,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
             {
                 for (int i = 0; i < schema.Items.Count && i < baseSchema.Items.Count; i++)
                 {
-                    Apply(schema.Items[i], baseSchema.Items[i], failures);
+                    Apply(schema.Items[i], baseSchema.Items[i], report);
                 }
             }
 
@@ -64,22 +66,63 @@ namespace TerrificNet.ViewEngine.Schema.Test
 
     }
 
-    public class SchemaComparisonFailure
+    public class SchemaComparisionReport
     {
-        public SchemaComparisonFailure(JsonSchema schemaPart, JsonSchema schemaPartBase)
+        private readonly List<SchemaComparisonNotification> _notifications = new List<SchemaComparisonNotification>();
+
+        public IEnumerable<SchemaComparisonNotification> GetFailures()
         {
-            this.SchemaPart = schemaPart;
-            this.SchemaBasePart = schemaPartBase;
+            return _notifications.Where(n => n.Level == SchemaComparisionNotificationLevel.Failure);
+        }
+
+        internal void Push(SchemaComparisonNotification notification)
+        {
+            _notifications.Add(notification);
+        }
+
+        public IEnumerable<SchemaComparisonNotification> GetInfos()
+        {
+            return _notifications.Where(n => n.Level == SchemaComparisionNotificationLevel.Info);
+        }
+    }
+
+    public enum SchemaComparisionNotificationLevel
+    {
+        Info,
+        Warning,
+        Failure
+    }
+
+    public abstract class SchemaComparisonNotification
+    {
+        protected SchemaComparisonNotification(JsonSchema schemaPart, JsonSchema schemaPartBase, SchemaComparisionNotificationLevel level)
+        {
+            SchemaPart = schemaPart;
+            SchemaBasePart = schemaPartBase;
+            Level = level;
         }
 
         public JsonSchema SchemaPart { get; private set; }
         public JsonSchema SchemaBasePart { get; private set; }
+        public SchemaComparisionNotificationLevel Level { get; set; }
     }
 
-    public class TypeChangeFailure : SchemaComparisonFailure
+    public class MissingPropertyInfo : SchemaComparisonNotification
+    {
+        public MissingPropertyInfo(string propertyName, JsonSchema schemaPart, JsonSchema schemaPartBase) 
+            : base(schemaPart, schemaPartBase, SchemaComparisionNotificationLevel.Info)
+        {
+            PropertyName = propertyName;
+        }
+
+        public string PropertyName { get; set; }
+
+    }
+
+    public class TypeChangeFailure : SchemaComparisonNotification
     {
         public TypeChangeFailure(string propertyName, JsonSchema schemaPart, JsonSchema schemaPartBase)
-            : base(schemaPart, schemaPartBase)
+            : base(schemaPart, schemaPartBase, SchemaComparisionNotificationLevel.Failure)
         {
             this.PropertyName = propertyName;
         }

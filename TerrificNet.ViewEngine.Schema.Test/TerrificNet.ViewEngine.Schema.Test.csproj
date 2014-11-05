@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Mocks\arrayProperty.mustache" />
+    <None Include="Mocks\Comparisions\infoOnMissingPropertyInBaseSchema.json" />
+    <None Include="Mocks\Comparisions\infoOnMissingPropertyInBaseSchema_base.json" />
     <None Include="Mocks\ignoreHelpers.mustache" />
     <None Include="Mocks\Comparisions\invalidTypeChangeInBase.json" />
     <None Include="Mocks\Comparisions\invalidTypeChangeInBase_base.json" />

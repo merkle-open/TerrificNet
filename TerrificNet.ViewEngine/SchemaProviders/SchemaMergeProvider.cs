@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json.Schema;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TerrificNet.ViewEngine.Schema.Test;
+using TerrificNet.ViewEngine.Schema;
 
 namespace TerrificNet.ViewEngine.SchemaProviders
 {
@@ -22,7 +18,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
         public JsonSchema GetSchemaFromPath(string path)
         {
             var comparer = new SchemaComparer();
-            return comparer.Apply(_schemaProvider.GetSchemaFromPath(path), _schemaBaseProvider.GetSchemaFromPath(path), new List<SchemaComparisonFailure>());
+            return comparer.Apply(_schemaProvider.GetSchemaFromPath(path), _schemaBaseProvider.GetSchemaFromPath(path), new SchemaComparisionReport());
         }
     }
 }

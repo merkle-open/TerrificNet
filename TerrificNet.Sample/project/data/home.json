@@ -1,1 +1,1 @@
-{"list":[{"name":"eins"},{"name":"zwei"},{"name":"drei"}],"customer":{"orders":[{"count":"4"},{"count":"5"},{"count":"233"},{"count":"33"}],"name":"dummy customer"},"age":232,"name":"name"}
+{"list":[{"name":12,"firstname":"eeee","children":[{"name":"assdfsd"}]},{"name":0,"firstname":"eee","children":[]},{"name":0,"firstname":"eeeesdsdf","children":[]},{"name":0,"firstname":"asdfsdfsd","children":[]}],"customer":{"orders":[{"count":"33"},{"count":"4"}],"name":"dummy customer"},"age":232,"name":"name"}
