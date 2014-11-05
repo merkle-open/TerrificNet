@@ -25,6 +25,12 @@ namespace TerrificNet
                 defaults: new { controller = "codeGenerator" }
                 );
 
+            config.Routes.MapHttpRoute(
+                name: "ViewIndex",
+                routeTemplate: "web/index.html",
+                defaults: new { controller = "viewIndex", section="web/" }
+                );
+
             MapArea(config, "web/");
             MapArea(config);
 
