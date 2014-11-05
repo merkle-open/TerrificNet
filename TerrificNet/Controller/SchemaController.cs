@@ -14,7 +14,6 @@ namespace TerrificNet.Controller
             _schemaProvider = schemaProvider;
         }
 
-        [Route("schema/{*path}")]
         [HttpGet]
         public HttpResponseMessage Get(string path)
         {

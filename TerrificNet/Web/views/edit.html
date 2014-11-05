@@ -45,12 +45,12 @@
             $("h1").html(template);
             document.title = template;
 
-            $.get("../schema/" + template, function (data) {
+            $.get("../../schema/" + template, function (data) {
                 editor = new JSONEditor(document.getElementById('editor_holder'), {
                     schema: data
                 });
 
-                $.get("../model/" + template, function (model) {
+                $.get("../../model/" + template, function (model) {
                     editor.setValue(model);
                 });
             });

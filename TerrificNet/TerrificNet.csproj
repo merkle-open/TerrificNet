@@ -79,12 +79,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\CodeGeneratorController.cs" />
-    <Compile Include="Controller\WebFileController.cs" />
     <Compile Include="Controller\AssetsController.cs" />
     <Compile Include="Controller\StaticFileControllerBase.cs" />
     <Compile Include="Controller\ModelController.cs" />
     <Compile Include="Controller\SchemaController.cs" />
     <Compile Include="Controller\TemplateController.cs" />
+    <Compile Include="Controller\ViewIndexController.cs" />
+    <Compile Include="Models\ViewItemModel.cs" />
+    <Compile Include="Models\ViewOverviewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -108,7 +110,10 @@
     <Content Include="Web\assets\jsoneditor.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web\edit.html">
+    <Content Include="Web\views\edit.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\views\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

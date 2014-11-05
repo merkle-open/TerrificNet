@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Views</title>
+</head>
+<body>
+    <h1>Views</h1>
+    <ul>
+        {{#if views}}
+            {{#each views}}
+            <li><a href="{{url}}" alt="{{alt}}">{{text}}</a>(<a href="{{editUrl}}" alt="{{alt}}">Edit data</a>)</li>
+            {{/each}}
+        {{/if}}
+    </ul>
+</body>
+</html>

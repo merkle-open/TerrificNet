@@ -1,4 +1,8 @@
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Routing;
 using Microsoft.Practices.Unity;
 using Owin;
 using Unity.WebApi;
@@ -14,10 +18,57 @@ namespace TerrificNet
 			// Configure Web API for self-host. 
 			var config = new HttpConfiguration();
 
-			config.MapHttpAttributeRoutes();
-			config.DependencyResolver = new UnityDependencyResolver(container);
+			//config.MapHttpAttributeRoutes();
+            config.Routes.MapHttpRoute(
+                name: "GenerateRoot",
+                routeTemplate: "generate",
+                defaults: new { controller = "codeGenerator" }
+                );
+
+            MapArea(config, "web/");
+            MapArea(config);
+
+		    config.DependencyResolver = new UnityDependencyResolver(container);
+		    config.MessageHandlers.Add(new InjectHttpRequestMessageToContainerHandler());
 
 			appBuilder.UseWebApi(config);
 		}
+
+	    private static void MapArea(HttpConfiguration config, string section = null)
+	    {
+	        IHttpRoute route;
+	        config.Routes.MapHttpRoute(
+	            name: "ModelRoot" + section,
+	            routeTemplate: section + "model/{*path}",
+	            defaults: new {controller = "model", section = section }
+	            );
+	        config.Routes.MapHttpRoute(
+	            name: "SchemaRoot" + section,
+                routeTemplate: section + "schema/{*path}",
+                defaults: new { controller = "schema", section = section }
+	            );
+            config.Routes.MapHttpRoute(
+                name: "AssetsRoot" + section,
+                routeTemplate: section + "assets/{*path}",
+                defaults: new { controller = "assets", section = section }
+                );
+	        config.Routes.MapHttpRoute(
+                name: section + "TemplateRoot" + section,
+	            routeTemplate: section + "{*path}",
+                defaults: new { controller = "template", section = section }
+	            );
+	    }
 	}
+
+    public class InjectHttpRequestMessageToContainerHandler : DelegatingHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            var container = request.GetDependencyScope().GetService(typeof(IUnityContainer)) as IUnityContainer;
+            if (container != null)
+                container.RegisterInstance(request);
+
+            return base.SendAsync(request, cancellationToken);
+        }
+    }
 }

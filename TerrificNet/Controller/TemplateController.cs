@@ -6,7 +6,19 @@ using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controller
 {
-	public class TemplateController : ApiController
+    public class TemplateControllerBase : ApiController
+    {
+        protected HttpResponseMessage Render(IView view, object model)
+        {
+            var result = view.Render(model);
+
+            var message = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(result)};
+            message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return message;
+        }
+    }
+
+    public class TemplateController : TemplateControllerBase
 	{
 	    private readonly IViewEngine _viewEngine;
 	    private readonly IModelProvider _modelProvider;
@@ -17,7 +29,6 @@ namespace TerrificNet.Controller
 	        _modelProvider = modelProvider;
 	    }
 
-	    [Route("template/{*path}")]
 		[HttpGet]
 		public HttpResponseMessage Get(string path)
 		{
@@ -27,11 +38,7 @@ namespace TerrificNet.Controller
             if (!_viewEngine.TryCreateViewFromPath(path, out view))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-	        var result = view.Render(model);
-
-			var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(result)};
-			message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-			return message;
+	        return Render(view, model);
 		}
 	}
 }
