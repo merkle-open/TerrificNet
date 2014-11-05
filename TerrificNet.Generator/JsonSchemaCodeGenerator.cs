@@ -56,7 +56,7 @@ namespace TerrificNet.Generator
 				case JsonSchemaType.Boolean:
 					return Syntax.ParseTypeName("bool");
 				case JsonSchemaType.Array:
-					return Syntax.ParseTypeName("List");
+					return Syntax.IdentifierName(string.Format("List<{0}>", NormalizeClassName(value.Title)));
 				case JsonSchemaType.Object:
 					GenerateClass(value, typeContext, propertyName);
 					return Syntax.IdentifierName(NormalizeClassName(value.Title));
