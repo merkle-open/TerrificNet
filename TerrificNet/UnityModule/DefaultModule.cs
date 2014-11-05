@@ -46,7 +46,6 @@ namespace TerrificNet.UnityModule
 		            return c.Resolve<ITerrificNetConfig>("internalConfig");
 
                 return c.Resolve<ITerrificNetConfig>("config");
-
 		    }));
 
 			container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();

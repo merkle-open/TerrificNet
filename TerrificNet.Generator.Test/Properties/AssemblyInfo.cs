@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TerrificNet.Generator")]
+[assembly: AssemblyTitle("TerrificNet.Generator.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Namics AG")]
-[assembly: AssemblyProduct("TerrificNet.Generator")]
+[assembly: AssemblyProduct("TerrificNet.Generator.Test")]
 [assembly: AssemblyCopyright("Copyright © Namics AG 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,9 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ee18f51c-a80f-420b-a55e-d6e700ddde88")]
-
-[assembly: InternalsVisibleTo("TerrificNet.Generator.Test")]
+[assembly: Guid("5401f0ad-0baf-4c24-ab61-afda5150c2ed")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -19,11 +19,6 @@ namespace TerrificNet
 			var config = new HttpConfiguration();
 
 			//config.MapHttpAttributeRoutes();
-            config.Routes.MapHttpRoute(
-                name: "GenerateRoot",
-                routeTemplate: "generate",
-                defaults: new { controller = "codeGenerator" }
-                );
 
             MapArea(config, "web/");
             MapArea(config);
@@ -47,6 +42,11 @@ namespace TerrificNet
                 routeTemplate: section + "schema/{*path}",
                 defaults: new { controller = "schema", section = section }
 	            );
+			config.Routes.MapHttpRoute(
+				name: "GenerateRoot" + section,
+				routeTemplate: section + "generate/{*path}",
+				defaults: new { controller = "generate", section = section }
+				);
             config.Routes.MapHttpRoute(
                 name: "AssetsRoot" + section,
                 routeTemplate: section + "assets/{*path}",
