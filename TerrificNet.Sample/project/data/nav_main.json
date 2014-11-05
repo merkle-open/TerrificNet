@@ -1,1 +1,1 @@
-{"serviceurl":"/api/test/get","items":[{"url":"/template/home.html","alt":"home","text":"Home"},{"url":"http://google.com","alt":"google","text":"Gooleasfsdfsdf","target":"_blank"}]}
+{"serviceurl":"/api/test/get","items":[{"url":"/template/home.html","alt":"home","text":"Home"},{"url":"http://google.com","alt":"google","text":"Google","target":"_blank"}]}

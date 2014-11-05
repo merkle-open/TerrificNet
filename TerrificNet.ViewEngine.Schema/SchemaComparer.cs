@@ -10,7 +10,7 @@ namespace TerrificNet.ViewEngine.Schema
         public JsonSchema Apply(JsonSchema schema, JsonSchema baseSchema, SchemaComparisionReport report, string propertyName = null)
         {
             if (schema == null)
-                throw new ArgumentNullException("schema");
+                return baseSchema;
 
             if (baseSchema == null)
                 return schema;
@@ -128,10 +128,5 @@ namespace TerrificNet.ViewEngine.Schema
         }
 
         public string PropertyName { get; private set; }
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
     }
 }
