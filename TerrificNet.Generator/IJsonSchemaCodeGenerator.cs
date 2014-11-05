@@ -1,7 +1,9 @@
-﻿namespace TerrificNet.Generator
+﻿using Newtonsoft.Json.Schema;
+
+namespace TerrificNet.Generator
 {
 	public interface IJsonSchemaCodeGenerator
 	{
-		string Generate();
+		string Generate(JsonSchema schema);
 	}
 }
