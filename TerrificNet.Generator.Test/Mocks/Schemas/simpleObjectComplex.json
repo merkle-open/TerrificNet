@@ -1,0 +1,17 @@
+﻿{
+    "title": "SimpleClass",
+    "type": "object",
+    "properties": {
+        "person": {
+            "title": "Person",
+            "type": "object",
+            "required": true,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        }
+    }
+}

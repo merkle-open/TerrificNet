@@ -1,0 +1,18 @@
+﻿{
+    "title": "SimpleClass",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "age": {
+            "type": "integer",
+            "required": true
+        },
+        "male": {
+            "type": "boolean",
+            "required": true
+        }
+    }
+}

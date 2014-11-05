@@ -18,6 +18,7 @@ namespace TerrificNet.Generator.Test
 		{
 			var inputs = new List<Tuple<string, string>>
 			{
+				new Tuple<string, string>(null, null),
 				new Tuple<string, string>("class", "Class"),
 				new Tuple<string, string>("person info", "PersonInfo"),
 				new Tuple<string, string>("person", "Person"),
@@ -38,7 +39,7 @@ namespace TerrificNet.Generator.Test
 			var status = false;
 			try
 			{
-				var code = GenerateCode("Schemas/simpleObjectNoTitle.json");
+				GenerateCode("Schemas/simpleObjectNoTitle.json");
 			}
 			catch (Exception)
 			{
@@ -50,19 +51,38 @@ namespace TerrificNet.Generator.Test
 		[TestMethod]
 		public void TestSimpleObject()
 		{
-			var code = GenerateCode("Schemas/simpleObject.json");
-			Assert.IsTrue(!string.IsNullOrEmpty(code), "No code generated");
-
 			const string reference = "class SimpleClass{string Name{get;set;}}";
-			Assert.IsTrue(CompareCode(reference, code));
+			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObject.json")));
+		}
+
+		[TestMethod]
+		public void TestSimpleObjectAllType()
+		{
+			const string reference = "class SimpleClass{string Name{get;set;} int Age{get;set;} bool Male{get;set;}}";
+			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObjectAllType.json")));
+		}
+
+		[TestMethod]
+		public void TestSimpleObjectComplex()
+		{
+			const string reference = "class Person{ string Name{get;set;}}class SimpleClass{Person Person{get;set;}} ";
+			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObjectComplex.json")));
 		}
 
 		private static bool CompareCode(string original, string generated)
 		{
-			var originalSyntax = Syntax.ParseCompilationUnit(original).NormalizeWhitespace();
-			var generatedSyntax = Syntax.ParseCompilationUnit(generated).NormalizeWhitespace();
+			var originalTree = SyntaxTree.ParseText(original);
+			var originalSyntax = originalTree.GetRoot().NormalizeWhitespace();
+			var generatedTree = SyntaxTree.ParseText(generated);
+			var generatedSyntax = generatedTree.GetRoot().NormalizeWhitespace();
 
+			Console.WriteLine("Original");
+			Console.WriteLine("--------");
 			Console.WriteLine(originalSyntax.ToFullString());
+			Console.WriteLine();
+
+			Console.WriteLine("Generated");
+			Console.WriteLine("---------");
 			Console.WriteLine(generatedSyntax.ToFullString());
 
 			return string.Equals(originalSyntax.ToFullString(), generatedSyntax.ToFullString());
