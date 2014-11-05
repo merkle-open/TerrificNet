@@ -81,6 +81,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Mocks\Schemas\simpleObjectComplex.json" />
+    <None Include="Mocks\Schemas\simpleObjectAllType.json" />
     <None Include="Mocks\Schemas\simpleObjectNoTitle.json" />
     <None Include="Mocks\Schemas\simpleObject.json" />
     <None Include="packages.config" />
