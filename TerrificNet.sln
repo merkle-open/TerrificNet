@@ -24,6 +24,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Generator", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Generator.Test", "TerrificNet.Generator.Test\TerrificNet.Generator.Test.csproj", "{3B46DE0A-6C67-4621-96E1-3EA8F43E06A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache", "TerrificNet.Mustache\TerrificNet.Mustache.csproj", "{149A7CD9-B52F-4135-A740-1DCBBF307176}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Test", "TerrificNet.Mustache.Test\TerrificNet.Mustache.Test.csproj", "{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +66,14 @@ Global
 		{3B46DE0A-6C67-4621-96E1-3EA8F43E06A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B46DE0A-6C67-4621-96E1-3EA8F43E06A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B46DE0A-6C67-4621-96E1-3EA8F43E06A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{149A7CD9-B52F-4135-A740-1DCBBF307176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{149A7CD9-B52F-4135-A740-1DCBBF307176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{149A7CD9-B52F-4135-A740-1DCBBF307176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{149A7CD9-B52F-4135-A740-1DCBBF307176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
