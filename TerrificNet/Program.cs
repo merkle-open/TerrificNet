@@ -23,7 +23,7 @@ namespace TerrificNet
 				path = path.Substring(PathArgumentPrefix.Length);
 
 			var container = new UnityContainer();
-			new DefaultUnityModule().Configure(container);
+			new DefaultUnityModule(path).Configure(container);
 
 			// Start OWIN host
 			using (WebApp.Start(baseAddress, builder => new Startup().Configuration(builder, container)))

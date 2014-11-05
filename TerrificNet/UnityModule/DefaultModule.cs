@@ -14,9 +14,16 @@ namespace TerrificNet.UnityModule
 {
 	public class DefaultUnityModule : IUnityModue
 	{
+	    private readonly string _applicationPath;
+
+	    public DefaultUnityModule(string applicationPath)
+	    {
+	        _applicationPath = applicationPath ?? string.Empty;
+	    }
+
 	    public void Configure(IUnityContainer container)
 	    {
-	        var configuration = LoadConfiguration("application.json");
+	        var configuration = LoadConfiguration(Path.Combine(_applicationPath, "application.json"));
 	        foreach (var item in configuration.Applications.Values)
 	        {
                 container.RegisterInstance<ITerrificNetConfig>("section_" + item.Section, item); 
