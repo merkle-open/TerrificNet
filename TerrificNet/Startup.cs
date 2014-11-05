@@ -20,6 +20,19 @@ namespace TerrificNet
 
 			//config.MapHttpAttributeRoutes();
 
+            config.Routes.MapHttpRoute(
+                name: "ViewIndex",
+                routeTemplate: "web/index.html",
+                defaults: new { controller = "viewIndex", section="web/" }
+                );
+
+            config.Routes.MapHttpRoute(
+                name: "ViewIndexDefault",
+                routeTemplate: "",
+                defaults: new { controller = "viewIndex", section = "web/" }
+            );
+
+
             MapArea(config, "web/");
             MapArea(config);
 

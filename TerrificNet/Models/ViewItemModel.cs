@@ -12,5 +12,8 @@ namespace TerrificNet.Models
 
         [JsonProperty("editUrl")]
         public string EditUrl { get; set; }
+
+        [JsonProperty("schemaUrl")]
+        public string SchemaUrl { get; set; }
     }
 }

@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\GenerateController.cs" />
+    <Compile Include="Configuration\TerrificNetApplicationConfiguration.cs" />
+    <Compile Include="Configuration\TerrificNetHostConfiguration.cs" />
     <Compile Include="Controller\AssetsController.cs" />
     <Compile Include="Controller\StaticFileControllerBase.cs" />
     <Compile Include="Controller\ModelController.cs" />
@@ -91,9 +93,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UnityModule\DefaultModule.cs" />
+    <Compile Include="Configuration\TerrificNetConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="application.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

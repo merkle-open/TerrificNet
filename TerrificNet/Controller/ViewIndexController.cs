@@ -14,11 +14,13 @@ namespace TerrificNet.Controller
     {
         private readonly IViewEngine _viewEngine;
         private readonly ITerrificNetConfig _configuration;
+        private readonly ITerrificNetConfig[] _configurations;
 
-        public ViewIndexController(IViewEngine viewEngine, ITerrificNetConfig configuration)
+        public ViewIndexController(IViewEngine viewEngine, ITerrificNetConfig configuration, ITerrificNetConfig[] configurations)
         {
             _viewEngine = viewEngine;
             _configuration = configuration;
+            _configurations = configurations;
         }
 
         [HttpGet]
@@ -38,13 +40,15 @@ namespace TerrificNet.Controller
 
         private IEnumerable<ViewItemModel> GetViews()
         {
-            foreach (var file in Directory.GetFiles(_configuration.ViewPath))
+            var applicationConfiguration = _configurations.First(c => c != _configuration);
+            foreach (var file in Directory.GetFiles(applicationConfiguration.ViewPath))
             {
                 yield return new ViewItemModel
                 {
                     Text = Path.GetFileNameWithoutExtension(file),
                     Url = string.Format("/{0}", Path.GetFileName(file)),
-                    EditUrl = string.Format("/web/edit.html?template={0}", Path.GetFileName(file))
+                    EditUrl = string.Format("/web/edit.html?template={0}", Path.GetFileName(file)),
+                    SchemaUrl = string.Format("/schema/{0}", Path.GetFileName(file))
                 };
             }
         }
