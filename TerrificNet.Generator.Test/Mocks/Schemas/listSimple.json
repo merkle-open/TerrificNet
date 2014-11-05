@@ -1,0 +1,15 @@
+﻿{
+    "title": "Person",
+    "type": "object",
+    "properties": {
+        "names": {
+            "required": true,
+            "type": "array",
+            "items": [
+                {
+                    "type": "string"
+                }
+            ]
+        }
+    }
+} 

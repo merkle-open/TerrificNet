@@ -99,7 +99,9 @@ namespace TerrificNet.Generator
 				case JsonSchemaType.Boolean:
 					return Syntax.ParseTypeName("bool");
 				case JsonSchemaType.Array:
-					return Syntax.IdentifierName(string.Format("List<{0}>", NormalizeClassName(value.Title)));
+					var valueType = value.Items.FirstOrDefault();
+					var genericType = GetPropertyType(valueType, typeContext, propertyName);
+					return Syntax.GenericName(Syntax.Identifier("IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType)));
 				case JsonSchemaType.Object:
 					GenerateClass(value, typeContext, propertyName);
 					return Syntax.IdentifierName(NormalizeClassName(propertyName));
@@ -112,9 +114,7 @@ namespace TerrificNet.Generator
 		{
 			if (schema.Type == JsonSchemaType.Object)
 			{
-				var className = NormalizeClassName(schema.Title);
-				if (string.IsNullOrEmpty(className))
-					className = propertyName;
+				var className = GetClassName(schema, propertyName);
 
 				if (typeContext.ContainsKey(className))
 					return;
@@ -135,6 +135,15 @@ namespace TerrificNet.Generator
 
 				typeContext.Add(className, classDeclaration);
 			}
+		}
+
+		private static string GetClassName(JsonSchema schema, string propertyName)
+		{
+			var className = NormalizeClassName(schema.Title);
+			if (string.IsNullOrEmpty(className))
+				className = propertyName;
+
+			return className;
 		}
 
 		public static string NormalizeClassName(string input)
