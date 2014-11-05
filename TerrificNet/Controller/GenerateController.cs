@@ -24,9 +24,12 @@ namespace TerrificNet.Controller
 		{
 			var schema = _schemaProvider.GetSchemaFromPath(path);
 
+		    var type = _generator.Compile(schema);
+
 			var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(_generator.Generate(schema)) };
 			message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
 			return message;
 		}
+
 	}
 }
