@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using TerrificNet.UnityModule;
 
 namespace TerrificNet.Configuration
 {

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
+using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 using SyntaxKind = Roslyn.Compilers.CSharp.SyntaxKind;
 
@@ -12,15 +15,53 @@ namespace TerrificNet.Generator
 	{
 		public string Generate(JsonSchema schema)
 		{
-			var typeContext = new Dictionary<string, MemberDeclarationSyntax>();
-
-			RoslynExtension.GenerateClass(schema, typeContext, string.Empty);
-
-			var root = Syntax.CompilationUnit()
-				.WithMembers(Syntax.List(typeContext.Values.ToArray()));
-
-			return root.NormalizeWhitespace().ToFullString();
+		    var root = GetSyntax(schema);
+		    return root.NormalizeWhitespace().ToFullString();
 		}
+
+	    private static CompilationUnitSyntax GetSyntax(JsonSchema schema)
+	    {
+	        var typeContext = new Dictionary<string, MemberDeclarationSyntax>();
+
+	        RoslynExtension.GenerateClass(schema, typeContext, string.Empty);
+
+	        var root = Syntax.CompilationUnit()
+	            .WithMembers(Syntax.List(typeContext.Values.ToArray()));
+	        return root;
+	    }
+
+	    public Type Compile(JsonSchema schema)
+        {
+            var output = GetSyntax(schema);
+
+            var syntaxTree = SyntaxTree.Create(output);
+
+            var compilation = Compilation.Create("test", references: new[]
+                {
+                    MetadataReference.CreateAssemblyReference(typeof(object).Assembly.FullName),
+                    MetadataReference.CreateAssemblyReference(typeof(Enumerable).Assembly.FullName),
+                    MetadataReference.CreateAssemblyReference(typeof(List<>).Assembly.FullName),
+                },
+                syntaxTrees: new[] { syntaxTree },
+                options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+            //var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("DynamicModule"),
+            //    AssemblyBuilderAccess.RunAndCollect);
+
+            //var moduleBuilder = assemblyBuilder.DefineDynamicModule("Module");
+
+            using (var stream = new MemoryStream())
+            {
+                var result = compilation.Emit(stream);
+                if (result.Success)
+                {
+                    var assembly = Assembly.Load(stream.ToReadOnlyArray().ToArray());
+                    return assembly.GetTypes().First();
+                }
+            }
+
+            return null;
+        }
 	}
 
 	static class RoslynExtension
@@ -61,7 +102,7 @@ namespace TerrificNet.Generator
 					return Syntax.IdentifierName(string.Format("List<{0}>", NormalizeClassName(value.Title)));
 				case JsonSchemaType.Object:
 					GenerateClass(value, typeContext, propertyName);
-					return Syntax.IdentifierName(NormalizeClassName(value.Title));
+					return Syntax.IdentifierName(NormalizeClassName(propertyName));
 				default:
 					return Syntax.ParseTypeName("object");
 			}

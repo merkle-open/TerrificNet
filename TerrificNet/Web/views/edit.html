@@ -10,6 +10,7 @@
     <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
 
     <script src="assets/jsoneditor.min.js"></script>
+    <script src="assets/common.js"></script>
 
     <script>
         // Set the default CSS theme and icon library globally
@@ -26,20 +27,8 @@
 
     <script>
         $(document).ready(function () {
-
-            function getUrlVars() {
-                var vars = [], hash;
-                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for (var i = 0; i < hashes.length; i++) {
-                    hash = hashes[i].split('=');
-                    vars.push(hash[0]);
-                    vars[hash[0]] = hash[1];
-                }
-                return vars;
-            }
-
             var editor = null;
-            var variables = getUrlVars();
+            var variables = Common.parseQueryString(window.location.href);
             var template = variables["template"];
 
             $("h1").html(template);
