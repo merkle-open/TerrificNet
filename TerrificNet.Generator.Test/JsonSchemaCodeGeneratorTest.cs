@@ -69,6 +69,20 @@ namespace TerrificNet.Generator.Test
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObjectComplex.json")));
 		}
 
+		[TestMethod]
+		public void TestListSimple()
+		{
+			const string reference = "public class Person{ public IList<string> Names{get;set;}}";
+			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listSimple.json")));
+		}
+
+		[TestMethod]
+		public void TestListComplex()
+		{
+			const string reference = "public class Names{public string Firstname{get;set;}} public class Person{ public IList<Names> Names{get;set;}}";
+			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listComplex.json")));
+		}
+
 		private static bool CompareCode(string original, string generated)
 		{
 			var originalTree = SyntaxTree.ParseText(original);
