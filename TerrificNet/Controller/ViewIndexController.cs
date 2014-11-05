@@ -47,7 +47,8 @@ namespace TerrificNet.Controller
                 {
                     Text = Path.GetFileNameWithoutExtension(file),
                     Url = string.Format("/{0}", Path.GetFileName(file)),
-                    EditUrl = string.Format("/web/edit.html?template={0}", Path.GetFileName(file))
+                    EditUrl = string.Format("/web/edit.html?template={0}", Path.GetFileName(file)),
+                    SchemaUrl = string.Format("/schema/{0}", Path.GetFileName(file))
                 };
             }
         }
