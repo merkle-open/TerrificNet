@@ -9,6 +9,9 @@ namespace TerrificNet.ViewEngine.Schema
     {
         public JsonSchema Run(string templatePath)
         {
+            if (!File.Exists(templatePath))
+                return null;
+
             using (var reader = new StreamReader(templatePath))
             {
                 var template = new Template();

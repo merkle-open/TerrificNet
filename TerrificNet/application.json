@@ -1,0 +1,12 @@
+﻿{
+    "applications": {
+        "admin": {
+            "section": "web/",
+            "basePath": "Web"
+        },
+        "sample": {
+            "section":  "",
+            "basePath": "..\\..\\..\\TerrificNet.Sample\\"
+        }
+    }
+}

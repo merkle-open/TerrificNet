@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="assets/common.js"></script>
+    
+    <style type="text/css">
+        iframe {
+            float: left;
+            border-width: 0px;
+        }
+    </style>
+</head>
+    <body style="padding:0px; margin:0px">
+    <div id="content">
+
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var query = Common.parseQueryString(window.location.href);
+            var template = query["template"];
+
+            var $contentFrame = $('<iframe />').attr('src', "/" + template).height($(document).height()).width($(document).width() / 2)
+                .appendTo($("#content"));
+
+            var $editFrame = $('<iframe />').attr('src', 'edit.html?template=' + template).height($(document).height()).width($(document).width() / 2)
+                .appendTo($("#content"));
+
+            $editFrame.load(function() {
+                $editFrame.contents().find("#submit").click(function() {
+                    console.log('hello from outer');
+                    $contentFrame.attr('src', $contentFrame.attr('src'));
+                });
+            });
+        });
+    </script>
+</body>
+</html>

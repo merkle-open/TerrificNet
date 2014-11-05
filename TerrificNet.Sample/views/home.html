@@ -12,7 +12,10 @@
 
         <ul>
             {{#each list}}
-            <li>{{name}}</li>
+            <li>{{name}} {{firstname}}</li>
+                {{#each children}}
+                    {{name}}
+                {{/each}}
             {{/each}}
         </ul>
         <ul>

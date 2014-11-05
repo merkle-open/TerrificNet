@@ -62,6 +62,9 @@
     <Content Include="project\data\test_module.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="views\simple.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="views\nav_main.html" />
     <Content Include="views\test_module.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -85,6 +88,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="project\data\nav_main.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="views\schemas\service.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="project\data\service.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="views\schemas\simple.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

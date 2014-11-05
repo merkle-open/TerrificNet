@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json;
 using System.IO;
-using System.Collections.Generic;
 
 namespace TerrificNet.ViewEngine.Schema.Test
 {
@@ -19,7 +18,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var comparer = new SchemaComparer();
             var resultSchema = comparer.Apply(GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/moreSpecific.json")), 
                 GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/moreSpecific_base.json")),
-                new List<SchemaComparisonFailure>());
+                new SchemaComparisionReport());
 
             Assert.IsNotNull(resultSchema);
             Assert.AreEqual("TestModel", resultSchema.Title, "Expected the title for the base schema");
@@ -31,19 +30,36 @@ namespace TerrificNet.ViewEngine.Schema.Test
         public void TestInvalidTypeChange()
         {
             var comparer = new SchemaComparer();
-            var failures = new List<SchemaComparisonFailure>();
+            var report = new SchemaComparisionReport();
             var resultSchema = comparer.Apply(GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/invalidTypeChangeInBase.json")),
                 GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/invalidTypeChangeInBase_base.json")),
-                failures);
+                report);
 
+            var failures = report.GetFailures().ToList();
             Assert.AreEqual(1, failures.Count, "one failure expected.");
             Assert.IsInstanceOfType(failures[0], typeof(TypeChangeFailure), "Expected to be a TypeChangeFailure");
             Assert.AreEqual("name", ((TypeChangeFailure)failures[0]).PropertyName);
         }
 
+        [TestMethod]
+        [Description("An info schould be available on missing a property in the base schema.")]
+        public void TestInfoOnMissingPropertyInBaseSchema()
+        {
+            var comparer = new SchemaComparer();
+            var report = new SchemaComparisionReport();
+            var resultSchema = comparer.Apply(GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/infoOnMissingPropertyInBaseSchema.json")),
+                GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/infoOnMissingPropertyInBaseSchema_base.json")),
+                report);
+
+            var infos = report.GetInfos().ToList();
+            Assert.AreEqual(1, infos.Count, "one failure expected.");
+            Assert.IsInstanceOfType(infos[0], typeof(MissingPropertyInfo), "Expected to be a MissingPropertyInfo");
+            Assert.AreEqual("missingPropertyInBase", ((MissingPropertyInfo)infos[0]).PropertyName);
+        }
+
         private static JsonSchema GetSchema(string path)
         {
-            string content = null;
+            string content;
             using (var reader = new StreamReader(path))
             {
                 content = reader.ReadToEnd();

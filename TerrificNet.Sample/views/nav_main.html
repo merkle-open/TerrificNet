@@ -1,7 +1,9 @@
-﻿{{#if items}}
-<ul>
-    {{#each items}}
-        <li><a href="{{url}}" {{#if target}}target="{{target}}"{{/if}} alt="{{alt}}">{{text}}</a></li>
-    {{/each}}
-</ul>
-{{/if}}
+﻿<div class="mod mod-nav-main" data-service-url="{{serviceurl}}">
+    {{#if items}}
+    <ul>
+        {{#each items}}
+        <li><a href="{{url}}" alt="{{alt}}">{{text}}</a></li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div>

@@ -13,7 +13,6 @@ namespace TerrificNet.Controller
             _config = config;
         }
 
-        [Route("assets/{*path}")]
         [HttpGet]
         public override HttpResponseMessage Get(string path)
         {

@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "title": "SimpleModel",
+    "properties": {
+        "name": {
+            "required": true,
+            "type": "string"
+        },
+        "customer": {
+            "required": true,
+            "type": "object",
+            "properties": {
+                "name": {
+                    "required": true,
+                    "type": "string"
+                },
+                "age": {
+                    "required": true,
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

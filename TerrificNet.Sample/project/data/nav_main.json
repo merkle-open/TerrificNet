@@ -1,1 +1,1 @@
-{"items":[{"url":"/template/home.html","alt":"home","text":"Home"},{"url":"http://google.com","target":"_blank","alt":"google","text":"Google"},{"url":"http://sbb.ch","target":"","alt":"sbb","text":"SBB"},{"url":"sdfasfd","target":"","alt":"","text":"asdfasfd"}]}
+{"serviceurl":"/api/test/get","items":[{"url":"/template/home.html","alt":"home","text":"Home"},{"url":"http://google.com","alt":"google","text":"Google","target":"_blank"}]}
