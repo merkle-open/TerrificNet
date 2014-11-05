@@ -46,18 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mustache.g4.lexer.cs">
-      <DependentUpon>Mustache.g4</DependentUpon>
+    <Compile Include="MustacheLexer.g4.cs">
+      <DependentUpon>MustacheLexer.g4</DependentUpon>
     </Compile>
-    <Compile Include="Mustache.g4.parser.cs">
-      <DependentUpon>Mustache.g4</DependentUpon>
+    <Compile Include="MustacheParser.g4.cs">
+      <DependentUpon>MustacheParser.g4</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Antlr4 Include="Mustache.g4">
+    <Antlr4 Include="MustacheLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>TerrificNet.Mustache.Antlr</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="MustacheParser.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>TerrificNet.Mustache.Antlr</CustomToolNamespace>
     </Antlr4>
