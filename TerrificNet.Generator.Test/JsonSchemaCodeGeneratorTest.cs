@@ -51,21 +51,21 @@ namespace TerrificNet.Generator.Test
 		[TestMethod]
 		public void TestSimpleObject()
 		{
-			const string reference = "class SimpleClass{string Name{get;set;}}";
+			const string reference = "public class SimpleClass{public string Name{get;set;}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObject.json")));
 		}
 
 		[TestMethod]
 		public void TestSimpleObjectAllType()
 		{
-			const string reference = "class SimpleClass{string Name{get;set;} int Age{get;set;} bool Male{get;set;}}";
+			const string reference = "public class SimpleClass{public string Name{get;set;} public int Age{get;set;} public bool Male{get;set;}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObjectAllType.json")));
 		}
 
 		[TestMethod]
 		public void TestSimpleObjectComplex()
 		{
-			const string reference = "class Person{ string Name{get;set;}}class SimpleClass{Person Person{get;set;}} ";
+			const string reference = "public class Person{ public string Name{get;set;}}public class SimpleClass{public Person Person{get;set;}} ";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObjectComplex.json")));
 		}
 

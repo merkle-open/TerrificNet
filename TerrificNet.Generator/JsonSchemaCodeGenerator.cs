@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
 using Roslyn.Compilers.CSharp;
+using SyntaxKind = Roslyn.Compilers.CSharp.SyntaxKind;
 
 namespace TerrificNet.Generator
 {
@@ -32,6 +33,7 @@ namespace TerrificNet.Generator
 				var propertyName = NormalizeClassName(property.Key);
 
 				result = result.Add(Syntax.PropertyDeclaration(GetPropertyType(property.Value, typeContext, propertyName).WithTrailingTrivia(Syntax.Space), propertyName)
+					.WithModifiers(new SyntaxTokenList().Add(Syntax.Token(SyntaxKind.PublicKeyword)))
 					.WithAccessorList(Syntax.AccessorList(Syntax.List(
 						Syntax.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
 					.WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken)),
@@ -81,6 +83,7 @@ namespace TerrificNet.Generator
 
 				var classDeclaration= Syntax.ClassDeclaration(
 					Syntax.Identifier(className))
+					.WithModifiers(new SyntaxTokenList().Add(Syntax.Token(SyntaxKind.PublicKeyword)))
 					.WithKeyword(
 						Syntax.Token(SyntaxKind.ClassKeyword, Syntax.TriviaList(Syntax.Space)))
 					.WithOpenBraceToken(
