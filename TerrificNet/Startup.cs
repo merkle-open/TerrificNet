@@ -31,6 +31,13 @@ namespace TerrificNet
                 defaults: new { controller = "viewIndex", section="web/" }
                 );
 
+            config.Routes.MapHttpRoute(
+                name: "ViewIndexDefault",
+                routeTemplate: "",
+                defaults: new { controller = "viewIndex", section = "web/" }
+            );
+
+
             MapArea(config, "web/");
             MapArea(config);
 
