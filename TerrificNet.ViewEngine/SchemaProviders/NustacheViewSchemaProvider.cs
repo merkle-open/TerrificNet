@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.Schema;
+using Veil.Handlebars;
 
 namespace TerrificNet.ViewEngine.SchemaProviders
 {
@@ -16,7 +17,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
 
         public JsonSchema GetSchemaFromPath(string path)
         {
-            var extractor = new SchemaExtractor();
+            var extractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             return extractor.Run(Path.Combine(_basePath, path));
         }
     }

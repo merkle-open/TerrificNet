@@ -1,12 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Schema;
-using Nustache.Core;
+using Veil.Parser;
+using Veil.Parser.Nodes;
 
 namespace TerrificNet.ViewEngine.Schema
 {
     public class SchemaExtractor
     {
+        private readonly ITemplateParserRegistration _templateParserRegistration;
+
+        public SchemaExtractor(ITemplateParserRegistration templateParserRegistration)
+        {
+            _templateParserRegistration = templateParserRegistration;
+        }
+
         public JsonSchema Run(string templatePath)
         {
             if (!File.Exists(templatePath))
@@ -14,180 +22,102 @@ namespace TerrificNet.ViewEngine.Schema
 
             using (var reader = new StreamReader(templatePath))
             {
-                var template = new Template();
-                template.Load(reader);
+                var node = _templateParserRegistration.ParserFactory().Parse(reader, typeof(object));
+                var visitor = new SchemaBuilderVisitor();
+                visitor.Visit(node);
 
-                var schemaBuilder = new SchemaBuilder();
-                var visitor = new VariablePartVisitor(schemaBuilder);
-
-                template.Accept(visitor);
-
-                return schemaBuilder.GetSchema();
+                return visitor.Schema;
             }
         }
 
-        public class PropertySchemaBuilder : SchemaBuilder
+        private class SchemaBuilderVisitor : NodeVisitorBase<JsonSchema>
         {
-            private readonly JsonSchema _schema;
+            private readonly Stack<JsonSchema> _schemas = new Stack<JsonSchema>();
 
-            public PropertySchemaBuilder(JsonSchema schema) : base(schema)
+            public SchemaBuilderVisitor()
             {
-                _schema = schema;
+                _schemas.Push(new JsonSchema());
             }
 
-            public PropertySchemaBuilder ChangeIsRequired(bool isRequired)
-            {
-                _schema.Required = isRequired;
-                return this;
-            }
+            public JsonSchema Schema { get { return _schemas.Peek(); } }
 
-            public PropertySchemaBuilder ChangeType(JsonSchemaType type)
+            protected override JsonSchema VisitIterateNode(IterateNode iterateNode)
             {
-                _schema.Type = type;
-                return this;
-            }
-
-            public SchemaBuilder ChangeToArray()
-            {
+                var schema = this.VisitExpressionNode(iterateNode.Collection);
                 var arrayItemSchema = new JsonSchema();
 
-                _schema.Type = JsonSchemaType.Array;
-                _schema.Items = new List<JsonSchema>
+                schema.Type = JsonSchemaType.Array;
+                schema.Items = new List<JsonSchema>
                 {
                     arrayItemSchema
                 };
 
-                return new SchemaBuilder(arrayItemSchema);
-            }
-        }
+                _schemas.Push(arrayItemSchema);
+                this.VisitBlockNode(iterateNode.Body);
+                this.VisitBlockNode(iterateNode.EmptyBody);
+                _schemas.Pop();
 
-        public class SchemaBuilder
-        {
-            private readonly JsonSchema _schema;
-
-            public SchemaBuilder()
-            {
-                _schema = new JsonSchema();
+                return schema;
             }
 
-            public SchemaBuilder(JsonSchema schema)
+            protected override JsonSchema VisitConditionalNode(ConditionalNode node)
             {
-                _schema = schema;
+                var schema = base.VisitConditionalNode(node);
+                schema.Required = false;
+                if (schema.Type == null)
+                    schema.Type = JsonSchemaType.Boolean;
+
+                return schema;
             }
 
-            public PropertySchemaBuilder PushPath(string path)
+            protected override JsonSchema VisitBlockNode(BlockNode blockNode)
             {
-                var builder = this;
-                foreach (var pathPart in path.Split('.'))
+                foreach (var child in blockNode.Nodes)
                 {
-                    builder = builder.PushProperty(pathPart);
+                    Visit(child);    
                 }
 
-                return builder as PropertySchemaBuilder;
+                return null;
             }
 
-            public PropertySchemaBuilder PushProperty(string property)
+            protected override JsonSchema VisitWriteExpressionNode(WriteExpressionNode writeExpressionNode)
             {
-                if (_schema.Properties == null)
-                    _schema.Properties = new Dictionary<string, JsonSchema>();
+                var schema = base.VisitWriteExpressionNode(writeExpressionNode);
+                schema.Type = JsonSchemaType.String;
+                return schema;
+            }
 
-                _schema.Type = JsonSchemaType.Object;
+            protected override JsonSchema VisitSubModelExpressionNode(SubModelExpressionNode subModuleExpression)
+            {
+                var schema = this.VisitExpressionNode(subModuleExpression.ModelExpression);
+                _schemas.Push(schema);
+                schema = VisitExpressionNode(subModuleExpression.SubModelExpression);
+                _schemas.Pop();
 
-                JsonSchema propertySchema;
-                if (!_schema.Properties.TryGetValue(property, out propertySchema))
+                return schema;
+            }
+
+            protected override JsonSchema VisitLateBoundExpression(LateBoundExpressionNode lateboundExpression)
+            {
+                JsonSchema modelSchema = _schemas.Peek();
+                string propertyName = lateboundExpression.ItemName;
+                if (modelSchema.Properties == null)
+                    modelSchema.Properties = new Dictionary<string, JsonSchema>();
+
+                modelSchema.Type = JsonSchemaType.Object;
+                JsonSchema existingSchema;
+                if (!modelSchema.Properties.TryGetValue(propertyName, out existingSchema))
                 {
-                    propertySchema = new JsonSchema();
-                    _schema.Properties.Add(property, propertySchema);
-
-                    propertySchema.Type = JsonSchemaType.String;
-                    propertySchema.Required = true;
-                }
-                return new PropertySchemaBuilder(propertySchema);
-            }
-
-            public JsonSchema GetSchema()
-            {
-                return _schema;
-            }
-        }
-
-        private class VariablePartVisitor : PartVisitor
-        {
-            private SchemaBuilder _schemaBuilder;
-
-            public VariablePartVisitor(SchemaBuilder schemaBuilder)
-            {
-                _schemaBuilder = schemaBuilder;
-            }
-
-            public void Visit(Section section)
-            {
-                VisitParts(section);
-            }
-
-            public void Visit(Block block)
-            {
-                var parts = block.Name.Split(' ');
-                if (parts.Length > 0)
-                {
-                    if (parts[0] == "if")
+                    existingSchema = new JsonSchema
                     {
-                        var propertyBuilder = _schemaBuilder.PushPath(parts[1]);
-                        propertyBuilder.ChangeIsRequired(false);
-                        propertyBuilder.ChangeType(JsonSchemaType.Boolean);
-
-                        VisitParts(block);
-                    }
-                    else if (parts[0] == "each")
-                    {
-                        var tempBuilder = _schemaBuilder;
-                        var propertyBuilder = _schemaBuilder.PushPath(parts[1]);
-                        _schemaBuilder = propertyBuilder.ChangeToArray();
-                        VisitParts(block);
-
-                        _schemaBuilder = tempBuilder;
-                    }
-                }
-            }
-
-            public void Visit(LiteralText literal)
-            {
-            }
-
-            public void Visit(EndSection endSections)
-            {
-            }
-
-            public void Visit(InvertedBlock invertedBlock)
-            {
-            }
-
-            public void Visit(TemplateInclude include)
-            {
-            }
-
-            public void Visit(VariableReference variable)
-            {
-                var path = variable.Path;
-                var splittedPath = path.Split(' ');
-                if (splittedPath.Length > 1)
-                {
-                    if (Helpers.Contains(splittedPath[0]))
-                        return;
+                        Required = true,
+                        //Type = JsonSchemaType.String
+                    };
+                    modelSchema.Properties.Add(propertyName, existingSchema);
                 }
 
-                var builder = _schemaBuilder.PushPath(path);
-                builder.ChangeType(JsonSchemaType.String);
+                return existingSchema;
             }
-
-            private void VisitParts(Section section)
-            {
-                foreach (var part in section.Parts)
-                {
-                    part.Accept(this);
-                }
-            }
-
         }
     }
 }

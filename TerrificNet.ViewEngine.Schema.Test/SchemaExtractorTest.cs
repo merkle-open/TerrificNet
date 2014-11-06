@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Schema;
 using Nustache.Core;
+using Veil.Handlebars;
 
 namespace TerrificNet.ViewEngine.Schema.Test
 {
@@ -14,7 +15,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [Description("Test whether a single property is included in the schema")]
         public void TestSimpleSingleProperty()
         {
-            var schemaExtractor = new SchemaExtractor();
+            var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "simpleSingleProperty.mustache"));
 
             SchemaAssertions.AssertSingleProperty(schema, "Name", JsonSchemaType.String);
@@ -24,7 +25,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [Description("Test whether a single property is included in the schema")]
         public void TestSimpleSinglePropertyPath()
         {
-            var schemaExtractor = new SchemaExtractor();
+            var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "simpleSinglePropertyPath.mustache"));
 
             SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
@@ -35,7 +36,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [Description("Test whether a multiple properties are included in the schema")]
         public void TestMultipleProperties()
         {
-            var schemaExtractor = new SchemaExtractor();
+            var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "multipleProperties.mustache"));
 
             SchemaAssertions.AssertSingleProperty(schema, "Title", JsonSchemaType.String);
@@ -50,7 +51,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [Description("A property inside a if expression is not required")]
         public void TestNoRequiredPropertys()
         {
-            var schemaExtractor = new SchemaExtractor();
+            var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "noRequiredProperty.mustache"));
 
             SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
@@ -61,7 +62,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [Description("A property only inside a if expression is a boolean")]
         public void TestBooleanProperty()
         {
-            var schemaExtractor = new SchemaExtractor();
+            var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "booleanProperty.mustache"));
 
             SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
@@ -75,7 +76,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         {
             Helpers.Register("helper", (context, arguments, options, fn, inverse) => { });
 
-            var schemaExtractor = new SchemaExtractor();
+            var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "ignoreHelpers.mustache"));
 
             SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
@@ -90,7 +91,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [Description("A property used inside a each expression is a array")]
         public void TestArrayProperty()
         {
-            var schemaExtractor = new SchemaExtractor();
+            var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(Path.Combine(TestContext.DeploymentDirectory, "arrayProperty.mustache"));
 
             SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);

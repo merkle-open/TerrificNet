@@ -7,14 +7,14 @@ namespace TerrificNet.Mustache
     {
         private static readonly Regex DelimitersRegex = new Regex(@"^=\s*(\S+)\s+(\S+)\s*=$");
 
-        public class Literal
+        public class Token
         {
-            public LiteralType Type { get; set; }
+            public TokenType Type { get; set; }
             public string Content { get; set; }
             public int Line { get; set; }
             public int Column { get; set; }
 
-            public Literal(LiteralType type, string content, int line = 0, int column = 0)
+            public Token(TokenType type, string content, int line = 0, int column = 0)
             {
                 Type = type;
                 Content = content;
@@ -23,7 +23,7 @@ namespace TerrificNet.Mustache
             }
         }
 
-        public enum LiteralType
+        public enum TokenType
         {
             Text,
             BlockStart,
@@ -34,7 +34,7 @@ namespace TerrificNet.Mustache
             VariableReference
         }
 
-        public IEnumerable<Literal> Scan(string template)
+        public IEnumerable<Token> Scan(string template)
         {
             var regex = MakeRegex("{{", "}}");
             var i = 0;
@@ -57,7 +57,7 @@ namespace TerrificNet.Mustache
 
                     var isStandalone = (leadingLineEnd.Success || (lineEnded && m.Index == i)) && trailingLineEnd.Success;
 
-                    Literal part = null;
+                    Token part = null;
 
                     if (marker[0] == '=')
                     {
@@ -72,33 +72,33 @@ namespace TerrificNet.Mustache
                     }
                     else if (marker[0] == '#')
                     {
-                        part = new Literal(LiteralType.BlockStart, marker.Substring(1).Trim(), m.Index);
+                        part = new Token(TokenType.BlockStart, marker.Substring(1).Trim(), m.Index);
                     }
                     else if (marker[0] == '^')
                     {
-                        part = new Literal(LiteralType.InvertBlockStart, marker.Substring(1).Trim(), m.Index);
+                        part = new Token(TokenType.InvertBlockStart, marker.Substring(1).Trim(), m.Index);
                     }
                     else if (marker[0] == '<')
                     {
-                        part = new Literal(LiteralType.TemplateDefinition, marker.Substring(1).Trim(), m.Index);
+                        part = new Token(TokenType.TemplateDefinition, marker.Substring(1).Trim(), m.Index);
                     }
                     else if (marker[0] == '/')
                     {
-                        part = new Literal(LiteralType.EndSection, marker.Substring(1).Trim(), m.Index);
+                        part = new Token(TokenType.EndSection, marker.Substring(1).Trim(), m.Index);
                     }
                     else if (marker[0] == '>')
                     {
-                        part = new Literal(LiteralType.TemplateInclude, marker.Substring(1).Trim(), m.Index/*, lineEnded || i == 0 ? leadingWhiteSpaceOnly.Value : null*/);
+                        part = new Token(TokenType.TemplateInclude, marker.Substring(1).Trim(), m.Index/*, lineEnded || i == 0 ? leadingWhiteSpaceOnly.Value : null*/);
                     }
                     else if (marker[0] != '!')
                     {
                         if (marker == "else")
                         {
-                            part = new Literal(LiteralType.BlockStart, marker, m.Index);
+                            part = new Token(TokenType.BlockStart, marker, m.Index);
                         }
                         else
                         {
-                            part = new Literal(LiteralType.VariableReference, marker, m.Index);
+                            part = new Token(TokenType.VariableReference, marker, m.Index);
                             isStandalone = false;
                         }
                     }
@@ -111,7 +111,7 @@ namespace TerrificNet.Mustache
                     {
                         previousLiteral += leadingLineEnd;
 
-                        if (part.Type == LiteralType.TemplateInclude)
+                        if (part.Type == TokenType.TemplateInclude)
                         {
                             previousLiteral += leadingWhiteSpaceOnly;
                         }
@@ -119,7 +119,7 @@ namespace TerrificNet.Mustache
 
                     if (previousLiteral != "")
                     {
-                        yield return new Literal(LiteralType.Text, previousLiteral, m.Index);
+                        yield return new Token(TokenType.Text, previousLiteral, m.Index);
                     }
 
                     if (part != null)
@@ -146,7 +146,7 @@ namespace TerrificNet.Mustache
             {
                 var remainingLiteral = template.Substring(i);
 
-                yield return new Literal(LiteralType.Text, remainingLiteral);
+                yield return new Token(TokenType.Text, remainingLiteral);
             }
         }
 

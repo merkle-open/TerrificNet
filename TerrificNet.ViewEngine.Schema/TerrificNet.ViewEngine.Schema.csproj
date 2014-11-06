@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NodeVisitorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaComparer.cs" />
     <Compile Include="SchemaExtractor.cs" />
@@ -51,9 +52,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nustache\Nustache.Core\Nustache.Core.csproj">
-      <Project>{3A725CD9-6024-441F-84B5-4226D78352C5}</Project>
-      <Name>Nustache.Core</Name>
+    <ProjectReference Include="..\Veil\Src\Veil.Handlebars\Veil.Handlebars.csproj">
+      <Project>{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}</Project>
+      <Name>Veil.Handlebars</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Veil\Src\Veil\Veil.csproj">
+      <Project>{97D96B66-EDFE-474B-BC72-D8439830FC76}</Project>
+      <Name>Veil</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
