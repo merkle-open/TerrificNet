@@ -32,6 +32,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Antlr"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Antlr.Test", "TerrificNet.Mustache.Antlr.Test\TerrificNet.Mustache.Antlr.Test.csproj", "{2EBDC610-F471-4F89-BA4B-73C9804398B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veil", "Veil\Src\Veil\Veil.csproj", "{97D96B66-EDFE-474B-BC72-D8439830FC76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veil.Handlebars", "Veil\Src\Veil.Handlebars\Veil.Handlebars.csproj", "{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Veil_Src", "Veil_Src", "{BF17DEA6-822B-4405-AE5C-7F7A421AC45E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,8 +92,20 @@ Global
 		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{97D96B66-EDFE-474B-BC72-D8439830FC76} = {BF17DEA6-822B-4405-AE5C-7F7A421AC45E}
+		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC} = {BF17DEA6-822B-4405-AE5C-7F7A421AC45E}
 	EndGlobalSection
 EndGlobal
