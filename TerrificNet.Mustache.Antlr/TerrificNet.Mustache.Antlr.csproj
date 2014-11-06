@@ -52,6 +52,7 @@
     <Compile Include="MustacheParser.g4.cs">
       <DependentUpon>MustacheParser.g4</DependentUpon>
     </Compile>
+    <Compile Include="MustacheTemplateEngine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

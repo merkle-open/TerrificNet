@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Test",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Antlr", "TerrificNet.Mustache.Antlr\TerrificNet.Mustache.Antlr.csproj", "{3AB99B6D-C183-4794-A61B-07C88C0BE74B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Antlr.Test", "TerrificNet.Mustache.Antlr.Test\TerrificNet.Mustache.Antlr.Test.csproj", "{2EBDC610-F471-4F89-BA4B-73C9804398B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{3AB99B6D-C183-4794-A61B-07C88C0BE74B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AB99B6D-C183-4794-A61B-07C88C0BE74B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AB99B6D-C183-4794-A61B-07C88C0BE74B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
