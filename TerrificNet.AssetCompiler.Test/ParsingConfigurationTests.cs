@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using TerrificNet.AssetCompiler.Configuration;
 
-namespace TerrificAssetLibrary.Tests
+namespace TerrificNet.AssetCompiler.Test
 {
     [TestClass]
     public class ParsingConfigurationTests
@@ -11,7 +12,7 @@ namespace TerrificAssetLibrary.Tests
         public void ParseValidJson()
         {
             const string file = "configs/valid.json";
-            var config = Configuration.Configuration.ParseConfiguration(file);
+            var config = Config.ParseConfiguration(file);
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));
@@ -22,13 +23,13 @@ namespace TerrificAssetLibrary.Tests
         public void ParseInvalidJson()
         {
             const string file = "configs/invalid.json";
-            var config = Configuration.Configuration.ParseConfiguration(file);
+            var config = Config.ParseConfiguration(file);
         }
 
         [TestMethod]
         public void ParseDefaultConfig()
         {
-            var config = Configuration.Configuration.ParseConfiguration();
+            var config = Config.ParseConfiguration();
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));
@@ -38,7 +39,7 @@ namespace TerrificAssetLibrary.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ParseNullConfig()
         {
-            var config = Configuration.Configuration.ParseConfiguration(null);
+            var config = Config.ParseConfiguration(null);
         }
     }
 }

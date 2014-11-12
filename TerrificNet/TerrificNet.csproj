@@ -103,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.AssetCompiler\TerrificNet.AssetCompiler.csproj">
+      <Project>{832b0385-5327-4394-88b9-b2de96d8895f}</Project>
+      <Name>TerrificNet.AssetCompiler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.Generator\TerrificNet.Generator.csproj">
       <Project>{7A0B68AB-F5EF-4BCE-ACE3-766C9EA06B82}</Project>
       <Name>TerrificNet.Generator</Name>

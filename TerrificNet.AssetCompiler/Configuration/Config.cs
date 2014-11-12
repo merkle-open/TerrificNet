@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
-namespace TerrificAssetLibrary.Configuration
+namespace TerrificNet.AssetCompiler.Configuration
 {
-    public class Configuration
+    public class Config
     {
         public Dictionary<string, string[]> Assets { get; set; }
 
-        public static Configuration ParseConfiguration()
+        public static Config ParseConfiguration()
         {
             try
             {
@@ -23,7 +23,7 @@ namespace TerrificAssetLibrary.Configuration
             }
         }
 
-        public static Configuration ParseConfiguration(string filepath)
+        public static Config ParseConfiguration(string filepath)
         {
             if(string.IsNullOrWhiteSpace(filepath)) throw new ArgumentNullException("filepath");
             var assemblyLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location);
@@ -31,7 +31,7 @@ namespace TerrificAssetLibrary.Configuration
             var path = filepath.Contains(assemblyLocation) ? filepath : Path.Combine(assemblyLocation, filepath);
             var reader = new JsonTextReader(new StreamReader(path));
             var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-            return serializer.Deserialize<Configuration>(reader);
+            return serializer.Deserialize<Config>(reader);
         }
     }
 }
