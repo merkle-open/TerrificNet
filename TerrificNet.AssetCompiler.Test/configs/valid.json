@@ -1,0 +1,20 @@
+﻿{
+    "assets": {
+        "app.css": [
+            "+assets/css/variables.less",
+            "!assets/css/somefile.*",
+            "assets/css/cssreset.css",
+            "assets/css/*.*",
+            "components/modules/*/css/*.*",
+            "components/modules/*/css/skins/*.*"
+        ],
+        "app.js": [
+            "!assets/js/somefile.js",
+            "assets/js/jquery-1.11.1.min.js",
+            "assets/js/terrific-2-1.0.js",
+            "assets/js/*.js",
+            "components/modules/*/js/*.js",
+            "components/modules/*/js/skins/*.js"
+        ]
+    }
+}
