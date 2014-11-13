@@ -1,20 +1,14 @@
 ﻿{
     "assets": {
         "app.css": [
-            "+assets/css/variables.less",
-            "!assets/css/somefile.*",
-            "assets/css/cssreset.css",
-            "assets/css/*.*",
-            "components/modules/*/css/*.*",
-            "components/modules/*/css/skins/*.*"
+            "+**/assets/css/variables.less",
+            "testassets/assets/**/*.css",
+            "testassets/modules/**/*.less"
         ],
         "app.js": [
-            "!assets/js/somefile.js",
-            "assets/js/jquery-1.11.1.min.js",
-            "assets/js/terrific-2-1.0.js",
-            "assets/js/*.js",
-            "components/modules/*/js/*.js",
-            "components/modules/*/js/skins/*.js"
+            "!testassets/**/*-not-included.js",
+            "testassets/assets/**/*.js",
+            "testassets/modules/**/*.js"
         ]
     }
 }

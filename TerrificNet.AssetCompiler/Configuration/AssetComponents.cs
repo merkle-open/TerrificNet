@@ -2,15 +2,15 @@
 
 namespace TerrificNet.AssetCompiler.Configuration
 {
-    public class AssetComponent
+    public class AssetComponents
     {
         public IList<string> Files { get; set; }
-        public IList<string> PrecompileFiles { get; set; }
+        public IList<string> Dependencies { get; set; }
 
-        public AssetComponent()
+        public AssetComponents()
         {
             Files = new List<string>();
-            PrecompileFiles = new List<string>();
+            Dependencies = new List<string>();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using TerrificNet.AssetCompiler.Configuration;
 
@@ -34,19 +36,16 @@ namespace TerrificNet.AssetCompiler
             //compile all assets
         }
 
-        public async Task Compile(string compileDirectory)
+        /// <summary>
+        /// (Awaitable) Compiles an asset file with the given asset key.
+        /// </summary>
+        /// <param name="assetKey">The asset key to compile</param>
+        /// <exception cref="KeyNotFoundException">If the given assetkey is not found in the configuration</exception>
+        /// <returns>Filepath as string to the compiled file</returns>
+        public async Task<string> Compile(string assetKey)
         {
-            //compile all assets to a specific folder
-        }
-
-        public async Task Compile(KeyValuePair<string, string[]> asset)
-        {
-            //compile 1 asset file of config
-        }
-
-        public async Task Compile(KeyValuePair<string, string[]> asset, string compileDirectory)
-        {
-            //compile 1 asset file of config to a specific folder
+            if(!Configuration.Assets.ContainsKey(assetKey)) throw new KeyNotFoundException("no asset with the key " + assetKey + " found");
+            return "";
         }
 
         public void ContinuousCompile()
@@ -54,15 +53,35 @@ namespace TerrificNet.AssetCompiler
             //start filewatcher and compile files.
         }
 
-        public void ContinuousCompile(string compileDirectory)
+        private AssetComponents GetComponentsForAsset(IEnumerable<string> assetPaths)
         {
-            //start filewatcher and compile files to a specific folder
-        }
+            var files = new List<string>();
+            var excludes = new List<string>();
+            var dependencies = new List<string>();
 
-        private AssetComponent GetComponentsForAsset(KeyValuePair<string, string[]> asset)
-        {
-            //get the files and "compile with each file" for an asset
-            return null;
+            foreach (var path in assetPaths)
+            {
+                if (path.StartsWith("!"))
+                {
+                    excludes.AddRange(Glob.Glob.Expand(path.Substring(1)).Select(f => f.FullName));
+                }
+                else if (path.StartsWith("+"))
+                {
+                    dependencies.AddRange(Glob.Glob.Expand(path.Substring(1)).Select(f => f.FullName));
+                }
+                else
+                {
+                    files.AddRange(Glob.Glob.Expand(path).Select(f => f.FullName));
+                }
+            }
+
+            excludes.AddRange(dependencies);
+
+            return new AssetComponents
+            {
+                Dependencies = dependencies,
+                Files = files.Except(excludes).ToList()
+            };
         }
     }
 }

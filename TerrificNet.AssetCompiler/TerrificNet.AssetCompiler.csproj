@@ -49,9 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetCompiler.cs" />
-    <Compile Include="Configuration\AssetComponent.cs" />
+    <Compile Include="Configuration\AssetComponents.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Glob.cs" />
+    <Compile Include="helpers\PathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

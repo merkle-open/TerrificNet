@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using TerrificNet.AssetCompiler.helpers;
 
 namespace TerrificNet.AssetCompiler.Configuration
 {
@@ -19,16 +20,14 @@ namespace TerrificNet.AssetCompiler.Configuration
             }
             catch (InvalidOperationException e)
             {
-                throw new FileNotFoundException("no default config.json found in: " + System.Reflection.Assembly.GetCallingAssembly().Location);
+                throw new FileNotFoundException("no default config.json found in: " + PathHelper.AssemblyDirectory);
             }
         }
 
         public static Config ParseConfiguration(string filepath)
         {
             if(string.IsNullOrWhiteSpace(filepath)) throw new ArgumentNullException("filepath");
-            var assemblyLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetCallingAssembly().Location);
-            if (assemblyLocation == null) throw new DirectoryNotFoundException("assembly directory not found");
-            var path = filepath.Contains(assemblyLocation) ? filepath : Path.Combine(assemblyLocation, filepath);
+            var path = filepath.Contains(PathHelper.AssemblyDirectory) ? filepath : Path.Combine(PathHelper.AssemblyDirectory, filepath);
             var reader = new JsonTextReader(new StreamReader(path));
             var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
             return serializer.Deserialize<Config>(reader);
