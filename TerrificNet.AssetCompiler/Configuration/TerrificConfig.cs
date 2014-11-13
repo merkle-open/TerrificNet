@@ -7,16 +7,16 @@ using TerrificNet.AssetCompiler.Helpers;
 
 namespace TerrificNet.AssetCompiler.Configuration
 {
-    public class Config
+    public class TerrificConfig
     {
         public Dictionary<string, string[]> Assets { get; set; }
 
-        public static Config ParseConfiguration()
+        public static TerrificConfig Parse()
         {
             try
             {
                 var defaultConfig = Glob.Glob.Expand("**/config.json").First();
-                return ParseConfiguration(defaultConfig.FullName);
+                return Parse(defaultConfig.FullName);
             }
             catch (InvalidOperationException e)
             {
@@ -24,13 +24,13 @@ namespace TerrificNet.AssetCompiler.Configuration
             }
         }
 
-        public static Config ParseConfiguration(string filepath)
+        public static TerrificConfig Parse(string filepath)
         {
             if(string.IsNullOrWhiteSpace(filepath)) throw new ArgumentNullException("filepath");
             var path = filepath.Contains(PathHelper.AssemblyDirectory) ? filepath : Path.Combine(PathHelper.AssemblyDirectory, filepath);
             var reader = new JsonTextReader(new StreamReader(path));
             var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };
-            return serializer.Deserialize<Config>(reader);
+            return serializer.Deserialize<TerrificConfig>(reader);
         }
     }
 }

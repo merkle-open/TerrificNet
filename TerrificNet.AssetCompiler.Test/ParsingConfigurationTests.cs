@@ -12,7 +12,7 @@ namespace TerrificNet.AssetCompiler.Test
         public void ParseValidJson()
         {
             const string file = "configs/valid.json";
-            var config = Config.ParseConfiguration(file);
+            var config = TerrificConfig.Parse(file);
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));
@@ -23,13 +23,13 @@ namespace TerrificNet.AssetCompiler.Test
         public void ParseInvalidJson()
         {
             const string file = "configs/invalid.json";
-            var config = Config.ParseConfiguration(file);
+            var config = TerrificConfig.Parse(file);
         }
 
         [TestMethod]
         public void ParseDefaultConfig()
         {
-            var config = Config.ParseConfiguration();
+            var config = TerrificConfig.Parse();
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));
@@ -39,7 +39,7 @@ namespace TerrificNet.AssetCompiler.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void ParseNullConfig()
         {
-            var config = Config.ParseConfiguration(null);
+            var config = TerrificConfig.Parse(null);
         }
     }
 }

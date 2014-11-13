@@ -1,21 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using TerrificNet.AssetCompiler.Bundler;
+using TerrificNet.AssetCompiler.Compilers;
 using TerrificNet.AssetCompiler.Configuration;
+using TerrificNet.AssetCompiler.Helpers;
 
 namespace TerrificNet.AssetCompiler.Test
 {
     [TestClass]
-    public class AssetCompilerTests
+    public class LocalAssetCompilerTests
     {
-        private AssetCompiler _compiler;
+        private readonly TerrificConfig _terrificConfig = TerrificConfig.Parse();
 
-        [TestInitialize]
-        public void PrepareAssetCompiler()
-        {
-            _compiler = new AssetCompiler();
-        }
-
-        [TestMethod]
+        /*[TestMethod]
         public void GetComponentForAssetJsTest()
         {
             var obj = new PrivateObject(_compiler);
@@ -47,6 +45,37 @@ namespace TerrificNet.AssetCompiler.Test
             Assert.IsFalse(cssFiles.Files.Any(f => f.Contains("variables.less")), "dependency was in files list");
             Assert.IsTrue(cssFiles.Files.Any(f => f.Contains("asset.css")), "asset was not recognized");
             Assert.IsTrue(cssFiles.Files.Any(f => f.Contains("example.less")), "asset was not recognized");
+        }*/
+
+        [TestMethod]
+        public async Task CompileAppJsAssetTest()
+        {
+            var compiler = new JsAssetCompiler();
+            var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.js"]);
+
+            var bundle = await new LocalAssetBundler().BundleAsync(components);
+
+            var compile = await compiler.Compile(bundle);
+            Assert.IsNotNull("");
+        }
+
+        [TestMethod]
+        public async Task CompileAppCssAssetTest()
+        {
+            var compiler = new LessAssetCompiler();
+            var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.css"]);
+
+            var bundle = await new LocalAssetBundler().BundleAsync(components);
+
+            var compile = await compiler.Compile(bundle);
+            Assert.IsNotNull("");
+        }
+
+        public void BLA()
+        {
+            var a = new JsAssetCompiler();
+            var tc = TerrificConfig.Parse();
+            var cc = new CompileConfig();
         }
     }
 }
