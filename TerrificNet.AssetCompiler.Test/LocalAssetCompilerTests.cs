@@ -52,9 +52,7 @@ namespace TerrificNet.AssetCompiler.Test
         {
             var compiler = new JsAssetCompiler();
             var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.js"]);
-
             var bundle = await new LocalAssetBundler().BundleAsync(components);
-
             var compile = await compiler.Compile(bundle);
             Assert.IsNotNull("");
         }
@@ -64,9 +62,7 @@ namespace TerrificNet.AssetCompiler.Test
         {
             var compiler = new LessAssetCompiler();
             var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.css"]);
-
             var bundle = await new LocalAssetBundler().BundleAsync(components);
-
             var compile = await compiler.Compile(bundle);
             Assert.IsNotNull("");
         }
