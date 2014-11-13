@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace TerrificNet.AssetCompiler.helpers
+namespace TerrificNet.AssetCompiler.Helpers
 {
     static class PathHelper
     {

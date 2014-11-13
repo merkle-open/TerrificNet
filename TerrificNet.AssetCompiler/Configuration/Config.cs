@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using TerrificNet.AssetCompiler.helpers;
+using TerrificNet.AssetCompiler.Helpers;
 
 namespace TerrificNet.AssetCompiler.Configuration
 {
