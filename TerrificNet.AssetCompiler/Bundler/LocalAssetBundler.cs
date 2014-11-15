@@ -5,7 +5,7 @@ using TerrificNet.AssetCompiler.Configuration;
 
 namespace TerrificNet.AssetCompiler.Bundler
 {
-    public class LocalAssetBundler
+    public class LocalAssetBundler : IAssetBundler
     {
         public async Task<string> BundleAsync(AssetComponents components)
         {

@@ -48,9 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAssetBundler.cs" />
+    <Compile Include="Processors\BuildAssetProcessor.cs" />
     <Compile Include="Bundler\LocalAssetBundler.cs" />
-    <Compile Include="Compilers\JsAssetCompiler.cs" />
-    <Compile Include="Compilers\LessAssetCompiler.cs" />
+    <Compile Include="Compiler\JsAssetCompiler.cs" />
+    <Compile Include="Compiler\LessAssetCompiler.cs" />
     <Compile Include="Configuration\AssetComponents.cs" />
     <Compile Include="Configuration\AssetType.cs" />
     <Compile Include="Configuration\CompileConfig.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Helpers\AssetHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="IAssetCompiler.cs" />
+    <Compile Include="Processors\DebugAssetProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

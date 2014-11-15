@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 using TerrificNet.AssetCompiler.Bundler;
-using TerrificNet.AssetCompiler.Compilers;
+using TerrificNet.AssetCompiler.Compiler;
 using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
 
@@ -53,7 +52,7 @@ namespace TerrificNet.AssetCompiler.Test
             var compiler = new JsAssetCompiler();
             var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.js"]);
             var bundle = await new LocalAssetBundler().BundleAsync(components);
-            var compile = await compiler.Compile(bundle);
+            var compile = await compiler.CompileAsync(bundle);
             Assert.IsNotNull("");
         }
 
@@ -63,7 +62,7 @@ namespace TerrificNet.AssetCompiler.Test
             var compiler = new LessAssetCompiler();
             var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.css"]);
             var bundle = await new LocalAssetBundler().BundleAsync(components);
-            var compile = await compiler.Compile(bundle);
+            var compile = await compiler.CompileAsync(bundle);
             Assert.IsNotNull("");
         }
 

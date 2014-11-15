@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TerrificNet.AssetCompiler
+namespace TerrificNet.AssetCompiler.Processors
 {
-    class AssetProcessor
+    public class DebugAssetProcessor
     {
     }
 }

@@ -2,7 +2,7 @@
 using dotless.Core.configuration;
 using System.Threading.Tasks;
 
-namespace TerrificNet.AssetCompiler.Compilers
+namespace TerrificNet.AssetCompiler.Compiler
 {
     public class LessAssetCompiler : IAssetCompiler
     {
@@ -11,7 +11,7 @@ namespace TerrificNet.AssetCompiler.Compilers
         /// </summary>
         /// <param name="content">Content to Compile</param>
         /// <returns>string with compiled content</returns>
-        public Task<string> Compile(string content)
+        public Task<string> CompileAsync(string content)
         {
             return Task.FromResult(Less.Parse(content, new DotlessConfiguration(){ MinifyOutput = true}));
         }
