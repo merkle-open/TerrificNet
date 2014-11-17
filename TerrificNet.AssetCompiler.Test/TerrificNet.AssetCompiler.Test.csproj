@@ -53,7 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="LocalAssetCompilerTests.cs" />
+    <Compile Include="LocalAssetProcessorTests.cs" />
     <Compile Include="ParsingConfigurationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

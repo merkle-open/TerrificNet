@@ -49,8 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAssetBundler.cs" />
+    <Compile Include="IAssetProcessor.cs" />
     <Compile Include="Processors\BuildAssetProcessor.cs" />
-    <Compile Include="Bundler\LocalAssetBundler.cs" />
+    <Compile Include="Bundler\DefaultAssetBundler.cs" />
     <Compile Include="Compiler\JsAssetCompiler.cs" />
     <Compile Include="Compiler\LessAssetCompiler.cs" />
     <Compile Include="Configuration\AssetComponents.cs" />
