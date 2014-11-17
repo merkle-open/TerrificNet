@@ -1,9 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.Practices.Unity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using TerrificNet.AssetCompiler.Bundler;
 using TerrificNet.AssetCompiler.Compiler;
 using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
+using TerrificNet.AssetCompiler.Processors;
 
 namespace TerrificNet.AssetCompiler.Test
 {
@@ -18,7 +21,7 @@ namespace TerrificNet.AssetCompiler.Test
             var bundler = new DefaultAssetBundler();
             var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.js"]);
             var bundle = await bundler.BundleAsync(components);
-            Assert.IsTrue(bundle.Contains("console.log(\"test function\");"));
+            Assert.IsTrue(bundle.Contains("TestLongParamName"));
         }
 
         [TestMethod]
@@ -37,7 +40,7 @@ namespace TerrificNet.AssetCompiler.Test
             var components = AssetHelper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.js"]);
             var bundle = await new DefaultAssetBundler().BundleAsync(components);
             var compile = await compiler.CompileAsync(bundle);
-            Assert.IsTrue(compile.Contains("\"test function\""));
+            Assert.IsFalse(compile.Contains("TestLongParamName"));
         }
 
         [TestMethod]
@@ -48,6 +51,90 @@ namespace TerrificNet.AssetCompiler.Test
             var bundle = await new DefaultAssetBundler().BundleAsync(components);
             var compile = await compiler.CompileAsync(bundle);
             Assert.IsTrue(compile.Contains(".mod-example{background:#000}"));
+        }
+
+        [TestMethod]
+        public async Task AssetCompilerFactoryJsTest()
+        {
+            var container = new UnityContainer();
+            container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
+            container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+
+            var factory = new AssetCompilerFactory(container.ResolveAll<IAssetCompiler>(), container);
+
+            var compiler = factory.GetCompiler("app.js");
+            Assert.IsInstanceOfType(compiler, typeof(JsAssetCompiler));
+        }
+
+        [TestMethod]
+        public async Task AssetCompilerFactoryCssTest()
+        {
+            var container = new UnityContainer();
+            container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
+            container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+
+            var factory = new AssetCompilerFactory(container.ResolveAll<IAssetCompiler>(), container);
+
+            var compiler = factory.GetCompiler("app.css");
+            Assert.IsInstanceOfType(compiler, typeof(LessAssetCompiler));
+        }
+
+        [TestMethod]
+        public async Task BuildAssetProcessJsWithoutMinifyTest()
+        {
+            var container = new UnityContainer();
+            container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
+            container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+            container.RegisterType<IAssetBundler, DefaultAssetBundler>();
+
+            var processor = new BuildAssetProcessor(container);
+            var asset = _terrificConfig.Assets.First(o => o.Key == "app.js");
+            var processed = await processor.ProcessAsync(asset, ProcessorFlags.None);
+            Assert.IsTrue(processed.Contains("TestLongParamName"));
+        }
+
+        [TestMethod]
+        public async Task BuildAssetProcessCssWithoutMinifyTest()
+        {
+            var container = new UnityContainer();
+            container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
+            container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+            container.RegisterType<IAssetBundler, DefaultAssetBundler>();
+
+            var processor = new BuildAssetProcessor(container);
+            var asset = _terrificConfig.Assets.First(o => o.Key == "app.css");
+            var processed = await processor.ProcessAsync(asset, ProcessorFlags.None);
+            Assert.IsTrue(processed.Contains(".example-css"));
+        }
+
+        [TestMethod]
+        public async Task BuildAssetProcessJsWithMinifyTest()
+        {
+            var container = new UnityContainer();
+            container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
+            container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+            container.RegisterType<IAssetBundler, DefaultAssetBundler>();
+            container.RegisterType<IAssetCompilerFactory, AssetCompilerFactory>();
+
+            var processor = new BuildAssetProcessor(container);
+            var asset = _terrificConfig.Assets.First(o => o.Key == "app.js");
+            var processed = await processor.ProcessAsync(asset, ProcessorFlags.Minify);
+            Assert.IsFalse(processed.Contains("TestLongParamName"));
+        }
+
+        [TestMethod]
+        public async Task BuildAssetProcessCssWithMinifyTest()
+        {
+            var container = new UnityContainer();
+            container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
+            container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+            container.RegisterType<IAssetBundler, DefaultAssetBundler>();
+            container.RegisterType<IAssetCompilerFactory, AssetCompilerFactory>();
+
+            var processor = new BuildAssetProcessor(container);
+            var asset = _terrificConfig.Assets.First(o => o.Key == "app.css");
+            var processed = await processor.ProcessAsync(asset, ProcessorFlags.Minify);
+            Assert.IsTrue(processed.Contains(".mod-example{background:#000}"));
         }
     }
 }

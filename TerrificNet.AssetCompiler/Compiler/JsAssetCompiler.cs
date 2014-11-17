@@ -1,4 +1,5 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using System.IO;
+using Microsoft.Ajax.Utilities;
 using System.Threading.Tasks;
 
 namespace TerrificNet.AssetCompiler.Compiler
@@ -14,6 +15,11 @@ namespace TerrificNet.AssetCompiler.Compiler
         {
             var minifier = new Minifier();
             return Task.FromResult(minifier.MinifyJavaScript(content));
+        }
+
+        public bool CanProcess(string filename)
+        {
+            return Path.HasExtension(filename) && Path.GetExtension(filename) == ".js";
         }
     }
 }

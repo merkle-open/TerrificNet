@@ -1,26 +1,35 @@
-﻿using System.Threading.Tasks;
-using TerrificNet.AssetCompiler.Configuration;
+﻿using Microsoft.Practices.Unity;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TerrificNet.AssetCompiler.Helpers;
 
 namespace TerrificNet.AssetCompiler.Processors
 {
     public class BuildAssetProcessor : IAssetProcessor
     {
+        private readonly IUnityContainer _container;
+
+        public BuildAssetProcessor(IUnityContainer container)
+        {
+            _container = container;
+        }
+
         #region Implementation of IAssetProcessor
 
-        public bool Minify { get; set; }
-        public Task ProcessAsync()
+        public async Task<string> ProcessAsync(KeyValuePair<string, string[]> assetConfig, ProcessorFlags flags)
         {
-            return ProcessAsync(TerrificConfig.Parse());
-        }
+            var bundler = _container.Resolve<IAssetBundler>();
+            var result = await bundler.BundleAsync(AssetHelper.GetGlobComponentsForAsset(assetConfig.Value));
 
-        public Task ProcessAsync(string configPath)
-        {
-            return ProcessAsync(TerrificConfig.Parse(configPath));
-        }
+            if (flags.HasFlag(ProcessorFlags.Minify))
+            {
+                var factory = _container.Resolve<IAssetCompilerFactory>();
+                var compiler = factory.GetCompiler(assetConfig.Key);
 
-        public Task ProcessAsync(TerrificConfig config)
-        {
-            return null;
+                result = await compiler.CompileAsync(result);
+            }
+
+            return result;
         }
 
         #endregion

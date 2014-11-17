@@ -1,4 +1,5 @@
-﻿using dotless.Core;
+﻿using System.IO;
+using dotless.Core;
 using dotless.Core.configuration;
 using System.Threading.Tasks;
 
@@ -14,6 +15,11 @@ namespace TerrificNet.AssetCompiler.Compiler
         public Task<string> CompileAsync(string content)
         {
             return Task.FromResult(Less.Parse(content, new DotlessConfiguration(){ MinifyOutput = true}));
+        }
+
+        public bool CanProcess(string filename)
+        {
+            return Path.HasExtension(filename) && Path.GetExtension(filename) == ".css";
         }
     }
 }

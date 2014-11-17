@@ -36,6 +36,15 @@
     <Reference Include="dotless.Core">
       <HintPath>..\packages\dotless.1.4.1.0\lib\dotless.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -48,7 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler\AssetCompilerFactory.cs" />
     <Compile Include="IAssetBundler.cs" />
+    <Compile Include="IAssetCompilerFactory.cs" />
     <Compile Include="IAssetProcessor.cs" />
     <Compile Include="Processors\BuildAssetProcessor.cs" />
     <Compile Include="Bundler\DefaultAssetBundler.cs" />
@@ -63,6 +74,7 @@
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="IAssetCompiler.cs" />
     <Compile Include="Processors\DebugAssetProcessor.cs" />
+    <Compile Include="Processors\ProcessorFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
