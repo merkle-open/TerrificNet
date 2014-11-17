@@ -59,9 +59,10 @@ namespace TerrificNet.AssetCompiler.Test
             var container = new UnityContainer();
             container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
             container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+            container.RegisterType<AssetCompilerFactory>();
 
-            var factory = new AssetCompilerFactory(container.ResolveAll<IAssetCompiler>(), container);
-
+            var factory = container.Resolve<AssetCompilerFactory>();
+            
             var compiler = factory.GetCompiler("app.js");
             Assert.IsInstanceOfType(compiler, typeof(JsAssetCompiler));
         }
@@ -72,8 +73,9 @@ namespace TerrificNet.AssetCompiler.Test
             var container = new UnityContainer();
             container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
             container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
+            container.RegisterType<AssetCompilerFactory>();
 
-            var factory = new AssetCompilerFactory(container.ResolveAll<IAssetCompiler>(), container);
+            var factory = container.Resolve<AssetCompilerFactory>();
 
             var compiler = factory.GetCompiler("app.css");
             Assert.IsInstanceOfType(compiler, typeof(LessAssetCompiler));

@@ -10,12 +10,13 @@ namespace TerrificNet.AssetCompiler.Compiler
         private readonly IUnityContainer _container;
         private readonly Dictionary<Func<string, bool>, Func<IAssetCompiler>> _compiler = new Dictionary<Func<string, bool>, Func<IAssetCompiler>>();
 
-        public AssetCompilerFactory(IEnumerable<IAssetCompiler> compiler, IUnityContainer container)
+        public AssetCompilerFactory(IAssetCompiler[] compiler, IUnityContainer container)
         {
             _container = container;
             foreach (var c in compiler)
             {
-                _compiler.Add(i => c.CanProcess(i), () =>c);
+                var localCompiler = c;
+                _compiler.Add(localCompiler.CanProcess, () => _container.Resolve(localCompiler.GetType()) as IAssetCompiler);
             }
         }
 
