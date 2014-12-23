@@ -1,0 +1,56 @@
+﻿<div class="mod mod-nav-service">
+
+    <!-- Nav Service -->
+    <ul class="nav-service-list">
+
+        <!-- list with ul.quick-btn-links -->
+        <li>
+            <ul class="quick-btn-links">
+                {{#each links}}
+                <li>
+                    <a href="{{href}}" class="e-btn btn-navigation" accesskey="{{accesskey}}" title="{{title}}">
+                        <i class="glyph-{{glyph}}"></i>{{name}}
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </li>
+
+        <!-- listitem with ul.service-links -->
+        <li class="service-links-item">
+            <ul class="service-links">
+                <li class="service-links-watchlist-item">
+                    <a href="watchlist" class="service-icon-watchlist">
+                        <div class="glyph-basket">
+                            <span class="service-notification-circle">
+                                <span class="service-notification-number">{{notifications}}</span>
+                            </span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="service-links-lock-item">
+                    <a href="myfinma-login" class="icon-login">MyFINMA</a>
+                </li>
+
+                <li class="service-link-search-item">
+                    <a href="javascript:;" class="icon-magnifier"><span class="glyph-search"></span></a>
+                </li>
+
+                <li class="service-link-language">
+
+                    <a href="javascript:;" class="service-link-language-item js-service-link-language-item" accesskey="8" title="[ALT+8]">
+                        <i class="glyph-arw-s-down"></i>DE
+                    </a>
+
+                    <ul class="service-link-language-list js-service-link-language-list">
+                        <li><a class="service-link-language-item" href="javascript:;">FR</a></li>
+                        <li><a class="service-link-language-item" href="javascript:;">IT</a></li>
+                        <li><a class="service-link-language-item" href="javascript:;">EN</a></li>
+                    </ul>
+
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

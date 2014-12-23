@@ -1,33 +1,61 @@
 ﻿<!DOCTYPE html>
+<html>
+<head>
+    {{module template="head"}}
+</head>
+<body class="mod mod-layout" data-culture="de-CH">
+    <form method="post" action="content" id="mainform">
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta charset="utf-8" />
-        <title>title</title>
-    </head>
-    <body> 
-        <div>
-            {{module template="nav_main"}}
+        <div class="l-page">
+
+            <!-- Header -->
+            {{module template="header"}}
+
+            <!-- Body -->
+            <div class="l-body">
+
+                <div class="l-background">
+                    <!--<?php component('Stage'); ?>-->
+                </div>
+
+                <!-- Content-Wrapper -->
+                <div class="l-content-wrapper l-wrap">
+                    <div class="g-row">
+
+                        <div class="g-cell s-flex">
+
+                            <!-- Main left & Siderbar right -->
+                            <div class="l-content l-left--right">
+
+                                <div class="l-main">
+                                    {{module template="content_home"}}
+                                </div>
+
+                                <div class="l-sidebar">
+                                    {{module template="sidebar_teaser"}}
+                                    <!--<?php component(' SidebarTeaser', ' img-text1');?>
+
+                                    <?php component(' SidebarTeaser', ' link-list');?>
+
+                                    <?php component(' SidebarTeaser', ' teaser');?>
+
+                                    <?php component(' SidebarTeaser', ' watchlist');?>
+
+                                    <?php component(' SidebarTeaser', ' faq');?>-->
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            {{module template="footer" }}
         </div>
 
-        <ul>
-            {{#each list}}
-            <li>{{name}} {{firstname}}</li>
-                {{#each children}}
-                    {{name}}
-                {{/each}}
-            {{/each}}
-        </ul>
-        <ul>
-            {{#each customer.orders}}
-            <li>{{count}}</li>
-            {{/each}}
-        
-            {{#if age}}
-            <h1>{{age}}</h1>
-            {{/if age}}
-
-            {{age}}
-        </ul>
-    </body>
+        {{module template="foot" }}
+    </form>
+</body>
 </html>

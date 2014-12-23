@@ -1,0 +1,13 @@
+﻿<div class="teaser-heading-line">
+    <p class="teaser-headline-title">{{title}}</p>
+
+    <span class="teaser-sort-label" style="margin-left: 195px">{{orderBy}}</span>
+    <div class="teaser-dropdown home" style="right: 28px;">
+        <select class="e-dropdown">
+            {{#each sortings}}
+            <option value="{{key}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <a class="e-btn btn-icon icon-rss" href="{{rssLink}}" rel="alternate" type="application/rss+xml" title="{{rssTitle}}"></a>
+</div>

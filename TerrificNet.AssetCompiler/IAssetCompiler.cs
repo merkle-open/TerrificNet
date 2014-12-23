@@ -6,5 +6,6 @@ namespace TerrificNet.AssetCompiler
     {
         Task<string> CompileAsync(string content);
         bool CanProcess(string filename);
+	    string MimeType { get; }
     }
 }

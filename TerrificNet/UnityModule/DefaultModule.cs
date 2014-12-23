@@ -72,9 +72,4 @@ namespace TerrificNet.UnityModule
 	        return value;
 	    }
 	}
-
-    public interface IUnityModue
-	{
-		void Configure(IUnityContainer container);
-	}
 }

@@ -7,46 +7,46 @@ using TerrificNet.AssetCompiler.Configuration;
 
 namespace TerrificNet.AssetCompiler.Helpers
 {
-    public static class AssetHelper
-    {
-        public static AssetComponents GetGlobComponentsForAsset(IEnumerable<string> assetPaths)
-        {
-            var files = new List<string>();
-            var excludes = new List<string>();
-            var dependencies = new List<string>();
+	public static class AssetHelper
+	{
+		public static AssetComponents GetGlobComponentsForAsset(IEnumerable<string> assetPaths, string basePath = "")
+		{
+			var files = new List<string>();
+			var excludes = new List<string>();
+			var dependencies = new List<string>();
 
-            foreach (var path in assetPaths)
-            {
-                if (path.StartsWith("!"))
-                {
-                    excludes.AddRange(Glob.Glob.Expand(path.Substring(1)).Select(f => f.FullName));
-                }
-                else if (path.StartsWith("+"))
-                {
-                    dependencies.AddRange(Glob.Glob.Expand(path.Substring(1)).Select(f => f.FullName));
-                }
-                else
-                {
-                    files.AddRange(Glob.Glob.Expand(path).Select(f => f.FullName));
-                }
-            }
+			foreach (var path in assetPaths)
+			{
+				if (path.StartsWith("!"))
+				{
+					excludes.AddRange(Glob.Glob.Expand(basePath + path.Substring(1)).Select(f => f.FullName));
+				}
+				else if (path.StartsWith("+"))
+				{
+					dependencies.AddRange(Glob.Glob.Expand(basePath + path.Substring(1)).Select(f => f.FullName));
+				}
+				else
+				{
+					files.AddRange(Glob.Glob.Expand(basePath + path).Select(f => f.FullName));
+				}
+			}
 
-            excludes.AddRange(dependencies);
+			excludes.AddRange(dependencies);
 
-            var components = new AssetComponents();
+			var components = new AssetComponents();
 
-            dependencies.ForEach(o => components.Dependencies.Add(() => ReadFile(o)));
-            files.Except(excludes).ForEach(o => components.Files.Add(() => ReadFile(o)));
+			dependencies.ForEach(o => components.Dependencies.Add(() => ReadFile(o)));
+			files.Except(excludes).ForEach(o => components.Files.Add(() => ReadFile(o)));
 
-            return components;
-        }
+			return components;
+		}
 
-        private static async Task<string> ReadFile(string path)
-        {
-            using (var file = new StreamReader(new FileStream(path, FileMode.Open)))
-            {
-                return await file.ReadToEndAsync();
-            }
-        }
-    }
+		private static async Task<string> ReadFile(string path)
+		{
+			using (var file = new StreamReader(new FileStream(path, FileMode.Open)))
+			{
+				return await file.ReadToEndAsync();
+			}
+		}
+	}
 }

@@ -24,6 +24,7 @@ namespace TerrificNet
 
 			var container = new UnityContainer();
 			new DefaultUnityModule(path).Configure(container);
+			new TerifficBundlerUnityModule().Configure(container);
 
 			// Start OWIN host
 			using (WebApp.Start(baseAddress, builder => new Startup().Configuration(builder, container)))
