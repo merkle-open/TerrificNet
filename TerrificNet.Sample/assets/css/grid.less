@@ -1,0 +1,78 @@
+// -----------------------------------------
+// Grid
+// -----------------------------------------
+@media all {
+
+	.g-table {
+		display: table;
+
+		.g-cell {
+			display: table-cell;
+			float: none;
+			vertical-align: top;
+			text-align: left;
+
+			&.middle {
+				vertical-align: middle;
+			}
+		}
+	}
+
+	.g-row {
+		*zoom: 1;
+
+		&:before,
+		&:after {
+			display: table;
+			line-height: 0;
+			content: '';
+		}
+		&:after {
+			clear: both;
+		}
+	}
+
+	.g-cell {
+		float: left;
+		min-height: 1px;
+
+		&.right {
+			float: right;
+			text-align: right;
+		}
+
+		&.center { text-align: center; }
+
+		&.s-flex { width: 100%; }
+		&.s-1of2 { width: 50%;}
+
+		&.s-1of3 { width: 33.333333333%; }
+		&.s-2of3 { width: 66.666666667%; }
+
+		&.s-1of4 { width: 25%; }
+		&.s-3of4 { width: 75%; }
+
+		&.s-1of5 { width: 20%; }
+		&.s-2of5 { width: 40%; }
+		&.s-3of5 { width: 60%; }
+		&.s-4of5 { width: 80%; }
+
+		&.s-1of6 { width: 16.666666667%; }
+		&.s-5of6 { width: 83.333333333%; }
+	}
+
+	.g-col {
+		padding: 0;
+	}
+}
+
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 768px
+// -----------------------------------------
+@media (max-width: @bp-md) {
+	.g-cell {
+		&.s-2of5 { width: 100%; }
+		&.s-3of5 { width: 100%; }
+	}
+}

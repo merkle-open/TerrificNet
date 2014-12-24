@@ -1,0 +1,565 @@
+.e-text {
+
+	// -----------------------------------------
+	// Headlines & Text
+	// -----------------------------------------
+	h1,
+	h1& {
+		.font-style (@font-frutiger-45-light, @font-size-xl, normal, @onyx);
+		border-bottom: 3px solid @blue;
+		display: inline-block;
+		margin-bottom: -1px;
+		//line-height: 34px;
+	}
+
+	h2,
+	h2& {
+		.font-style (@font-frutiger-45-light, @font-size-xl, normal, @blue);
+		margin-bottom: 20px;
+		// line-height: 26px;
+	}
+
+	h3,
+	h3& {
+		.font-style (@font-frutiger-65-bold, @font-size-m, normal, @onyx);
+		margin-bottom: 16px;
+		line-height: 20px;
+	}
+
+	.text-heading-underline,
+	.text-heading-underline& {
+		border-bottom: 1px solid @light-gray;
+		margin-bottom: 32px;
+		position: relative;
+	}
+
+	.text-headline-big,
+	.text-headline-big& {
+		.font-style (@font-frutiger-65-bold, @font-size-xxl, normal, @blue);
+		display: block;
+		margin-bottom: 60px;
+		max-width: 90%;
+		line-height: 34px;
+	}
+
+	.text-headline-sml,
+	.text-headline-sml& {
+		.font-style (@font-frutiger-65-bold, @font-size-xl, normal, @blue);
+		display: block;
+		margin-bottom: 4px;
+		max-width: 90%;
+		line-height: 26px;
+	}
+
+	.text-lead-intro,
+	.text-lead-intro& {
+		 .font-style (@font-base, @font-size-xl, normal, @onyx);
+		 margin-bottom: 20px;
+		 max-width: 90%;
+		 line-height: 28px;
+	}
+
+	.text-page,
+	.text-page& {
+		.font-style (@font-frutiger-45-light, @font-size-m, normal, @onyx);
+		display: block;
+		margin-bottom: 20px;
+		max-width: 90%;
+		line-height: 22px;
+
+		 span {
+			 display: block;
+
+			 a:before {
+				margin-top: 3px;
+			 }
+		 }
+	}
+
+	p,
+	p& {
+		.font-style (@font-frutiger-45-light, @font-size-m, normal, @onyx);
+		display: block;
+		max-width: 90%;
+		line-height: 22px;
+
+		span {
+			display: block;
+		}
+	}
+
+	abbr,
+	abbr& {
+		border-bottom: 1px dotted @onyx;
+		cursor: help;
+	}
+
+	.text-small-bold,
+	.text-small-bold& {
+		.font-style (@font-frutiger-65-bold, @font-size-xs, normal, @onyx);
+		line-height: 18px;
+	}
+
+	.text-small-light,
+	.text-small-light& {
+		 .font-style (@font-frutiger-45-light, @font-size-xs, normal, @onyx);
+		 line-height: 18px;
+	 }
+
+	.text-content-image,
+	.text-content-image& {
+		margin-bottom: 30px;
+	}
+
+	.text-dark,
+	.text-dark& {
+		color: @onyx;
+	}
+
+	.text-red,
+	.text-red& {
+		color: @red;
+	}
+
+	// -----------------------------------------
+	// Elements
+	// -----------------------------------------
+
+	.text-image,
+	.text-image& {
+		clear: both;
+		margin-bottom: 5px;
+
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+
+		.caption {
+			font-style: italic;
+			font-size: @font-size-xs;
+		}
+
+		&.pull-left {
+			float: left;
+			margin-right: 12px;
+		}
+
+		&.pull-right {
+			float: right;
+			margin-left: 12px;
+		}
+	}
+
+	.text-left { text-align: left; }
+	.text-right { text-align: right; }
+	.text-middle { text-align: center; }
+
+	.text-iframe {
+		iframe,
+		iframe& {
+			margin-bottom: 32px;
+		}
+	}
+
+	iframe,
+	iframe& {
+		margin-bottom: 32px;
+	}
+
+	// -----------------------------------------
+	// RTE (Rich-Text-Element with Info-Box)
+	// -----------------------------------------
+
+	.text-rte--infobox,
+	.text-rte--infobox& {
+		margin: 16px 0;
+
+		.text-rte {
+			float: left;
+		}
+
+		.text-infobox {
+			border-top: 1px solid darkgray;
+			border-bottom: 1px solid darkgray;
+			padding: 10px 0 4px 0;
+
+			ul {
+				width: 100%;
+
+				li {
+
+					&.separator-line {
+						border-bottom: 1px solid darkgray;
+						padding-bottom: 10px;
+					}
+				}
+			}
+		}
+	}
+
+	// -----------------------------------------
+	// Links
+	// -----------------------------------------
+
+	// text-link-std
+	.text-link-std,
+	.text-link-std& {
+		 .font-style (@font-frutiger-55-roman, @font-size-m, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		margin-left: 20px;
+		display: inline-block;
+
+		&:before {
+			.font-style (@font-finma-glyph, 1.5em, bold, @red);
+			.glyph();
+			content: '\@{glyph-link}';
+			position: absolute;
+			top: -2px;
+			left: -25px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+
+		// Link std bold
+		&.bold {
+			font-family: @font-frutiger-65-bold;
+		}
+	}
+
+	// text-link-small
+	.text-link-small,
+	.text-link-small& {
+		.font-style (@font-frutiger-45-light, @font-size-xs, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		margin: 5px 0 0 20px;
+		display: inline-block;
+
+		&:before {
+			.font-style (@font-finma-glyph, 1.75em, bold, @red);
+			.glyph();
+			content: '\@{glyph-link}';
+			position: absolute;
+			left: -25px;
+			top: -4px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+
+		 // text-link-small-bold
+		&.bold {
+			font-family: @font-frutiger-65-bold;
+		}
+	}
+
+	// text-link-help
+	.text-link-help,
+	.text-link-help& {
+		 .font-style (@font-frutiger-55-roman, @font-size-xs, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		display: inline-block;
+		margin-left: 20px;
+
+		&:before {
+			.font-style (@font-finma-glyph, @font-size-xxl, normal, @red);
+			.glyph();
+			content: '\@{glyph-question}';
+			position: absolute;
+			left: -25px;
+			top: -5px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+
+		 // text-link-help-bold
+		&.bold {
+			font-family: @font-frutiger-65-bold;
+		}
+	}
+
+	// text-external-link
+	.text-link-external,
+	.text-link-external& {
+		.font-style (@font-frutiger-65-bold, @font-size-xs, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		margin-left: 20px;
+
+		&:before {
+			.font-style (@font-finma-glyph, @font-size-xxl, bold, @red);
+			.glyph();
+			content: '\@{glyph-link-ext}';
+			position: absolute;
+			left: -25px;
+			top: -5px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+	}
+
+	// text-link-document
+	.text-link-document,
+	.text-link-document& {
+		.font-style (@font-frutiger-65-bold, @font-size-xs, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		margin-left: 20px;
+
+		&:before {
+			.font-style (@font-finma-glyph, 1.7em, bold, @red);
+			.glyph();
+			content: '\@{glyph-documents}';
+			position: absolute;
+			top: -5px;
+			left: -25px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+	}
+
+	// text-link-arrow
+	.text-link-arrow,
+	.text-link-arrow& {
+		.font-style (@font-frutiger-45-light, @font-size-xs, normal, @gray);
+		text-decoration: none;
+		display: block;
+
+		&:before {
+			.font-style (@font-finma-glyph, 10px, bold, @gray);
+			.glyph();
+			content: '\@{glyph-arw-s-right}';
+			line-height: 1;
+			vertical-align: middle;
+		}
+
+		&:hover {
+			color: @red;
+
+			&:before {
+				color: @red;
+			}
+		}
+	}
+
+	// text-link-arrow
+	.text-link-cross,
+	.text-link-cross& {
+		.font-style (@font-frutiger-65-bold, @font-size-xs, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		margin: 5px 0 0 15px;
+		display: block;
+
+		&:before {
+			.font-style (@font-finma-glyph, 2em, bold, @red);
+			.glyph();
+			content: '\@{glyph-delete}';
+			position: absolute;
+			left: -22px;
+			top: -6px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+
+		// text-link-small-bold
+		&.bold {
+			font-family: @font-frutiger-65-bold;
+		}
+	}
+
+	// text-link-download
+	.text-link-download,
+	.text-link-download& {
+		.font-style (@font-frutiger-65-bold, @font-size-xs, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		margin: 5px 0 0 20px;
+		display: inline-block;
+
+		&:before {
+			.font-style (@font-finma-glyph, 1.75em, bold, @red);
+			.glyph();
+			content: '\@{glyph-download_simple}';
+			position: absolute;
+			left: -25px;
+			top: -5px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+	}
+
+	// text-link-delete
+	.text-link-delete,
+	.text-link-delete& {
+		.font-style (@font-frutiger-65-bold, @font-size-xs, normal, @blue);
+		position: relative;
+		text-decoration: none;
+		margin: 5px 0 0 20px;
+		display: block;
+
+		&:after {
+			.font-style (@font-finma-glyph, 34px, bold, @red);
+			.glyph();
+			content: '\@{glyph-delete}';
+			position: absolute;
+			right: -25px;
+			margin-top: -4px;
+		}
+
+		&:hover {
+			color: @red;
+		}
+	}
+
+	// -----------------------------------------
+	// List
+	// -----------------------------------------
+
+	ul,
+	ol { display: table; }
+
+	li { margin-bottom: 8px; /*font-size: @font-size-s;*/ }
+	ul { list-style-type: none; }
+	ol { list-style-type: decimal; }
+
+	// -----------------------------------------
+	// Text - Box
+	// -----------------------------------------
+
+	.text-box-alert,
+	.text-box-alert& {
+		padding: 12px;
+		border: 2px solid @red;
+		margin: 24px 0;
+
+		p {
+			.font-style (@font-frutiger-45-light, @font-size-m, normal, @red);
+		}
+
+		strong {
+			.font-style (@font-frutiger-65-bold, @font-size-m, normal, @red);
+		}
+	}
+
+	.text-box-info,
+	.text-box-info& {
+		padding: 16px;
+		background: @smoke-gray;
+		border-top: 1px solid @smoke-gray;
+		border-bottom: 1px solid @silver-gray;
+		border-right: 1px solid @silver-gray;
+		overflow: hidden;
+		margin: 24px 0;
+		
+		.btn-standard {
+			float: right;
+		}
+	}
+}
+
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 768px
+// -----------------------------------------
+@media (max-width: @bp-md) {
+	.e-text {
+
+		// -----------------------------------------
+		// Headlines
+		// -----------------------------------------
+		h1,
+		h1& {
+			font-size: @font-size-ll;
+		}
+
+		h2,
+		h2& {
+			margin-bottom: 12px;
+			font-size: @font-size-ll;
+		}
+
+		h3,
+		h3& {
+			.font-style (@font-frutiger-65-bold, @font-size-m, normal, @onyx);
+			margin-bottom: 8px;
+			line-height: 20px;
+		}
+
+		.text-headline-big,
+		.text-headline-big& {
+			max-width: 100%;
+			font-size: 24px;
+			margin-bottom: 30px;
+			line-height: 26px;
+		}
+
+		.text-headline-sml,
+		.text-headline-sml& {
+			max-width: 100%;
+			font-size: 22px;
+		}
+
+		.text-lead-intro,
+		.text-lead-intro& {
+			max-width: 100%;
+			font-size: @font-size-ll;
+		}
+
+		.text-page,
+		.text-page& {
+			max-width: 100%;
+		}
+
+		p,
+		p& {
+			max-width: 100%;
+		}
+
+		img {
+			width: 100%;
+			height: auto;
+		}
+
+		.text-iframe {
+
+			height: 0;
+			padding-bottom: 62.25%;
+			position: relative;
+			overflow: hidden;
+			-webkit-overflow-scrolling: touch;
+			margin-bottom: 16px;
+
+			iframe,
+			iframe& {
+
+			}
+		}
+
+		iframe,
+		iframe& {
+			position: absolute;
+			top:0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			margin-bottom: 16px;
+		}
+	}
+}
