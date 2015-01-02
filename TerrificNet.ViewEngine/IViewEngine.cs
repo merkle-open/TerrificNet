@@ -2,6 +2,7 @@
 {
     public interface IViewEngine
     {
-        bool TryCreateViewFromPath(string path, out IView view);
+        bool TryCreateView(TemplateInfo templateInfo, out IView view);
+        IView CreateView(string content);
     }
 }
