@@ -201,7 +201,7 @@
     <Content Include="views\schemas\test_module.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="project\data\nav_main.json" />
+    <Content Include="project\data\navmain.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\schemas\service.json" />
