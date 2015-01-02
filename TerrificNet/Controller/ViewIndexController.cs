@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Microsoft.Practices.Unity;
 using TerrificNet.Models;
+using TerrificNet.UnityModule;
 using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controller
@@ -13,13 +15,16 @@ namespace TerrificNet.Controller
     {
         private readonly IViewEngine _viewEngine;
         private readonly ITemplateRepository _templateRepository;
+        private readonly TerrificNetApplication[] _applications;
 
         public ViewIndexController(
             IViewEngine viewEngine, 
-            ITemplateRepository templateRepository)
+            ITemplateRepository templateRepository,
+            TerrificNetApplication[] applications)
         {
             _viewEngine = viewEngine;
             _templateRepository = templateRepository;
+            _applications = applications;
         }
 
         [HttpGet]
@@ -27,7 +32,7 @@ namespace TerrificNet.Controller
         {
             var model = new ViewOverviewModel
             {
-                Views = GetViews().ToList()
+                Views = _applications.SelectMany(a => GetViews(a.Container.Resolve<ITemplateRepository>())).ToList()
             };
 
             IView view;
@@ -39,9 +44,9 @@ namespace TerrificNet.Controller
             return Render(view, model);
         }
 
-        private IEnumerable<ViewItemModel> GetViews()
+        private IEnumerable<ViewItemModel> GetViews(ITemplateRepository templateRepository)
         {
-            foreach (var file in _templateRepository.GetAll())
+            foreach (var file in templateRepository.GetAll())
             {
                 yield return new ViewItemModel
                 {
