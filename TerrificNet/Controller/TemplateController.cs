@@ -9,13 +9,13 @@ namespace TerrificNet.Controller
 	{
 		private readonly IViewEngine _viewEngine;
 		private readonly IModelProvider _modelProvider;
-		private readonly ITemplateLocator _templateLocator;
+		private readonly ITemplateRepository _templateRepository;
 
-		public TemplateController(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateLocator templateLocator)
+		public TemplateController(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateRepository templateRepository)
 		{
 			_viewEngine = viewEngine;
 			_modelProvider = modelProvider;
-			_templateLocator = templateLocator;
+			_templateRepository = templateRepository;
 		}
 
 		[HttpGet]
@@ -24,9 +24,9 @@ namespace TerrificNet.Controller
 			var model = _modelProvider.GetModelFromPath(path);
 
 			IView view;
-			string templatePath;
-			if (!_templateLocator.TryLocateTemplate(path, out templatePath) ||
-				!_viewEngine.TryCreateViewFromPath(templatePath, out view))
+			TemplateInfo templateInfo;
+			if (!_templateRepository.TryGetTemplate(path, out templateInfo) ||
+				!_viewEngine.TryCreateView(templateInfo, out view))
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
 			return Render(view, model);

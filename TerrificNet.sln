@@ -28,10 +28,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache", "Ter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Test", "TerrificNet.Mustache.Test\TerrificNet.Mustache.Test.csproj", "{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Antlr", "TerrificNet.Mustache.Antlr\TerrificNet.Mustache.Antlr.csproj", "{3AB99B6D-C183-4794-A61B-07C88C0BE74B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mustache.Antlr.Test", "TerrificNet.Mustache.Antlr.Test\TerrificNet.Mustache.Antlr.Test.csproj", "{2EBDC610-F471-4F89-BA4B-73C9804398B7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veil", "Veil\Src\Veil\Veil.csproj", "{97D96B66-EDFE-474B-BC72-D8439830FC76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veil.Handlebars", "Veil\Src\Veil.Handlebars\Veil.Handlebars.csproj", "{3335691A-38B6-4DD1-96CB-A1C262CEF4CC}"
@@ -88,14 +84,6 @@ Global
 		{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B60CE698-B429-45FD-8B8C-AEC2ECADCAC6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AB99B6D-C183-4794-A61B-07C88C0BE74B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AB99B6D-C183-4794-A61B-07C88C0BE74B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AB99B6D-C183-4794-A61B-07C88C0BE74B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AB99B6D-C183-4794-A61B-07C88C0BE74B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EBDC610-F471-4F89-BA4B-73C9804398B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97D96B66-EDFE-474B-BC72-D8439830FC76}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -15,12 +15,14 @@ namespace TerrificNet.Controller
         private readonly IViewEngine _viewEngine;
         private readonly ITerrificNetConfig _configuration;
         private readonly ITerrificNetConfig[] _configurations;
+        private readonly ITemplateRepository _templateRepository;
 
-        public ViewIndexController(IViewEngine viewEngine, ITerrificNetConfig configuration, ITerrificNetConfig[] configurations)
+        public ViewIndexController(IViewEngine viewEngine, ITerrificNetConfig configuration, ITerrificNetConfig[] configurations, ITemplateRepository templateRepository)
         {
             _viewEngine = viewEngine;
             _configuration = configuration;
             _configurations = configurations;
+            _templateRepository = templateRepository;
         }
 
         [HttpGet]
@@ -32,7 +34,9 @@ namespace TerrificNet.Controller
             };
 
             IView view;
-            if (!_viewEngine.TryCreateViewFromPath("index.html", out view))
+            TemplateInfo templateInfo;
+            if (!_templateRepository.TryGetTemplate("index", out templateInfo) ||
+                !_viewEngine.TryCreateView(templateInfo, out view))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             return Render(view, model);
