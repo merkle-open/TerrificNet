@@ -36,6 +36,7 @@ namespace TerrificNet
             MapArea(config, "web/");
             MapArea(config);
 
+
 		    config.DependencyResolver = new UnityDependencyResolver(container);
 		    config.MessageHandlers.Add(new InjectHttpRequestMessageToContainerHandler());
 

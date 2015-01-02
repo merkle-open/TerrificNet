@@ -6,22 +6,19 @@ using System.Net.Http;
 using System.Web.Http;
 using TerrificNet.Models;
 using TerrificNet.ViewEngine;
-using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.Controller
 {
     public class ViewIndexController : TemplateControllerBase
     {
         private readonly IViewEngine _viewEngine;
-        private readonly ITerrificNetConfig _configuration;
-        private readonly ITerrificNetConfig[] _configurations;
         private readonly ITemplateRepository _templateRepository;
 
-        public ViewIndexController(IViewEngine viewEngine, ITerrificNetConfig configuration, ITerrificNetConfig[] configurations, ITemplateRepository templateRepository)
+        public ViewIndexController(
+            IViewEngine viewEngine, 
+            ITemplateRepository templateRepository)
         {
             _viewEngine = viewEngine;
-            _configuration = configuration;
-            _configurations = configurations;
             _templateRepository = templateRepository;
         }
 
@@ -44,15 +41,14 @@ namespace TerrificNet.Controller
 
         private IEnumerable<ViewItemModel> GetViews()
         {
-            var applicationConfiguration = _configurations.First(c => c != _configuration);
-            foreach (var file in Directory.GetFiles(applicationConfiguration.ViewPath))
+            foreach (var file in _templateRepository.GetAll())
             {
                 yield return new ViewItemModel
                 {
-                    Text = Path.GetFileNameWithoutExtension(file),
-                    Url = string.Format("/{0}", Path.GetFileName(file)),
-                    EditUrl = string.Format("/web/edit.html?template={0}", Path.GetFileName(file)),
-                    SchemaUrl = string.Format("/schema/{0}", Path.GetFileName(file))
+                    Text = file.Id,
+                    Url = string.Format("/{0}", file.Id),
+                    EditUrl = string.Format("/web/edit.html?template={0}", file.Id),
+                    SchemaUrl = string.Format("/schema/{0}", file.Id)
                 };
             }
         }

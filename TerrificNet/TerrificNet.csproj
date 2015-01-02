@@ -101,8 +101,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="UnityModule\DefaultModule.cs" />
     <Compile Include="Configuration\TerrificNetConfig.cs" />
-    <Compile Include="UnityModule\IUnityModue.cs" />
-    <Compile Include="UnityModule\TerifficBundlerUnityModule.cs" />
+    <Compile Include="UnityModule\IUnityModule.cs" />
+    <Compile Include="UnityModule\TerrificBundleUnityModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
