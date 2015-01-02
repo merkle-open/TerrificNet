@@ -1,8 +1,8 @@
-<div class="mod-nav-meta">
-	<ul class="nav-meta-list">
-		<li class="nav-meta-list-item"><a class="XXXstate-active" href="index">Home</a></li>
-		<li class="nav-meta-list-item"><a class="XXXstate-active" href="javascript:;">Medien</a></li>
-		<li class="nav-meta-list-item"><a class="XXXstate-active" href="javascript:;">Jobs & Karriere</a></li>
-		<li class="nav-meta-list-item"><a class="XXXstate-active" href="javascript:;" accesskey="3" title="[ALT+3]">Kontakt</a></li>
-	</ul>
+﻿<div class="mod-nav-meta">
+    
+    <ul class="nav-meta-list">
+        {{#each items}}
+        <li class="nav-meta-list-item"><a class="XXXstate-active" href="{{href}}" accesskey="{{accesskey}}" title="{{title}}">{{name}}</a></li>
+        {{/each}}
+    </ul>
 </div>

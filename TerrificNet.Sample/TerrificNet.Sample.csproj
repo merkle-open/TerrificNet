@@ -86,7 +86,6 @@
     <Content Include="components\modules\Footer\footer-meta.html" />
     <Content Include="components\modules\Footer\footer-search.html" />
     <Content Include="components\modules\Footer\footer-service.html" />
-    <Content Include="components\modules\Footer\footer.html" />
     <Content Include="components\modules\Layout\js\layout.js" />
     <Content Include="components\modules\Layout\layout.html" />
     <Content Include="components\modules\Login\login-edit.html" />
@@ -100,12 +99,9 @@
     <Content Include="components\modules\NavMain\navmain-finmapublic.html" />
     <Content Include="components\modules\NavMain\navmain-fr.html" />
     <Content Include="components\modules\NavMain\navmain-it.html" />
-    <Content Include="components\modules\NavMain\navmain.html" />
-    <Content Include="components\modules\NavMeta\navmeta.html" />
     <Content Include="components\modules\NavService\js\navservice.js" />
     <Content Include="components\modules\NavService\navservice-myfinma-off.html" />
     <Content Include="components\modules\NavService\navservice-myfinma-on.html" />
-    <Content Include="components\modules\NavService\navservice.html" />
     <Content Include="components\modules\NavSidebar\js\navsidebar.js" />
     <Content Include="components\modules\NavSidebar\navsidebar-level1.html" />
     <Content Include="components\modules\NavSidebar\navsidebar-level2.html" />
@@ -138,7 +134,6 @@
     <Content Include="components\modules\Slider\img\slider.png" />
     <Content Include="components\modules\Slider\js\slider.js" />
     <Content Include="components\modules\Slider\slider-finmapublic.html" />
-    <Content Include="components\modules\Slider\slider.html" />
     <Content Include="components\modules\Stage\img\stage-1.jpg" />
     <Content Include="components\modules\Stage\img\stage-2.jpg" />
     <Content Include="components\modules\Stage\img\stage-3.jpg" />
@@ -148,7 +143,6 @@
     <Content Include="components\modules\Stage\img\stage-7.jpg" />
     <Content Include="components\modules\Stage\js\stage.js" />
     <Content Include="components\modules\Stage\stage-finmapublic.html" />
-    <Content Include="components\modules\Stage\stage.html" />
     <Content Include="components\modules\Teaser\js\skins\teaser-news.js" />
     <Content Include="components\modules\Teaser\js\teaser.js" />
     <Content Include="components\modules\Teaser\teaser-communication.html" />
@@ -157,13 +151,12 @@
     <Content Include="components\modules\Teaser\teaser-news-detail.html" />
     <Content Include="components\modules\Teaser\teaser-news-myfinma.html" />
     <Content Include="components\modules\Teaser\teaser-news.html" />
-    <Content Include="components\modules\Teaser\teaser.html" />
     <Content Include="project\data\home.json" />
     <Content Include="project\data\test_module.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\content_home.html" />
-    <Content Include="views\stage.html" />
+    <Content Include="components\modules\Stage\stage.html" />
     <Content Include="views\footer_language.html" />
     <Content Include="views\footer_linklist.html" />
     <Content Include="views\footer_search.html" />
@@ -171,19 +164,19 @@
     <Content Include="views\teaser_heading.html" />
     <Content Include="views\teaser_entry.html" />
     <Content Include="views\sidebar_teaser.html" />
-    <Content Include="views\teaser.html" />
-    <Content Include="views\slider.html" />
+    <Content Include="components\modules\Teaser\teaser.html" />
+    <Content Include="components\modules\Slider\slider.html" />
     <Content Include="views\foot.html" />
-    <Content Include="views\footer.html" />
+    <Content Include="components\modules\Footer\footer.html" />
     <Content Include="components\modules\Logo\logo.html" />
     <Content Include="views\header.html" />
     <Content Include="views\head.html" />
-    <Content Include="views\nav_service.html" />
-    <Content Include="views\nav_meta.html" />
+    <Content Include="components\modules\NavService\navservice.html" />
+    <Content Include="components\modules\NavMeta\navmeta.html" />
     <Content Include="views\simple.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="views\nav_main.html" />
+    <Content Include="components\modules\NavMain\navmain.html" />
     <Content Include="views\test_module.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
