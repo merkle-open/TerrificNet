@@ -13,6 +13,20 @@ using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.UnityModule
 {
+    public class TerrificNetApplication
+    {
+        public string Name { get; private set; }
+        public ITerrificNetConfig Configuration { get; private set; }
+        public IUnityContainer Container { get; private set; }
+
+        public TerrificNetApplication(string name, ITerrificNetConfig configuration, IUnityContainer container)
+        {
+            Name = name;
+            Configuration = configuration;
+            Container = container;
+        }
+    }
+
 	public class DefaultUnityModule : IUnityModule
 	{
 	    private readonly string _applicationPath;
@@ -27,24 +41,27 @@ namespace TerrificNet.UnityModule
 	        var configuration = LoadConfiguration(Path.Combine(_applicationPath, "application.json"));
 	        foreach (var item in configuration.Applications.Values)
 	        {
-                container.RegisterInstance<ITerrificNetConfig>("section_" + item.Section, item); 
+	            var childContainer = container.CreateChildContainer();
+	            var app = new TerrificNetApplication(item.ApplicationName, item, childContainer);
+	            childContainer.RegisterInstance(app);
+	            childContainer.RegisterInstance<ITerrificNetConfig>(item);
+
+                RegisterApplicationSpecific(childContainer);
+
+	            container.RegisterInstance(item.ApplicationName, app);
 	        }
+	    }
 
-		    container.RegisterType<ITerrificNetConfig>(new InjectionFactory(c =>
-		    {
-		        var message = c.Resolve<HttpRequestMessage>();
-		        var routeData = message.GetRouteData();
-
-		        var section = (string) routeData.Values["section"];
-                return c.Resolve<ITerrificNetConfig>("section_" + section);
-		    }));
-
-			container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
-		    container.RegisterType<ICacheProvider, MemoryCacheProvider>();
-			container.RegisterType<IModelProvider,JsonModelProvier>();
-			container.RegisterType<ISchemaProvider, SchemaMergeProvider>(new InjectionConstructor(new ResolvedParameter<NustacheViewSchemaProvider>(), new ResolvedParameter<BaseSchemaProvider>()));
-			container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
-		}
+	    private static void RegisterApplicationSpecific(IUnityContainer container)
+	    {
+	        container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
+	        container.RegisterType<ICacheProvider, MemoryCacheProvider>();
+	        container.RegisterType<IModelProvider, JsonModelProvier>();
+	        container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
+	            new InjectionConstructor(new ResolvedParameter<NustacheViewSchemaProvider>(),
+	                new ResolvedParameter<BaseSchemaProvider>()));
+	        container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
+	    }
 
 	    private static TerrificNetHostConfiguration LoadConfiguration(string path)
 	    {
@@ -55,13 +72,14 @@ namespace TerrificNet.UnityModule
 	        }
 
 	        var configuration = JsonConvert.DeserializeObject<TerrificNetHostConfiguration>(content);
-	        foreach (var item in configuration.Applications.Values)
+	        foreach (var item in configuration.Applications)
 	        {
-	            var basePath = item.BasePath;
-                item.ViewPath = GetDefaultValueIfNotSet(item.DataPath, basePath, "views");
-				item.ModulePath = GetDefaultValueIfNotSet(item.ModulePath, basePath, "components/modules");
-                item.AssetPath = GetDefaultValueIfNotSet(item.DataPath, basePath, "assets");
-                item.DataPath = GetDefaultValueIfNotSet(item.DataPath, basePath, "project/data");
+	            var basePath = item.Value.BasePath;
+	            item.Value.ApplicationName = item.Key;
+                item.Value.ViewPath = GetDefaultValueIfNotSet(item.Value.DataPath, basePath, "views");
+				item.Value.ModulePath = GetDefaultValueIfNotSet(item.Value.ModulePath, basePath, "components/modules");
+                item.Value.AssetPath = GetDefaultValueIfNotSet(item.Value.DataPath, basePath, "assets");
+                item.Value.DataPath = GetDefaultValueIfNotSet(item.Value.DataPath, basePath, "project/data");
 	        }
 
 	        return configuration;
