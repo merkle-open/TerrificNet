@@ -13,9 +13,9 @@ namespace TerrificNet.ViewEngine.ModelProviders
             _basePath = config.DataPath;
         }
 
-        public object GetModelFromPath(string path)
+        public object GetModelForTemplate(string template)
         {
-            var filePath = GetPath(path);
+            var filePath = GetPath(template);
 
 	        if (!File.Exists(filePath))
 		        return null;
@@ -27,9 +27,9 @@ namespace TerrificNet.ViewEngine.ModelProviders
             }
         }
 
-        public void UpdateModelFromPath(string path, object content)
+        public void UpdateModelForTemplate(string template, object content)
         {
-            var filePath = GetPath(path);
+            var filePath = GetPath(template);
             using (var stream = new StreamWriter(filePath))
             {
                 var value = JsonConvert.SerializeObject(content);

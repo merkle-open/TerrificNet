@@ -9,6 +9,6 @@ namespace TerrificNet.ViewEngine
 {
 	public interface IMustacheHelper
 	{
-		void Register(Func<string, bool> contains, Action<string, Helper> register);
+		void Register(Func<string, bool> contains, Action<string, Nustache.Core.Helper> register);
 	}
 }

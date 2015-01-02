@@ -52,7 +52,7 @@
     <Compile Include="SchemaProviders\BaseSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
     <Compile Include="TemplateInfo.cs" />
-    <Compile Include="TerrificModuleHelper.cs" />
+    <Compile Include="Helper\TerrificModuleHelper.cs" />
     <Compile Include="IMustacheHelper.cs" />
     <Compile Include="ISchemaProvider.cs" />
     <Compile Include="ModelProviders\DummyModelProvider.cs" />
@@ -61,6 +61,7 @@
     <Compile Include="IViewEngine.cs" />
     <Compile Include="ModelProviders\JsonModelProvier.cs" />
     <Compile Include="SchemaProviders\NustacheViewSchemaProvider.cs" />
+    <Compile Include="Helper\TerrificPlaceholderHelper.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
     <Compile Include="ViewEngines\NustachePhysicalViewEngine.cs" />

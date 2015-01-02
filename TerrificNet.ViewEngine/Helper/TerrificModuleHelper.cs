@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Nustache.Core;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.Helper
 {
 	public class TerrificModuleHelper : IMustacheHelper
 	{
@@ -17,12 +17,10 @@ namespace TerrificNet.ViewEngine
 			_templateRepository = templateRepository;
 		}
 
-		public void Register(Func<string, bool> contains, Action<string, Helper> register)
+		public void Register(Func<string, bool> contains, Action<string, Nustache.Core.Helper> register)
 		{
 			if (!contains("module"))
-			{
 				register("module", TerrificModule);
-			}
 		}
 
 		private void TerrificModule(RenderContext ctx, IList<object> args, IDictionary<string, object> options,
@@ -38,9 +36,10 @@ namespace TerrificNet.ViewEngine
 
 			TemplateInfo templateInfo;
 			IView view;
-			if (_templateRepository.TryGetTemplate(templateName, out templateInfo) && _viewEngine.TryCreateView(templateInfo, out view))
+			if (_templateRepository.TryGetTemplate(templateName, out templateInfo) && 
+				_viewEngine.TryCreateView(templateInfo, out view))
 			{
-				var model = _modelProvider.GetModelFromPath(templateName);
+				var model = _modelProvider.GetModelForTemplate(templateName);
 				ctx.Write(view.Render(model));
 			}
 			else

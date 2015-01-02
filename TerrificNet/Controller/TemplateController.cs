@@ -21,7 +21,7 @@ namespace TerrificNet.Controller
 		[HttpGet]
 		public HttpResponseMessage Get(string path)
 		{
-			var model = _modelProvider.GetModelFromPath(path);
+			var model = _modelProvider.GetModelForTemplate(path);
 
 			IView view;
 			TemplateInfo templateInfo;

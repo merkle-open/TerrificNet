@@ -161,6 +161,9 @@
     <Content Include="views\footer_linklist.html" />
     <Content Include="views\footer_search.html" />
     <Content Include="views\footer_address.html" />
+    <Content Include="views\placeholder.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="views\teaser_heading.html" />
     <Content Include="views\teaser_entry.html" />
     <Content Include="views\sidebar_teaser.html" />

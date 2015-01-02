@@ -2,7 +2,7 @@
 {
     public interface IModelProvider
     {
-        object GetModelFromPath(string path);
-        void UpdateModelFromPath(string path, object content);
+        object GetModelForTemplate(string template);
+        void UpdateModelForTemplate(string template, object content);
     }
 }

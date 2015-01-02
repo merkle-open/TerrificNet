@@ -15,13 +15,13 @@ namespace TerrificNet.Controller
 		[HttpGet]
 		public object Get(string path)
 		{
-	        return Json(_modelProvider.GetModelFromPath(path));
+	        return Json(_modelProvider.GetModelForTemplate(path));
 		}
 
         [HttpPut]
 	    public void Put(string path, [FromBody] object content)
         {
-            _modelProvider.UpdateModelFromPath(path, content);
+            _modelProvider.UpdateModelForTemplate(path, content);
         }
 	}
 }

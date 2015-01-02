@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Nustache.Core;
 using TerrificNet.ViewEngine.Cache;
+using TerrificNet.ViewEngine.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
@@ -17,7 +18,9 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			_templateRepository = templateRepository;
 			_cacheProvider = cacheProvider;
 
+			//TODO refactor
 			new TerrificModuleHelper(this, modelProvider, _templateRepository).Register(Helpers.Contains, Helpers.Register);
+			new TerrificPlaceholderHelper(_templateRepository, this, modelProvider).Register(Helpers.Contains, Helpers.Register);
 		}
 
 		public IView CreateView(string content)

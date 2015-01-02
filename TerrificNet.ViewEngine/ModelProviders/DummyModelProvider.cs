@@ -5,7 +5,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
 {
     public class DummyModelProvider : IModelProvider
     {
-        public object GetModelFromPath(string path)
+        public object GetModelForTemplate(string template)
         {
             var model = new Dictionary<string, object>();
             model["name"] = "Hans Muster";
@@ -13,7 +13,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
             return model;
         }
 
-        public void UpdateModelFromPath(string path, object content)
+        public void UpdateModelForTemplate(string template, object content)
         {
             throw new NotSupportedException();
         }
