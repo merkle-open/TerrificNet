@@ -36,11 +36,15 @@ namespace TerrificNet.ViewEngine
 	    {
 	        var path = Path.Combine(viewPath, fileName);
 
-	        if (File.Exists(path))
-	        {
+	        if (!File.Exists(path))
+                path = Path.Combine(viewPath, id, fileName);
+
+            if (File.Exists(path))
+            {
 	            templateInfo = new FileTemplateInfo(id, new FileInfo(path));
 	            return true;
 	        }
+
 	        return false;
 	    }
 
