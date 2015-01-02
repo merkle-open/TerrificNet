@@ -1,0 +1,23 @@
+﻿@using Namics.Framework.ClassGenerator.Helper
+@model Finma.Internet.Core.Models.StageModel
+
+<div class="mod mod-stage js-stage">
+     
+         @{var editframeLinkItem = new EditFrameHelper(Model.StageItem.Item, "/sitecore/content/Applications/WebEdit/Edit Frame Buttons/FINMA/Stage");}
+         @editframeLinkItem.RenderEditFrameBegin()
+     
+    <div class="stage-claim l-wrap">
+        <span class="stage-claim-title js-stage-claim-title">@Model.StageItem.StageTitleField.Render()</span>
+    </div>
+
+    <div class="stage-background-mask">
+        <i class="fade-out"></i>
+    </div>
+
+    <div class="stage-background-container js-stage-background-container">
+        <img class="stage-image" src="@Model.StageImageUrl"  alt="@Model.StageImageAlt"/>
+        <img class="stage-triangle" src="/Frontend/Finma/assets/img/content/triangle.png" width="1600" height="617" alt="Triangles"/>
+    </div>
+     @editframeLinkItem.RenderEditFrameEnd()  
+
+</div>

@@ -1,0 +1,39 @@
+<div class="mod mod-slider">
+
+	<ul class="slider js-slider"
+	    data-width="640"
+	    data-height="380"
+	    data-interval="10"
+	    data-autoplay="false"
+		data-pause="10">
+
+		<?php
+			$nrOfLinks= 1*rand(2,5);
+			for ($i=0; $i<$nrOfLinks; $i++) {
+		?>
+
+		<li class="slider-item">
+			<a href="content">
+				<div class="slider-box js-slider-box">
+					<div class="slider-image">
+						<img src="components/modules/Slider/img/slider-content-1.jpg" alt="Image" width="220" height="290"/>
+					</div>
+
+					<div class="slider-content">
+						<span class="slider-content-title">Jahresbericht 2013: Rückblick und Ausblick.</span>
+
+						<p class="slider-content-text">Lorem <?php loremWords(10,30); ?></p>
+
+						<span class="e-text text-link-std bold">Weiterlesen</span>
+					</div>
+				</div>
+			</a>
+		</li>
+
+		<?php } ?>
+
+		<a class="slidesjs-previous slidesjs-navigation" href="javascript:;" title="Previous"><i class="icon-prev"></i>Previous</a>
+		<a class="slidesjs-next slidesjs-navigation" href="javascript:;" title="Next"><i class="icon-next"></i>Next</a>
+
+	</ul>
+</div>

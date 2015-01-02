@@ -1,0 +1,20 @@
+﻿@using Sitecore.Mvc
+@using SitecoreGenerated.UserDefined.FINMA.Data.NavMain
+@model NavMainDescriptionRightTemplate
+
+@* <a class="flyout-column-link" href="content"></a> *@
+
+@if (Model != null)
+{
+    string style = string.Empty;
+    if (Sitecore.Context.PageMode.IsPageEditorEditing)
+    {
+        style = "display: block; border: thin red solid;";
+    }
+    
+    @Model.DescriptionLinkField.Render("class=flyout-column-link")
+
+    <p class="flyout-column-text" style="@style">
+        @Model.DescriptionTextField.Render()
+    </p>
+}

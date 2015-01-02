@@ -1,44 +1,35 @@
 ﻿using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Web.Http;
 using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controller
 {
-    public class TemplateControllerBase : ApiController
-    {
-        protected HttpResponseMessage Render(IView view, object model)
-        {
-            var result = view.Render(model);
-
-            var message = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(result)};
-            message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-            return message;
-        }
-    }
-
-    public class TemplateController : TemplateControllerBase
+	public class TemplateController : TemplateControllerBase
 	{
-	    private readonly IViewEngine _viewEngine;
-	    private readonly IModelProvider _modelProvider;
+		private readonly IViewEngine _viewEngine;
+		private readonly IModelProvider _modelProvider;
+		private readonly ITemplateLocator _templateLocator;
 
-	    public TemplateController(IViewEngine viewEngine, IModelProvider modelProvider)
-	    {
-	        _viewEngine = viewEngine;
-	        _modelProvider = modelProvider;
-	    }
+		public TemplateController(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateLocator templateLocator)
+		{
+			_viewEngine = viewEngine;
+			_modelProvider = modelProvider;
+			_templateLocator = templateLocator;
+		}
 
 		[HttpGet]
 		public HttpResponseMessage Get(string path)
 		{
-	        var model = _modelProvider.GetModelFromPath(path);
+			var model = _modelProvider.GetModelFromPath(path);
 
-	        IView view;
-            if (!_viewEngine.TryCreateViewFromPath(path, out view))
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+			IView view;
+			string templatePath;
+			if (!_templateLocator.TryLocateTemplate(path, out templatePath) ||
+				!_viewEngine.TryCreateViewFromPath(templatePath, out view))
+				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-	        return Render(view, model);
+			return Render(view, model);
 		}
 	}
 }

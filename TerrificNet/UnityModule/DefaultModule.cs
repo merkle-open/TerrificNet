@@ -57,6 +57,7 @@ namespace TerrificNet.UnityModule
 	        {
 	            var basePath = item.BasePath;
                 item.ViewPath = GetDefaultValueIfNotSet(item.DataPath, basePath, "views");
+				item.ModulePath = GetDefaultValueIfNotSet(item.ModulePath, basePath, "components/modules");
                 item.AssetPath = GetDefaultValueIfNotSet(item.DataPath, basePath, "assets");
                 item.DataPath = GetDefaultValueIfNotSet(item.DataPath, basePath, "project/data");
 	        }

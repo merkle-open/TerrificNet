@@ -7,9 +7,9 @@ using TerrificNet.AssetCompiler.Configuration;
 
 namespace TerrificNet.AssetCompiler.Helpers
 {
-	public static class AssetHelper
+	public class AssetHelper : IAssetHelper
 	{
-		public static AssetComponents GetGlobComponentsForAsset(IEnumerable<string> assetPaths, string basePath = "")
+		public AssetComponents GetGlobComponentsForAsset(IEnumerable<string> assetPaths, string basePath)
 		{
 			var files = new List<string>();
 			var excludes = new List<string>();

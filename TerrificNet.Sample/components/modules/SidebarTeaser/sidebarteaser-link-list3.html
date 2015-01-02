@@ -1,0 +1,23 @@
+<div class="mod mod-sidebar-teaser">
+
+	<!-- SidebarTeaser Linklist -->
+	<div class="sidebar-teaser-img-txt">
+		<div class="sidebar-teaser-heading-line">
+			<h3 class="e-text">Hilfe bei Missständen</h3>
+		</div>
+
+		<ul class="sidebar-teaser-link-list">
+
+			<?php
+				$nrOfLinks= 3*rand(1,2);
+				for ($i=0; $i<$nrOfLinks; $i++) {
+			?>
+
+			<li><a class="e-text text-link-external" href="content">Link <?php loremWords(1,3); ?></a></li>
+
+			<?php } ?>
+
+		</ul>
+	</div>
+
+</div>

@@ -1,0 +1,74 @@
+.mod-login {
+
+	padding: 12px 18px 18px 18px;
+	margin: 52px 0 0 0;
+	background: @smoke-gray;
+	border-top: 1px solid @smoke-gray;
+	border-bottom: 1px solid @silver-gray;
+	border-right: 1px solid @silver-gray;
+	overflow: hidden;
+
+	.login-title {
+		border-bottom: 1px solid @silver-gray;
+		margin-bottom: 16px;
+		display: block;
+		font-size: 16px;
+		line-height: 30px;
+	}
+
+	.login-formline {
+		overflow: hidden;
+		padding-bottom: 24px;
+		margin: 16px 0 8px 0;
+		border-bottom: 1px solid @silver-gray;
+
+		.text-link-arrow {
+			margin-bottom: 16px;
+		}
+
+		input, select, textarea{
+			.font-style (@font-frutiger-45-light, 13px, normal, @gray);
+			padding: 5px 10px 3px 10px;
+			margin-bottom: 10px;
+			width: 100%;
+		}
+
+		::-webkit-input-placeholder { /* WebKit browsers */
+			color: @onyx;
+			font-size: 13px;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			color: @onyx;
+			opacity:  1;
+			font-size: 13px;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+			color: @onyx;
+			opacity:  1;
+			font-size: 13px;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10+ */
+			color: @onyx;
+			font-size: 13px;
+		}
+
+		.btn-standard {
+			float: right;
+		}
+	}
+
+	.text-link-small {
+		display: block;
+	}
+
+	.login-logged-box {
+
+		.text-link-arrow {
+			margin: 8px 0;
+		}
+
+		.btn-secondary {
+			float: right;
+		}
+	}
+}

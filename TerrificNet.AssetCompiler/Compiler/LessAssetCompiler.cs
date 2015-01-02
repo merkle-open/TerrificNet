@@ -15,7 +15,7 @@ namespace TerrificNet.AssetCompiler.Compiler
 		/// <returns>string with compiled content</returns>
 		public Task<string> CompileAsync(string content)
 		{
-			return Task.FromResult(Less.Parse(content, new DotlessConfiguration() { MinifyOutput = true }));
+			return Task.FromResult(Less.Parse(content, new DotlessConfiguration { MinifyOutput = true }));
 		}
 
 		public bool CanProcess(string filename)

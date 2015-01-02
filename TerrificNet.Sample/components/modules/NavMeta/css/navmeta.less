@@ -1,0 +1,60 @@
+.mod-nav-meta {
+
+	.nav-meta-list {
+		margin-top: 8/16em;
+
+		li.nav-meta-list-item {
+			float: left;
+			margin-right: 12/16em;
+
+			a {
+				.font-style(@font-frutiger-45-light, 13px, normal, @blue);
+				color: @blue;
+				text-decoration: none;
+				line-height: 19/16em;
+				//.transition(.25s);
+
+				&:hover,
+				&:focus,
+				&.state-active {
+					color: @red;
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 768px
+// -----------------------------------------
+@media (max-width: @bp-md) {
+	.mod-nav-meta {
+
+		overflow: hidden;
+		margin-bottom: 10px;
+
+		.nav-meta-list {
+
+			margin: 0;
+
+			.nav-meta-list-item {
+
+				width: 100%;
+				margin: 0;
+				display: block;
+				border-bottom: 1px solid #b8b8b8;
+
+				&:first-child {
+					display: none;
+				}
+
+				a {
+					padding: 8px 0 6px 0;
+					margin-left: 5px;
+					display: block;
+				}
+			}
+		}
+
+	}
+}

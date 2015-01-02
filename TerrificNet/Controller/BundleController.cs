@@ -4,6 +4,7 @@ using System.Web.Http;
 using TerrificNet.AssetCompiler;
 using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
+using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.Controller
 {
@@ -11,21 +12,24 @@ namespace TerrificNet.Controller
 	{
 		private readonly IAssetCompilerFactory _assetCompilerFactory;
 		private readonly IAssetBundler _assetBundler;
+		private readonly ITerrificNetConfig _config;
+		private readonly IAssetHelper _assetHelper;
 
-		public BundleController(IAssetCompilerFactory assetCompilerFactory, IAssetBundler assetBundler)
+		public BundleController(IAssetCompilerFactory assetCompilerFactory, IAssetBundler assetBundler, ITerrificNetConfig config, IAssetHelper assetHelper)
 		{
 			_assetCompilerFactory = assetCompilerFactory;
 			_assetBundler = assetBundler;
+			_config = config;
+			_assetHelper = assetHelper;
 		}
 
 		[HttpGet]
 		public async Task<HttpResponseMessage> Get(string name)
 		{
 			const string config = "config.json";
-			const string basePath = @"E:\Projects\finma\terrific\";
 
-			var terrificConfig = TerrificConfig.Parse(basePath + config);
-			var components = AssetHelper.GetGlobComponentsForAsset(terrificConfig.Assets[name], basePath);
+			var terrificConfig = TerrificConfig.Parse(_config.BasePath + config);
+			var components = _assetHelper.GetGlobComponentsForAsset(terrificConfig.Assets[name], _config.BasePath);
 			var bundle = await _assetBundler.BundleAsync(components);
 			var compiler = _assetCompilerFactory.GetCompiler(name);
 			var content = await compiler.CompileAsync(bundle);

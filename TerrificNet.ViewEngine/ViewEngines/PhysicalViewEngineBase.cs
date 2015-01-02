@@ -4,23 +4,14 @@ namespace TerrificNet.ViewEngine.ViewEngines
 {
 	public abstract class PhysicalViewEngineBase : IViewEngine
 	{
-		private const string HtmlExtension = "html";
-		private readonly string _basePath;
-
-		protected PhysicalViewEngineBase(string basePath)
-		{
-			_basePath = basePath;
-		}
-
 		public bool TryCreateViewFromPath(string path, out IView view)
 		{
 			view = null;
-			var filePath = Path.Combine(_basePath, path);
-			filePath = Path.ChangeExtension(filePath, HtmlExtension);
-			if (!File.Exists(filePath))
+
+			if (!File.Exists(path))
 				return false;
 
-			using (var reader = new StreamReader(filePath))
+			using (var reader = new StreamReader(path))
 			{
 				var content = reader.ReadToEnd();
 

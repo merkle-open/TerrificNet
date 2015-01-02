@@ -4,6 +4,7 @@
 	{
 		string BasePath { get; }
 		string ViewPath { get; }
+		string ModulePath { get; }
 		string AssetPath { get; }
 		string DataPath { get; }
 	}

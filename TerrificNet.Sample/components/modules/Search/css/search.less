@@ -1,0 +1,92 @@
+.mod-search {
+
+	.search-formline {
+
+		input, select, textarea{
+			color: @onyx;
+			font-size: 13px;
+		}
+
+		::-webkit-input-placeholder { /* WebKit browsers */
+			color: @gray;
+			font-size: 13px;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			color: @gray;
+			opacity:  1;
+			font-size: 13px;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+			color: @gray;
+			opacity:  1;
+			font-size: 13px;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10+ */
+			color: @gray;
+			font-size: 13px;
+		}
+
+		input {
+			width: 80%;
+			float: left;
+			line-height: normal;
+			height: 40px;
+			padding: 0 6px 0 12px;
+			border: 1px solid @light-gray;
+			background: @smoke-gray;
+
+			   -webkit-border-top-left-radius: 6px;
+			-webkit-border-bottom-left-radius: 6px;
+			       -moz-border-radius-topleft: 6px;
+			    -moz-border-radius-bottomleft: 6px;
+			           border-top-left-radius: 6px;
+			        border-bottom-left-radius: 6px;
+
+			&:focus {
+				// outline: 0;
+			}
+
+			// Todo error
+			&.error {
+				border: 1px solid @red;
+				// background-color: @error-bg;
+
+				&::-webkit-input-placeholder {
+					color: @red;
+				}
+
+				&:-moz-placeholder {
+					/* Firefox 18- */
+					color: @red;
+				}
+
+				&::-moz-placeholder {
+					/* Firefox 19+ */
+					color: @red;
+				}
+
+				&:-ms-input-placeholder {
+					color: @red;
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 768px
+// -----------------------------------------
+@media (max-width: @bp-md) {
+	.mod-search {
+
+		.search-formline {
+			input {
+				width: 85%;
+			}
+
+			.btn-search {
+				margin-left: -10px;
+			}
+		}
+	}
+}

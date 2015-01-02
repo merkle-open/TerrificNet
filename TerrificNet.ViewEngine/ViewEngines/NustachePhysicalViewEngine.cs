@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using Nustache.Core;
 using TerrificNet.ViewEngine.Config;
@@ -10,12 +9,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 	{
 		private readonly string _localBasePath;
 
-		public NustachePhysicalViewEngine(ITerrificNetConfig config, IModelProvider modelProvider)
-			: base(config.ViewPath)
+		public NustachePhysicalViewEngine(ITerrificNetConfig config, IModelProvider modelProvider, ITemplateLocator templateLocator)
 		{
 			_localBasePath = config.ViewPath;
 
-			new TerrificModuleHelper(this, modelProvider).Register(Helpers.Contains, Helpers.Register);
+			new TerrificModuleHelper(this, modelProvider, templateLocator).Register(Helpers.Contains, Helpers.Register);
 		}
 
 		protected override IView CreateView(string content)

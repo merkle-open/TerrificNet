@@ -1,0 +1,106 @@
+﻿@using Finma.Internet.Core
+@using Finma.Internet.Core.Models.NavService
+@using Namics.Master.Framework.Base.Presentation.Helper
+@using Sitecore.Configuration
+@using Sitecore.Mvc
+@model NavServiceModel
+
+@helper ShowLinkList(IList<NavServiceLinksModel> pLinkList)
+{
+    if (pLinkList != null && pLinkList.Any())
+    {
+    <ul class="quick-btn-links">
+        @foreach (NavServiceLinksModel link in pLinkList)
+        {
+            <li>
+                @if (Sitecore.Context.PageMode.IsPageEditorEditing)
+                {
+                    var editframeLinkItem = new EditFrameHelper(link.Item, Settings.GetSetting("Finma.HeaderConfiguration.EditFrameButtonLinkList"));
+                    @editframeLinkItem.RenderEditFrameBegin()
+                    <i class="@link.IconCssClass"></i>@Html.Sitecore().Field("Link", link.Item, new { @class = "e-btn btn-navigation" })
+                    @editframeLinkItem.RenderEditFrameEnd()
+                }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(link.Title))
+                    {
+                    <a href="@link.Url" class="e-btn btn-navigation" accesskey="@link.Title" title="[Alt+@link.Title]" target="@link.Target">
+                        <i class="@link.IconCssClass"></i>
+                        @link.Description
+                    </a>
+                    }
+                    else
+                    {
+                    <a href="@link.Url" class="e-btn btn-navigation" title="@link.Description" target="@link.Target">
+                        <i class="@link.IconCssClass"></i>
+                        @link.Description
+                    </a>
+                    }
+                }
+            </li>
+        }
+    </ul>
+    }
+}
+
+@if (Model != null)
+{
+    <div class="mod mod-nav-service">
+        <ul class="nav-service-list">
+            <li>
+                @ShowLinkList(Model.NavServiceLinkList)
+            </li>
+            <li class="service-links-item">
+                <ul class="service-links">
+                    <li class="service-links-watchlist-item">
+                        
+                        <a href="watchlist" class="service-icon-watchlist">
+                            <div class="glyph-basket">
+                                <span class="service-notification-circle">
+                                    <span class="service-notification-number">77</span>
+                                </span>
+                            </div>
+                        </a>
+
+                    </li>
+
+                    <li class="service-links-lock-item">
+                        @Model.HeaderConfiguration.MyFINMALoginField.Render("class=icon-login")
+                    </li>
+
+                    <li class="service-link-search-item">
+                        @if (Sitecore.Context.PageMode.IsPageEditorEditing)
+                        {
+                            @Model.HeaderConfiguration.SearchUrlField.Render("class=glyph-search")
+                        }
+                        else
+                        {
+                             <a href="@Model.HeaderConfiguration.SearchUrlField.Url" class="icon-magnifier"><span class="glyph-search"></span></a>
+                        }
+                    </li>
+                    
+                    @if (Model.ActiveLanguage != null)
+                    {
+                       <li class="service-link-language">
+                        <a href="javascript:;" class="service-link-language-item js-service-link-language-item" accesskey="8" title="[ALT+8]">
+                            <i class="glyph-arw-s-down"></i>@Model.ActiveLanguage.Language
+                        </a>
+                        <ul class="service-link-language-list js-service-link-language-list">
+                            @foreach (var lang in Model.InactiveLanguages)
+                            {
+                                <li><a class="service-link-language-item" href="@lang.Url">@lang.Language</a></li>
+                            }
+                        </ul>
+                    </li> 
+                    }
+                    
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="l-main">@ApplicationConstants.DataModelIsNUll</div>
+}

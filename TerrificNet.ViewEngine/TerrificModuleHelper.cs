@@ -8,11 +8,13 @@ namespace TerrificNet.ViewEngine
 	{
 		private readonly IViewEngine _viewEngine;
 		private readonly IModelProvider _modelProvider;
+		private readonly ITemplateLocator _templateLocator;
 
-		public TerrificModuleHelper(IViewEngine viewEngine, IModelProvider modelProvider)
+		public TerrificModuleHelper(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateLocator templateLocator)
 		{
 			_viewEngine = viewEngine;
 			_modelProvider = modelProvider;
+			_templateLocator = templateLocator;
 		}
 
 		public void Register(Func<string, bool> contains, Action<string, Helper> register)
@@ -34,8 +36,9 @@ namespace TerrificNet.ViewEngine
 			if (string.IsNullOrEmpty(templateName))
 				return;
 
+			string modulePath;
 			IView view;
-			if (_viewEngine.TryCreateViewFromPath(templateName, out view))
+			if (_templateLocator.TryLocateTemplate(templateName, out modulePath) && _viewEngine.TryCreateViewFromPath(modulePath, out view))
 			{
 				var model = _modelProvider.GetModelFromPath(templateName);
 				ctx.Write(view.Render(model));

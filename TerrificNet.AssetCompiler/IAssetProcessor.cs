@@ -5,8 +5,8 @@ using TerrificNet.AssetCompiler.Processors;
 
 namespace TerrificNet.AssetCompiler
 {
-    public interface IAssetProcessor
-    {
-        Task<string> ProcessAsync(KeyValuePair<string, string[]> assetConfig, ProcessorFlags flags);
-    }
+	public interface IAssetProcessor
+	{
+		Task<string> ProcessAsync(string name, string[] files, ProcessorFlags flags, string basePath);
+	}
 }

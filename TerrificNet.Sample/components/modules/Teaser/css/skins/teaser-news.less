@@ -1,0 +1,34 @@
+.skin-teaser-news {
+	.teaser-news {
+		margin-bottom: 30px;
+	}
+
+	.teaser-dropdown.home {
+
+		.e-dropdown {
+			width: 150px;
+		}
+
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 768px
+// -----------------------------------------
+@media (max-width: @bp-md) {
+	.skin-teaser-news {
+		.teaser-news {
+			margin-bottom: 22px;
+		}
+
+		.teaser-dropdown {
+			display: inline-block;
+			bottom: 3px;
+
+			&.home {
+				display: none !important; // TODO: Fix different rendering (home vs news-center)
+			}
+		}
+	}
+}
+

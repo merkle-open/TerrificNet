@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -91,6 +92,7 @@
     <Compile Include="Controller\ModelController.cs" />
     <Compile Include="Controller\SchemaController.cs" />
     <Compile Include="Controller\TemplateController.cs" />
+    <Compile Include="Controller\TemplateControllerBase.cs" />
     <Compile Include="Controller\ViewIndexController.cs" />
     <Compile Include="Models\ViewItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />

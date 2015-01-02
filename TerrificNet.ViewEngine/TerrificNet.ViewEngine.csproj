@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\ITerrificNetConfig.cs" />
+    <Compile Include="ITemplateLocator.cs" />
     <Compile Include="SchemaProviders\BaseSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
     <Compile Include="TerrificModuleHelper.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="IViewEngine.cs" />
     <Compile Include="ModelProviders\JsonModelProvier.cs" />
     <Compile Include="SchemaProviders\NustacheViewSchemaProvider.cs" />
+    <Compile Include="TerrificTemplateLocator.cs" />
     <Compile Include="ViewEngines\PhysicalViewEngineBase.cs" />
     <Compile Include="ViewEngines\NustachePhysicalViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

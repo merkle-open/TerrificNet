@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\AssetCompilerFactory.cs" />
+    <Compile Include="Helpers\IAssetHelper.cs" />
     <Compile Include="IAssetBundler.cs" />
     <Compile Include="IAssetCompilerFactory.cs" />
     <Compile Include="IAssetProcessor.cs" />
@@ -73,7 +74,6 @@
     <Compile Include="Helpers\AssetHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="IAssetCompiler.cs" />
-    <Compile Include="Processors\DebugAssetProcessor.cs" />
     <Compile Include="Processors\ProcessorFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

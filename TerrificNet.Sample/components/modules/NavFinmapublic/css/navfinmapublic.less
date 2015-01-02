@@ -1,0 +1,162 @@
+.mod-nav-finmapublic {
+
+	position: relative;
+
+	.nav-finmapublic-mobile-btn {
+		display: none;
+	}
+
+	.finmapublic-flyout {
+		display: block;
+		width: 100%;
+		position: absolute;
+		padding: 25px;
+		left: 0;
+		top: 0;
+		z-index: 5;
+		min-height: 115px;
+		background-color: #00254c;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#00254C), to(#00102D));
+		background-image: -webkit-linear-gradient(top, #00254C, #00102D);
+		background-image: -moz-linear-gradient(top, #00254C, #00102D);
+		background-image: -o-linear-gradient(top, #00254C, #00102D);
+		background-image: -ms-linear-gradient(top, #00254C, #00102D);
+		background-image: linear-gradient(top, #00254C, #00102D);
+		//filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#00254c', EndColorStr='#00102d');
+
+		&.state-open {
+			display: block;
+		}
+
+		.finma-public-linklist {
+			display: inline-block;
+			margin: 0 65px 0 10px;
+
+			li {
+				display: block;
+				margin-top: 10px;
+				position: relative;
+				padding-left: 8px;
+
+				a {
+					.font-style(@font-frutiger-55-roman, @font-size-m, normal, @white);
+					text-decoration: none;
+
+					&:before {
+						.font-style (@font-finma-glyph, 20px, bold, @white);
+						.glyph();
+						content: '\@{glyph-arw-s-right}';
+						position: absolute;
+						left: -14px;
+						top: -2px;
+					}
+
+					&:hover {
+						border-bottom: 1px solid @white;
+					}
+
+					&.state-active {
+						font-weight: bold;
+						border-bottom: 1px solid @white;
+					}
+				}
+			}
+		}
+
+		.finma-public-buttonlist {
+			bottom: 20px;
+			position: absolute;
+
+			li {
+				display: inline;
+
+				.btn-status {
+					margin-right: 10px;
+				}
+			}
+
+			.finma-public-buttonlist-title {
+				.font-style(@font-frutiger-55-roman, @font-size-xs, normal, @white);
+				display: block;
+				margin-bottom: 10px;
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 768px
+// -----------------------------------------
+@media (max-width: @bp-md) {
+
+	.mod-nav-finmapublic {
+
+		position: relative;
+
+		.nav-finmapublic-mobile-btn {
+
+			.font-style(@font-frutiger-65-bold, @font-size-l, normal, @white);
+			padding: 14px 16px;
+			display: block;
+			width: 100%;
+			cursor: pointer;
+
+			background-color: #00254c;
+			background-image: -webkit-gradient(linear, left top, left bottom, from(#00254C), to(#00102D));
+			background-image: -webkit-linear-gradient(top, #00254C, #00102D);
+			background-image: -moz-linear-gradient(top, #00254C, #00102D);
+			background-image: -o-linear-gradient(top, #00254C, #00102D);
+			background-image: -ms-linear-gradient(top, #00254C, #00102D);
+			background-image: linear-gradient(top, #00254C, #00102D);
+			//filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#00254c', EndColorStr='#00102d');
+
+			&:after {
+				.font-style (@font-finma-glyph, 27px, bold, @white);
+				.glyph();
+				content: '\@{glyph-arw-m-down}';
+				display: inline-block;
+				float: right;
+				margin-right: 7px;
+				margin-top: -4px;
+				color: @white;
+				line-height: 27px;
+				background: #1f3b5e;
+				.border-radius(50%);
+			}
+
+			&.state-active {
+				&:after {
+					.rotate(180deg);
+					margin-right: 7px;
+				}
+			}
+		}
+
+		.finmapublic-flyout {
+
+			display: none;
+			position: relative;
+			padding: 8px 16px 16px 16px;
+
+			&.state-open {
+				display: block;
+			}
+
+			.s-1of2 {
+				width: 100%;
+			}
+
+			.finma-public-buttonlist {
+				top: 20px;
+				margin-bottom: 20px;
+				position: relative;
+
+				li {
+					display: block;
+					margin-bottom: 10px;
+					width: 100%;
+				}
+			}
+		}
+	}
+}
