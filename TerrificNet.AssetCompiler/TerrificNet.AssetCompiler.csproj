@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Compiler\AssetCompilerFactory.cs" />
     <Compile Include="Compiler\CachedAssetCompiler.cs" />
+    <Compile Include="Compiler\CachedAssetCompilerFactory.cs" />
     <Compile Include="Helpers\IAssetHelper.cs" />
     <Compile Include="IAssetBundler.cs" />
     <Compile Include="IAssetCompilerFactory.cs" />

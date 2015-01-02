@@ -19,11 +19,9 @@ namespace TerrificNet.AssetCompiler.Compiler
             }
         }
 
-        public IAssetCompiler GetCompiler(string assetName)
+        public virtual IAssetCompiler GetCompiler(string assetName)
         {
-            var compiler = _compiler.First(o => o.Key(assetName)).Value();
-			compiler = new CachedAssetCompiler(compiler);
-	        return compiler;
+            return _compiler.First(o => o.Key(assetName)).Value();
         }
     }
 }
