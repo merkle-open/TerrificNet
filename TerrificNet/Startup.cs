@@ -75,6 +75,11 @@ namespace TerrificNet
 				defaults: new { controller = "assets", section = section }
 				);
 			config.Routes.MapHttpRoute(
+				name: "ComponentAssetsRoot" + section,
+				routeTemplate: section + "components/modules/{*path}",
+				defaults: new { controller = "ComponentAssets", section = section }
+				);
+			config.Routes.MapHttpRoute(
 				name: "BundleRoot" + section,
 				routeTemplate: section + "bundle_{name}",
 				defaults: new { controller = "bundle", section = section }

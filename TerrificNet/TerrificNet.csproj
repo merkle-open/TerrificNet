@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\BundleController.cs" />
+    <Compile Include="Controller\ComponentAssetsController.cs" />
     <Compile Include="Controller\GenerateController.cs" />
     <Compile Include="Configuration\TerrificNetApplicationConfiguration.cs" />
     <Compile Include="Configuration\TerrificNetHostConfiguration.cs" />
