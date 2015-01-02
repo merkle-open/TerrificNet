@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using TerrificNet.Configuration;
 using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
@@ -39,6 +40,7 @@ namespace TerrificNet.UnityModule
 		    }));
 
 			container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
+		    container.RegisterType<ICacheProvider, MemoryCacheProvider>();
 			container.RegisterType<IModelProvider,JsonModelProvier>();
 			container.RegisterType<ISchemaProvider, SchemaMergeProvider>(new InjectionConstructor(new ResolvedParameter<NustacheViewSchemaProvider>(), new ResolvedParameter<BaseSchemaProvider>()));
 			container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();

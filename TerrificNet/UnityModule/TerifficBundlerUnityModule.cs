@@ -13,7 +13,7 @@ namespace TerrificNet.UnityModule
 		{
 			container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
 			container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
-			container.RegisterType<IAssetCompilerFactory, AssetCompilerFactory>();
+			container.RegisterType<IAssetCompilerFactory, CachedAssetCompilerFactory>();
 			container.RegisterType<IAssetBundler, DefaultAssetBundler>();
 			container.RegisterType<IAssetHelper, AssetHelper>();
 			container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();

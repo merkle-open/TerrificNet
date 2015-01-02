@@ -43,7 +43,7 @@ namespace TerrificNet.AssetCompiler.Helpers
 
 		private static async Task<string> ReadFile(string path)
 		{
-			using (var file = new StreamReader(new FileStream(path, FileMode.Open)))
+			using (var file = new StreamReader(new FileStream(path, FileMode.Open, FileAccess.Read)))
 			{
 				return await file.ReadToEndAsync();
 			}

@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\ICacheProvider.cs" />
+    <Compile Include="Cache\MemoryCacheProvider.cs" />
+    <Compile Include="Cache\NullCacheProvider.cs" />
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="ITemplateRepository.cs" />
     <Compile Include="SchemaProviders\BaseSchemaProvider.cs" />
