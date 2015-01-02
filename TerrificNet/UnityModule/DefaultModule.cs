@@ -13,7 +13,7 @@ using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.UnityModule
 {
-	public class DefaultUnityModule : IUnityModue
+	public class DefaultUnityModule : IUnityModule
 	{
 	    private readonly string _applicationPath;
 

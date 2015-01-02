@@ -7,7 +7,7 @@ using TerrificNet.ViewEngine;
 
 namespace TerrificNet.UnityModule
 {
-	public class TerifficBundlerUnityModule : IUnityModue
+	public class TerrificBundleUnityModule : IUnityModule
 	{
 		public void Configure(IUnityContainer container)
 		{

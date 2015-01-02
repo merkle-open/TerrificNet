@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TerrificNet.ViewEngine.Config;
-using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.ViewEngine
 {
@@ -23,26 +23,43 @@ namespace TerrificNet.ViewEngine
 			var fileName = Path.ChangeExtension(id, HtmlExtension);
 
 			// locate views
-			var path = Path.Combine(_config.ViewPath, fileName);
-
-		    if (File.Exists(path))
-		    {
-		        templateInfo = new FileTemplateInfo(id, new FileInfo(path));
-		        return true;
-		    }
-
-		    path = Path.Combine(_config.ModulePath, id, fileName);
-		    if (File.Exists(path))
-		    {
-		        templateInfo = new FileTemplateInfo(id, new FileInfo(path));
+		    if (TryGetTemplate(id, ref templateInfo, _config.ViewPath, fileName)) 
                 return true;
-		    }
+
+            if (TryGetTemplate(id, ref templateInfo, _config.ModulePath, fileName)) 
+                return true;
+
 		    return false;
 		}
 
+	    private static bool TryGetTemplate(string id, ref TemplateInfo templateInfo, string viewPath, string fileName)
+	    {
+	        var path = Path.Combine(viewPath, fileName);
+
+	        if (File.Exists(path))
+	        {
+	            templateInfo = new FileTemplateInfo(id, new FileInfo(path));
+	            return true;
+	        }
+	        return false;
+	    }
+
+	    public IEnumerable<TemplateInfo> Read(string directory)
+	    {
+	        if (!Directory.Exists(directory))
+	            return Enumerable.Empty<TemplateInfo>();
+
+	        return Directory.GetFiles(directory, "*.html").Select(f =>
+	        {
+	            var info = new FileInfo(f); 
+                return new FileTemplateInfo(info.Name, info); 
+            });
+	    }
+
 	    public IEnumerable<TemplateInfo> GetAll()
 	    {
-	        throw new System.NotImplementedException();
+	        return Read(_config.ViewPath)
+                .Union(Read(_config.ModulePath));
 	    }
 	}
 }
