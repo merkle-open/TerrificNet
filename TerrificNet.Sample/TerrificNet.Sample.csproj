@@ -185,9 +185,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="components\modules\Teaser\sc\TeaserBaseModel.cs" />
-    <Compile Include="components\modules\Teaser\sc\TeaserModel.cs" />
-    <Compile Include="components\modules\Teaser\sc\TeaserNewsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -217,36 +214,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="components\modules\Breadcrumb\css\breadcrumb.less" />
-    <Content Include="components\modules\Breadcrumb\sc\breadcrumb.cshtml" />
     <Content Include="components\modules\DocumentTeaser\css\documentteaser.less" />
     <Content Include="components\modules\DocumentTeaser\css\skins\documentteaser-watchlist.less" />
     <Content Include="components\modules\Filter\css\filter.less" />
     <Content Include="components\modules\Footer\css\footer.less" />
-    <Content Include="components\modules\Footer\sc\Footer.cshtml" />
-    <Content Include="components\modules\Footer\sc\FooterAddress.cshtml" />
-    <Content Include="components\modules\Footer\sc\FooterLanguage.cshtml" />
-    <Content Include="components\modules\Footer\sc\FooterLinklist.cshtml" />
-    <Content Include="components\modules\Footer\sc\FooterMeta.cshtml" />
-    <Content Include="components\modules\Footer\sc\FooterSearch.cshtml" />
-    <Content Include="components\modules\Footer\sc\FooterService.cshtml" />
     <Content Include="components\modules\Layout\css\layout.less" />
     <Content Include="components\modules\Layout\layout.md" />
     <Content Include="components\modules\Login\css\login.less" />
     <Content Include="components\modules\Logo\css\logo.less" />
-    <Content Include="components\modules\Logo\sc\Logo.cshtml" />
     <Content Include="components\modules\NavFinmapublic\css\navfinmapublic.less" />
     <Content Include="components\modules\NavFinmapublic\NavFinmaPublic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="components\modules\NavMain\css\navmain.less" />
-    <Content Include="components\modules\NavMain\sc\NavMain.cshtml" />
-    <Content Include="components\modules\NavMain\sc\NavMainDescriptionLeft.cshtml" />
-    <Content Include="components\modules\NavMain\sc\NavMainDescriptionRight.cshtml" />
-    <Content Include="components\modules\NavMain\sc\NavMainFinmaPublic.cshtml" />
     <Content Include="components\modules\NavMeta\css\navmeta.less" />
-    <Content Include="components\modules\NavMeta\sc\NavMeta.cshtml" />
     <Content Include="components\modules\NavService\css\navservice.less" />
-    <Content Include="components\modules\NavService\sc\NavService.cshtml" />
     <Content Include="components\modules\NavSidebar\css\navsidebar.less" />
     <Content Include="components\modules\NavSidebar\NavSidebar.cshtml" />
     <Content Include="components\modules\Search\css\search.less" />
@@ -255,8 +237,6 @@
     <Content Include="components\modules\Sitemap\css\sitemap.less" />
     <Content Include="components\modules\Slider\css\slider.less" />
     <Content Include="components\modules\Stage\css\stage.less" />
-    <Content Include="components\modules\Stage\sc\Stage.cshtml" />
-    <Content Include="components\modules\Stage\sc\StagePublic.cshtml" />
     <Content Include="components\modules\Teaser\css\skins\teaser-news.less" />
     <Content Include="components\modules\Teaser\css\teaser.less" />
   </ItemGroup>

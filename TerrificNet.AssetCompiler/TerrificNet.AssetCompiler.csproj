@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\AssetCompilerFactory.cs" />
+    <Compile Include="Compiler\CachedAssetCompiler.cs" />
     <Compile Include="Helpers\IAssetHelper.cs" />
     <Compile Include="IAssetBundler.cs" />
     <Compile Include="IAssetCompilerFactory.cs" />

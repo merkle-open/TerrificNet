@@ -30,10 +30,10 @@ namespace TerrificNet.Controller
 
 			var terrificConfig = TerrificConfig.Parse(_config.BasePath + config);
 			var components = _assetHelper.GetGlobComponentsForAsset(terrificConfig.Assets[name], _config.BasePath);
-			var bundle = await _assetBundler.BundleAsync(components);
+			var content = await _assetBundler.BundleAsync(components);
 			var compiler = _assetCompilerFactory.GetCompiler(name);
-			var content = await compiler.CompileAsync(bundle);
-			var response = new HttpResponseMessage { Content = new StringContent(content, System.Text.Encoding.Default, compiler.MimeType) };
+			var compiledContent = await compiler.CompileAsync(content);
+			var response = new HttpResponseMessage { Content = new StringContent(compiledContent, System.Text.Encoding.Default, compiler.MimeType) };
 			return response;
 		}
 	}
