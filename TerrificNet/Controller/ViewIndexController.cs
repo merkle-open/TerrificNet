@@ -30,9 +30,13 @@ namespace TerrificNet.Controller
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var model = new ViewOverviewModel
+            var model = new ApplicationOverviewModel
             {
-                Views = _applications.SelectMany(a => GetViews(a.Container.Resolve<ITemplateRepository>())).ToList()
+                Applications = _applications.Select(a => new ViewOverviewModel
+                {
+                    Name = a.Name,
+                    Views = GetViews(a.Container.Resolve<ITemplateRepository>()).ToList()
+                }).ToList()
             };
 
             IView view;

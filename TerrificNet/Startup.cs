@@ -1,17 +1,13 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
 using Microsoft.Practices.Unity;
 using Owin;
-using TerrificNet.UnityModule;
 using Unity.WebApi;
 
 namespace TerrificNet
@@ -91,28 +87,6 @@ namespace TerrificNet
 	            );
 	    }
 	}
-
-    public class ApplicationSpecificControllerActivator : IHttpControllerActivator
-    {
-        private readonly IUnityContainer _container;
-
-        public ApplicationSpecificControllerActivator(IUnityContainer container)
-        {
-            _container = container;
-        }
-
-        public IHttpController Create(HttpRequestMessage request, HttpControllerDescriptor controllerDescriptor, Type controllerType)
-        {
-            var applications = _container.ResolveAll<TerrificNetApplication>();
-            var section = (string) request.GetRouteData().Route.Defaults["section"] ?? string.Empty;
-
-            var application = applications.FirstOrDefault(a => a.Configuration.Section == section);
-            if (application == null)
-                throw new InvalidOperationException(string.Format("Could not find a application for the section '{0}'.", section));
-
-            return (IHttpController) application.Container.Resolve(controllerType);
-        }
-    }
 
     public class InjectHttpRequestMessageToContainerHandler : DelegatingHandler
     {

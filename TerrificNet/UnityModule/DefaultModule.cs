@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Net.Http;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using TerrificNet.Configuration;
@@ -13,21 +12,7 @@ using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.UnityModule
 {
-    public class TerrificNetApplication
-    {
-        public string Name { get; private set; }
-        public ITerrificNetConfig Configuration { get; private set; }
-        public IUnityContainer Container { get; private set; }
-
-        public TerrificNetApplication(string name, ITerrificNetConfig configuration, IUnityContainer container)
-        {
-            Name = name;
-            Configuration = configuration;
-            Container = container;
-        }
-    }
-
-	public class DefaultUnityModule : IUnityModule
+    public class DefaultUnityModule : IUnityModule
 	{
 	    private readonly string _applicationPath;
 
