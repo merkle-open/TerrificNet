@@ -14,20 +14,6 @@ using Veil.Helper;
 
 namespace TerrificNet.UnityModule
 {
-	public class TerrificNetApplication
-	{
-		public string Name { get; private set; }
-		public ITerrificNetConfig Configuration { get; private set; }
-		public IUnityContainer Container { get; private set; }
-
-		public TerrificNetApplication(string name, ITerrificNetConfig configuration, IUnityContainer container)
-		{
-			Name = name;
-			Configuration = configuration;
-			Container = container;
-		}
-	}
-
 	public class DefaultUnityModule : IUnityModule
 	{
 		private readonly string _applicationPath;

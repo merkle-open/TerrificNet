@@ -52,7 +52,6 @@ namespace TerrificNet.ViewEngine
 			return false;
 		}
 
-<<<<<<< HEAD
 		public IEnumerable<TemplateInfo> Read(string directory)
 		{
 			if (!Directory.Exists(directory))
@@ -70,40 +69,5 @@ namespace TerrificNet.ViewEngine
 			return Read(_config.ViewPath)
 				.Union(Read(_config.ModulePath));
 		}
-=======
-	    private static bool TryGetTemplate(string id, ref TemplateInfo templateInfo, string viewPath, string fileName)
-	    {
-	        var path = Path.Combine(viewPath, fileName);
-
-	        if (!File.Exists(path))
-                path = Path.Combine(viewPath, id, fileName);
-
-            if (File.Exists(path))
-            {
-	            templateInfo = new FileTemplateInfo(id, new FileInfo(path));
-	            return true;
-	        }
-
-	        return false;
-	    }
-
-	    private IEnumerable<TemplateInfo> Read(string directory)
-	    {
-	        if (!Directory.Exists(directory))
-	            return Enumerable.Empty<TemplateInfo>();
-
-	        return Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories).Select(f =>
-	        {
-	            var info = new FileInfo(f); 
-                return new FileTemplateInfo(info.Name, info); 
-            });
-	    }
-
-	    public IEnumerable<TemplateInfo> GetAll()
-	    {
-	        return Read(_config.ViewPath)
-                .Union(Read(_config.ModulePath));
-	    }
->>>>>>> b2891c32ce69f307d84fe6167f6ddcdc8299c840
 	}
 }
