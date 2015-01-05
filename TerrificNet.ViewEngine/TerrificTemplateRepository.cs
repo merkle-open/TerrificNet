@@ -57,7 +57,7 @@ namespace TerrificNet.ViewEngine
 	        if (!Directory.Exists(directory))
 	            return Enumerable.Empty<TemplateInfo>();
 
-			return Directory.GetFiles(directory, "*.html").Select(f =>
+			return Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories).Select(f =>
 	        {
 	            var info = new FileInfo(f); 
                 return new FileTemplateInfo(Path.GetFileNameWithoutExtension(info.Name), info); 

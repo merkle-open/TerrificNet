@@ -3,16 +3,19 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Views</title>
+    <title>Applications</title>
 </head>
 <body>
     <h1>Views</h1>
+    {{#each applications}}
+    <h2>{{name}}</h2>
     <ul>
         {{#if views}}
-            {{#each views}}
-            <li><a href="{{url}}">{{text}}</a>(<a href="{{editUrl}}">Edit data</a>) (<a href="{{schemaUrl}}">View schema</a>)</li>
-            {{/each}}
+        {{#each views}}
+        <li><a href="{{url}}" alt="">{{text}}</a>(<a href="{{editUrl}}" alt="">Edit data</a>) (<a href="{{schemaUrl}}" alt="">View schema</a>)</li>
+        {{/each}}
         {{/if}}
     </ul>
+    {{/each}}
 </body>
 </html>
