@@ -44,6 +44,9 @@ namespace TerrificNet.ViewEngine.Schema
             protected override JsonSchema VisitIterateNode(IterateNode iterateNode)
             {
                 var schema = this.VisitExpressionNode(iterateNode.Collection);
+                if (schema == null)
+                    return null;
+
                 var arrayItemSchema = new JsonSchema();
 
                 schema.Type = JsonSchemaType.Array;
@@ -83,6 +86,9 @@ namespace TerrificNet.ViewEngine.Schema
             protected override JsonSchema VisitWriteExpressionNode(WriteExpressionNode writeExpressionNode)
             {
                 var schema = base.VisitWriteExpressionNode(writeExpressionNode);
+                if (schema == null)
+                    return null;
+
                 schema.Type = JsonSchemaType.String;
                 return schema;
             }

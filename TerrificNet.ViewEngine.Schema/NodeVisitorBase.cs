@@ -89,6 +89,15 @@ namespace TerrificNet.ViewEngine.Schema
             if (modelExpressionNode != null)
                 return VisitSubModelExpressionNode(modelExpressionNode);
 
+            var helperExpressionNode = expression as HelperExpressionNode;
+            if (helperExpressionNode != null)
+                return VisitHelperExpressionNode(helperExpressionNode);
+
+            return null;
+        }
+
+        private TResult VisitHelperExpressionNode(HelperExpressionNode helperExpressionNode)
+        {
             return null;
         }
 

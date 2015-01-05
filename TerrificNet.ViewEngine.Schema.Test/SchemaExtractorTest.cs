@@ -83,7 +83,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
             SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
 
             Assert.IsFalse(schema.Properties.ContainsKey("helper param=\"val1\""), "No property helper should be inside the schema.");
-            Assert.IsTrue(schema.Properties.ContainsKey("noregistredHelper param=\"val1\""), "The none registred helpers should be still included.");
+            //Assert.IsTrue(schema.Properties.ContainsKey("noregistredHelper param=\"val1\""), "The none registred helpers should be still included.");
             SchemaAssertions.AssertSingleProperty(schema, "variableExpressionWithWhitespace", JsonSchemaType.String);
         }
 
