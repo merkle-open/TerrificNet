@@ -64,6 +64,7 @@
     <Compile Include="Helper\TerrificPlaceholderHelper.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
+    <Compile Include="ViewEngines\VeilPhysicalViewEngine.cs" />
     <Compile Include="ViewEngines\NustachePhysicalViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

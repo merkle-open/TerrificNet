@@ -16,11 +16,15 @@ namespace TerrificNet.ViewEngine
 			_config = config;
 		}
 
-		public bool TryGetTemplate(string id, out TemplateInfo templateInfo)
+		public bool TryGetTemplate(string id, string skin, out TemplateInfo templateInfo)
 		{
             templateInfo = null;
 
-			var fileName = Path.ChangeExtension(id, HtmlExtension);
+			var fileName = id;
+			if (!string.IsNullOrEmpty(skin))
+				fileName += "-" + skin;
+
+			fileName = Path.ChangeExtension(fileName, HtmlExtension);
 
 			// locate views
 		    if (TryGetTemplate(id, ref templateInfo, _config.ViewPath, fileName)) 
@@ -48,12 +52,12 @@ namespace TerrificNet.ViewEngine
 	        return false;
 	    }
 
-	    private IEnumerable<TemplateInfo> Read(string directory)
+		public IEnumerable<TemplateInfo> Read(string directory)
 	    {
 	        if (!Directory.Exists(directory))
 	            return Enumerable.Empty<TemplateInfo>();
 
-	        return Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories).Select(f =>
+			return Directory.GetFiles(directory, "*.html").Select(f =>
 	        {
 	            var info = new FileInfo(f); 
                 return new FileTemplateInfo(Path.GetFileNameWithoutExtension(info.Name), info); 

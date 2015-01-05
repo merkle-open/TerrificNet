@@ -30,7 +30,7 @@ namespace TerrificNet.Controller
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var model = new ApplicationOverviewModel
+			var model = new ViewOverviewModel
             {
                 Applications = _applications.Select(a => new ViewOverviewModel
                 {
@@ -41,7 +41,7 @@ namespace TerrificNet.Controller
 
             IView view;
             TemplateInfo templateInfo;
-            if (!_templateRepository.TryGetTemplate("index", out templateInfo) ||
+			if (!_templateRepository.TryGetTemplate("index", string.Empty, out templateInfo) ||
                 !_viewEngine.TryCreateView(templateInfo, out view))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 

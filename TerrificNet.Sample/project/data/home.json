@@ -1,1 +1,26 @@
-{"_placeholder":{"phMain":[{"template":"content_home"}],"phSidebar":[{"template":"sidebar_teaser"},{"template":"sidebar_teaser"}]}}
+{
+    "_placeholder": {
+        "phMain": [
+            {
+                "template": "content_home"
+            }
+        ],
+        "phSidebar": [
+            {
+                "template": "sidebarteaser",
+                "skin": "img-text1"
+            },
+            {
+                "template": "sidebarteaser",
+                "skin": "faq"
+            },
+            {
+                "template": "sidebarteaser",
+                "skin": "contact"
+            },
+            {
+                "template": "sidebarteaser"
+            }
+        ]
+    }
+}

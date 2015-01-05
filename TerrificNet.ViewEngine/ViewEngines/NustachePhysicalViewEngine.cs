@@ -25,7 +25,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		public IView CreateView(string content)
 		{
-			var hash = string.Concat("nustache_template_", GetHash(new MD5CryptoServiceProvider(), content));
+			var hash = string.Concat("template_", GetHash(new MD5CryptoServiceProvider(), content));
 
 			Template template;
 			if (!_cacheProvider.TryGet(hash, out template))
@@ -53,7 +53,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			private Template LoadTemplate(string name)
 			{
 				TemplateInfo templateInfo;
-				if (!_templateRepository.TryGetTemplate(name, out templateInfo))
+				if (!_templateRepository.TryGetTemplate(name, string.Empty, out templateInfo))
 					return null;
 
 				using (var reader = new StreamReader(templateInfo.Open()))
