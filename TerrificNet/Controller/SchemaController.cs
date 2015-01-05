@@ -21,7 +21,7 @@ namespace TerrificNet.Controller
         public HttpResponseMessage Get(string path)
         {
             TemplateInfo templateInfo;
-            if (!_templateRepository.TryGetTemplate(path, out templateInfo))
+            if (!_templateRepository.TryGetTemplate(path, null, out templateInfo))
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Template not found");
 
             var message = new HttpResponseMessage

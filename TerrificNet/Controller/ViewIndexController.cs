@@ -30,7 +30,7 @@ namespace TerrificNet.Controller
         [HttpGet]
         public HttpResponseMessage Get()
         {
-			var model = new ViewOverviewModel
+			var model = new ApplicationOverviewModel
             {
                 Applications = _applications.Select(a => new ViewOverviewModel
                 {
