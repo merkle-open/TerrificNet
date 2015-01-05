@@ -35,7 +35,7 @@ namespace TerrificNet.Controller
                 Applications = _applications.Select(a => new ViewOverviewModel
                 {
                     Name = a.Name,
-                    Views = GetViews(a.Container.Resolve<ITemplateRepository>()).ToList()
+                    Views = GetViews(a.Configuration.Section, a.Container.Resolve<ITemplateRepository>()).ToList()
                 }).ToList()
             };
 
@@ -48,7 +48,7 @@ namespace TerrificNet.Controller
             return Render(view, model);
         }
 
-        private IEnumerable<ViewItemModel> GetViews(ITemplateRepository templateRepository)
+        private IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)
         {
             foreach (var file in templateRepository.GetAll())
             {
@@ -57,7 +57,7 @@ namespace TerrificNet.Controller
                     Text = file.Id,
                     Url = string.Format("/{0}", file.Id),
                     EditUrl = string.Format("/web/edit.html?template={0}", file.Id),
-                    SchemaUrl = string.Format("/schema/{0}", file.Id)
+                    SchemaUrl = string.Format("{0}schema/{1}", section, file.Id)
                 };
             }
         }

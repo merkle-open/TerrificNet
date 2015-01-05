@@ -4,6 +4,6 @@ namespace TerrificNet.ViewEngine
 {
     public interface ISchemaProvider
     {
-        JsonSchema GetSchemaFromPath(string path);
+        JsonSchema GetSchemaFromTemplate(TemplateInfo template);
     }
 }

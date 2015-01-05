@@ -56,7 +56,7 @@ namespace TerrificNet.ViewEngine
 	        return Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories).Select(f =>
 	        {
 	            var info = new FileInfo(f); 
-                return new FileTemplateInfo(info.Name, info); 
+                return new FileTemplateInfo(Path.GetFileNameWithoutExtension(info.Name), info); 
             });
 	    }
 

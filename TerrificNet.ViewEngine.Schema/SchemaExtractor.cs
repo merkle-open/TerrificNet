@@ -15,12 +15,9 @@ namespace TerrificNet.ViewEngine.Schema
             _templateParserRegistration = templateParserRegistration;
         }
 
-        public JsonSchema Run(string templatePath)
+        public JsonSchema Run(StreamReader reader)
         {
-            if (!File.Exists(templatePath))
-                return null;
-
-            using (var reader = new StreamReader(templatePath))
+            using (reader)
             {
                 var node = _templateParserRegistration.ParserFactory().Parse(reader, typeof(object));
                 var visitor = new SchemaBuilderVisitor();
