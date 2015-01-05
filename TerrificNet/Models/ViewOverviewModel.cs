@@ -5,6 +5,9 @@ namespace TerrificNet.Models
 {
     public class ViewOverviewModel
     {
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
         [JsonProperty("views")]
         public IList<ViewItemModel> Views { get; set; }
     }

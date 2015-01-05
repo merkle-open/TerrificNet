@@ -83,6 +83,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationSpecificControllerActivator.cs" />
     <Compile Include="Controller\BundleController.cs" />
     <Compile Include="Controller\ComponentAssetsController.cs" />
     <Compile Include="Controller\GenerateController.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Controller\TemplateController.cs" />
     <Compile Include="Controller\TemplateControllerBase.cs" />
     <Compile Include="Controller\ViewIndexController.cs" />
+    <Compile Include="Models\ApplicationOverviewModel.cs" />
     <Compile Include="Models\ViewItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />
     <Compile Include="Program.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Configuration\TerrificNetConfig.cs" />
     <Compile Include="UnityModule\IUnityModule.cs" />
     <Compile Include="UnityModule\TerrificBundleUnityModule.cs" />
+    <Compile Include="UnityModule\TerrificNetApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
