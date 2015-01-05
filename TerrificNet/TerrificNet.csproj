@@ -127,6 +127,10 @@
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Veil\Src\Veil\Veil.csproj">
+      <Project>{97D96B66-EDFE-474B-BC72-D8439830FC76}</Project>
+      <Name>Veil</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web\assets\common.js">

@@ -166,7 +166,6 @@
     </Content>
     <Content Include="views\teaser_heading.html" />
     <Content Include="views\teaser_entry.html" />
-    <Content Include="views\sidebar_teaser.html" />
     <Content Include="components\modules\Teaser\teaser.html" />
     <Content Include="components\modules\Slider\slider.html" />
     <Content Include="views\foot.html" />

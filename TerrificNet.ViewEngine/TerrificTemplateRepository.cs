@@ -16,54 +16,58 @@ namespace TerrificNet.ViewEngine
 			_config = config;
 		}
 
-		public bool TryGetTemplate(string id, out TemplateInfo templateInfo)
+		public bool TryGetTemplate(string id, string skin, out TemplateInfo templateInfo)
 		{
-            templateInfo = null;
+			templateInfo = null;
 
-			var fileName = Path.ChangeExtension(id, HtmlExtension);
+			var fileName = id;
+			if (!string.IsNullOrEmpty(skin))
+				fileName += "-" + skin;
+
+			fileName = Path.ChangeExtension(fileName, HtmlExtension);
 
 			// locate views
-		    if (TryGetTemplate(id, ref templateInfo, _config.ViewPath, fileName)) 
-                return true;
+			if (TryGetTemplate(id, ref templateInfo, _config.ViewPath, fileName))
+				return true;
 
-            if (TryGetTemplate(id, ref templateInfo, _config.ModulePath, fileName)) 
-                return true;
+			if (TryGetTemplate(id, ref templateInfo, _config.ModulePath, fileName))
+				return true;
 
-		    return false;
+			return false;
 		}
 
-	    private static bool TryGetTemplate(string id, ref TemplateInfo templateInfo, string viewPath, string fileName)
-	    {
-	        var path = Path.Combine(viewPath, fileName);
+		private static bool TryGetTemplate(string id, ref TemplateInfo templateInfo, string viewPath, string fileName)
+		{
+			var path = Path.Combine(viewPath, fileName);
 
-	        if (!File.Exists(path))
-                path = Path.Combine(viewPath, id, fileName);
+			if (!File.Exists(path))
+				path = Path.Combine(viewPath, id, fileName);
 
-            if (File.Exists(path))
-            {
-	            templateInfo = new FileTemplateInfo(id, new FileInfo(path));
-	            return true;
-	        }
+			if (File.Exists(path))
+			{
+				templateInfo = new FileTemplateInfo(id, new FileInfo(path));
+				return true;
+			}
 
-	        return false;
-	    }
+			return false;
+		}
 
-	    public IEnumerable<TemplateInfo> Read(string directory)
-	    {
-	        if (!Directory.Exists(directory))
-	            return Enumerable.Empty<TemplateInfo>();
+		public IEnumerable<TemplateInfo> Read(string directory)
+		{
+			if (!Directory.Exists(directory))
+				return Enumerable.Empty<TemplateInfo>();
 
-	        return Directory.GetFiles(directory, "*.html").Select(f =>
-	        {
-	            var info = new FileInfo(f); 
-                return new FileTemplateInfo(info.Name, info); 
-            });
-	    }
+			return Directory.GetFiles(directory, "*.html").Select(f =>
+			{
+				var info = new FileInfo(f);
+				return new FileTemplateInfo(info.Name, info);
+			});
+		}
 
-	    public IEnumerable<TemplateInfo> GetAll()
-	    {
-	        return Read(_config.ViewPath)
-                .Union(Read(_config.ModulePath));
-	    }
+		public IEnumerable<TemplateInfo> GetAll()
+		{
+			return Read(_config.ViewPath)
+				.Union(Read(_config.ModulePath));
+		}
 	}
 }

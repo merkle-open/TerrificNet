@@ -5,9 +5,21 @@
                 "template": "content_home"
             }
         ],
-        "phSidebar": [ 
+        "phSidebar": [
             {
-                "template": "sidebar_teaser"
+                "template": "sidebarteaser",
+                "skin": "img-text1"
+            },
+            {
+                "template": "sidebarteaser",
+                "skin": "faq"
+            },
+            {
+                "template": "sidebarteaser",
+                "skin": "contact"
+            },
+            {
+                "template": "sidebarteaser"
             }
         ]
     }

@@ -25,7 +25,7 @@ namespace TerrificNet.Controller
 
 			IView view;
 			TemplateInfo templateInfo;
-			if (!_templateRepository.TryGetTemplate(path, out templateInfo) ||
+			if (!_templateRepository.TryGetTemplate(path, string.Empty, out templateInfo) ||
 				!_viewEngine.TryCreateView(templateInfo, out view))
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
