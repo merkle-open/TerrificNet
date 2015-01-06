@@ -8,6 +8,8 @@ using Newtonsoft.Json.Schema;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
 using SyntaxKind = Roslyn.Compilers.CSharp.SyntaxKind;
+using System.Collections;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace TerrificNet.Generator
 {
@@ -33,17 +35,35 @@ namespace TerrificNet.Generator
 	    public Type Compile(JsonSchema schema)
         {
             var output = GetSyntax(schema);
+	        output = output.NormalizeWhitespace();
 
+            var syntaxTree2 = SyntaxTree.ParseText(output.ToFullString());
             var syntaxTree = SyntaxTree.Create(output);
+            //var syntaxTree = SyntaxTree.Create(output,
+            //    options: new ParseOptions(kind: SourceCodeKind.Regular, languageVersion: Roslyn.Compilers.CSharp.LanguageVersion.CSharp4));
+
+            
+	        //var syntaxTree = SyntaxTree.ParseText("public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}");
+            //var syntaxTree = SyntaxTree.Create(output);
+            //var syntaxTree = SyntaxTree.ParseText(@"
+//    public class Test {
+//        public string So { get; set; }
+//        public System.Collections.Generic.IList<string> Bla { get; set; }
+//}
+//
+//");
 
             var compilation = Compilation.Create("test", new CompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                .AddReferences(
-                    MetadataReference.CreateAssemblyReference(typeof(object).Assembly.FullName),
-                    MetadataReference.CreateAssemblyReference(typeof(Enumerable).Assembly.FullName),
-                    MetadataReference.CreateAssemblyReference(typeof(List<>).Assembly.FullName),
-                    MetadataReference.CreateAssemblyReference(typeof(IList<>).Assembly.FullName)
-                )
-                .AddSyntaxTrees(new[] { syntaxTree });
+                .AddReferences(MetadataReference.CreateAssemblyReference("mscorlib"))
+                .AddReferences(MetadataReference.CreateAssemblyReference("System"))
+                .AddReferences(MetadataReference.CreateAssemblyReference("System.Core"))
+                //.AddReferences(
+                    //MetadataReference.CreateAssemblyReference(typeof(object).Assembly.FullName),
+                    //MetadataReference.CreateAssemblyReference(typeof(Enumerable).Assembly.FullName),
+                    //MetadataReference.CreateAssemblyReference(typeof(List<>).Assembly.FullName),
+                    //MetadataReference.CreateAssemblyReference(typeof(IList<>).Assembly.FullName)
+                //)
+                .AddSyntaxTrees(syntaxTree);
 
             //var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("DynamicModule"),
             //    AssemblyBuilderAccess.RunAndCollect);
@@ -101,7 +121,8 @@ namespace TerrificNet.Generator
 				case JsonSchemaType.Array:
 					var valueType = value.Items.FirstOrDefault();
 					var genericType = GetPropertyType(valueType, typeContext, propertyName);
-                    return Syntax.GenericName(Syntax.Identifier("System.Collections.Generic.IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType)));
+			        //return Syntax.ParseTypeName("System.Collections.IList
+                    return Syntax.QualifiedName(GetQualifiedName("System", "Collections", "Generic"), Syntax.GenericName(Syntax.Identifier("IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType))));
 				case JsonSchemaType.Object:
 					GenerateClass(value, typeContext, propertyName);
 					return Syntax.IdentifierName(NormalizeClassName(propertyName));
@@ -109,6 +130,13 @@ namespace TerrificNet.Generator
 					return Syntax.ParseTypeName("object");
 			}
 		}
+
+        // TODO: Remove hack
+	    private static QualifiedNameSyntax GetQualifiedName(params string[] parts)
+	    {
+	        var syntax = Syntax.QualifiedName(Syntax.IdentifierName(parts[0]), Syntax.IdentifierName(parts[1]));
+	        return Syntax.QualifiedName(syntax, Syntax.IdentifierName(parts[2]));
+	    }
 
 		public static void GenerateClass(JsonSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName)
 		{

@@ -72,7 +72,7 @@ namespace TerrificNet.Generator.Test
 		[TestMethod]
 		public void TestListSimple()
 		{
-			const string reference = "public class Person{ public IList<string> Names{get;set;}}";
+			const string reference = "public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listSimple.json")));
 		}
 
