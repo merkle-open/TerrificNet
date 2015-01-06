@@ -44,7 +44,7 @@ namespace TerrificNet.UnityModule
 			//container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
 			container.RegisterType<IViewEngine, VeilPhysicalViewEngine>();
 			container.RegisterType<ICacheProvider, MemoryCacheProvider>();
-			container.RegisterType<IModelProvider, JsonModelProvier>();
+			container.RegisterType<IModelProvider, JsonModelProvider>();
 			container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
 				new InjectionConstructor(new ResolvedParameter<NustacheViewSchemaProvider>(),
 					new ResolvedParameter<BaseSchemaProvider>()));

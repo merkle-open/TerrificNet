@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Schema;
-using System.Collections.Generic;
 using TerrificNet.ViewEngine.Schema;
 
 namespace TerrificNet.ViewEngine.SchemaProviders

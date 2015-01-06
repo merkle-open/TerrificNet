@@ -4,11 +4,11 @@ using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.ModelProviders
 {
-    public class JsonModelProvier : IModelProvider
+    public class JsonModelProvider : IModelProvider
     {
         private readonly string _basePath;
 
-        public JsonModelProvier(ITerrificNetConfig config)
+        public JsonModelProvider(ITerrificNetConfig config)
         {
             _basePath = config.DataPath;
         }

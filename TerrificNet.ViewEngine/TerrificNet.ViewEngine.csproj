@@ -59,7 +59,7 @@
     <Compile Include="IModelProvider.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />
-    <Compile Include="ModelProviders\JsonModelProvier.cs" />
+    <Compile Include="ModelProviders\JsonModelProvider.cs" />
     <Compile Include="SchemaProviders\NustacheViewSchemaProvider.cs" />
     <Compile Include="Helper\TerrificPlaceholderHelper.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
