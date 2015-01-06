@@ -83,6 +83,17 @@ namespace TerrificNet.Generator.Test
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listComplex.json")));
 		}
 
+        [TestMethod]
+	    public void TestCompileComplexType()
+        {
+            var path = "Schemas/listSimple.json";
+            var generator = new JsonSchemaCodeGenerator();
+            var schema = GetSchema(Path.Combine(TestContext.DeploymentDirectory, path));
+
+            var type = generator.Compile(schema);
+            Assert.IsNotNull(type);
+        }
+
 		private static bool CompareCode(string original, string generated)
 		{
 			var originalTree = SyntaxTree.ParseText(original);

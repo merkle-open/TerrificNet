@@ -36,14 +36,14 @@ namespace TerrificNet.Generator
 
             var syntaxTree = SyntaxTree.Create(output);
 
-            var compilation = Compilation.Create("test", references: new[]
-                {
+            var compilation = Compilation.Create("test", new CompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                .AddReferences(
                     MetadataReference.CreateAssemblyReference(typeof(object).Assembly.FullName),
                     MetadataReference.CreateAssemblyReference(typeof(Enumerable).Assembly.FullName),
                     MetadataReference.CreateAssemblyReference(typeof(List<>).Assembly.FullName),
-                },
-                syntaxTrees: new[] { syntaxTree },
-                options: new CompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+                    MetadataReference.CreateAssemblyReference(typeof(IList<>).Assembly.FullName)
+                )
+                .AddSyntaxTrees(new[] { syntaxTree });
 
             //var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("DynamicModule"),
             //    AssemblyBuilderAccess.RunAndCollect);
@@ -101,7 +101,7 @@ namespace TerrificNet.Generator
 				case JsonSchemaType.Array:
 					var valueType = value.Items.FirstOrDefault();
 					var genericType = GetPropertyType(valueType, typeContext, propertyName);
-					return Syntax.GenericName(Syntax.Identifier("IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType)));
+                    return Syntax.GenericName(Syntax.Identifier("System.Collections.Generic.IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType)));
 				case JsonSchemaType.Object:
 					GenerateClass(value, typeContext, propertyName);
 					return Syntax.IdentifierName(NormalizeClassName(propertyName));

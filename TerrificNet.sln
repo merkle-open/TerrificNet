@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet", "TerrificNet\TerrificNet.csproj", "{68B78678-5EB5-4E5B-A181-1A2FFA804B3E}"
 EndProject
@@ -31,6 +31,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.AssetCompiler", "TerrificNet.AssetCompiler\TerrificNet.AssetCompiler.csproj", "{832B0385-5327-4394-88B9-B2DE96D8895F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.AssetCompiler.Test", "TerrificNet.AssetCompiler.Test\TerrificNet.AssetCompiler.Test.csproj", "{9814066C-F8C4-40EA-AA37-1FC7D8DCAA65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F545AF87-B59F-465D-A6A3-40A38E94877E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Sample.Net", "TerrificNet.Sample.Net\TerrificNet.Sample.Net.csproj", "{9B1BD351-0DA7-4AE4-A83E-C4172CBDC9BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Sample.Net.Models", "TerrificNet.Sample.Net.Models\TerrificNet.Sample.Net.Models.csproj", "{BBE75282-ACD4-49BC-A592-68B300A3BF20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +88,14 @@ Global
 		{9814066C-F8C4-40EA-AA37-1FC7D8DCAA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9814066C-F8C4-40EA-AA37-1FC7D8DCAA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9814066C-F8C4-40EA-AA37-1FC7D8DCAA65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1BD351-0DA7-4AE4-A83E-C4172CBDC9BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1BD351-0DA7-4AE4-A83E-C4172CBDC9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1BD351-0DA7-4AE4-A83E-C4172CBDC9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1BD351-0DA7-4AE4-A83E-C4172CBDC9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBE75282-ACD4-49BC-A592-68B300A3BF20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBE75282-ACD4-49BC-A592-68B300A3BF20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBE75282-ACD4-49BC-A592-68B300A3BF20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBE75282-ACD4-49BC-A592-68B300A3BF20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,5 +103,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{97D96B66-EDFE-474B-BC72-D8439830FC76} = {BF17DEA6-822B-4405-AE5C-7F7A421AC45E}
 		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC} = {BF17DEA6-822B-4405-AE5C-7F7A421AC45E}
+		{9B1BD351-0DA7-4AE4-A83E-C4172CBDC9BD} = {F545AF87-B59F-465D-A6A3-40A38E94877E}
+		{BBE75282-ACD4-49BC-A592-68B300A3BF20} = {F545AF87-B59F-465D-A6A3-40A38E94877E}
 	EndGlobalSection
 EndGlobal
