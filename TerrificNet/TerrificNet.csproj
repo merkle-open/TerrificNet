@@ -148,7 +148,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <None Include="TerrificNet_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.AssetCompiler\TerrificNet.AssetCompiler.csproj">
