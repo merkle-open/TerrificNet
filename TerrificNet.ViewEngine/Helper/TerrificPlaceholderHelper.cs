@@ -48,7 +48,7 @@ namespace TerrificNet.ViewEngine.Helper
 
 				TemplateInfo templateInfo;
 				IView view;
-				if (_templateRepository.TryGetTemplate(templateName, out templateInfo) && 
+				if (_templateRepository.TryGetTemplate(templateName, string.Empty, out templateInfo) &&
 					_viewEngine.TryCreateView(templateInfo, out view))
 				{
 					ctx.Write(view.Render(model));

@@ -53,12 +53,6 @@
     <Compile Include="MustacheCompilerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TerrificNet.Mustache\TerrificNet.Mustache.csproj">
-      <Project>{149A7CD9-B52F-4135-A740-1DCBBF307176}</Project>
-      <Name>TerrificNet.Mustache</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

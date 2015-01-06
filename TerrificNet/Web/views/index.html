@@ -7,15 +7,15 @@
 </head>
 <body>
     <h1>Views</h1>
-        {{#each applications}}
-            <h2>{{name}}</h2>
-            <ul>
-                {{#if views}}
-                {{#each views}}
-                <li><a href="{{url}}" alt="{{alt}}">{{text}}</a>(<a href="{{editUrl}}" alt="{{alt}}">Edit data</a>) (<a href="{{schemaUrl}}" alt="{{alt}}">View schema</a>)</li>
-                {{/each}}
-                {{/if}}
-            </ul>
+    {{#each applications}}
+    <h2>{{name}}</h2>
+    <ul>
+        {{#if views}}
+        {{#each views}}
+        <li><a href="{{url}}" alt="">{{text}}</a>(<a href="{{editUrl}}" alt="">Edit data</a>) (<a href="{{schemaUrl}}" alt="">View schema</a>)</li>
         {{/each}}
+        {{/if}}
+    </ul>
+    {{/each}}
 </body>
 </html>

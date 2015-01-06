@@ -15,10 +15,10 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _basePath = config.ViewPath;
         }
 
-        public JsonSchema GetSchemaFromPath(string path)
+        public JsonSchema GetSchemaFromTemplate(TemplateInfo template)
         {
             var extractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
-            return extractor.Run(Path.Combine(_basePath, path));
+            return extractor.Run(new StreamReader(template.Open()));
         }
     }
 }

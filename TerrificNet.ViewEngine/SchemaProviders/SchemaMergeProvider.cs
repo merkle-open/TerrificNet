@@ -15,10 +15,10 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _schemaBaseProvider = schemaBaseProvider;
         }
 
-        public JsonSchema GetSchemaFromPath(string path)
+        public JsonSchema GetSchemaFromTemplate(TemplateInfo template)
         {
             var comparer = new SchemaComparer();
-            return comparer.Apply(_schemaProvider.GetSchemaFromPath(path), _schemaBaseProvider.GetSchemaFromPath(path), new SchemaComparisionReport());
+            return comparer.Apply(_schemaProvider.GetSchemaFromTemplate(template), _schemaBaseProvider.GetSchemaFromTemplate(template), new SchemaComparisionReport());
         }
     }
 }

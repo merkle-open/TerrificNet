@@ -11,18 +11,24 @@ namespace TerrificNet.Controller
 	{
 		private readonly IJsonSchemaCodeGenerator _generator;
 		private readonly ISchemaProvider _schemaProvider;
+	    private readonly ITemplateRepository _templateRepository;
 
-		public GenerateController(IJsonSchemaCodeGenerator generator, ISchemaProvider schemaProvider)
+	    public GenerateController(IJsonSchemaCodeGenerator generator, ISchemaProvider schemaProvider, ITemplateRepository templateRepository)
 		{
 			_generator = generator;
 			_schemaProvider = schemaProvider;
+	        _templateRepository = templateRepository;
 		}
 
 		[Route("generate/{*path}")]
 		[HttpGet]
 		public HttpResponseMessage Get(string path)
 		{
-			var schema = _schemaProvider.GetSchemaFromPath(path);
+            TemplateInfo templateInfo;
+            if (!_templateRepository.TryGetTemplate(path, null, out templateInfo))
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Template not found");
+
+			var schema = _schemaProvider.GetSchemaFromTemplate(templateInfo);
 
             var type = _generator.Compile(schema);
 			var code = _generator.Generate(schema);
