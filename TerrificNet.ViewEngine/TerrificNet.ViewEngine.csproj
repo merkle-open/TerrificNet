@@ -53,7 +53,6 @@
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
     <Compile Include="TemplateInfo.cs" />
     <Compile Include="ISchemaProvider.cs" />
-    <Compile Include="ModelProviders\DummyModelProvider.cs" />
     <Compile Include="IModelProvider.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />

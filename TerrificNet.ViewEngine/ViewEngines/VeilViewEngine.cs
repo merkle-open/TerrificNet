@@ -125,7 +125,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 					if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
 						_viewEngine.TryCreateView(templateInfo, out view))
 					{
-						var moduleModel = _modelProvider.GetModelForTemplate(templateName) ?? new object();
+						var moduleModel = _modelProvider.GetModelForTemplate(templateInfo) ?? new object();
 						return view.Render(moduleModel);
 					}
 
@@ -158,13 +158,12 @@ namespace TerrificNet.ViewEngine.ViewEngines
 						if (skinRaw != null)
 							skin = placeholderConfig["skin"].Value<string>();
 
-						var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetModelForTemplate(templateName);
-
 						TemplateInfo templateInfo;
 						IView view;
 						if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
 							_viewEngine.TryCreateView(templateInfo, out view))
 						{
+                            var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetModelForTemplate(templateInfo);
 							sb.Append(view.Render(moduleModel));
 						}
 						else
