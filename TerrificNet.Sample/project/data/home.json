@@ -12,7 +12,10 @@
             },
             {
                 "template": "sidebarteaser",
-                "skin": "faq"
+                "skin": "faq",
+                "data": { 
+
+                }
             },
             {
                 "template": "sidebarteaser",
