@@ -13,12 +13,14 @@ namespace TerrificNet.AssetCompiler.Test
 	[TestClass]
 	public class LocalAssetProcessorTests
 	{
-		private readonly TerrificConfig _terrificConfig = TerrificConfig.Parse();
+		private TerrificConfig _terrificConfig;
 		private UnityContainer _container;
 
 		[TestInitialize]
 		public void Init()
 		{
+            _terrificConfig = TerrificConfig.Parse();
+
 			_container = new UnityContainer();
 			_container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
 			_container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
@@ -29,6 +31,8 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
+        [DeploymentItem("testassets", "testassets")]
 		public async Task BundleJsTest()
 		{
 			var bundler = _container.Resolve<IAssetBundler>();
@@ -39,7 +43,9 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
-		public async Task BundleCssTest()
+        [DeploymentItem("configs/config.json")]
+        [DeploymentItem("testassets", "testassets")]
+        public async Task BundleCssTest()
 		{
 			var bundler = _container.Resolve<IAssetBundler>();
 			var helper = _container.Resolve<IAssetHelper>();
@@ -49,6 +55,7 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
 		public async Task CompileAppJsAssetTest()
 		{
 			var factory = _container.Resolve<IAssetCompilerFactory>();
@@ -62,6 +69,8 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
+        [DeploymentItem("testassets", "testassets")]
 		public async Task CompileAppCssAssetTest()
 		{
 			var factory = _container.Resolve<IAssetCompilerFactory>();
@@ -75,6 +84,7 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
 		public void AssetCompilerFactoryJsTest()
 		{
 			var factory = _container.Resolve<IAssetCompilerFactory>();
@@ -84,6 +94,7 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
 		public void AssetCompilerFactoryCssTest()
 		{
 			var factory = _container.Resolve<IAssetCompilerFactory>();
@@ -93,6 +104,8 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
+        [DeploymentItem("testassets", "testassets")]
 		public async Task BuildAssetProcessJsWithoutMinifyTest()
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
@@ -102,6 +115,8 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
+        [DeploymentItem("testassets", "testassets")]
 		public async Task BuildAssetProcessCssWithoutMinifyTest()
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
@@ -111,6 +126,7 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
 		public async Task BuildAssetProcessJsWithMinifyTest()
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
@@ -120,6 +136,8 @@ namespace TerrificNet.AssetCompiler.Test
 		}
 
 		[TestMethod]
+        [DeploymentItem("configs/config.json")]
+        [DeploymentItem("testassets", "testassets")]
 		public async Task BuildAssetProcessCssWithMinifyTest()
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
