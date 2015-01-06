@@ -76,10 +76,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nustache\Nustache.Core\Nustache.Core.csproj">
-      <Project>{3a725cd9-6024-441f-84b5-4226d78352c5}</Project>
-      <Name>Nustache.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine.Schema\TerrificNet.ViewEngine.Schema.csproj">
       <Project>{29F13A40-21B8-4FEA-8A30-D5BAA24622B2}</Project>
       <Name>TerrificNet.ViewEngine.Schema</Name>
