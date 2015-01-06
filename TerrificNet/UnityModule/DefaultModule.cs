@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Net.Http;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using TerrificNet.Configuration;
@@ -10,7 +9,6 @@ using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
-using Veil.Helper;
 
 namespace TerrificNet.UnityModule
 {
@@ -41,7 +39,6 @@ namespace TerrificNet.UnityModule
 
 		private static void RegisterApplicationSpecific(IUnityContainer container)
 		{
-			//container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
 			container.RegisterType<IViewEngine, VeilPhysicalViewEngine>();
 			container.RegisterType<ICacheProvider, MemoryCacheProvider>();
 			container.RegisterType<IModelProvider, JsonModelProvier>();

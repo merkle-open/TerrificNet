@@ -129,7 +129,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 						return view.Render(moduleModel);
 					}
 
-					return "Problem loading template " + templateName;
+					return "Problem loading template " + templateName + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty);
 				}
 
 				if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
