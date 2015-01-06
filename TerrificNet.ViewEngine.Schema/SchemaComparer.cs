@@ -18,6 +18,9 @@ namespace TerrificNet.ViewEngine.Schema
             if (!string.IsNullOrEmpty(baseSchema.Title))
                 schema.Title = baseSchema.Title;
 
+            if (!string.IsNullOrEmpty(baseSchema.Format))
+                schema.Format = baseSchema.Format;
+
             if (baseSchema.Type != null)
             {
                 if (!CanConvert(schema.Type, baseSchema.Type))

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Schema;
-using Newtonsoft.Json;
 using System.IO;
 
 namespace TerrificNet.ViewEngine.Schema.Test
@@ -57,6 +56,21 @@ namespace TerrificNet.ViewEngine.Schema.Test
             Assert.AreEqual("missingPropertyInBase", ((MissingPropertyInfo)infos[0]).PropertyName);
         }
 
+        [TestMethod]
+        [Description("Any property that is defined in the base schema should be in the result schema.")]
+        public void TestAnyPropertyFromBaseSchemaShouldBeTaken()
+        {
+            var comparer = new SchemaComparer();
+            var report = new SchemaComparisionReport();
+            var resultSchema = comparer.Apply(GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/anyPropertyInMoreSpecific.json")),
+                GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Comparisions/anyPropertyInMoreSpecific_base.json")),
+                report);
+
+            Assert.IsNotNull(resultSchema);
+            Assert.AreEqual("val1", resultSchema.Properties["name"].Format);
+            //Assert.AreEqual("TestModel", resultSchema.Properties["prop2"], "val2");
+        }
+
         private static JsonSchema GetSchema(string path)
         {
             string content;
@@ -65,7 +79,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
                 content = reader.ReadToEnd();
             }
 
-            return JsonConvert.DeserializeObject<JsonSchema>(content);
+            return JsonSchema.Parse(content);
         }
     }
 }

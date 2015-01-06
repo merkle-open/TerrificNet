@@ -1,0 +1,13 @@
+﻿{
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "integer",
+            "required": true,
+            "format": "val1",
+            "options": { 
+                "wysiwyg": true
+            }
+        }
+    }
+}
