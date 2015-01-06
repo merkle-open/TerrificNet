@@ -5,11 +5,11 @@ using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.SchemaProviders
 {
-    public class BaseSchemaProvider : ISchemaProvider
+    public class PhysicalSchemaProvider : ISchemaProvider
     {
         private readonly ITerrificNetConfig _config;
 
-        public BaseSchemaProvider(ITerrificNetConfig config)
+        public PhysicalSchemaProvider(ITerrificNetConfig config)
         {
             _config = config;
         }

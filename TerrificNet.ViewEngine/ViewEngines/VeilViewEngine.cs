@@ -10,13 +10,13 @@ using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
-	public class VeilPhysicalViewEngine : IViewEngine
+	public class VeilViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
 		private readonly IModelProvider _modelProvider;
 		private readonly ITemplateRepository _templateRepository;
 
-		public VeilPhysicalViewEngine(ICacheProvider cacheProvider, IModelProvider modelProvider, ITemplateRepository templateRepository)
+		public VeilViewEngine(ICacheProvider cacheProvider, IModelProvider modelProvider, ITemplateRepository templateRepository)
 		{
 			_cacheProvider = cacheProvider;
 			_modelProvider = modelProvider;

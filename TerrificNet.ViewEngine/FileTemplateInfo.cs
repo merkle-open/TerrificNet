@@ -2,7 +2,7 @@
 
 namespace TerrificNet.ViewEngine
 {
-    public class FileTemplateInfo : TemplateInfo
+    internal class FileTemplateInfo : TemplateInfo
     {
         private readonly FileInfo _file;
 

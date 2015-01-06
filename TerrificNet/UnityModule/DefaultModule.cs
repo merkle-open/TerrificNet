@@ -42,12 +42,12 @@ namespace TerrificNet.UnityModule
 		private static void RegisterApplicationSpecific(IUnityContainer container)
 		{
 			//container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
-			container.RegisterType<IViewEngine, VeilPhysicalViewEngine>();
+			container.RegisterType<IViewEngine, VeilViewEngine>();
 			container.RegisterType<ICacheProvider, MemoryCacheProvider>();
 			container.RegisterType<IModelProvider, JsonModelProvider>();
 			container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
 				new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),
-					new ResolvedParameter<BaseSchemaProvider>()));
+					new ResolvedParameter<PhysicalSchemaProvider>()));
 			container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
 		}
 
