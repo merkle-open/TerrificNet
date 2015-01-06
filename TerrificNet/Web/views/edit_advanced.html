@@ -31,7 +31,6 @@
 
             $editFrame.load(function() {
                 $editFrame.contents().find("#submit").click(function() {
-                    console.log('hello from outer');
                     $contentFrame.attr('src', $contentFrame.attr('src'));
                 });
             });
