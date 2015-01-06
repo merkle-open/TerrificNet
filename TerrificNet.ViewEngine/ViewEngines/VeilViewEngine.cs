@@ -10,13 +10,13 @@ using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
-	public class VeilPhysicalViewEngine : IViewEngine
+	public class VeilViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
 		private readonly IModelProvider _modelProvider;
 		private readonly ITemplateRepository _templateRepository;
 
-		public VeilPhysicalViewEngine(ICacheProvider cacheProvider, IModelProvider modelProvider, ITemplateRepository templateRepository)
+		public VeilViewEngine(ICacheProvider cacheProvider, IModelProvider modelProvider, ITemplateRepository templateRepository)
 		{
 			_cacheProvider = cacheProvider;
 			_modelProvider = modelProvider;
@@ -125,7 +125,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 					if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
 						_viewEngine.TryCreateView(templateInfo, out view))
 					{
-						var moduleModel = _modelProvider.GetModelForTemplate(templateName) ?? new object();
+						var moduleModel = _modelProvider.GetModelForTemplate(templateInfo) ?? new object();
 						return view.Render(moduleModel);
 					}
 
@@ -158,13 +158,12 @@ namespace TerrificNet.ViewEngine.ViewEngines
 						if (skinRaw != null)
 							skin = placeholderConfig["skin"].Value<string>();
 
-						var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetModelForTemplate(templateName);
-
 						TemplateInfo templateInfo;
 						IView view;
 						if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
 							_viewEngine.TryCreateView(templateInfo, out view))
 						{
+                            var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetModelForTemplate(templateInfo);
 							sb.Append(view.Render(moduleModel));
 						}
 						else

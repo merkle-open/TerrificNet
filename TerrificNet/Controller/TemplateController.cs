@@ -21,14 +21,13 @@ namespace TerrificNet.Controller
 		[HttpGet]
 		public HttpResponseMessage Get(string path)
 		{
-			var model = _modelProvider.GetModelForTemplate(path);
-
 			IView view;
 			TemplateInfo templateInfo;
 			if (!_templateRepository.TryGetTemplate(path, string.Empty, out templateInfo) ||
 				!_viewEngine.TryCreateView(templateInfo, out view))
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
+            var model = _modelProvider.GetModelForTemplate(templateInfo);
 			return Render(view, model);
 		}
 	}

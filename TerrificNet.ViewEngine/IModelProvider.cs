@@ -2,7 +2,7 @@
 {
     public interface IModelProvider
     {
-        object GetModelForTemplate(string template);
-        void UpdateModelForTemplate(string template, object content);
+        object GetModelForTemplate(TemplateInfo template);
+        void UpdateModelForTemplate(TemplateInfo template, object content);
     }
 }

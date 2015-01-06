@@ -49,19 +49,18 @@
     <Compile Include="Cache\NullCacheProvider.cs" />
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="ITemplateRepository.cs" />
-    <Compile Include="SchemaProviders\BaseSchemaProvider.cs" />
+    <Compile Include="SchemaProviders\PhysicalSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
     <Compile Include="TemplateInfo.cs" />
     <Compile Include="ISchemaProvider.cs" />
-    <Compile Include="ModelProviders\DummyModelProvider.cs" />
     <Compile Include="IModelProvider.cs" />
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />
-    <Compile Include="ModelProviders\JsonModelProvier.cs" />
-    <Compile Include="SchemaProviders\NustacheViewSchemaProvider.cs" />
+    <Compile Include="ModelProviders\JsonModelProvider.cs" />
+    <Compile Include="SchemaProviders\HandlebarsViewSchemaProvider.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
-    <Compile Include="ViewEngines\VeilPhysicalViewEngine.cs" />
+    <Compile Include="ViewEngines\VeilViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

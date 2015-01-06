@@ -8,6 +8,7 @@ using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
 using Microsoft.Practices.Unity;
 using Owin;
+using TerrificNet.UnityModule;
 using Unity.WebApi;
 
 namespace TerrificNet
@@ -35,10 +36,10 @@ namespace TerrificNet
                 defaults: new { controller = "viewIndex", section = "web/" }
             );
 
-
-            MapArea(config, "web/");
-            MapArea(config);
-
+		    foreach (var application in container.ResolveAll<TerrificNetApplication>())
+		    {
+                MapArea(config, application.Configuration.Section);    
+		    }
 
             config.DependencyResolver = new UnityDependencyResolver(container);
 		    config.MessageHandlers.Add(new InjectHttpRequestMessageToContainerHandler());
