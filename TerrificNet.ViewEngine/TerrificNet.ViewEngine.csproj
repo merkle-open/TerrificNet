@@ -58,7 +58,7 @@
     <Compile Include="IView.cs" />
     <Compile Include="IViewEngine.cs" />
     <Compile Include="ModelProviders\JsonModelProvider.cs" />
-    <Compile Include="SchemaProviders\NustacheViewSchemaProvider.cs" />
+    <Compile Include="SchemaProviders\HandlebarsViewSchemaProvider.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
     <Compile Include="ViewEngines\VeilPhysicalViewEngine.cs" />
