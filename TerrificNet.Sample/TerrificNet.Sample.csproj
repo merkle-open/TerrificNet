@@ -242,6 +242,9 @@
     <Content Include="components\modules\Teaser\css\skins\teaser-news.less" />
     <Content Include="components\modules\Teaser\css\teaser.less" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="views\schemas\teaser_entry.json" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

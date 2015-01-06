@@ -1,0 +1,37 @@
+{
+    "type": "object",
+    "properties": {
+        "date": {
+            "required": true,
+            "type": "string"
+        },
+        "dateMobile": {
+            "required": true,
+            "type": "string"
+        },
+        "label": {
+            "required": true,
+            "type": "string"
+        },
+        "link": {
+            "required": true,
+            "type": "string"
+        },
+        "title": {
+            "required": true,
+            "type": "string"
+        },
+        "text": {
+            "required": true,
+            "type": "string",
+            "format": "html",
+            "options": {
+                "wysiwyg": true
+            }
+        },
+        "linkText": {
+            "required": true,
+            "type": "string"
+        }
+    }
+}
