@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Schema;
-using Nustache.Core;
 using Veil.Handlebars;
 
 namespace TerrificNet.ViewEngine.Schema.Test
@@ -74,8 +73,6 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [Description("The helper shoudn't be part of the schema.")]
         public void TestIgnoreHelpers()
         {
-            Helpers.Register("helper", (context, arguments, options, fn, inverse) => { });
-
             var schemaExtractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
             var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "ignoreHelpers.mustache")));
 
@@ -102,9 +99,5 @@ namespace TerrificNet.ViewEngine.Schema.Test
             SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "Street", JsonSchemaType.String);
             SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "ZipCode", JsonSchemaType.String);
         }
-
-
-
     }
-
 }
