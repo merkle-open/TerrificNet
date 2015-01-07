@@ -79,14 +79,14 @@ namespace TerrificNet.Generator.Test
 		[TestMethod]
 		public void TestListComplex()
 		{
-			const string reference = "public class Names{public string Firstname{get;set;}} public class Person{ public IList<Names> Names{get;set;}}";
+            const string reference = "public class Names{public string Firstname{get;set;}} public class Person{ public System.Collections.Generic.IList<Names> Names{get;set;}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listComplex.json")));
 		}
 
         [TestMethod]
 	    public void TestCompileComplexType()
         {
-            var path = "Schemas/listSimple.json";
+            var path = "Schemas/listComplex.json";
             var generator = new JsonSchemaCodeGenerator();
             var schema = GetSchema(Path.Combine(TestContext.DeploymentDirectory, path));
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BBE75282-ACD4-49BC-A592-68B300A3BF20}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{9E81BD82-DF59-4BD8-92EB-511314041D5E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TerrificNet.Sample.Net.Models</RootNamespace>
-    <AssemblyName>TerrificNet.Sample.Net.Models</AssemblyName>
+    <RootNamespace>TerrificNet.Generator.MSBuild</RootNamespace>
+    <AssemblyName>TerrificNet.Generator.MSBuild</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,7 +29,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>TerrificNet.Generator.MSBuild.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Tasks.v4.0" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,25 +49,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="CompileTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.Generator\TerrificNet.Generator.csproj">
+      <Project>{7A0B68AB-F5EF-4BCE-ACE3-766C9EA06B82}</Project>
+      <Name>TerrificNet.Generator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
+      <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
+      <Name>TerrificNet.ViewEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TerrificNet\TerrificNet.csproj">
+      <Project>{68B78678-5EB5-4E5B-A181-1A2FFA804B3E}</Project>
+      <Name>TerrificNet</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
-  <UsingTask 
-    TaskName="CompileTask"
-    AssemblyFile="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Generator.MSBuild\bin\Debug\TerrificNet.Generator.MSBuild.dll"></UsingTask>
-
-  <PropertyGroup>
-    <BuildDependsOn>
-      CompileSchemas;
-      $(BuildDependsOn);
-    </BuildDependsOn>
-  </PropertyGroup>
-
-  <Target Name="CompileSchemas">
-    <CompileTask SourcePath="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample" OutputAssembly="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample.Net.Models\bin\Debug\Models.dll"></CompileTask>    
-  </Target>
-  
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

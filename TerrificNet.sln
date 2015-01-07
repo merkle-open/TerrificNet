@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Sample.Net", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Sample.Net.Models", "TerrificNet.Sample.Net.Models\TerrificNet.Sample.Net.Models.csproj", "{BBE75282-ACD4-49BC-A592-68B300A3BF20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Generator.MSBuild", "TerrificNet.Generator.MSBuild\TerrificNet.Generator.MSBuild.csproj", "{9E81BD82-DF59-4BD8-92EB-511314041D5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{BBE75282-ACD4-49BC-A592-68B300A3BF20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBE75282-ACD4-49BC-A592-68B300A3BF20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBE75282-ACD4-49BC-A592-68B300A3BF20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E81BD82-DF59-4BD8-92EB-511314041D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E81BD82-DF59-4BD8-92EB-511314041D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E81BD82-DF59-4BD8-92EB-511314041D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E81BD82-DF59-4BD8-92EB-511314041D5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

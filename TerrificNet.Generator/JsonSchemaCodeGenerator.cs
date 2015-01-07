@@ -7,9 +7,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
-using SyntaxKind = Roslyn.Compilers.CSharp.SyntaxKind;
-using System.Collections;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace TerrificNet.Generator
 {
@@ -28,51 +25,16 @@ namespace TerrificNet.Generator
 	        RoslynExtension.GenerateClass(schema, typeContext, string.Empty);
 
 	        var root = Syntax.CompilationUnit()
-	            .WithMembers(Syntax.List(typeContext.Values.ToArray()));
+                .WithMembers(Syntax.NamespaceDeclaration(Syntax.ParseName(schema.Title)).WithMembers(Syntax.List(typeContext.Values.ToArray())));
 	        return root;
 	    }
 
 	    public Type Compile(JsonSchema schema)
-        {
-            var output = GetSyntax(schema);
-	        output = output.NormalizeWhitespace();
-
-            var syntaxTree2 = SyntaxTree.ParseText(output.ToFullString());
-            var syntaxTree = SyntaxTree.Create(output);
-            //var syntaxTree = SyntaxTree.Create(output,
-            //    options: new ParseOptions(kind: SourceCodeKind.Regular, languageVersion: Roslyn.Compilers.CSharp.LanguageVersion.CSharp4));
-
-            
-	        //var syntaxTree = SyntaxTree.ParseText("public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}");
-            //var syntaxTree = SyntaxTree.Create(output);
-            //var syntaxTree = SyntaxTree.ParseText(@"
-//    public class Test {
-//        public string So { get; set; }
-//        public System.Collections.Generic.IList<string> Bla { get; set; }
-//}
-//
-//");
-
-            var compilation = Compilation.Create("test", new CompilationOptions(OutputKind.DynamicallyLinkedLibrary))
-                .AddReferences(MetadataReference.CreateAssemblyReference("mscorlib"))
-                .AddReferences(MetadataReference.CreateAssemblyReference("System"))
-                .AddReferences(MetadataReference.CreateAssemblyReference("System.Core"))
-                //.AddReferences(
-                    //MetadataReference.CreateAssemblyReference(typeof(object).Assembly.FullName),
-                    //MetadataReference.CreateAssemblyReference(typeof(Enumerable).Assembly.FullName),
-                    //MetadataReference.CreateAssemblyReference(typeof(List<>).Assembly.FullName),
-                    //MetadataReference.CreateAssemblyReference(typeof(IList<>).Assembly.FullName)
-                //)
-                .AddSyntaxTrees(syntaxTree);
-
-            //var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName("DynamicModule"),
-            //    AssemblyBuilderAccess.RunAndCollect);
-
-            //var moduleBuilder = assemblyBuilder.DefineDynamicModule("Module");
-
+	    {
+            var schemas = new[] { schema };
             using (var stream = new MemoryStream())
             {
-                var result = compilation.Emit(stream);
+                var result = CompileToInternal(schemas, stream);
                 if (result.Success)
                 {
                     var assembly = Assembly.Load(stream.ToReadOnlyArray().ToArray());
@@ -82,6 +44,25 @@ namespace TerrificNet.Generator
 
             return null;
         }
+
+	    public void CompileTo(IEnumerable<JsonSchema> schemas, Stream stream)
+	    {
+	        CompileToInternal(schemas, stream);
+	    }
+
+        private EmitResult CompileToInternal(IEnumerable<JsonSchema> schemas, Stream stream)
+	    {
+	        var syntaxTrees = schemas.Select(s => SyntaxTree.Create(GetSyntax(s)));
+
+	        var compilation = Compilation.Create("test", new CompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+	            .AddReferences(MetadataReference.CreateAssemblyReference("mscorlib"))
+	            .AddReferences(MetadataReference.CreateAssemblyReference("System"))
+	            .AddReferences(MetadataReference.CreateAssemblyReference("System.Core"))
+	            .AddSyntaxTrees(syntaxTrees);
+
+	        var result = compilation.Emit(stream);
+	        return result;
+	    }
 	}
 
 	static class RoslynExtension
@@ -121,7 +102,6 @@ namespace TerrificNet.Generator
 				case JsonSchemaType.Array:
 					var valueType = value.Items.FirstOrDefault();
 					var genericType = GetPropertyType(valueType, typeContext, propertyName);
-			        //return Syntax.ParseTypeName("System.Collections.IList
                     return Syntax.QualifiedName(GetQualifiedName("System", "Collections", "Generic"), Syntax.GenericName(Syntax.Identifier("IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType))));
 				case JsonSchemaType.Object:
 					GenerateClass(value, typeContext, propertyName);
