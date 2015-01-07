@@ -49,7 +49,7 @@
   
   <UsingTask 
     TaskName="CompileTask"
-    AssemblyFile="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Generator.MSBuild\bin\Debug\TerrificNet.Generator.MSBuild.exe"></UsingTask>
+    AssemblyFile="$(SolutionDir)\TerrificNet.Generator.MSBuild\bin\Debug\TerrificNet.Generator.MSBuild.exe"></UsingTask>
 
   <!--<PropertyGroup>
     <BuildDependsOn>
@@ -61,8 +61,8 @@
   <Target Name="CoreCompile"
           Outputs="@(IntermediateAssembly)">
     <CompileTask
-      SourcePath="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample" 
-      OutputAssembly="@(IntermediateAssembly)"></CompileTask>    
+      SourcePath="$(SolutionDir)\TerrificNet.Sample" 
+      OutputAssembly="@(IntermediateAssembly)"></CompileTask>
   </Target>
   
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
