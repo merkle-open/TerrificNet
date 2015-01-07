@@ -10,7 +10,7 @@ namespace TerrificNet.Generator.MSBuild
     {
         public static void Main(string[] args)
         {
-            CompileTask.Do(@"C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample", @"C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample.Net.Models\bin\Debug\Models.dll");
+            CompileTask.Execute(@"C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample", @"C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample.Net.Models\bin\Debug\Models.dll");
         }
     }
 }

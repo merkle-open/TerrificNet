@@ -43,19 +43,26 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 
+  <!--<Target Name="Compile" DependsOnTargets="CompileSchemas;CoreCompile">
+    
+  </Target>-->
+  
   <UsingTask 
     TaskName="CompileTask"
-    AssemblyFile="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Generator.MSBuild\bin\Debug\TerrificNet.Generator.MSBuild.dll"></UsingTask>
+    AssemblyFile="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Generator.MSBuild\bin\Debug\TerrificNet.Generator.MSBuild.exe"></UsingTask>
 
-  <PropertyGroup>
+  <!--<PropertyGroup>
     <BuildDependsOn>
       CompileSchemas;
       $(BuildDependsOn);
     </BuildDependsOn>
-  </PropertyGroup>
+  </PropertyGroup>-->
 
-  <Target Name="CompileSchemas">
-    <CompileTask SourcePath="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample" OutputAssembly="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample.Net.Models\bin\Debug\Models.dll"></CompileTask>    
+  <Target Name="CoreCompile"
+          Outputs="@(IntermediateAssembly)">
+    <CompileTask
+      SourcePath="C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample" 
+      OutputAssembly="@(IntermediateAssembly)"></CompileTask>    
   </Target>
   
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

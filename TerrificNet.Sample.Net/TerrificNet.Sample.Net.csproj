@@ -122,6 +122,12 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.Sample.Net.Models\TerrificNet.Sample.Net.Models.csproj">
+      <Project>{bbe75282-acd4-49bc-a592-68b300a3bf20}</Project>
+      <Name>TerrificNet.Sample.Net.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

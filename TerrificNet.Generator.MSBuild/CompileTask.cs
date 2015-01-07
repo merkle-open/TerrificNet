@@ -12,12 +12,12 @@ namespace TerrificNet.Generator.MSBuild
     {
         public override bool Execute()
         {
-            Do(SourcePath, OutputAssembly);
+            Execute(SourcePath, OutputAssembly);
 
             return true;
         }
 
-        public static void Do(string sourcePath, string outputAssembly)
+        public static void Execute(string sourcePath, string outputAssembly)
         {
             var config = new TerrificNetConfig
             {

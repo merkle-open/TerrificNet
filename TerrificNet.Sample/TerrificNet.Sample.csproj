@@ -245,6 +245,9 @@
   <ItemGroup>
     <Content Include="views\schemas\teaser_entry.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="config.json" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

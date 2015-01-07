@@ -11,6 +11,8 @@ namespace TerrificNet.Sample.Net.Controllers
         // GET: Default
         public ActionResult Index()
         {
+            teaserModel.TeaserModel test = new teaserModel.TeaserModel();
+
             return View();
         }
     }
