@@ -18,7 +18,7 @@ namespace TerrificNet.Sample.Net.Controllers
             model.Sortings.Add(new teaser_headingModel.Sortings()
             {
                 Name ="asdfsdf",
-                Key = "asdf"
+                Key = "asdf",
             });
 
             return View();
