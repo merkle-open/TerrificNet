@@ -3,13 +3,13 @@
     <!-- Footer Address -->
     <dl class="footer-adress-list">
         <dd>
-            <span itemprop="name" class="footer-adress-title">Eidgenössische Finanzmarktaufsicht FINMA</span>
+            <span itemprop="name" class="footer-adress-title">{{title}}</span>
         </dd>
         <dd>
             <p itemprop="address" class="footer-adress-text" itemscope itemtype="http://data-vocabulary.org/Address">
-                <span itemprop="street-address">Einsteinstrasse 2</span>,
-                <span itemprop="postal-code">3000</span>
-                <span itemprop="locality">{{location}}</span>
+                <span itemprop="street-address">{{address.street}}</span>,
+                <span itemprop="postal-code">{{address.zipCode}}</span>
+                <span itemprop="locality">{{address.location}}</span>
             </p>
         </dd>
         <dd>
@@ -20,8 +20,7 @@
         </dd>
         <dd>
             <p itemprop="mail" class="footer-adress-mail">
-                <a href="mailto:info@finma.ch">{{mail}}</a>
-                {{mailinfotext}}
+                <a href="mailto:{{mail}}">{{mail}}</a>
             </p>
         </dd>
     </dl>

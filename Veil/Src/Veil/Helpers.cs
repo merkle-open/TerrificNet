@@ -97,6 +97,9 @@ namespace Veil
 
         public static object RuntimeBind(object model, string itemName, bool isCaseSensitive)
         {
+            if (model == null)
+                return null;
+
             var binder = lateBoundCache.GetOrAdd(Tuple.Create(model.GetType(), itemName), new Func<Tuple<Type, string>, Func<object, object>>(pair =>
             {
                 var type = pair.Item1;
