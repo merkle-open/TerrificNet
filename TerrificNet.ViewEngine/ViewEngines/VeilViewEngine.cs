@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Cache;
 using Veil;
 using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
-	public class VeilViewEngine : IViewEngine
+    public class VeilViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
-		private readonly IModelProvider _modelProvider;
-		private readonly ITemplateRepository _templateRepository;
+        private readonly ITerrificTemplateHandlerFactory _templateHandlerFactory;
 
-		public VeilViewEngine(ICacheProvider cacheProvider, IModelProvider modelProvider, ITemplateRepository templateRepository)
+        public VeilViewEngine(ICacheProvider cacheProvider, ITerrificTemplateHandlerFactory templateHandlerFactory)
 		{
 			_cacheProvider = cacheProvider;
-			_modelProvider = modelProvider;
-			_templateRepository = templateRepository;
+	        _templateHandlerFactory = templateHandlerFactory;
 		}
 
 		public IView CreateView(string content)
@@ -30,10 +27,14 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			VeilView view;
 			if (!_cacheProvider.TryGet(hash, out view))
 			{
-				var helperHandler = new TerrificHelperHandler(this, _modelProvider, _templateRepository);
+			    var helperHandler = new TerrificHelperHandler(_templateHandlerFactory.Create());
 
 				var render = new VeilEngine(helperHandler: helperHandler).CompileNonGeneric("handlebars", new StringReader(content), typeof(object));
-				view = new VeilView(render);
+				view = new VeilView((a, c, d) =>
+				{
+				    helperHandler.SetContext(d);
+				    render(a, c);
+				});
 				_cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
 			}
 
@@ -42,19 +43,19 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		private class VeilView : IView
 		{
-			private readonly Action<TextWriter, object> _render;
+            private readonly Action<TextWriter, object, RenderingContext> _render;
 
-			public VeilView(Action<TextWriter, object> render)
+			public VeilView(Action<TextWriter, object, RenderingContext> render)
 			{
 				_render = render;
 			}
 
-			public string Render(object model)
+			public string Render(object model, RenderingContext context)
 			{
 				var builder = new StringBuilder();
 				using (var writer = new StringWriter(builder))
 				{
-					_render(writer, model);
+					_render(writer, model, context);
 				}
 
 				return builder.ToString();
@@ -99,18 +100,20 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		private class TerrificHelperHandler : IHelperHandler
 		{
-			private readonly IViewEngine _viewEngine;
-			private readonly IModelProvider _modelProvider;
-			private readonly ITemplateRepository _templateRepository;
+		    private readonly ITerrificTemplateHandler _handler;
+		    private RenderingContext _context;
 
-			public TerrificHelperHandler(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateRepository templateRepository)
-			{
-				_viewEngine = viewEngine;
-				_modelProvider = modelProvider;
-				_templateRepository = templateRepository;
-			}
+		    public TerrificHelperHandler(ITerrificTemplateHandler handler)
+            {
+                _handler = handler;
+            }
 
-			public string Evaluate(object model, string name, IDictionary<string, string> parameters)
+		    public void SetContext(RenderingContext context)
+		    {
+		        _context = context;
+		    }
+
+		    public string Evaluate(object model, string name, IDictionary<string, string> parameters)
 			{
 				if ("module".Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
@@ -120,60 +123,16 @@ namespace TerrificNet.ViewEngine.ViewEngines
 					if (parameters.ContainsKey("skin"))
 						skin = parameters["skin"].Trim('"');
 
-					TemplateInfo templateInfo;
-					IView view;
-					if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
-						_viewEngine.TryCreateView(templateInfo, out view))
-					{
-						var moduleModel = _modelProvider.GetModelForTemplate(templateInfo) ?? new object();
-						return view.Render(moduleModel);
-					}
-
-					return "Problem loading template " + templateName + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty);
+                    return _handler.RenderModule(templateName, skin, _context);
 				}
 
 				if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
-					var key = parameters["key"].Trim('"');
-
-					var tmp = model as JObject;
-					if (tmp == null)
-						return string.Empty;
-
-					var placeholder = tmp.GetValue("_placeholder") as JObject;
-					if (placeholder == null)
-						return string.Empty;
-
-					var placeholderConfigs = placeholder.GetValue(key) as JArray;
-					if (placeholderConfigs == null)
-						return string.Empty;
-
-					var sb = new StringBuilder();
-					foreach (var placeholderConfig in placeholderConfigs)
-					{
-						var templateName = placeholderConfig["template"].Value<string>();
-
-						var skin = string.Empty;
-						var skinRaw = placeholderConfig["skin"];
-						if (skinRaw != null)
-							skin = placeholderConfig["skin"].Value<string>();
-
-						TemplateInfo templateInfo;
-						IView view;
-						if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
-							_viewEngine.TryCreateView(templateInfo, out view))
-						{
-                            var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetModelForTemplate(templateInfo);
-							sb.Append(view.Render(moduleModel));
-						}
-						else
-							sb.Append("Problem loading template " + templateName + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
-					}
-
-					return sb.ToString();
+				    var key = parameters["key"].Trim('"');
+                    return _handler.RenderPlaceholder(model, key, _context);
 				}
 
-				throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
+			    throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
 			}
 		}
 	}

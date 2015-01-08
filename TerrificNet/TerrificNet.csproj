@@ -128,6 +128,7 @@
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TemplateControllerBase.cs" />
     <Compile Include="Controllers\ViewIndexController.cs" />
+    <Compile Include="GenericUnityTerrificTemplateHandlerFactory.cs" />
     <Compile Include="Models\ApplicationOverviewModel.cs" />
     <Compile Include="Models\ViewItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />

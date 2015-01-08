@@ -49,6 +49,7 @@
     <Compile Include="Cache\NullCacheProvider.cs" />
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="ITemplateRepository.cs" />
+    <Compile Include="RenderingContext.cs" />
     <Compile Include="SchemaProviders\PhysicalSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
     <Compile Include="TemplateInfo.cs" />
@@ -60,6 +61,9 @@
     <Compile Include="SchemaProviders\HandlebarsViewSchemaProvider.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
+    <Compile Include="ViewEngines\DefaultTerrificTemplateHandler.cs" />
+    <Compile Include="ViewEngines\ITerrificTemplateHandler.cs" />
+    <Compile Include="ViewEngines\ITerrificTemplateHandlerFactory.cs" />
     <Compile Include="ViewEngines\VeilViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

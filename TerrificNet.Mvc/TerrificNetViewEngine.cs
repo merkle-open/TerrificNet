@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using TerrificNet.ViewEngine;
 using IView = System.Web.Mvc.IView;
 using IViewEngine = System.Web.Mvc.IViewEngine;
@@ -23,30 +24,30 @@ namespace TerrificNet.Mvc
 
         public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
         {
-            return GetViewResult(partialViewName);
+            return GetViewResult(controllerContext.RouteData.Values["controller"].ToString(), partialViewName);
         }
 
         public ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {
-            return GetViewResult(viewName);
+            return GetViewResult(controllerContext.RouteData.Values["controller"].ToString(), viewName);
         }
 
         public void ReleaseView(ControllerContext controllerContext, IView view)
         {
         }
 
-        private ViewEngineResult GetViewResult(string viewName)
+        private ViewEngineResult GetViewResult(string controllerName, string viewName)
         {
             TemplateInfo templateInfo;
             IViewTerrific view;
-            if (_templateRepository.TryGetTemplate(viewName, string.Empty, out templateInfo)
+            if ((_templateRepository.TryGetTemplate(viewName, string.Empty, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, string.Empty, out templateInfo))
                 && _viewEngine.TryCreateView(templateInfo, out view))
                 return new ViewEngineResult(new TerrificViewAdapter(view), this);
 
             throw new NotSupportedException();
         }
 
-        private class TerrificViewAdapter : IView
+        private class TerrificViewAdapter : IView, IViewDataContainer
         {
             private readonly IViewTerrific _adaptee;
 
@@ -57,8 +58,23 @@ namespace TerrificNet.Mvc
 
             public void Render(ViewContext viewContext, TextWriter writer)
             {
-                writer.Write(_adaptee.Render(viewContext.ViewData.Model));
+                this.ViewData = viewContext.ViewData;
+                writer.Write(_adaptee.Render(viewContext.ViewData.Model, new MvcRenderingContext(viewContext, this)));
             }
+
+            public ViewDataDictionary ViewData { get; set; }
+        }
+    }
+
+    public class MvcRenderingContext : RenderingContext
+    {
+        public ViewContext ViewContext { get; private set; }
+        public IViewDataContainer ViewDataContainer { get; private set; }
+
+        public MvcRenderingContext(ViewContext viewContext, IViewDataContainer viewDataContainer)
+        {
+            ViewContext = viewContext;
+            ViewDataContainer = viewDataContainer;
         }
     }
 }

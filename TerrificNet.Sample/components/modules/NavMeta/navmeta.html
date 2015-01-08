@@ -1,8 +1,10 @@
 ﻿<div class="mod-nav-meta">
     
     <ul class="nav-meta-list">
+        {{#if items}}
         {{#each items}}
         <li class="nav-meta-list-item"><a class="XXXstate-active" href="{{href}}" accesskey="{{accesskey}}" title="{{title}}">{{name}}</a></li>
         {{/each}}
+        {{/if}}
     </ul>
 </div>

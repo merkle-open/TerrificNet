@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
 using TerrificNet.UnityModule;
+using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet
 {
@@ -23,6 +24,8 @@ namespace TerrificNet
 				path = path.Substring(PathArgumentPrefix.Length);
 
 			var container = new UnityContainer();
+            container.RegisterType<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
+
 			new DefaultUnityModule(path).Configure(container);
 			new TerrificBundleUnityModule().Configure(container);
 
