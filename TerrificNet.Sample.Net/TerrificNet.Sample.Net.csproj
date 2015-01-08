@@ -178,6 +178,10 @@
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TerrificNet\TerrificNet.csproj">
+      <Project>{68b78678-5eb5-4e5b-a181-1a2ffa804b3e}</Project>
+      <Name>TerrificNet</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
