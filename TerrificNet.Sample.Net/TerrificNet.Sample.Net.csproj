@@ -163,8 +163,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Fallback\" />
-    <Folder Include="Views\NavMeta\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.Generator\TerrificNet.Generator.csproj">

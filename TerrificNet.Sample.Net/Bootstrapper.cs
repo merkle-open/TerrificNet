@@ -1,4 +1,6 @@
 using System.IO;
+using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
@@ -38,10 +40,10 @@ namespace TerrificNet.Sample.Net
         {
             container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
             container
-                .RegisterType
-                <ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<MvcTerrificTemplateHandler>>();
+                .RegisterType<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<MvcTerrificTemplateHandler>>();
 
-            var basePath = @"C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample";
+            var rootPath = HostingEnvironment.MapPath("~/");
+            var basePath = Path.Combine(rootPath, @"..\TerrificNet.Sample");
             DefaultUnityModule.RegisterForApplication(container, new TerrificNetConfig
             {
                 ApplicationName = "App",
