@@ -7,7 +7,7 @@ namespace TerrificNet.Sample.Net.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View("home");
+            return View();
         }
     }
 }

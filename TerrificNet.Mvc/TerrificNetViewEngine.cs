@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using TerrificNet.ViewEngine;
 using IView = System.Web.Mvc.IView;
 using IViewEngine = System.Web.Mvc.IViewEngine;
@@ -63,18 +62,6 @@ namespace TerrificNet.Mvc
             }
 
             public ViewDataDictionary ViewData { get; set; }
-        }
-    }
-
-    public class MvcRenderingContext : RenderingContext
-    {
-        public ViewContext ViewContext { get; private set; }
-        public IViewDataContainer ViewDataContainer { get; private set; }
-
-        public MvcRenderingContext(ViewContext viewContext, IViewDataContainer viewDataContainer)
-        {
-            ViewContext = viewContext;
-            ViewDataContainer = viewDataContainer;
         }
     }
 }
