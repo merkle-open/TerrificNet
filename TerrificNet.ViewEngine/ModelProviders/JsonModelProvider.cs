@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.ModelProviders
@@ -18,7 +19,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
             var filePath = GetPath(template.Id);
 
 	        if (!File.Exists(filePath))
-		        return null;
+		        return new JObject();
 
             using (var stream = new StreamReader(filePath))
             {

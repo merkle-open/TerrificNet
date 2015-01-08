@@ -9,18 +9,19 @@
             <p itemprop="address" class="footer-adress-text" itemscope itemtype="http://data-vocabulary.org/Address">
                 <span itemprop="street-address">Einsteinstrasse 2</span>,
                 <span itemprop="postal-code">3000</span>
-                <span itemprop="locality">Bern</span>
+                <span itemprop="locality">{{location}}</span>
             </p>
         </dd>
         <dd>
             <p itemprop="tel" class="footer-adress-text">
                 <a href="tel:+41313279100">T +41 (0)31 327 91 00</a>,
-                <span>F + 41 (0)31 327 91 01</span>
+                <span>{{phone}}</span>
             </p>
         </dd>
         <dd>
             <p itemprop="mail" class="footer-adress-mail">
                 <a href="mailto:info@finma.ch">{{mail}}</a>
+                {{mailinfotext}}
             </p>
         </dd>
     </dl>

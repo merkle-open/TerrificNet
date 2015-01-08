@@ -51,10 +51,10 @@ namespace TerrificNet.Generator
                 Syntax.CompilationUnit().WithMembers(Syntax.List(schemas.SelectMany(s => GetSyntax(s).Members))).NormalizeWhitespace());
 
             var text = syntaxTree.GetText();
-            using (var streamWriter = new StreamWriter(stream))
-            {
-                text.Write(streamWriter);
-            }
+            var streamWriter = new StreamWriter(stream);
+            
+            text.Write(streamWriter);
+            streamWriter.Flush();            
         }
 
         public void CompileTo(IEnumerable<JsonSchema> schemas, Stream stream)

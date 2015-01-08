@@ -51,35 +51,35 @@ namespace TerrificNet.Generator.Test
 		[TestMethod]
 		public void TestSimpleObject()
 		{
-			const string reference = "public class SimpleClass{public string Name{get;set;}}";
+			const string reference = "namespace SimpleClass { public class SimpleClass{public string Name{get;set;}}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObject.json")));
 		}
 
 		[TestMethod]
 		public void TestSimpleObjectAllType()
 		{
-			const string reference = "public class SimpleClass{public string Name{get;set;} public int Age{get;set;} public bool Male{get;set;}}";
+            const string reference = "namespace SimpleClass { public class SimpleClass{public string Name{get;set;} public int Age{get;set;} public bool Male{get;set;}}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObjectAllType.json")));
 		}
 
 		[TestMethod]
 		public void TestSimpleObjectComplex()
 		{
-			const string reference = "public class Person{ public string Name{get;set;}}public class SimpleClass{public Person Person{get;set;}} ";
+            const string reference = "namespace SimpleClass {public class Person{ public string Name{get;set;}}public class SimpleClass{public Person Person{get;set;}}} ";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/simpleObjectComplex.json")));
 		}
 
 		[TestMethod]
 		public void TestListSimple()
 		{
-			const string reference = "public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}";
+            const string reference = "namespace Person {public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listSimple.json")));
 		}
 
 		[TestMethod]
 		public void TestListComplex()
 		{
-            const string reference = "public class Names{public string Firstname{get;set;}} public class Person{ public System.Collections.Generic.IList<Names> Names{get;set;}}";
+            const string reference = "namespace Person {public class Names{public string Firstname{get;set;}} public class Person{ public System.Collections.Generic.IList<Names> Names{get;set;}}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listComplex.json")));
 		}
 

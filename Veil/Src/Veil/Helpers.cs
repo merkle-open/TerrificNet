@@ -9,7 +9,10 @@ namespace Veil
     {
         public static void HtmlEncode(TextWriter writer, object value)
         {
-            HtmlEncode(writer, value as string);
+            if (value != null)
+                HtmlEncode(writer, value.ToString());
+
+            HtmlEncode(writer, string.Empty);
         }
 
         public static void HtmlEncode(TextWriter writer, string value)

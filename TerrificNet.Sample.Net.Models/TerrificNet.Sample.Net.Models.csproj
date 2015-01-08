@@ -39,32 +39,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Models.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Models.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Models.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.Generator.MSBuild\TerrificNet.Generator.MSBuild.csproj">
+      <Project>{9e81bd82-df59-4bd8-92eb-511314041d5e}</Project>
+      <Name>TerrificNet.Generator.MSBuild</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
   <!--<Target Name="Compile" DependsOnTargets="CompileSchemas;CoreCompile">
     
   </Target>-->
-  
-  <UsingTask 
-    TaskName="CompileTask"
-    AssemblyFile="$(SolutionDir)\TerrificNet.Generator.MSBuild\bin\Debug\TerrificNet.Generator.MSBuild.exe"></UsingTask>
-
+  <UsingTask TaskName="CompileTask" AssemblyFile="$(SolutionDir)\TerrificNet.Generator.MSBuild\bin\Debug\TerrificNet.Generator.MSBuild.exe">
+  </UsingTask>
   <!--<PropertyGroup>
     <BuildDependsOn>
       CompileSchemas;
       $(BuildDependsOn);
     </BuildDependsOn>
   </PropertyGroup>-->
-
-  <Target Name="CoreCompile"
+  <!--<Target Name="CoreCompile"
           Outputs="@(IntermediateAssembly)">
     <CompileTask
       SourcePath="$(SolutionDir)\TerrificNet.Sample" 
       OutputAssembly="@(IntermediateAssembly)"></CompileTask>
-  </Target>
-  
+  </Target>-->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

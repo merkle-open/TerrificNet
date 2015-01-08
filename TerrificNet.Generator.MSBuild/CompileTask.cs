@@ -22,10 +22,27 @@ namespace TerrificNet.Generator.MSBuild
 
         public static void Execute(string sourcePath, string outputAssembly)
         {
-            ExecuteInternal(sourcePath, outputAssembly, (c, s) => CompileToAssembly(c, s, outputAssembly));
+            ExecuteInternal(sourcePath, (c, s) => CompileToAssembly(c, s, outputAssembly));
         }
 
-        private static void ExecuteInternal(string sourcePath, string outputAssembly, Action<JsonSchemaCodeGenerator, IEnumerable<JsonSchema>> executeAction)
+        public static void ExecuteFile(string sourcePath, string fileName)
+        {
+            ExecuteInternal(sourcePath, (c, s) => WriteToFile(c, s, fileName));
+        }
+
+        public static string ExecuteString(string sourcePath)
+        {
+            using (var stream = new MemoryStream())
+            {
+                ExecuteInternal(sourcePath, (c, s) => c.WriteTo(s, stream));
+
+                stream.Seek(0, SeekOrigin.Begin);
+
+                return new StreamReader(stream).ReadToEnd();
+            }
+        }
+
+        private static void ExecuteInternal(string sourcePath, Action<JsonSchemaCodeGenerator, IEnumerable<JsonSchema>> executeAction)
         {
             var config = new TerrificNetConfig
             {
@@ -46,11 +63,6 @@ namespace TerrificNet.Generator.MSBuild
             }).ToList();
 
             executeAction(codeGenerator, schemas);
-        }
-
-        public static void ExecuteFile(string sourcePath, string fileName)
-        {
-            ExecuteInternal(sourcePath, fileName, (c, s) => WriteToFile(c, s, fileName));
         }
 
         private static void WriteToFile(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JsonSchema> schemas,
