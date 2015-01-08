@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using footer_addressModel;
 
 namespace TerrificNet.Sample.Net.Controllers
 {
@@ -25,9 +26,13 @@ namespace TerrificNet.Sample.Net.Controllers
 
             var entry = new teaser_entryModel.Teaser_EntryModel();
 
-            
+            var address = new Footer_AddressModel();
+            address.Address = new Address()
+            {
+                Location = "Bern",
+            };
 
-            return View();
+            return View(address);
         }
     }
 }

@@ -116,18 +116,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSpecificControllerActivator.cs" />
-    <Compile Include="Controller\BundleController.cs" />
-    <Compile Include="Controller\ComponentAssetsController.cs" />
-    <Compile Include="Controller\GenerateController.cs" />
+    <Compile Include="Controllers\BundleController.cs" />
+    <Compile Include="Controllers\ComponentAssetsController.cs" />
+    <Compile Include="Controllers\GenerateController.cs" />
     <Compile Include="Configuration\TerrificNetApplicationConfiguration.cs" />
     <Compile Include="Configuration\TerrificNetHostConfiguration.cs" />
-    <Compile Include="Controller\AssetsController.cs" />
-    <Compile Include="Controller\StaticFileControllerBase.cs" />
-    <Compile Include="Controller\ModelController.cs" />
-    <Compile Include="Controller\SchemaController.cs" />
-    <Compile Include="Controller\TemplateController.cs" />
-    <Compile Include="Controller\TemplateControllerBase.cs" />
-    <Compile Include="Controller\ViewIndexController.cs" />
+    <Compile Include="Controllers\AssetsController.cs" />
+    <Compile Include="Controllers\StaticFileControllerBase.cs" />
+    <Compile Include="Controllers\ModelController.cs" />
+    <Compile Include="Controllers\SchemaController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\TemplateControllerBase.cs" />
+    <Compile Include="Controllers\ViewIndexController.cs" />
     <Compile Include="Models\ApplicationOverviewModel.cs" />
     <Compile Include="Models\ViewItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />

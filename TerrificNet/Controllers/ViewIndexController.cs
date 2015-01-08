@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,7 +8,7 @@ using TerrificNet.Models;
 using TerrificNet.UnityModule;
 using TerrificNet.ViewEngine;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.Controllers
 {
     public class ViewIndexController : TemplateControllerBase
     {

@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web.Http;
 using TerrificNet.ViewEngine;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.Controllers
 {
 	public class TemplateController : TemplateControllerBase
 	{

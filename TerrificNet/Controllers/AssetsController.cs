@@ -2,7 +2,7 @@ using System.Net.Http;
 using System.Web.Http;
 using TerrificNet.ViewEngine.Config;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.Controllers
 {
     public class AssetsController : StaticFileControllerBase
     {

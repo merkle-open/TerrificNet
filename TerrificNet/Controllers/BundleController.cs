@@ -6,7 +6,7 @@ using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
 using TerrificNet.ViewEngine.Config;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.Controllers
 {
 	public class BundleController : ApiController
 	{

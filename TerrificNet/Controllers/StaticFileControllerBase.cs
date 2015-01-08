@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.Controllers
 {
     public abstract class StaticFileControllerBase : ApiController
 	{

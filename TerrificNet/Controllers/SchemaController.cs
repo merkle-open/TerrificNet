@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using TerrificNet.ViewEngine;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.Controllers
 {
     public class SchemaController : ApiController
     {

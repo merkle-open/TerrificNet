@@ -21,8 +21,47 @@ namespace footModel
 
 namespace footer_addressModel
 {
+    public class Address
+    {
+        public string Street
+        {
+            get;
+            set;
+        }
+
+        public string ZipCode
+        {
+            get;
+            set;
+        }
+
+        public string Location
+        {
+            get;
+            set;
+        }
+    }
+
     public class Footer_AddressModel
     {
+        public string Title
+        {
+            get;
+            set;
+        }
+
+        public Address Address
+        {
+            get;
+            set;
+        }
+
+        public string Phone
+        {
+            get;
+            set;
+        }
+
         public string Mail
         {
             get;

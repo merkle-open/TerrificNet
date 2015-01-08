@@ -5,7 +5,7 @@ using System.Web.Http;
 using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
 
-namespace TerrificNet.Controller
+namespace TerrificNet.Controllers
 {
 	public class GenerateController : ApiController
 	{

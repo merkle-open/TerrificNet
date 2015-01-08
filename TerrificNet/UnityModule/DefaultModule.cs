@@ -26,20 +26,26 @@ namespace TerrificNet.UnityModule
 			var configuration = LoadConfiguration(Path.Combine(_applicationPath, "application.json"));
 			foreach (var item in configuration.Applications.Values)
 			{
-				var childContainer = container.CreateChildContainer();
-				var app = new TerrificNetApplication(item.ApplicationName, item, childContainer);
-				childContainer.RegisterInstance(app);
-				childContainer.RegisterInstance<ITerrificNetConfig>(item);
-
-				RegisterApplicationSpecific(childContainer);
-
-				container.RegisterInstance(item.ApplicationName, app);
+			    var childContainer = container.CreateChildContainer();
+			    var app = RegisterForApplication(childContainer, item, item.ApplicationName);
+                container.RegisterInstance(item.ApplicationName, app);
 			}
 		}
 
-		private static void RegisterApplicationSpecific(IUnityContainer container)
+        public static TerrificNetApplication RegisterForApplication(IUnityContainer container, ITerrificNetConfig item, string applicationName)
+	    {
+            var app = new TerrificNetApplication(applicationName, item, container);
+
+	        container.RegisterInstance(app);
+	        container.RegisterInstance(item);
+
+	        RegisterApplicationSpecific(container);
+
+	        return app;
+	    }
+
+	    private static void RegisterApplicationSpecific(IUnityContainer container)
 		{
-			//container.RegisterType<IViewEngine, NustachePhysicalViewEngine>();
 			container.RegisterType<IViewEngine, VeilViewEngine>();
 			container.RegisterType<ICacheProvider, MemoryCacheProvider>();
 			container.RegisterType<IModelProvider, JsonModelProvider>();
