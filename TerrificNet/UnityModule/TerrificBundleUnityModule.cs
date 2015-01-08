@@ -16,7 +16,6 @@ namespace TerrificNet.UnityModule
 			container.RegisterType<IAssetCompilerFactory, CachedAssetCompilerFactory>();
 			container.RegisterType<IAssetBundler, DefaultAssetBundler>();
 			container.RegisterType<IAssetHelper, AssetHelper>();
-			container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
 		}
 	}
 }

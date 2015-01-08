@@ -1,7 +1,9 @@
+using System.IO;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
 using TerrificNet.UnityModule;
+using TerrificNet.ViewEngine;
 using Unity.Mvc4;
 
 namespace TerrificNet.Sample.Net
@@ -32,10 +34,15 @@ namespace TerrificNet.Sample.Net
 
     public static void RegisterTypes(IUnityContainer container)
     {
+        container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
+
+        var basePath = @"C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample";
         DefaultUnityModule.RegisterForApplication(container, new TerrificNetConfig
         {
             ApplicationName = "App",
-            BasePath = @"C:\Users\mschaelle\Source\Repos\TerrificNet\TerrificNet.Sample"
+            BasePath = basePath,
+            ViewPath = Path.Combine(basePath, @"views"),
+            ModulePath = Path.Combine(basePath, @"components\modules"),
         }, "App");
     }
   }

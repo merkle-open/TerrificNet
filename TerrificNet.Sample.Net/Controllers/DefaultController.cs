@@ -12,27 +12,33 @@ namespace TerrificNet.Sample.Net.Controllers
         // GET: Default
         public ActionResult Index()
         {
-            var test = new teaserModel.TeaserModel();
-            test.Entries = new List<object>();
+            //var test = new teaserModel.TeaserModel();
+            //test.Entries = new List<object>();
 
-            var model = new teaser_headingModel.Teaser_HeadingModel();
-            model.Sortings.Add(new teaser_headingModel.Sortings()
+            //var model = new teaser_headingModel.Teaser_HeadingModel();
+            //model.Sortings.Add(new teaser_headingModel.Sortings()
+            //{
+            //    Name ="asdfsdf",
+            //    Key = "asdf",
+            //});
+
+            //model.OrderBy = "safd";
+
+            //var entry = new teaser_entryModel.Teaser_EntryModel();
+
+            var address = new Footer_AddressModel
             {
-                Name ="asdfsdf",
-                Key = "asdf",
-            });
-
-            model.OrderBy = "safd";
-
-            var entry = new teaser_entryModel.Teaser_EntryModel();
-
-            var address = new Footer_AddressModel();
-            address.Address = new Address()
-            {
-                Location = "Bern",
+                Address = new Address()
+                {
+                    Location = "Bern",
+                    Street = "Strasse",
+                    ZipCode = "9999"
+                },
+                Mail = "info@test.com",
+                Title = "Title" + DateTime.Now.ToLongTimeString()
             };
 
-            return View(address);
+            return View("footer_address", address);
         }
     }
 }

@@ -23,6 +23,8 @@ namespace TerrificNet.UnityModule
 
 		public void Configure(IUnityContainer container)
 		{
+            container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
+
 			var configuration = LoadConfiguration(Path.Combine(_applicationPath, "application.json"));
 			foreach (var item in configuration.Applications.Values)
 			{
