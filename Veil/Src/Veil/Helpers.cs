@@ -7,6 +7,11 @@ namespace Veil
 {
     internal static class Helpers
     {
+        public static void HtmlEncode(TextWriter writer, object value)
+        {
+            HtmlEncode(writer, value as string);
+        }
+
         public static void HtmlEncode(TextWriter writer, string value)
         {
             if (value == null || value.Length == 0) return;
