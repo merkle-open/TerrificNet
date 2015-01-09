@@ -98,15 +98,18 @@ namespace headerModel
 {
 }
 
-namespace homeModel
+namespace HomeModel
 {
+    public class HomeModel
+    {
+    }
 }
 
 namespace placeholderModel
 {
 }
 
-namespace simpleModel
+namespace SimpleModel
 {
     public class Customer
     {
@@ -139,9 +142,9 @@ namespace simpleModel
     }
 }
 
-namespace teaser_entryModel
+namespace TeaserEntryModel
 {
-    public class Teaser_EntryModel
+    public class TeaserEntryModel
     {
         public string Date
         {
@@ -189,7 +192,7 @@ namespace teaser_entryModel
 
 namespace teaser_headingModel
 {
-    public class Sortings
+    public class Sorting
     {
         public string Key
         {
@@ -218,7 +221,7 @@ namespace teaser_headingModel
             set;
         }
 
-        public System.Collections.Generic.IList<Sortings> Sortings
+        public System.Collections.Generic.IList<Sorting> Sortings
         {
             get;
             set;
@@ -238,9 +241,9 @@ namespace teaser_headingModel
     }
 }
 
-namespace test_moduleModel
+namespace TestModuleModel
 {
-    public class Items
+    public class Item
     {
         public string Street
         {
@@ -254,14 +257,14 @@ namespace test_moduleModel
             set;
         }
 
-        public string StreetNumber
+        public int StreetNumber
         {
             get;
             set;
         }
     }
 
-    public class Test_ModuleModel
+    public class TestModuleModel
     {
         public string Test
         {
@@ -275,7 +278,7 @@ namespace test_moduleModel
             set;
         }
 
-        public System.Collections.Generic.IList<Items> Items
+        public System.Collections.Generic.IList<Item> Items
         {
             get;
             set;
@@ -467,7 +470,7 @@ namespace navmainModel
 
 namespace navmetaModel
 {
-    public class Items
+    public class Item
     {
         public string Href
         {
@@ -496,7 +499,7 @@ namespace navmetaModel
 
     public class NavmetaModel
     {
-        public System.Collections.Generic.IList<Items> Items
+        public System.Collections.Generic.IList<Item> Items
         {
             get;
             set;
@@ -514,7 +517,7 @@ namespace navservice
 
 namespace navserviceModel
 {
-    public class Links
+    public class Link
     {
         public string Href
         {
@@ -549,7 +552,7 @@ namespace navserviceModel
 
     public class NavserviceModel
     {
-        public System.Collections.Generic.IList<Links> Links
+        public System.Collections.Generic.IList<Link> Links
         {
             get;
             set;
@@ -649,7 +652,7 @@ namespace sidebarteaser
 
 namespace sidebarteaserModel
 {
-    public class Links
+    public class Link
     {
         public string Href
         {
@@ -684,7 +687,7 @@ namespace sidebarteaserModel
             set;
         }
 
-        public System.Collections.Generic.IList<Links> Links
+        public System.Collections.Generic.IList<Link> Links
         {
             get;
             set;

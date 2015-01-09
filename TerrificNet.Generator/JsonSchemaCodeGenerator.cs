@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
@@ -12,17 +11,28 @@ namespace TerrificNet.Generator
 {
     public class JsonSchemaCodeGenerator : IJsonSchemaCodeGenerator
     {
+        private readonly INamingRule _namingRule;
+
+        public JsonSchemaCodeGenerator() : this(new NamingRule())
+        {
+        }
+
+        public JsonSchemaCodeGenerator(INamingRule namingRule)
+        {
+            _namingRule = namingRule;
+        }
+
         public string Generate(JsonSchema schema)
         {
             var root = GetSyntax(schema);
             return root.NormalizeWhitespace().ToFullString();
         }
 
-        private static CompilationUnitSyntax GetSyntax(JsonSchema schema)
+        private CompilationUnitSyntax GetSyntax(JsonSchema schema)
         {
             var typeContext = new Dictionary<string, MemberDeclarationSyntax>();
 
-            RoslynExtension.GenerateClass(schema, typeContext, string.Empty);
+            RoslynExtension.GenerateClass(schema, typeContext, string.Empty, _namingRule);
 
             var root = Syntax.CompilationUnit()
                 .WithMembers(Syntax.NamespaceDeclaration(Syntax.ParseName(schema.Title)).WithMembers(Syntax.List(typeContext.Values.ToArray())));
@@ -79,27 +89,33 @@ namespace TerrificNet.Generator
 
     static class RoslynExtension
     {
-        public static SyntaxList<MemberDeclarationSyntax> AddProperties(this SyntaxList<MemberDeclarationSyntax> memberList, JsonSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext)
+        public static SyntaxList<MemberDeclarationSyntax> AddProperties(this SyntaxList<MemberDeclarationSyntax> memberList, JsonSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, INamingRule namingRule)
         {
             var result = memberList;
-            foreach (var property in schema.Properties)
+            if (schema.Properties != null)
             {
-                var propertyName = NormalizeClassName(property.Key);
+                foreach (var property in schema.Properties)
+                {
+                    var propertyName = namingRule.GetPropertyName(property.Key);
 
-                result = result.Add(Syntax.PropertyDeclaration(GetPropertyType(property.Value, typeContext, propertyName).WithTrailingTrivia(Syntax.Space), propertyName)
-                    .WithModifiers(new SyntaxTokenList().Add(Syntax.Token(SyntaxKind.PublicKeyword)))
-                    .WithAccessorList(Syntax.AccessorList(Syntax.List(
-                        Syntax.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
-                    .WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken)),
-                        Syntax.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
-                    .WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken))
-                    ))));
+                    result =
+                        result.Add(Syntax.PropertyDeclaration(
+                            GetPropertyType(property.Value, typeContext, propertyName, namingRule).WithTrailingTrivia(Syntax.Space),
+                            propertyName)
+                            .WithModifiers(new SyntaxTokenList().Add(Syntax.Token(SyntaxKind.PublicKeyword)))
+                            .WithAccessorList(Syntax.AccessorList(Syntax.List(
+                                Syntax.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+                                    .WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken)),
+                                Syntax.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+                                    .WithSemicolonToken(Syntax.Token(SyntaxKind.SemicolonToken))
+                                ))));
+                }
             }
 
             return result;
         }
 
-        private static TypeSyntax GetPropertyType(JsonSchema value, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName)
+        private static TypeSyntax GetPropertyType(JsonSchema value, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName, INamingRule namingRule)
         {
             switch (value.Type)
             {
@@ -113,11 +129,12 @@ namespace TerrificNet.Generator
                     return Syntax.ParseTypeName("bool");
                 case JsonSchemaType.Array:
                     var valueType = value.Items.FirstOrDefault();
-                    var genericType = GetPropertyType(valueType, typeContext, propertyName);
+                    var name = namingRule.GetClassNameFromArrayItem(value, propertyName);
+                    var genericType = GetPropertyType(valueType, typeContext, name, namingRule);
                     return Syntax.QualifiedName(GetQualifiedName("System", "Collections", "Generic"), Syntax.GenericName(Syntax.Identifier("IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType))));
                 case JsonSchemaType.Object:
-                    GenerateClass(value, typeContext, propertyName);
-                    return Syntax.IdentifierName(NormalizeClassName(propertyName));
+                    var className = GenerateClass(value, typeContext, propertyName, namingRule);
+                    return Syntax.IdentifierName(className);
                 default:
                     return Syntax.ParseTypeName("object");
             }
@@ -130,14 +147,14 @@ namespace TerrificNet.Generator
             return Syntax.QualifiedName(syntax, Syntax.IdentifierName(parts[2]));
         }
 
-        public static void GenerateClass(JsonSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName)
+        public static string GenerateClass(JsonSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName, INamingRule namingRule)
         {
             if (schema.Type == JsonSchemaType.Object)
             {
-                var className = GetClassName(schema, propertyName);
+                var className = namingRule.GetClassName(schema, propertyName);
 
                 if (typeContext.ContainsKey(className))
-                    return;
+                    return className;
 
                 if (string.IsNullOrEmpty(className))
                     throw new Exception("Title not set");
@@ -149,53 +166,14 @@ namespace TerrificNet.Generator
                         Syntax.Token(SyntaxKind.ClassKeyword, Syntax.TriviaList(Syntax.Space)))
                     .WithOpenBraceToken(
                         Syntax.Token(SyntaxKind.OpenBraceToken))
-                    .WithMembers(new SyntaxList<MemberDeclarationSyntax>().AddProperties(schema, typeContext))
+                    .WithMembers(new SyntaxList<MemberDeclarationSyntax>().AddProperties(schema, typeContext, namingRule))
                     .WithCloseBraceToken(
                         Syntax.Token(SyntaxKind.CloseBraceToken));
 
                 typeContext.Add(className, classDeclaration);
+                return className;
             }
-        }
-
-        private static string GetClassName(JsonSchema schema, string propertyName)
-        {
-            var className = NormalizeClassName(schema.Title);
-            if (string.IsNullOrEmpty(className))
-                className = propertyName;
-
-            return className;
-        }
-
-        public static string NormalizeClassName(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
-
-            return ConvertToPascalCase(input).Replace(" ", "").Trim();
-        }
-
-        private static string ConvertToPascalCase(string input)
-        {
-            return new Regex(@"\p{Lu}\p{Ll}+|\p{Lu}+(?!\p{Ll})|\p{Ll}+|\d+").Replace(input, EvaluatePascal);
-        }
-
-        private static string EvaluatePascal(Match match)
-        {
-            var value = match.Value;
-            var valueLength = value.Length;
-
-            if (valueLength == 1)
-                return value.ToUpper();
-
-            if (valueLength <= 2 && IsWordUpper(value))
-                return value;
-
-            return value.Substring(0, 1).ToUpper() + value.Substring(1, valueLength - 1).ToLower();
-        }
-
-        private static bool IsWordUpper(string word)
-        {
-            return word.All(c => !Char.IsLower(c));
+            return null;
         }
     }
 }

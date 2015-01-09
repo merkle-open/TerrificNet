@@ -28,7 +28,7 @@ namespace TerrificNet.Generator.Test
 
 			foreach (var input in inputs)
 			{
-				var result = RoslynExtension.NormalizeClassName(input.Item1);
+				var result = new NamingRule().GetPropertyName(input.Item1);
 				Assert.AreEqual(input.Item2, result);
 			}
 		}

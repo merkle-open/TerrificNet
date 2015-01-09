@@ -11,7 +11,6 @@ namespace TerrificNet.Mvc
     {
         public string RenderPlaceholder(object model, string key, RenderingContext context)
         {
-            //DependencyResolver.Current.GetService<HttpCo
             return "Placeholder for:" + key;
         }
 

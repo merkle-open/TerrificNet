@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="JsonSchemaCodeGenerator.cs" />
     <Compile Include="IJsonSchemaCodeGenerator.cs" />
+    <Compile Include="NamingRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

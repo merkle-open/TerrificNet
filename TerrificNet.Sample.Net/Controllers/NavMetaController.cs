@@ -14,9 +14,10 @@ namespace TerrificNet.Sample.Net.Controllers
         {
             var model = new NavmetaModel
             {
-                Items = new List<Items>
+                Items = new List<Item>
                 {
-                    new Items { Name = "1", Href = "asdf", Title = "test"}
+                    new Item { Name = "1", Href = "asdf", Title = "test"},
+                    new Item { Name = "2", Href = "asdf2", Title = "test"},
                 }
             };
 

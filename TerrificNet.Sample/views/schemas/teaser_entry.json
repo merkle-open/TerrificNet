@@ -1,5 +1,6 @@
 {
     "type": "object",
+    "title":  "TeaserEntryModel",
     "properties": {
         "date": {
             "required": true,

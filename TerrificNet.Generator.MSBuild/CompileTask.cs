@@ -51,14 +51,17 @@ namespace TerrificNet.Generator.MSBuild
                 ModulePath = Path.Combine(sourcePath, "components/modules")
             };
 
-            var schemaProvider = new HandlebarsViewSchemaProvider();
+            var schemaProvider = new SchemaMergeProvider(new HandlebarsViewSchemaProvider(),
+                new PhysicalSchemaProvider(config));
             var repo = new TerrificTemplateRepository(config);
             var codeGenerator = new JsonSchemaCodeGenerator();
 
             var schemas = repo.GetAll().Select(t =>
             {
                 var schema = schemaProvider.GetSchemaFromTemplate(t);
-                schema.Title = t.Id + "Model";
+                if (string.IsNullOrEmpty(schema.Title))
+                    schema.Title = t.Id + "Model";
+
                 return schema;
             }).ToList();
 
