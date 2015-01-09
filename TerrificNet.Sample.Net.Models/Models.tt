@@ -19,5 +19,6 @@
 <#@ import namespace="TerrificNet.Generator.MSBuild" #> 
 
 <#
-Write(CompileTask.ExecuteString(Host.ResolvePath("..\\TerrificNet.Sample")));
+	var ns = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint") as string;
+	Write(CompileTask.ExecuteString(Host.ResolvePath("..\\TerrificNet.Sample"), ns));
 #>

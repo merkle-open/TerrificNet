@@ -15,26 +15,26 @@ namespace TerrificNet.Generator.MSBuild
     {
         public override bool Execute()
         {
-            Execute(SourcePath, OutputAssembly);
+            Execute(SourcePath, OutputAssembly, RootNamespace);
 
             return true;
         }
 
-        public static void Execute(string sourcePath, string outputAssembly)
+        public static void Execute(string sourcePath, string outputAssembly, string rootNamespace = null)
         {
-            ExecuteInternal(sourcePath, (c, s) => CompileToAssembly(c, s, outputAssembly));
+            ExecuteInternal(sourcePath, (c, s) => CompileToAssembly(c, s, outputAssembly, rootNamespace));
         }
 
-        public static void ExecuteFile(string sourcePath, string fileName)
+        public static void ExecuteFile(string sourcePath, string fileName, string rootNamespace = null)
         {
-            ExecuteInternal(sourcePath, (c, s) => WriteToFile(c, s, fileName));
+            ExecuteInternal(sourcePath, (c, s) => WriteToFile(c, s, fileName, rootNamespace));
         }
 
-        public static string ExecuteString(string sourcePath)
+        public static string ExecuteString(string sourcePath, string rootNamespace = null)
         {
             using (var stream = new MemoryStream())
             {
-                ExecuteInternal(sourcePath, (c, s) => c.WriteTo(s, stream));
+                ExecuteInternal(sourcePath, (c, s) => c.WriteTo(s, stream, rootNamespace));
 
                 stream.Seek(0, SeekOrigin.Begin);
 
@@ -69,19 +69,19 @@ namespace TerrificNet.Generator.MSBuild
         }
 
         private static void WriteToFile(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JsonSchema> schemas,
-            string fileName)
+            string fileName, string rootNamespace = null)
         {
             using (var stream = new FileStream(fileName, FileMode.Create))
             {
-                codeGenerator.WriteTo(schemas, stream);
+                codeGenerator.WriteTo(schemas, stream, rootNamespace);
             }
         }
 
-        private static void CompileToAssembly(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JsonSchema> schemas, string outputAssembly)
+        private static void CompileToAssembly(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JsonSchema> schemas, string outputAssembly, string rootNamespace = null)
         {
             using (var stream = new FileStream(outputAssembly, FileMode.Create))
             {
-                codeGenerator.CompileTo(schemas, stream);
+                codeGenerator.CompileTo(schemas, stream, rootNamespace);
             }
         }
 
@@ -90,5 +90,7 @@ namespace TerrificNet.Generator.MSBuild
 
         [Required]
         public string OutputAssembly { get; set; }
+
+        public string RootNamespace { get; set; }
     }
 }

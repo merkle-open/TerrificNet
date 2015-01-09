@@ -23,6 +23,7 @@ namespace TerrificNet.Generator.Test
 				new Tuple<string, string>("person info", "PersonInfo"),
 				new Tuple<string, string>("person", "Person"),
 				new Tuple<string, string>("Person", "Person"),
+                new Tuple<string, string>("person_info", "PersonInfo"),
 				new Tuple<string, string>("SimpleClass", "SimpleClass"),
 			};
 
@@ -34,18 +35,10 @@ namespace TerrificNet.Generator.Test
 		}
 
 		[TestMethod]
+        [ExpectedException(typeof(Exception))]
 		public void TestNoTitleSet()
 		{
-			var status = false;
-			try
-			{
-				GenerateCode("Schemas/simpleObjectNoTitle.json");
-			}
-			catch (Exception)
-			{
-				status = true;
-			}
-			Assert.IsTrue(status, "No exception thrown for unset title");
+		    GenerateCode("Schemas/simpleObjectNoTitle.json");
 		}
 
 		[TestMethod]
@@ -79,7 +72,7 @@ namespace TerrificNet.Generator.Test
 		[TestMethod]
 		public void TestListComplex()
 		{
-            const string reference = "namespace Person {public class Names{public string Firstname{get;set;}} public class Person{ public System.Collections.Generic.IList<Names> Names{get;set;}}}";
+            const string reference = "namespace Person {public class Name{public string Firstname{get;set;}} public class Person{ public System.Collections.Generic.IList<Name> Names{get;set;}}}";
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listComplex.json")));
 		}
 

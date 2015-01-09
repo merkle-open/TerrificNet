@@ -3,758 +3,761 @@
  
  
 
-namespace content_homeModel
+namespace TerrificNet.Sample.Net.Models
 {
-    public class Content_HomeModel
+    namespace ContentHomeModel
     {
-        public string H1
+        public class ContentHomeModel
         {
-            get;
-            set;
-        }
-    }
-}
-
-namespace footModel
-{
-}
-
-namespace footer_addressModel
-{
-    public class Address
-    {
-        public string Street
-        {
-            get;
-            set;
-        }
-
-        public string ZipCode
-        {
-            get;
-            set;
-        }
-
-        public string Location
-        {
-            get;
-            set;
+            public string H1
+            {
+                get;
+                set;
+            }
         }
     }
 
-    public class Footer_AddressModel
-    {
-        public string Title
-        {
-            get;
-            set;
-        }
-
-        public Address Address
-        {
-            get;
-            set;
-        }
-
-        public string Phone
-        {
-            get;
-            set;
-        }
-
-        public string Mail
-        {
-            get;
-            set;
-        }
-    }
-}
-
-namespace footer_languageModel
-{
-}
-
-namespace footer_linklistModel
-{
-}
-
-namespace footer_searchModel
-{
-}
-
-namespace headModel
-{
-    public class HeadModel
-    {
-        public string Title
-        {
-            get;
-            set;
-        }
-    }
-}
-
-namespace headerModel
-{
-}
-
-namespace HomeModel
-{
-    public class HomeModel
+    namespace FootModel
     {
     }
-}
 
-namespace placeholderModel
-{
-}
-
-namespace SimpleModel
-{
-    public class Customer
+    namespace FooterAddressModel
     {
-        public string Name
+        public class Address
         {
-            get;
-            set;
+            public string Street
+            {
+                get;
+                set;
+            }
+
+            public string ZipCode
+            {
+                get;
+                set;
+            }
+
+            public string Location
+            {
+                get;
+                set;
+            }
         }
 
-        public string Age
+        public class FooterAddressModel
         {
-            get;
-            set;
+            public string Title
+            {
+                get;
+                set;
+            }
+
+            public Address Address
+            {
+                get;
+                set;
+            }
+
+            public string Phone
+            {
+                get;
+                set;
+            }
+
+            public string Mail
+            {
+                get;
+                set;
+            }
         }
     }
 
-    public class SimpleModel
+    namespace FooterLanguageModel
     {
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public Customer Customer
-        {
-            get;
-            set;
-        }
     }
-}
 
-namespace TeaserEntryModel
-{
-    public class TeaserEntryModel
+    namespace FooterLinklistModel
     {
-        public string Date
-        {
-            get;
-            set;
-        }
-
-        public string DateMobile
-        {
-            get;
-            set;
-        }
-
-        public string Label
-        {
-            get;
-            set;
-        }
-
-        public string Link
-        {
-            get;
-            set;
-        }
-
-        public string Title
-        {
-            get;
-            set;
-        }
-
-        public string Text
-        {
-            get;
-            set;
-        }
-
-        public string LinkText
-        {
-            get;
-            set;
-        }
     }
-}
 
-namespace teaser_headingModel
-{
-    public class Sorting
+    namespace FooterSearchModel
     {
-        public string Key
-        {
-            get;
-            set;
-        }
+    }
 
-        public string Name
+    namespace HeadModel
+    {
+        public class HeadModel
         {
-            get;
-            set;
+            public string Title
+            {
+                get;
+                set;
+            }
         }
     }
 
-    public class Teaser_HeadingModel
+    namespace HeaderModel
     {
-        public string Title
-        {
-            get;
-            set;
-        }
-
-        public string OrderBy
-        {
-            get;
-            set;
-        }
-
-        public System.Collections.Generic.IList<Sorting> Sortings
-        {
-            get;
-            set;
-        }
-
-        public string RssLink
-        {
-            get;
-            set;
-        }
-
-        public string RssTitle
-        {
-            get;
-            set;
-        }
     }
-}
 
-namespace TestModuleModel
-{
-    public class Item
+    namespace HomeModel
     {
-        public string Street
+        public class HomeModel
         {
-            get;
-            set;
-        }
-
-        public string ZipCode
-        {
-            get;
-            set;
-        }
-
-        public int StreetNumber
-        {
-            get;
-            set;
         }
     }
 
-    public class TestModuleModel
+    namespace PlaceholderModel
     {
-        public string Test
-        {
-            get;
-            set;
-        }
-
-        public string Value
-        {
-            get;
-            set;
-        }
-
-        public System.Collections.Generic.IList<Item> Items
-        {
-            get;
-            set;
-        }
     }
-}
 
-namespace accordion
-{
-}
-
-namespace accordion
-{
-}
-
-namespace accordion
-{
-}
-
-namespace accordionModel
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumb
-{
-}
-
-namespace breadcrumbModel
-{
-}
-
-namespace documentteaser
-{
-}
-
-namespace documentteaser
-{
-}
-
-namespace documentteaser
-{
-}
-
-namespace documentteaser
-{
-}
-
-namespace documentteaserModel
-{
-}
-
-namespace filterModel
-{
-}
-
-namespace footer
-{
-}
-
-namespace footer
-{
-}
-
-namespace footer
-{
-}
-
-namespace footer
-{
-}
-
-namespace footer
-{
-}
-
-namespace footer
-{
-}
-
-namespace footerModel
-{
-    public class FooterModel
+    namespace SimpleModel
     {
-        public string Copyright
+        public class Customer
         {
-            get;
-            set;
-        }
-    }
-}
+            public string Name
+            {
+                get;
+                set;
+            }
 
-namespace layoutModel
-{
-}
-
-namespace login
-{
-}
-
-namespace login
-{
-}
-
-namespace loginModel
-{
-}
-
-namespace logoModel
-{
-    public class LogoModel
-    {
-        public string Href
-        {
-            get;
-            set;
+            public string Age
+            {
+                get;
+                set;
+            }
         }
 
-        public string Width
+        public class SimpleModel
         {
-            get;
-            set;
-        }
+            public string Name
+            {
+                get;
+                set;
+            }
 
-        public string Height
-        {
-            get;
-            set;
-        }
-
-        public string Alt
-        {
-            get;
-            set;
-        }
-    }
-}
-
-namespace navfinmapublicModel
-{
-}
-
-namespace navmain
-{
-}
-
-namespace navmain
-{
-}
-
-namespace navmain
-{
-}
-
-namespace navmainModel
-{
-}
-
-namespace navmetaModel
-{
-    public class Item
-    {
-        public string Href
-        {
-            get;
-            set;
-        }
-
-        public string Accesskey
-        {
-            get;
-            set;
-        }
-
-        public string Title
-        {
-            get;
-            set;
-        }
-
-        public string Name
-        {
-            get;
-            set;
+            public Customer Customer
+            {
+                get;
+                set;
+            }
         }
     }
 
-    public class NavmetaModel
+    namespace TeaserEntryModel
     {
-        public System.Collections.Generic.IList<Item> Items
+        public class TeaserEntryModel
         {
-            get;
-            set;
-        }
-    }
-}
+            public string Date
+            {
+                get;
+                set;
+            }
 
-namespace navservice
-{
-}
+            public string DateMobile
+            {
+                get;
+                set;
+            }
 
-namespace navservice
-{
-}
+            public string Label
+            {
+                get;
+                set;
+            }
 
-namespace navserviceModel
-{
-    public class Link
-    {
-        public string Href
-        {
-            get;
-            set;
-        }
+            public string Link
+            {
+                get;
+                set;
+            }
 
-        public string Accesskey
-        {
-            get;
-            set;
-        }
+            public string Title
+            {
+                get;
+                set;
+            }
 
-        public string Title
-        {
-            get;
-            set;
-        }
+            public string Text
+            {
+                get;
+                set;
+            }
 
-        public string Glyph
-        {
-            get;
-            set;
-        }
-
-        public string Name
-        {
-            get;
-            set;
+            public string LinkText
+            {
+                get;
+                set;
+            }
         }
     }
 
-    public class NavserviceModel
+    namespace TeaserHeadingModel
     {
-        public System.Collections.Generic.IList<Link> Links
+        public class Sorting
         {
-            get;
-            set;
+            public string Key
+            {
+                get;
+                set;
+            }
+
+            public string Name
+            {
+                get;
+                set;
+            }
         }
 
-        public string Notifications
+        public class TeaserHeadingModel
         {
-            get;
-            set;
-        }
-    }
-}
+            public string Title
+            {
+                get;
+                set;
+            }
 
-namespace navsidebar
-{
-}
+            public string OrderBy
+            {
+                get;
+                set;
+            }
 
-namespace navsidebar
-{
-}
+            public System.Collections.Generic.IList<Sorting> Sortings
+            {
+                get;
+                set;
+            }
 
-namespace navsidebar
-{
-}
+            public string RssLink
+            {
+                get;
+                set;
+            }
 
-namespace navsidebar
-{
-}
-
-namespace navsidebar
-{
-}
-
-namespace navsidebar
-{
-}
-
-namespace navsidebar
-{
-}
-
-namespace navsidebar
-{
-}
-
-namespace navsidebarModel
-{
-}
-
-namespace search
-{
-}
-
-namespace searchModel
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaser
-{
-}
-
-namespace sidebarteaserModel
-{
-    public class Link
-    {
-        public string Href
-        {
-            get;
-            set;
-        }
-
-        public string Name
-        {
-            get;
-            set;
+            public string RssTitle
+            {
+                get;
+                set;
+            }
         }
     }
 
-    public class SidebarteaserModel
+    namespace TestModuleModel
     {
-        public string Title
+        public class Item
         {
-            get;
-            set;
+            public string Street
+            {
+                get;
+                set;
+            }
+
+            public string ZipCode
+            {
+                get;
+                set;
+            }
+
+            public int StreetNumber
+            {
+                get;
+                set;
+            }
         }
 
-        public string Slogan
+        public class TestModuleModel
         {
-            get;
-            set;
-        }
+            public string Test
+            {
+                get;
+                set;
+            }
 
-        public string Text
-        {
-            get;
-            set;
-        }
+            public string Value
+            {
+                get;
+                set;
+            }
 
-        public System.Collections.Generic.IList<Link> Links
-        {
-            get;
-            set;
+            public System.Collections.Generic.IList<Item> Items
+            {
+                get;
+                set;
+            }
         }
     }
-}
 
-namespace sitemapModel
-{
-}
-
-namespace slider
-{
-}
-
-namespace sliderModel
-{
-}
-
-namespace stage
-{
-}
-
-namespace stageModel
-{
-    public class StageModel
+    namespace Accordion
     {
-        public string Claim
+    }
+
+    namespace Accordion
+    {
+    }
+
+    namespace Accordion
+    {
+    }
+
+    namespace AccordionModel
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace Breadcrumb
+    {
+    }
+
+    namespace BreadcrumbModel
+    {
+    }
+
+    namespace Documentteaser
+    {
+    }
+
+    namespace Documentteaser
+    {
+    }
+
+    namespace Documentteaser
+    {
+    }
+
+    namespace Documentteaser
+    {
+    }
+
+    namespace DocumentteaserModel
+    {
+    }
+
+    namespace FilterModel
+    {
+    }
+
+    namespace Footer
+    {
+    }
+
+    namespace Footer
+    {
+    }
+
+    namespace Footer
+    {
+    }
+
+    namespace Footer
+    {
+    }
+
+    namespace Footer
+    {
+    }
+
+    namespace Footer
+    {
+    }
+
+    namespace FooterModel
+    {
+        public class FooterModel
         {
-            get;
-            set;
+            public string Copyright
+            {
+                get;
+                set;
+            }
         }
     }
-}
 
-namespace teaser
-{
-}
-
-namespace teaser
-{
-}
-
-namespace teaser
-{
-}
-
-namespace teaser
-{
-}
-
-namespace teaser
-{
-}
-
-namespace teaser
-{
-}
-
-namespace teaserModel
-{
-    public class TeaserModel
+    namespace LayoutModel
     {
-        public System.Collections.Generic.IList<object> Entries
+    }
+
+    namespace Login
+    {
+    }
+
+    namespace Login
+    {
+    }
+
+    namespace LoginModel
+    {
+    }
+
+    namespace LogoModel
+    {
+        public class LogoModel
         {
-            get;
-            set;
+            public string Href
+            {
+                get;
+                set;
+            }
+
+            public string Width
+            {
+                get;
+                set;
+            }
+
+            public string Height
+            {
+                get;
+                set;
+            }
+
+            public string Alt
+            {
+                get;
+                set;
+            }
+        }
+    }
+
+    namespace NavfinmapublicModel
+    {
+    }
+
+    namespace Navmain
+    {
+    }
+
+    namespace Navmain
+    {
+    }
+
+    namespace Navmain
+    {
+    }
+
+    namespace NavmainModel
+    {
+    }
+
+    namespace NavmetaModel
+    {
+        public class Item
+        {
+            public string Href
+            {
+                get;
+                set;
+            }
+
+            public string Accesskey
+            {
+                get;
+                set;
+            }
+
+            public string Title
+            {
+                get;
+                set;
+            }
+
+            public string Name
+            {
+                get;
+                set;
+            }
+        }
+
+        public class NavmetaModel
+        {
+            public System.Collections.Generic.IList<Item> Items
+            {
+                get;
+                set;
+            }
+        }
+    }
+
+    namespace Navservice
+    {
+    }
+
+    namespace Navservice
+    {
+    }
+
+    namespace NavserviceModel
+    {
+        public class Link
+        {
+            public string Href
+            {
+                get;
+                set;
+            }
+
+            public string Accesskey
+            {
+                get;
+                set;
+            }
+
+            public string Title
+            {
+                get;
+                set;
+            }
+
+            public string Glyph
+            {
+                get;
+                set;
+            }
+
+            public string Name
+            {
+                get;
+                set;
+            }
+        }
+
+        public class NavserviceModel
+        {
+            public System.Collections.Generic.IList<Link> Links
+            {
+                get;
+                set;
+            }
+
+            public string Notifications
+            {
+                get;
+                set;
+            }
+        }
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace Navsidebar
+    {
+    }
+
+    namespace NavsidebarModel
+    {
+    }
+
+    namespace Search
+    {
+    }
+
+    namespace SearchModel
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace Sidebarteaser
+    {
+    }
+
+    namespace SidebarteaserModel
+    {
+        public class Link
+        {
+            public string Href
+            {
+                get;
+                set;
+            }
+
+            public string Name
+            {
+                get;
+                set;
+            }
+        }
+
+        public class SidebarteaserModel
+        {
+            public string Title
+            {
+                get;
+                set;
+            }
+
+            public string Slogan
+            {
+                get;
+                set;
+            }
+
+            public string Text
+            {
+                get;
+                set;
+            }
+
+            public System.Collections.Generic.IList<Link> Links
+            {
+                get;
+                set;
+            }
+        }
+    }
+
+    namespace SitemapModel
+    {
+    }
+
+    namespace Slider
+    {
+    }
+
+    namespace SliderModel
+    {
+    }
+
+    namespace Stage
+    {
+    }
+
+    namespace StageModel
+    {
+        public class StageModel
+        {
+            public string Claim
+            {
+                get;
+                set;
+            }
+        }
+    }
+
+    namespace Teaser
+    {
+    }
+
+    namespace Teaser
+    {
+    }
+
+    namespace Teaser
+    {
+    }
+
+    namespace Teaser
+    {
+    }
+
+    namespace Teaser
+    {
+    }
+
+    namespace Teaser
+    {
+    }
+
+    namespace TeaserModel
+    {
+        public class TeaserModel
+        {
+            public System.Collections.Generic.IList<object> Entries
+            {
+                get;
+                set;
+            }
         }
     }
 }

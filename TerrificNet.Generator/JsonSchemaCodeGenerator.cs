@@ -35,7 +35,7 @@ namespace TerrificNet.Generator
             RoslynExtension.GenerateClass(schema, typeContext, string.Empty, _namingRule);
 
             var root = Syntax.CompilationUnit()
-                .WithMembers(Syntax.NamespaceDeclaration(Syntax.ParseName(schema.Title)).WithMembers(Syntax.List(typeContext.Values.ToArray())));
+                .WithMembers(Syntax.NamespaceDeclaration(Syntax.ParseName(_namingRule.GetNamespaceName(schema))).WithMembers(Syntax.List(typeContext.Values.ToArray())));
             return root;
         }
 
@@ -55,11 +55,9 @@ namespace TerrificNet.Generator
             return null;
         }
 
-        public void WriteTo(IEnumerable<JsonSchema> schemas, Stream stream)
+        public void WriteTo(IEnumerable<JsonSchema> schemas, Stream stream, string rootNamespace = null)
         {
-            var syntaxTree = SyntaxTree.Create(
-                Syntax.CompilationUnit().WithMembers(Syntax.List(schemas.SelectMany(s => GetSyntax(s).Members))).NormalizeWhitespace());
-
+            var syntaxTree = GetSyntaxTree(schemas, rootNamespace);
             var text = syntaxTree.GetText();
             var streamWriter = new StreamWriter(stream);
             
@@ -67,23 +65,42 @@ namespace TerrificNet.Generator
             streamWriter.Flush();            
         }
 
-        public void CompileTo(IEnumerable<JsonSchema> schemas, Stream stream)
+        public void CompileTo(IEnumerable<JsonSchema> schemas, Stream stream, string rootNamespace = null)
         {
-            CompileToInternal(schemas, stream);
+            CompileToInternal(schemas, stream, rootNamespace);
         }
 
-        private EmitResult CompileToInternal(IEnumerable<JsonSchema> schemas, Stream stream)
+        private EmitResult CompileToInternal(IEnumerable<JsonSchema> schemas, Stream stream, string rootNamespace = null)
         {
-            var syntaxTrees = schemas.Select(s => SyntaxTree.Create(GetSyntax(s)));
+            var syntaxTree = GetSyntaxTree(schemas, rootNamespace);
 
             var compilation = Compilation.Create("test", new CompilationOptions(OutputKind.DynamicallyLinkedLibrary))
                 .AddReferences(MetadataReference.CreateAssemblyReference("mscorlib"))
                 .AddReferences(MetadataReference.CreateAssemblyReference("System"))
                 .AddReferences(MetadataReference.CreateAssemblyReference("System.Core"))
-                .AddSyntaxTrees(syntaxTrees);
+                .AddSyntaxTrees(syntaxTree);
 
             var result = compilation.Emit(stream);
             return result;
+        }
+
+        private SyntaxTree GetSyntaxTree(IEnumerable<JsonSchema> schemas, string rootNamespace = null)
+        {
+            var syntaxTree = SyntaxTree.Create(
+                Syntax.CompilationUnit()
+                    .WithMembers(GetRootNamespace(schemas, rootNamespace))
+                    .NormalizeWhitespace());
+
+            return syntaxTree;
+        }
+
+        private SyntaxList<MemberDeclarationSyntax> GetRootNamespace(IEnumerable<JsonSchema> schemas, string rootNamespace)
+        {
+            var list = Syntax.List(schemas.SelectMany(s => GetSyntax(s).Members));
+            if (!string.IsNullOrEmpty(rootNamespace))
+                list = Syntax.NamespaceDeclaration(Syntax.ParseName(rootNamespace)).WithMembers(list);
+
+            return list;
         }
     }
 

@@ -10,6 +10,7 @@ namespace TerrificNet.Generator
         string GetClassName(JsonSchema schema, string propertyName);
         string GetClassNameFromArrayItem(JsonSchema schema, string propertyName);
         string GetPropertyName(string input);
+        string GetNamespaceName(JsonSchema schema);
     }
 
     public class NamingRule : INamingRule
@@ -46,10 +47,20 @@ namespace TerrificNet.Generator
 
         public string GetPropertyName(string input)
         {
+            return NormalizeName(input);
+        }
+
+        public string GetNamespaceName(JsonSchema schema)
+        {
+            return NormalizeName(schema.Title);
+        }
+
+        private static string NormalizeName(string input)
+        {
             if (string.IsNullOrEmpty(input))
                 return input;
 
-            return ConvertToPascalCase(input).Replace(" ", "").Trim();
+            return ConvertToPascalCase(input).Replace(" ", "").Replace("_", "").Trim();
         }
 
         private static string ConvertToPascalCase(string input)

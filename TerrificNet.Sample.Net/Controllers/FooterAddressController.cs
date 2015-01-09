@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
-using footer_addressModel;
+using TerrificNet.Sample.Net.Models.FooterAddressModel;
 
 namespace TerrificNet.Sample.Net.Controllers
 {
@@ -9,7 +9,7 @@ namespace TerrificNet.Sample.Net.Controllers
         // GET: Default
         public ActionResult Index()
         {
-            var address = new Footer_AddressModel
+            var address = new FooterAddressModel
             {
                 Address = new Address()
                 {
