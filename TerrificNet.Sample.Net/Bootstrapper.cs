@@ -42,6 +42,9 @@ namespace TerrificNet.Sample.Net
             container
                 .RegisterType<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<MvcTerrificTemplateHandler>>();
 
+            container.RegisterType<INamingRule, NamingRule>();
+            container.RegisterType<IModelTypeProvider>(new InjectionFactory(u => new StaticModelTypeProvider("TerrificNet.Sample.Net.Models", "TerrificNet.Sample.Net.Models", u.Resolve<INamingRule>(), u.Resolve<ISchemaProvider>())));
+
             var rootPath = HostingEnvironment.MapPath("~/");
             var basePath = Path.Combine(rootPath, @"..\TerrificNet.Sample");
             DefaultUnityModule.RegisterForApplication(container, new TerrificNetConfig

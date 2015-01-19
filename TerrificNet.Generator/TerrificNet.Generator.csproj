@@ -87,7 +87,6 @@
   <ItemGroup>
     <Compile Include="JsonSchemaCodeGenerator.cs" />
     <Compile Include="IJsonSchemaCodeGenerator.cs" />
-    <Compile Include="NamingRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +94,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
+      <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
+      <Name>TerrificNet.ViewEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

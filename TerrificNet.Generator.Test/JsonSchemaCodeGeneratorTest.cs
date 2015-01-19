@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using Roslyn.Compilers.CSharp;
+using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Generator.Test
 {

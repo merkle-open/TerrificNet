@@ -14,11 +14,13 @@ namespace TerrificNet.Mvc
     {
         private readonly IViewEngineTerrific _viewEngine;
         private readonly ITemplateRepository _templateRepository;
+        private readonly IModelTypeProvider _modelTypeProvider;
 
-        public TerrificNetViewEngine(IViewEngineTerrific viewEngine, ITemplateRepository templateRepository)
+        public TerrificNetViewEngine(IViewEngineTerrific viewEngine, ITemplateRepository templateRepository, IModelTypeProvider modelTypeProvider)
         {
             _viewEngine = viewEngine;
             _templateRepository = templateRepository;
+            _modelTypeProvider = modelTypeProvider;
         }
 
         public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
@@ -38,10 +40,17 @@ namespace TerrificNet.Mvc
         private ViewEngineResult GetViewResult(string controllerName, string viewName)
         {
             TemplateInfo templateInfo;
-            IViewTerrific view;
-            if ((_templateRepository.TryGetTemplate(viewName, string.Empty, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, string.Empty, out templateInfo))
-                && _viewEngine.TryCreateView(templateInfo, out view))
-                return new ViewEngineResult(new TerrificViewAdapter(view), this);
+
+            if ((_templateRepository.TryGetTemplate(viewName, string.Empty, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, string.Empty, out templateInfo)))
+            {
+                Type modelType;
+                if (!_modelTypeProvider.TryGetModelTypeFromTemplate(templateInfo, out modelType))
+                    modelType = typeof (object);
+
+                IViewTerrific view;
+                if (_viewEngine.TryCreateView(templateInfo, modelType, out view))
+                    return new ViewEngineResult(new TerrificViewAdapter(view), this);
+            }
 
             throw new NotSupportedException();
         }

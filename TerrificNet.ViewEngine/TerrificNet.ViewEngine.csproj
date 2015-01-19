@@ -48,10 +48,14 @@
     <Compile Include="Cache\MemoryCacheProvider.cs" />
     <Compile Include="Cache\NullCacheProvider.cs" />
     <Compile Include="Config\ITerrificNetConfig.cs" />
+    <Compile Include="IModelTypeProvider.cs" />
+    <Compile Include="INamingRule.cs" />
     <Compile Include="ITemplateRepository.cs" />
+    <Compile Include="NamingRule.cs" />
     <Compile Include="RenderingContext.cs" />
     <Compile Include="SchemaProviders\PhysicalSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
+    <Compile Include="StaticModelTypeProvider.cs" />
     <Compile Include="TemplateInfo.cs" />
     <Compile Include="ISchemaProvider.cs" />
     <Compile Include="IModelProvider.cs" />

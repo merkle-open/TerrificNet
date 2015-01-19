@@ -66,7 +66,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
             public void Render(object model, RenderingContext context)
             {
-                _adaptee.Render((T) model, context);
+                if (model != null)
+                    _adaptee.Render((T) model, context);
+                else
+                    // TODO: Verify what is to be done with null model values
+                    _adaptee.Render(Activator.CreateInstance<T>(), context);
             }
         }
 

@@ -1,18 +1,9 @@
-using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Schema;
 
-namespace TerrificNet.Generator
+namespace TerrificNet.ViewEngine
 {
-    public interface INamingRule
-    {
-        string GetClassName(JsonSchema schema, string propertyName);
-        string GetClassNameFromArrayItem(JsonSchema schema, string propertyName);
-        string GetPropertyName(string input);
-        string GetNamespaceName(JsonSchema schema);
-    }
-
     public class NamingRule : INamingRule
     {
         public string GetClassName(JsonSchema schema, string propertyName)
