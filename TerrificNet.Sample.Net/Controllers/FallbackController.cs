@@ -10,7 +10,7 @@ namespace TerrificNet.Sample.Net.Controllers
         // GET: Fallback
         public ActionResult Index()
         {
-            return View(ViewName, new JObject());
+            return View(ViewName, null);
         }
     }
 }

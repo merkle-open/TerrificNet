@@ -98,6 +98,10 @@
       <Project>{7A0B68AB-F5EF-4BCE-ACE3-766C9EA06B82}</Project>
       <Name>TerrificNet.Generator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
+      <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
+      <Name>TerrificNet.ViewEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

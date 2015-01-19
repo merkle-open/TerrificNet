@@ -1,7 +1,11 @@
 namespace TerrificNet.ViewEngine
 {
-    public interface IView
+    public interface IView : IView<object>
     {
-        string Render(object model, RenderingContext context);
+    }
+
+    public interface IView<in T>
+    {
+        void Render(T model, RenderingContext context);
     }
 }

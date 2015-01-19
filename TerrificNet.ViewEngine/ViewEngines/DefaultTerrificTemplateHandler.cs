@@ -17,21 +17,20 @@ namespace TerrificNet.ViewEngine.ViewEngines
             _templateRepository = templateRepository;
         }
 
-        public string RenderPlaceholder(object model, string key, RenderingContext context)
+        public void RenderPlaceholder(object model, string key, RenderingContext context)
         {
             var tmp = model as JObject;
             if (tmp == null)
-                return string.Empty;
+                return;
 
             var placeholder = tmp.GetValue("_placeholder") as JObject;
             if (placeholder == null)
-                return string.Empty;
+                return;
 
             var placeholderConfigs = placeholder.GetValue(key) as JArray;
             if (placeholderConfigs == null)
-                return string.Empty;
+                return;
 
-            var sb = new StringBuilder();
             foreach (var placeholderConfig in placeholderConfigs)
             {
                 var templateName = placeholderConfig["template"].Value<string>();
@@ -47,17 +46,15 @@ namespace TerrificNet.ViewEngine.ViewEngines
                     _viewEngine.TryCreateView(templateInfo, out view))
                 {
                     var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetModelForTemplate(templateInfo);
-                    sb.Append(view.Render(moduleModel, context));
+                    view.Render(moduleModel, context);
                 }
                 else
-                    sb.Append("Problem loading template " + templateName +
+                    context.Writer.Write("Problem loading template " + templateName +
                               (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
             }
-
-            return sb.ToString();
         }
 
-        public string RenderModule(string templateName, string skin, RenderingContext context)
+        public void RenderModule(string templateName, string skin, RenderingContext context)
         {
             TemplateInfo templateInfo;
             IView view;
@@ -65,10 +62,10 @@ namespace TerrificNet.ViewEngine.ViewEngines
                 _viewEngine.TryCreateView(templateInfo, out view))
             {
                 var moduleModel = _modelProvider.GetModelForTemplate(templateInfo) ?? new object();
-                return view.Render(moduleModel, context);
+                view.Render(moduleModel, context);
             }
-
-            return "Problem loading template " + templateName + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty);
+            else
+                context.Writer.Write("Problem loading template " + templateName + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
         }
     }
 }

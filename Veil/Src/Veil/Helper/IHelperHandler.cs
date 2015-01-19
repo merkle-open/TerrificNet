@@ -5,6 +5,6 @@ namespace Veil.Helper
 {
 	public interface IHelperHandler
 	{
-		string Evaluate(object model, string name, IDictionary<string, string> parameters);
+		void Evaluate(object model, string name, IDictionary<string, string> parameters);
 	}
 }

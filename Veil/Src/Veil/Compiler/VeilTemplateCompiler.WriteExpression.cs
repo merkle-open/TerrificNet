@@ -15,19 +15,22 @@ namespace Veil.Compiler
 
         private Expression HandleWriteExpression(WriteExpressionNode node)
         {
-	        bool escapeHtml;
-	        var expression = ParseExpression(node.Expression, out escapeHtml);
+            bool escapeHtml;
+            var expression = ParseExpression(node.Expression, out escapeHtml);
 
-			if (node.HtmlEncode && escapeHtml)
-			{
+            if (node.HtmlEncode && escapeHtml)
+            {
                 if (expression.Type == typeof(string))
-				    return Expression.Call(encodeMethod, this.writer, expression);
+                    return Expression.Call(encodeMethod, this.writer, expression);
 
                 return Expression.Call(encodeMethodObject, this.writer, expression);
-			}
+            }
 
             if (expression.Type == typeof(string))
                 return Expression.Call(this.writer, writeMethod, expression);
+
+            if (expression.Type == typeof(void))
+               return expression;
 
             return Expression.Call(this.writer, writeMethodObject, expression);
         }

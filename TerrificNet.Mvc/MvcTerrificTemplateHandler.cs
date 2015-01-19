@@ -9,19 +9,18 @@ namespace TerrificNet.Mvc
 {
     public class MvcTerrificTemplateHandler : ITerrificTemplateHandler
     {
-        public string RenderPlaceholder(object model, string key, RenderingContext context)
+        public void RenderPlaceholder(object model, string key, RenderingContext context)
         {
-            return "Placeholder for:" + key;
+            context.Writer.Write("Placeholder for:" + key);
         }
 
-        public string RenderModule(string templateName, string skin, RenderingContext context)
+        public void RenderModule(string templateName, string skin, RenderingContext context)
         {
             var mvcContext = context as MvcRenderingContext;
             if (mvcContext == null)
                 throw new InvalidOperationException("MvcTerrificTemplateHandler can only be used inside a Mvc application.");
 
-            var result = new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).Action("Index", templateName);
-            return result.ToHtmlString();
+            new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", templateName);
         }
     }
 }

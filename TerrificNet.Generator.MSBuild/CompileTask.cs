@@ -59,6 +59,7 @@ namespace TerrificNet.Generator.MSBuild
             var schemas = repo.GetAll().Select(t =>
             {
                 var schema = schemaProvider.GetSchemaFromTemplate(t);
+                // TODO: Duplicated code with StaticModelTypeProvider
                 if (string.IsNullOrEmpty(schema.Title))
                     schema.Title = t.Id + "Model";
 

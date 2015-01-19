@@ -6,6 +6,7 @@ using System.Reflection;
 using Newtonsoft.Json.Schema;
 using Roslyn.Compilers;
 using Roslyn.Compilers.CSharp;
+using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Generator
 {

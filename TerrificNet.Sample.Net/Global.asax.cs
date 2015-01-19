@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http.Dispatcher;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.SessionState;
 using Microsoft.Practices.Unity;
 using TerrificNet.Mvc;
-using TerrificNet.Sample.Net.Controllers;
 
 namespace TerrificNet.Sample.Net
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -25,14 +20,14 @@ namespace TerrificNet.Sample.Net
             ViewEngines.Engines.Add(container.Resolve<TerrificNetViewEngine>());
 
             var factory = ControllerBuilder.Current.GetControllerFactory();
-            ControllerBuilder.Current.SetControllerFactory(new Test(factory));
+            ControllerBuilder.Current.SetControllerFactory(new FallbackControllerFactory(factory));
         }
 
-        private class Test : IControllerFactory
+        private class FallbackControllerFactory : IControllerFactory
         {
             private readonly IControllerFactory _innerFactory;
 
-            public Test(IControllerFactory innerFactory)
+            public FallbackControllerFactory(IControllerFactory innerFactory)
             {
                 _innerFactory = innerFactory;
             }
