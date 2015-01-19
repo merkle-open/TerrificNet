@@ -50,15 +50,9 @@ namespace TerrificNet.ViewEngine.ViewEngines
 				_render = render;
 			}
 
-			public string Render(object model, RenderingContext context)
+			public void Render(object model, RenderingContext context)
 			{
-				var builder = new StringBuilder();
-				using (var writer = new StringWriter(builder))
-				{
-					_render(writer, model, context);
-				}
-
-				return builder.ToString();
+				_render(context.Writer, model, context);
 			}
 		}
 
@@ -113,7 +107,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		        _context = context;
 		    }
 
-		    public string Evaluate(object model, string name, IDictionary<string, string> parameters)
+		    public void Evaluate(object model, string name, IDictionary<string, string> parameters)
 			{
 				if ("module".Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
@@ -123,16 +117,15 @@ namespace TerrificNet.ViewEngine.ViewEngines
 					if (parameters.ContainsKey("skin"))
 						skin = parameters["skin"].Trim('"');
 
-                    return _handler.RenderModule(templateName, skin, _context);
+                    _handler.RenderModule(templateName, skin, _context);
 				}
-
-				if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
+				else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
 				    var key = parameters["key"].Trim('"');
-                    return _handler.RenderPlaceholder(model, key, _context);
+                    _handler.RenderPlaceholder(model, key, _context);
 				}
-
-			    throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
+                else
+			        throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
 			}
 		}
 	}

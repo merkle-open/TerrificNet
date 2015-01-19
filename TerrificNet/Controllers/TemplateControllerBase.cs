@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
@@ -10,11 +11,14 @@ namespace TerrificNet.Controllers
 	{
 	    protected HttpResponseMessage Render(IView view, object model)
 		{
-			var result = view.Render(model, new RenderingContext());
+	        using (var writer = new StringWriter())
+	        {
+	            view.Render(model, new RenderingContext(writer));
 
-			var message = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(result)};
-			message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-			return message;
+	            var message = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(writer.ToString())};
+	            message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+	            return message;
+	        }
 		}
 	}
 }

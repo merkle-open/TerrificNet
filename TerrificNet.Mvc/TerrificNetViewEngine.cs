@@ -58,7 +58,7 @@ namespace TerrificNet.Mvc
             public void Render(ViewContext viewContext, TextWriter writer)
             {
                 this.ViewData = viewContext.ViewData;
-                writer.Write(_adaptee.Render(viewContext.ViewData.Model, new MvcRenderingContext(viewContext, this)));
+                _adaptee.Render(viewContext.ViewData.Model, new MvcRenderingContext(viewContext, this));
             }
 
             public ViewDataDictionary ViewData { get; set; }
