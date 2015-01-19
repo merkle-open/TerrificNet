@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using TerrificNet.ViewEngine.Cache;
@@ -20,43 +21,74 @@ namespace TerrificNet.ViewEngine.ViewEngines
 	        _templateHandlerFactory = templateHandlerFactory;
 		}
 
-		public IView CreateView(string content)
+        private IView CreateView(string content, Type modelType)
 		{
-			var hash = string.Concat("template_", GetHash(new MD5CryptoServiceProvider(), content));
+			var hash = string.Concat("template_", GetHash(new MD5CryptoServiceProvider(), content), modelType.FullName);
 
-			VeilView view;
+			IView view;
 			if (!_cacheProvider.TryGet(hash, out view))
 			{
 			    var helperHandler = new TerrificHelperHandler(_templateHandlerFactory.Create());
 
-				var render = new VeilEngine(helperHandler: helperHandler).CompileNonGeneric("handlebars", new StringReader(content), typeof(object));
-				view = new VeilView((a, c, d) =>
-				{
-				    helperHandler.SetContext(d);
-				    render(a, c);
-				});
-				_cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
+                var viewEngine = new VeilEngine(helperHandler: helperHandler);
+			    if (modelType == typeof (object))
+			        view = CreateNonGenericView(content, helperHandler, viewEngine);
+			    else
+                    view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { content, helperHandler, viewEngine });
+
+			    _cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
 			}
 
 			return view;
 		}
 
-		private class VeilView : IView
+        private static IView CreateNonGenericView(string content, TerrificHelperHandler helperHandler, IVeilEngine viewEngine)
+        {
+            var render = viewEngine.CompileNonGeneric("handlebars", new StringReader(content), typeof (object));
+            var view = new VeilViewAdapter<object>(new VeilView<object>(render, helperHandler));
+            return view;
+        }
+
+        private static IView CreateView<T>(string content, TerrificHelperHandler helperHandler, IVeilEngine veilEngine)
+        {
+            var render = veilEngine.Compile<T>("handlebars", new StringReader(content));
+            return new VeilViewAdapter<T>(new VeilView<T>(render, helperHandler));
+        }
+
+        private class VeilViewAdapter<T> : IView
+        {
+            private readonly IView<T> _adaptee;
+
+            public VeilViewAdapter(IView<T> adaptee)
+            {
+                _adaptee = adaptee;
+            }
+
+            public void Render(object model, RenderingContext context)
+            {
+                _adaptee.Render((T) model, context);
+            }
+        }
+
+        private class VeilView<T> : IView<T>
 		{
-            private readonly Action<TextWriter, object, RenderingContext> _render;
+            private readonly Action<TextWriter, T> _render;
+		    private readonly TerrificHelperHandler _terrificHelper;
 
-			public VeilView(Action<TextWriter, object, RenderingContext> render)
+		    public VeilView(Action<TextWriter, T> render, TerrificHelperHandler terrificHelper)
 			{
-				_render = render;
+			    _render = render;
+			    _terrificHelper = terrificHelper;
 			}
 
-			public void Render(object model, RenderingContext context)
-			{
-				_render(context.Writer, model, context);
-			}
+		    public void Render(T model, RenderingContext context)
+		    {
+		        _terrificHelper.SetContext(context);
+                _render(context.Writer, model);
+		    }
 		}
 
-		public bool TryCreateView(TemplateInfo templateInfo, out IView view)
+		public bool TryCreateView(TemplateInfo templateInfo, Type modelType, out IView view)
 		{
 			view = null;
 			if (templateInfo == null)
@@ -66,12 +98,12 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			{
 				var content = reader.ReadToEnd();
 
-				view = CreateView(content);
+				view = CreateView(content, modelType);
 				return true;
 			}
 		}
 
-		private static string GetHash(HashAlgorithm md5Hash, string input)
+        private static string GetHash(HashAlgorithm md5Hash, string input)
 		{
 
 			// Convert the input string to a byte array and compute the hash. 
