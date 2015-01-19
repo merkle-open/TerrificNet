@@ -16,7 +16,7 @@ namespace Veil.Handlebars
 
         public Func<ITemplateParser> ParserFactory
         {
-            get { return () => new HandlebarsParser(); }
+            get { return () => new HandlebarsParser(null); }
         }
     }
 }

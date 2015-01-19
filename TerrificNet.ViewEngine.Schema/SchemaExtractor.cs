@@ -8,18 +8,18 @@ namespace TerrificNet.ViewEngine.Schema
 {
     public class SchemaExtractor
     {
-        private readonly ITemplateParserRegistration _templateParserRegistration;
+        private readonly ITemplateParser _templateParser;
 
-        public SchemaExtractor(ITemplateParserRegistration templateParserRegistration)
+        public SchemaExtractor(ITemplateParser templateParser)
         {
-            _templateParserRegistration = templateParserRegistration;
+            _templateParser = templateParser;
         }
 
         public JsonSchema Run(StreamReader reader)
         {
             using (reader)
             {
-                var node = _templateParserRegistration.ParserFactory().Parse(reader, typeof(object));
+                var node = _templateParser.Parse(reader, typeof(object));
                 var visitor = new SchemaBuilderVisitor();
                 visitor.Visit(node);
 

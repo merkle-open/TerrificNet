@@ -9,7 +9,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
     {
         public JsonSchema GetSchemaFromTemplate(TemplateInfo template)
         {
-            var extractor = new SchemaExtractor(new HandlebarsTemplateParserRegistration());
+            var extractor = new SchemaExtractor(new HandlebarsParser());
             return extractor.Run(new StreamReader(template.Open()));
         }
     }

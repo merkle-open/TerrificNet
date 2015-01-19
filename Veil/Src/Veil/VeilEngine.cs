@@ -16,14 +16,16 @@ namespace Veil
 		private static readonly MethodInfo genericCompileMethod = typeof(VeilEngine).GetMethod("Compile");
 		private readonly IVeilContext context;
 		private readonly IHelperHandler _helperHandler;
+	    private readonly IMemberLocator _memberLocator;
 
-		/// <summary>
+	    /// <summary>
 		/// Creates a VeilEngine with an <see cref="IVeilContext"/> to enable support for Includes/Partials/MasterPages.
 		/// </summary>
-		public VeilEngine(IVeilContext context = null, IHelperHandler helperHandler = null)
+		public VeilEngine(IVeilContext context = null, IHelperHandler helperHandler = null, IMemberLocator memberLocator = null)
 		{
 			this.context = context;
 			_helperHandler = helperHandler;
+	        _memberLocator = memberLocator;
 		}
 
 		/// <summary>

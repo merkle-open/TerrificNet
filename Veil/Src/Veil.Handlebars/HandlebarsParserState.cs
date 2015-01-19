@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Veil.Compiler;
 using Veil.Parser;
 
 namespace Veil.Handlebars
 {
     internal class HandlebarsParserState
     {
+        private readonly IMemberLocator _memberLocator;
         public HandlebarsBlockStack BlockStack { get; private set; }
 
         public HandlebarsToken CurrentToken { get; private set; }
@@ -19,8 +21,9 @@ namespace Veil.Handlebars
 
         public SyntaxTreeNode RootNode { get { return ExtendNode ?? BlockStack.GetCurrentBlockNode(); } }
 
-        public HandlebarsParserState()
+        public HandlebarsParserState(IMemberLocator memberLocator)
         {
+            _memberLocator = memberLocator;
             this.BlockStack = new HandlebarsBlockStack();
         }
 
@@ -36,7 +39,7 @@ namespace Veil.Handlebars
 
         public ExpressionNode ParseExpression(string expression)
         {
-            return HandlebarsExpressionParser.Parse(BlockStack, expression);
+            return HandlebarsExpressionParser.Parse(BlockStack, expression, _memberLocator);
         }
 
         internal void SetCurrentToken(HandlebarsToken token)

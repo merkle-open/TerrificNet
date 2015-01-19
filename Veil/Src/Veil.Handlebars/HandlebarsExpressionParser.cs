@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Veil.Compiler;
 using Veil.Parser;
 
 namespace Veil.Handlebars
 {
     internal static class HandlebarsExpressionParser
     {
-        public static ExpressionNode Parse(HandlebarsBlockStack blockStack, string expression)
+        public static ExpressionNode Parse(HandlebarsBlockStack blockStack, string expression, IMemberLocator memberLocator)
         {
             expression = expression.Trim();
 
@@ -18,31 +19,31 @@ namespace Veil.Handlebars
             }
             if (expression.StartsWith("../"))
             {
-                return ParseAgainstModel(blockStack.GetParentModelType(), expression.Substring(3), ExpressionScope.ModelOfParentScope);
+                return ParseAgainstModel(blockStack.GetParentModelType(), expression.Substring(3), ExpressionScope.ModelOfParentScope, memberLocator);
             }
 
-            return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack);
+            return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack, memberLocator);
         }
 
-        private static ExpressionNode ParseAgainstModel(Type modelType, string expression, ExpressionScope expressionScope)
+        private static ExpressionNode ParseAgainstModel(Type modelType, string expression, ExpressionScope expressionScope, IMemberLocator memberLocator)
         {
             var dotIndex = expression.IndexOf('.');
             if (dotIndex >= 0)
             {
-                var subModel = HandlebarsExpressionParser.ParseAgainstModel(modelType, expression.Substring(0, dotIndex), expressionScope);
+                var subModel = HandlebarsExpressionParser.ParseAgainstModel(modelType, expression.Substring(0, dotIndex), expressionScope, memberLocator);
                 return SyntaxTreeExpression.SubModel(
                     subModel,
-                    HandlebarsExpressionParser.ParseAgainstModel(subModel.ResultType, expression.Substring(dotIndex + 1), ExpressionScope.CurrentModelOnStack)
+                    HandlebarsExpressionParser.ParseAgainstModel(subModel.ResultType, expression.Substring(dotIndex + 1), ExpressionScope.CurrentModelOnStack, memberLocator)
                 );
             }
 
             if (expression.EndsWith("()"))
             {
-                var func = FindMember(modelType, expression.Substring(0, expression.Length - 2), MemberTypes.Method);
+                var func = memberLocator.FindMember(modelType, expression.Substring(0, expression.Length - 2), MemberTypes.Method);
                 if (func != null) return SyntaxTreeExpression.Function(modelType, func.Name, expressionScope);
             }
 
-            var prop = FindMember(modelType, expression, MemberTypes.Property | MemberTypes.Field);
+            var prop = memberLocator.FindMember(modelType, expression, MemberTypes.Property | MemberTypes.Field);
             if (prop != null)
             {
                 switch (prop.MemberType)
@@ -61,15 +62,6 @@ namespace Veil.Handlebars
             if (IsLateBoundAcceptingType(modelType)) return SyntaxTreeExpression.LateBound(expression, false, expressionScope);
 
             throw new VeilParserException(String.Format("Unable to parse model expression '{0}' againt model '{1}'", expression, modelType.Name));
-        }
-
-        private static MemberInfo FindMember(Type t, string name, MemberTypes types)
-        {
-            return t
-                .FindMembers(types, BindingFlags.Instance | BindingFlags.Public, Type.FilterNameIgnoreCase, name)
-                .OrderByDescending(x => x.Name == name)
-                .ThenByDescending(x => x.MemberType == MemberTypes.Property)
-                .FirstOrDefault();
         }
 
         private static bool IsLateBoundAcceptingType(Type type)

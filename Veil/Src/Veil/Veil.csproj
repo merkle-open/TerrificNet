@@ -56,6 +56,8 @@
     <Compile Include="Compiler\VeilTemplateCompiler.ParseExpression.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.ScopedNode.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.WriteLiteral.cs" />
+    <Compile Include="Compiler\IMemberLocator.cs" />
+    <Compile Include="Compiler\MemberLocator.cs" />
     <Compile Include="Parser\ITemplateParserRegistration.cs" />
     <Compile Include="IVeilContext.cs" />
     <Compile Include="NullVeilContext.cs" />
