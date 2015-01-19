@@ -50,8 +50,10 @@
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="ITemplateRepository.cs" />
     <Compile Include="RenderingContext.cs" />
+    <Compile Include="SchemaProviders\IModelTypeRepository.cs" />
     <Compile Include="SchemaProviders\PhysicalSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
+    <Compile Include="SchemaProviders\TypeSchemaProvider.cs" />
     <Compile Include="TemplateInfo.cs" />
     <Compile Include="ISchemaProvider.cs" />
     <Compile Include="IModelProvider.cs" />
