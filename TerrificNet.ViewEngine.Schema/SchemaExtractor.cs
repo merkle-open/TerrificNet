@@ -19,7 +19,7 @@ namespace TerrificNet.ViewEngine.Schema
         {
             using (reader)
             {
-                var node = _templateParser.Parse(reader, typeof(object));
+                var node = _templateParser.Parse(reader, typeof(object), null);
                 var visitor = new SchemaBuilderVisitor();
                 visitor.Visit(node);
 

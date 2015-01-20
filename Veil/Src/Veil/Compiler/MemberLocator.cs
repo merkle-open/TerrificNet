@@ -12,7 +12,7 @@ namespace Veil.Compiler
         {
         }
 
-        public MemberInfo FindMember(Type modelType, string name, MemberTypes types)
+        public virtual MemberInfo FindMember(Type modelType, string name, MemberTypes types)
         {
             return modelType
                 .FindMembers(types, BindingFlags.Instance | BindingFlags.Public, Type.FilterNameIgnoreCase, name)

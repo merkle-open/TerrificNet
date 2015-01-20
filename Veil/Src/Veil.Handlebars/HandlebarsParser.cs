@@ -12,7 +12,6 @@ namespace Veil.Handlebars
     /// </summary>
     public class HandlebarsParser : ITemplateParser
     {
-        private readonly IMemberLocator _memberLocator;
         private const string OverrideSectionName = "body";
 
         private static readonly Dictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>> SyntaxHandlers = new Dictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>>
@@ -37,18 +36,12 @@ namespace Veil.Handlebars
             { x => true, HandleExpression }
         };
 
-        public HandlebarsParser() : this(MemberLocator.Default)
+        public SyntaxTreeNode Parse(TextReader templateReader, Type modelType, IMemberLocator memberLocator)
         {
-        }
+            if (memberLocator == null)
+                memberLocator = MemberLocator.Default;
 
-        public HandlebarsParser(IMemberLocator memberLocator)
-        {
-            _memberLocator = memberLocator;
-        }
-
-        public SyntaxTreeNode Parse(TextReader templateReader, Type modelType)
-        {
-            var state = new HandlebarsParserState(_memberLocator);
+            var state = new HandlebarsParserState(memberLocator);
             var tokens = HandlebarsTokenizer.Tokenize(templateReader);
             state.BlockStack.PushNewBlockWithModel(modelType);
 

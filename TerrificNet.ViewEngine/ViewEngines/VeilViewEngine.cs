@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using TerrificNet.ViewEngine.Cache;
 using Veil;
+using Veil.Compiler;
 using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
@@ -14,11 +15,13 @@ namespace TerrificNet.ViewEngine.ViewEngines
 	{
 		private readonly ICacheProvider _cacheProvider;
         private readonly ITerrificTemplateHandlerFactory _templateHandlerFactory;
+        private readonly IMemberLocator _memberLocator;
 
-        public VeilViewEngine(ICacheProvider cacheProvider, ITerrificTemplateHandlerFactory templateHandlerFactory)
+        public VeilViewEngine(ICacheProvider cacheProvider, ITerrificTemplateHandlerFactory templateHandlerFactory, INamingRule namingRule)
 		{
 			_cacheProvider = cacheProvider;
 	        _templateHandlerFactory = templateHandlerFactory;
+            _memberLocator = new MemberLocatorFromNamingRule(namingRule);
 		}
 
         private IView CreateView(string content, Type modelType)
@@ -30,7 +33,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			{
 			    var helperHandler = new TerrificHelperHandler(_templateHandlerFactory.Create());
 
-                var viewEngine = new VeilEngine(helperHandler: helperHandler);
+                var viewEngine = new VeilEngine(helperHandler: helperHandler, memberLocator: _memberLocator);
 			    if (modelType == typeof (object))
 			        view = CreateNonGenericView(content, helperHandler, viewEngine);
 			    else
@@ -164,5 +167,22 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			        throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
 			}
 		}
+
+        private class MemberLocatorFromNamingRule : MemberLocator
+        {
+            private readonly INamingRule _namingRule;
+
+            public MemberLocatorFromNamingRule(INamingRule namingRule)
+            {
+                _namingRule = namingRule;
+            }
+
+            public override MemberInfo FindMember(Type modelType, string name, MemberTypes types)
+            {
+                name = _namingRule.GetPropertyName(name);
+                return base.FindMember(modelType, name, types);
+            }
+            
+        }
 	}
 }

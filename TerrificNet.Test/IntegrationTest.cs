@@ -33,7 +33,7 @@ namespace TerrificNet.Test
             
             var modelType = codeGenerator.Compile(schema);
 
-            var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object);
+            var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object, namingRule);
 
             IView view;
             viewEngine.TryCreateView(templateInfo, modelType, out view);
@@ -57,8 +57,8 @@ namespace TerrificNet.Test
 
             public override Stream Open()
             {
-                MemoryStream stream = new MemoryStream();
-                StreamWriter writer = new StreamWriter(stream);
+                var stream = new MemoryStream();
+                var writer = new StreamWriter(stream);
                 writer.Write(_content);
                 writer.Flush();
                 stream.Position = 0;

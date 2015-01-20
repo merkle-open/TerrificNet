@@ -42,8 +42,8 @@ namespace Veil
 			if (!VeilStaticConfiguration.IsParserRegistered(parserKey)) throw new ArgumentException("A parser with key '{0}' is not registered.".FormatInvariant(parserKey), "parserKey");
 
 			var parser = VeilStaticConfiguration.GetParserInstance(parserKey);
-			var syntaxTree = parser.Parse(templateContents, typeof(T));
-			return new VeilTemplateCompiler<T>(CreateIncludeParser(parserKey, context), _helperHandler).Compile(syntaxTree);
+			var syntaxTree = parser.Parse(templateContents, typeof(T), _memberLocator);
+			return new VeilTemplateCompiler<T>(CreateIncludeParser(parserKey, context, _memberLocator), _helperHandler).Compile(syntaxTree);
 		}
 
 		/// <summary>
@@ -74,13 +74,13 @@ namespace Veil
 			return lambda.Compile();
 		}
 
-		private static Func<string, Type, SyntaxTreeNode> CreateIncludeParser(string parserKey, IVeilContext context)
+		private static Func<string, Type, SyntaxTreeNode> CreateIncludeParser(string parserKey, IVeilContext context, IMemberLocator memberLocator)
 		{
 			return (includeName, modelType) =>
 			{
 				var template = context.GetTemplateByName(includeName, parserKey);
 				if (template == null) throw new InvalidOperationException("Unable to load template '{0}' using parser '{1}'".FormatInvariant(includeName, parserKey));
-				return VeilStaticConfiguration.GetParserInstance(parserKey).Parse(template, modelType);
+                return VeilStaticConfiguration.GetParserInstance(parserKey).Parse(template, modelType, memberLocator);
 			};
 		}
 	}

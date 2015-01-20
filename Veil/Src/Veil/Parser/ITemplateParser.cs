@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Veil.Compiler;
 
 namespace Veil.Parser
 {
@@ -13,6 +14,7 @@ namespace Veil.Parser
         /// </summary>
         /// <param name="templateReader">The contents of the template to be parsed</param>
         /// <param name="modelType">The type of the model that will be passed to the template</param>
-        SyntaxTreeNode Parse(TextReader templateReader, Type modelType);
+        /// <param name="memberLocator"></param>
+        SyntaxTreeNode Parse(TextReader templateReader, Type modelType, IMemberLocator memberLocator);
     }
 }
