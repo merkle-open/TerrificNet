@@ -22,7 +22,7 @@ namespace TerrificNet
             var applications = _container.ResolveAll<TerrificNetApplication>();
             var section = (string) request.GetRouteData().Route.Defaults["section"] ?? string.Empty;
 
-            var application = applications.FirstOrDefault(a => a.Configuration.Section == section);
+            var application = applications.FirstOrDefault(a => a.Section == section);
             if (application == null)
                 throw new InvalidOperationException(string.Format("Could not find a application for the section '{0}'.", section));
 

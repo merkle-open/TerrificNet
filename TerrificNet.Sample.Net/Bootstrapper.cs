@@ -47,13 +47,7 @@ namespace TerrificNet.Sample.Net
 
             var rootPath = HostingEnvironment.MapPath("~/");
             var basePath = Path.Combine(rootPath, @"..\TerrificNet.Sample");
-            DefaultUnityModule.RegisterForApplication(container, new TerrificNetConfig
-            {
-                ApplicationName = "App",
-                BasePath = basePath,
-                ViewPath = Path.Combine(basePath, @"views"),
-                ModulePath = Path.Combine(basePath, @"components\modules"),
-            }, "App");
+            DefaultUnityModule.RegisterForApplication(container, basePath, "App", null);
         }
     }
 }

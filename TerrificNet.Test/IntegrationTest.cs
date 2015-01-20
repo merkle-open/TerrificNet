@@ -25,12 +25,10 @@ namespace TerrificNet.Test
             var schemaProvider = new HandlebarsViewSchemaProvider();
             var namingRule = new NamingRule();
             var codeGenerator = new JsonSchemaCodeGenerator(namingRule);
-            var templateInfo = new StringTemplateInfo("test", "<p>{{name}}</p><p>{{first_name}}</p>");
+            const string input = "<p>{{name}}</p><p>{{first_name}}</p>";
+            var templateInfo = new StringTemplateInfo("test", input);
 
-            var schema = schemaProvider.GetSchemaFromTemplate(templateInfo);
-            // TODO: Remove
-            schema.Title = templateInfo.Id + "Model";
-            
+            var schema = schemaProvider.GetSchemaFromTemplate(templateInfo);            
             var modelType = codeGenerator.Compile(schema);
 
             var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object, namingRule);
@@ -40,10 +38,14 @@ namespace TerrificNet.Test
 
             var model = Activator.CreateInstance(modelType);
 
+            modelType.GetProperty("Name").SetValue(model, "{{name}}");
+            modelType.GetProperty("FirstName").SetValue(model, "{{first_name}}");
+
             var writer = new StringWriter();
             view.Render(model, new RenderingContext(writer));
-
             var stringResult = writer.ToString();
+
+            Assert.AreEqual(input, stringResult);
         }
 
         public class StringTemplateInfo : TemplateInfo

@@ -36,7 +36,7 @@ namespace TerrificNet
 
 		    foreach (var application in container.ResolveAll<TerrificNetApplication>())
 		    {
-                MapArea(config, application.Configuration.Section);    
+                MapArea(config, application.Section);
 		    }
 
             config.DependencyResolver = new UnityDependencyResolver(container);

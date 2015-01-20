@@ -26,7 +26,9 @@ namespace TerrificNet.AssetCompiler.Configuration
 
         public static TerrificConfig Parse(string filepath)
         {
-            if(string.IsNullOrWhiteSpace(filepath)) throw new ArgumentNullException("filepath");
+            if(string.IsNullOrWhiteSpace(filepath)) 
+                throw new ArgumentNullException("filepath");
+
             var path = filepath.Contains(PathHelper.AssemblyDirectory) ? filepath : Path.Combine(PathHelper.AssemblyDirectory, filepath);
             var reader = new JsonTextReader(new StreamReader(path));
             var serializer = new JsonSerializer { NullValueHandling = NullValueHandling.Ignore };

@@ -280,7 +280,19 @@ namespace TerrificNet.Sample.Net.Models
                 set;
             }
 
+            public string Gugus
+            {
+                get;
+                set;
+            }
+
             public System.Collections.Generic.IList<Item> Items
+            {
+                get;
+                set;
+            }
+
+            public string Text
             {
                 get;
                 set;
@@ -610,6 +622,14 @@ namespace TerrificNet.Sample.Net.Models
 
     namespace SearchModel
     {
+        public class SearchModel
+        {
+            public string Inputlabel
+            {
+                get;
+                set;
+            }
+        }
     }
 
     namespace Sidebarteaser

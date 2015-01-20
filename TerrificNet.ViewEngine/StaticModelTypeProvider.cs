@@ -20,10 +20,6 @@ namespace TerrificNet.ViewEngine
         public bool TryGetModelTypeFromTemplate(TemplateInfo templateInfo, out Type type)
         {
             var schema = _schemaProvider.GetSchemaFromTemplate(templateInfo);
-            // TODO: Duplicated code with CompileTask
-            if (string.IsNullOrEmpty(schema.Title))
-                schema.Title = templateInfo.Id + "Model";
-
             var typeName = string.Format("{0}.{1}.{2},{3}", _rootNamespace, _namingRule.GetNamespaceName(schema), _namingRule.GetClassName(schema, string.Empty), _assemblyName);
 
             try

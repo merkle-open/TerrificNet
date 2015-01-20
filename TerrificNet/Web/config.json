@@ -1,0 +1,6 @@
+{
+    "viewPath": "views",
+    "modulePath": "components/modules",
+    "assetPath": "assets",
+    "dataPath":  "project/data"
+}

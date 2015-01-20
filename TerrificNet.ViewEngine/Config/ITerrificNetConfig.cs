@@ -7,6 +7,5 @@
 		string ModulePath { get; }
 		string AssetPath { get; }
 		string DataPath { get; }
-        string Section { get; }
 	}
 }

@@ -29,14 +29,37 @@ namespace TerrificNet.UnityModule
 			foreach (var item in configuration.Applications.Values)
 			{
 			    var childContainer = container.CreateChildContainer();
-			    var app = RegisterForApplication(childContainer, item, item.ApplicationName);
-                container.RegisterInstance(item.ApplicationName, app);
+
+			    var app = RegisterForApplication(childContainer, item.BasePath, item.ApplicationName, item.Section);
+			    container.RegisterInstance(item.ApplicationName, app);
 			}
 		}
 
-        public static TerrificNetApplication RegisterForApplication(IUnityContainer container, ITerrificNetConfig item, string applicationName)
+	    public static TerrificNetApplication RegisterForApplication(IUnityContainer childContainer, string basePath, string applicationName, string section)
 	    {
-            var app = new TerrificNetApplication(applicationName, item, container);
+	        var config = LoadTerrificConfiguration(basePath);
+
+	        var app = RegisterForApplication(childContainer, config, applicationName, section);
+	        return app;
+	    }
+
+	    private static ITerrificNetConfig LoadTerrificConfiguration(string basePath)
+	    {
+	        var configPath = Path.Combine(basePath, "config.json");
+	        var config = ReadJson<TerrificNetConfig>(configPath);
+
+	        config.BasePath = basePath;
+            config.ViewPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.ViewPath, basePath, "views"));
+            config.ModulePath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.ModulePath, basePath, "components/modules"));
+            config.AssetPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.AssetPath, basePath, "assets"));
+            config.DataPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.DataPath, basePath, "project/data"));
+
+	        return config;
+	    }
+
+	    private static TerrificNetApplication RegisterForApplication(IUnityContainer container, ITerrificNetConfig item, string applicationName, string section)
+	    {
+            var app = new TerrificNetApplication(applicationName, section, item, container);
 
 	        container.RegisterInstance(app);
 	        container.RegisterInstance(item);
@@ -59,27 +82,29 @@ namespace TerrificNet.UnityModule
 
 		private static TerrificNetHostConfiguration LoadConfiguration(string path)
 		{
-			string content;
-			using (var reader = new StreamReader(path))
-			{
-				content = reader.ReadToEnd();
-			}
-
-			var configuration = JsonConvert.DeserializeObject<TerrificNetHostConfiguration>(content);
-			foreach (var item in configuration.Applications)
+            var configuration = ReadJson<TerrificNetHostConfiguration>(path);
+		    foreach (var item in configuration.Applications)
 			{
 				var basePath = item.Value.BasePath;
 				item.Value.ApplicationName = item.Key;
-				item.Value.ViewPath = GetDefaultValueIfNotSet(item.Value.DataPath, basePath, "views");
-				item.Value.ModulePath = GetDefaultValueIfNotSet(item.Value.ModulePath, basePath, "components/modules");
-				item.Value.AssetPath = GetDefaultValueIfNotSet(item.Value.DataPath, basePath, "assets");
-				item.Value.DataPath = GetDefaultValueIfNotSet(item.Value.DataPath, basePath, "project/data");
 			}
 
 			return configuration;
 		}
 
-		private static string GetDefaultValueIfNotSet(string value, string basePath, string defaultLocation)
+	    private static T ReadJson<T>(string path)
+	    {
+	        string content;
+	        using (var reader = new StreamReader(path))
+	        {
+	            content = reader.ReadToEnd();
+	        }
+
+	        var configuration = JsonConvert.DeserializeObject<T>(content);
+	        return configuration;
+	    }
+
+	    private static string GetDefaultValueIfNotSet(string value, string basePath, string defaultLocation)
 		{
 			if (string.IsNullOrEmpty(value))
 				return Path.Combine(basePath, defaultLocation);

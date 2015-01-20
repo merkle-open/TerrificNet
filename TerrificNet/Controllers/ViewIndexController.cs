@@ -34,7 +34,7 @@ namespace TerrificNet.Controllers
                 Applications = _applications.Select(a => new ViewOverviewModel
                 {
                     Name = a.Name,
-                    Views = GetViews(a.Configuration.Section, a.Container.Resolve<ITemplateRepository>()).ToList()
+                    Views = GetViews(a.Section, a.Container.Resolve<ITemplateRepository>()).ToList()
                 }).ToList()
             };
 

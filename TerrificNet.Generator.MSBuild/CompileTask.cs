@@ -56,15 +56,7 @@ namespace TerrificNet.Generator.MSBuild
             var repo = new TerrificTemplateRepository(config);
             var codeGenerator = new JsonSchemaCodeGenerator();
 
-            var schemas = repo.GetAll().Select(t =>
-            {
-                var schema = schemaProvider.GetSchemaFromTemplate(t);
-                // TODO: Duplicated code with StaticModelTypeProvider
-                if (string.IsNullOrEmpty(schema.Title))
-                    schema.Title = t.Id + "Model";
-
-                return schema;
-            }).ToList();
+            var schemas = repo.GetAll().Select(schemaProvider.GetSchemaFromTemplate).ToList();
 
             executeAction(codeGenerator, schemas);
         }
