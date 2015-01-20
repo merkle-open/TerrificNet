@@ -12,17 +12,10 @@ namespace TerrificNet.Controllers
 {
     public class ViewIndexController : TemplateControllerBase
     {
-        private readonly IViewEngine _viewEngine;
-        private readonly ITemplateRepository _templateRepository;
         private readonly TerrificNetApplication[] _applications;
 
-        public ViewIndexController(
-            IViewEngine viewEngine, 
-            ITemplateRepository templateRepository,
-            TerrificNetApplication[] applications)
+        public ViewIndexController(TerrificNetApplication[] applications)
         {
-            _viewEngine = viewEngine;
-            _templateRepository = templateRepository;
             _applications = applications;
         }
 
@@ -38,13 +31,7 @@ namespace TerrificNet.Controllers
                 }).ToList()
             };
 
-            IView view;
-            TemplateInfo templateInfo;
-			if (!_templateRepository.TryGetTemplate("index", string.Empty, out templateInfo) ||
-                !_viewEngine.TryCreateView(templateInfo, typeof(ApplicationOverviewModel), out view))
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-
-            return Render(view, model);
+            return View("index", model);
         }
 
         private IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)

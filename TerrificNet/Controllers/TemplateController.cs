@@ -28,7 +28,7 @@ namespace TerrificNet.Controllers
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             var model = _modelProvider.GetModelForTemplate(templateInfo);
-			return Render(view, model);
+			return View(view, model);
 		}
 	}
 }
