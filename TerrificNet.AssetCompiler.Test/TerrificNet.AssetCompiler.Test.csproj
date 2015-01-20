@@ -92,6 +92,10 @@
       <Project>{832b0385-5327-4394-88b9-b2de96d8895f}</Project>
       <Name>TerrificNet.AssetCompiler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
+      <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
+      <Name>TerrificNet.ViewEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

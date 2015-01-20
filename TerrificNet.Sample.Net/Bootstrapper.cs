@@ -7,6 +7,7 @@ using TerrificNet.Configuration;
 using TerrificNet.Mvc;
 using TerrificNet.UnityModule;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.ViewEngines;
 using Unity.Mvc4;
 
@@ -26,13 +27,7 @@ namespace TerrificNet.Sample.Net
         private static IUnityContainer BuildUnityContainer()
         {
             var container = new UnityContainer();
-
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
-
-            // e.g. container.RegisterType<ITestService, TestService>();    
             RegisterTypes(container);
-
             return container;
         }
 
@@ -47,7 +42,9 @@ namespace TerrificNet.Sample.Net
 
             var rootPath = HostingEnvironment.MapPath("~/");
             var basePath = Path.Combine(rootPath, @"..\TerrificNet.Sample");
-            DefaultUnityModule.RegisterForApplication(container, basePath, "App", null);
+
+            var config = ConfigurationLoader.LoadTerrificConfiguration(basePath);
+            DefaultUnityModule.RegisterForConfiguration(container, config);
         }
     }
 }

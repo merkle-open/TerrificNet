@@ -34,7 +34,7 @@ namespace TerrificNet.Controllers
             return View("index", model);
         }
 
-        private IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)
+        private static IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)
         {
             foreach (var file in templateRepository.GetAll())
             {

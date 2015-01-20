@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using TerrificNet.AssetCompiler;
-using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
 using TerrificNet.ViewEngine.Config;
 
@@ -26,10 +25,7 @@ namespace TerrificNet.Controllers
 		[HttpGet]
 		public async Task<HttpResponseMessage> Get(string name)
 		{
-			const string config = "config.json";
-
-			var terrificConfig = TerrificConfig.Parse(_config.BasePath + config);
-			var components = _assetHelper.GetGlobComponentsForAsset(terrificConfig.Assets[name], _config.BasePath);
+			var components = _assetHelper.GetGlobComponentsForAsset(_config.Assets[name], _config.BasePath);
 			var content = await _assetBundler.BundleAsync(components);
 			var compiler = _assetCompilerFactory.GetCompiler(name);
 			var compiledContent = await compiler.CompileAsync(content);

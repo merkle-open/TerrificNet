@@ -47,7 +47,9 @@
     <Compile Include="Cache\ICacheProvider.cs" />
     <Compile Include="Cache\MemoryCacheProvider.cs" />
     <Compile Include="Cache\NullCacheProvider.cs" />
+    <Compile Include="Config\ConfigurationLoader.cs" />
     <Compile Include="Config\ITerrificNetConfig.cs" />
+    <Compile Include="Config\TerrificNetConfig.cs" />
     <Compile Include="IModelTypeProvider.cs" />
     <Compile Include="INamingRule.cs" />
     <Compile Include="ITemplateRepository.cs" />

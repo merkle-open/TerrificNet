@@ -7,7 +7,7 @@ namespace TerrificNet.UnityModule
     {
         public string Name { get; private set; }
         public string Section { get; private set; }
-        public ITerrificNetConfig Configuration { get; private set; }
+        private ITerrificNetConfig Configuration { get; set; }
         public IUnityContainer Container { get; private set; }
 
         public TerrificNetApplication(string name, string section, ITerrificNetConfig configuration, IUnityContainer container)

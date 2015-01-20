@@ -3,7 +3,6 @@ using TerrificNet.AssetCompiler;
 using TerrificNet.AssetCompiler.Bundler;
 using TerrificNet.AssetCompiler.Compiler;
 using TerrificNet.AssetCompiler.Helpers;
-using TerrificNet.ViewEngine;
 
 namespace TerrificNet.UnityModule
 {

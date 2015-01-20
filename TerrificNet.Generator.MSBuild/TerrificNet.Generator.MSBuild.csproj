@@ -63,10 +63,6 @@
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TerrificNet\TerrificNet.csproj">
-      <Project>{68B78678-5EB5-4E5B-A181-1A2FFA804B3E}</Project>
-      <Name>TerrificNet</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

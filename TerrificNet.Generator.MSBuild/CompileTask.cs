@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
-using TerrificNet.Configuration;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.SchemaProviders;
 using Newtonsoft.Json.Schema;
 

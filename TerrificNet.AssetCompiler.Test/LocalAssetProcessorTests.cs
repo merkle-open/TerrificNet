@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,21 +8,24 @@ using TerrificNet.AssetCompiler.Compiler;
 using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
 using TerrificNet.AssetCompiler.Processors;
+using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.AssetCompiler.Test
 {
 	[TestClass]
 	public class LocalAssetProcessorTests
 	{
-		private TerrificConfig _terrificConfig;
+        private ITerrificNetConfig _terrificConfig;
 		private UnityContainer _container;
+
+        public TestContext TestContext { get; set; }
 
 		[TestInitialize]
 		public void Init()
 		{
-            _terrificConfig = TerrificConfig.Parse();
+		    _terrificConfig = ConfigurationLoader.LoadTerrificConfiguration(TestContext.DeploymentDirectory);
 
-			_container = new UnityContainer();
+		    _container = new UnityContainer();
 			_container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");
 			_container.RegisterType<IAssetCompiler, LessAssetCompiler>("Css");
 			_container.RegisterType<IAssetCompilerFactory, AssetCompilerFactory>();
