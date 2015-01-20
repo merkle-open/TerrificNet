@@ -13,11 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ViewEngine.Sche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ViewEngine.Schema.Test", "TerrificNet.ViewEngine.Schema.Test\TerrificNet.ViewEngine.Schema.Test.csproj", "{4CAA4B25-66AA-4BBB-9B71-E8C14B30C1B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6F952FB-9AD8-4478-92B4-627ADEFDED16}"
-	ProjectSection(SolutionItems) = preProject
-		local.testsettings = local.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Generator", "TerrificNet.Generator\TerrificNet.Generator.csproj", "{7A0B68AB-F5EF-4BCE-ACE3-766C9EA06B82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Generator.Test", "TerrificNet.Generator.Test\TerrificNet.Generator.Test.csproj", "{3B46DE0A-6C67-4621-96E1-3EA8F43E06A3}"
@@ -45,6 +40,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Test", "TerrificNet.Test\TerrificNet.Test.csproj", "{53891204-B74C-4FEF-AF1F-7E3081E83582}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.UnityModules", "TerrificNet.UnityModules\TerrificNet.UnityModules.csproj", "{56B54925-161C-4195-898B-DF0F1AE85C2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}"
+	ProjectSection(SolutionItems) = preProject
+		local.testsettings = local.testsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E2D9B7EC-FEAE-488D-83A4-3B1C157C6C77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,9 +127,15 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C88308FC-6FC4-40A0-9A2C-87F255140682} = {E2D9B7EC-FEAE-488D-83A4-3B1C157C6C77}
+		{4CAA4B25-66AA-4BBB-9B71-E8C14B30C1B2} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
+		{3B46DE0A-6C67-4621-96E1-3EA8F43E06A3} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 		{97D96B66-EDFE-474B-BC72-D8439830FC76} = {BF17DEA6-822B-4405-AE5C-7F7A421AC45E}
 		{3335691A-38B6-4DD1-96CB-A1C262CEF4CC} = {BF17DEA6-822B-4405-AE5C-7F7A421AC45E}
+		{9814066C-F8C4-40EA-AA37-1FC7D8DCAA65} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
+		{F545AF87-B59F-465D-A6A3-40A38E94877E} = {E2D9B7EC-FEAE-488D-83A4-3B1C157C6C77}
 		{9B1BD351-0DA7-4AE4-A83E-C4172CBDC9BD} = {F545AF87-B59F-465D-A6A3-40A38E94877E}
 		{BBE75282-ACD4-49BC-A592-68B300A3BF20} = {F545AF87-B59F-465D-A6A3-40A38E94877E}
+		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 	EndGlobalSection
 EndGlobal
