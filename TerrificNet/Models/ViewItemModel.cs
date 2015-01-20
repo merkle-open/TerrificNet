@@ -15,5 +15,8 @@ namespace TerrificNet.Models
 
         [JsonProperty("schemaUrl")]
         public string SchemaUrl { get; set; }
+
+        [JsonProperty("advancedUrl")]
+        public string AdvancedUrl { get; set; }
     }
 }

@@ -1,7 +1,1 @@
-{
-    "test": "Hans Wurst asfds",
-    "value": "dfgfdfgddfs123",
-    "gugus": "[asdfsfssdfsaf ]",
-    "items": [ { "street": "Wassergasse 44", "zipCode": "9000", "streetNumber": 0 }, { "street": "Teufenerstrasse", "zipCode": "9000", "streetNumber": 0 }, { "street": "Teststrasse", "zipCode": "33", "streetNumber": 12 }, { "street": "Ekkehardstr.", "zipCode": "9000", "streetNumber": 2 } ],
-    "text": "Das ist ein Text"
-}
+{"test":"sfsadfHans Wurst asfdssfsdf","value":"dfgfdfgddfs123","gugus":"[asdfsfssdfsaf ]","items":[{"street":"Wassergasse 44","zipCode":"9000","streetNumber":0},{"street":"Teufenerstrasse","zipCode":"9000","streetNumber":0},{"street":"Teststrasse","zipCode":"33","streetNumber":12},{"street":"Ekkehardstr.","zipCode":"9000","streetNumber":2}],"text":"Das ist ein Text"}

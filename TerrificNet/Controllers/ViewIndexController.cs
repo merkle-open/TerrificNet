@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Dependencies;
 using Microsoft.Practices.Unity;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
@@ -42,6 +43,7 @@ namespace TerrificNet.Controllers
                     Text = file.Id,
                     Url = string.Format("/{0}", file.Id),
                     EditUrl = string.Format("/web/edit.html?template={0}", file.Id),
+                    AdvancedUrl = string.Format("/web/edit_advanced.html?template={0}", file.Id),
                     SchemaUrl = string.Format("{0}schema/{1}", section, file.Id)
                 };
             }
