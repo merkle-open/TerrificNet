@@ -1,6 +1,6 @@
 ﻿using System.Web.Http.Dependencies;
 
-namespace TerrificNet.Controllers
+namespace TerrificNet.Dispatcher
 {
     public interface IDependencyResolverAware
     {

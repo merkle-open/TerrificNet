@@ -115,7 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\IDependencyResolverAware.cs" />
+    <Compile Include="Dispatcher\IDependencyResolverAware.cs" />
     <Compile Include="Dispatcher\ApplicationSpecificControllerActivator.cs" />
     <Compile Include="Controllers\BundleController.cs" />
     <Compile Include="Controllers\ComponentAssetsController.cs" />
