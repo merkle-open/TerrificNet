@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneratorUtility.cs" />
     <Compile Include="JsonSchemaCodeGenerator.cs" />
     <Compile Include="IJsonSchemaCodeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
