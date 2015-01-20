@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationSpecificControllerActivator.cs" />
+    <Compile Include="ApplicationSpecificControllerSelector.cs" />
     <Compile Include="Controllers\BundleController.cs" />
     <Compile Include="Controllers\ComponentAssetsController.cs" />
     <Compile Include="Controllers\GenerateController.cs" />

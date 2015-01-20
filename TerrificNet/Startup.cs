@@ -41,7 +41,7 @@ namespace TerrificNet
 
             config.DependencyResolver = new UnityDependencyResolver(container);
 		    config.MessageHandlers.Add(new InjectHttpRequestMessageToContainerHandler());
-            config.Services.Replace(typeof(IHttpControllerActivator), new ApplicationSpecificControllerActivator(container));
+            config.Services.Replace(typeof(IHttpControllerActivator), new ApplicationSpecificControllerActivator());
             config.Services.Replace(typeof(IHttpControllerSelector), new ApplicationSpecificControllerSelector(container, config));
 
 			appBuilder.UseWebApi(config);
