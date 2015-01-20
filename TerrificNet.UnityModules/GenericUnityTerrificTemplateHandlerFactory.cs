@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using TerrificNet.ViewEngine.ViewEngines;
 
-namespace TerrificNet
+namespace TerrificNet.UnityModules
 {
     public class GenericUnityTerrificTemplateHandlerFactory<T> : ITerrificTemplateHandlerFactory
         where T : ITerrificTemplateHandler

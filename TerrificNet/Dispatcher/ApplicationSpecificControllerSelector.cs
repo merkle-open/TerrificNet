@@ -7,10 +7,10 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using Microsoft.Practices.Unity;
-using TerrificNet.UnityModule;
+using TerrificNet.UnityModules;
 using Unity.WebApi;
 
-namespace TerrificNet
+namespace TerrificNet.Dispatcher
 {
     public class ApplicationSpecificControllerSelector : DefaultHttpControllerSelector
     {

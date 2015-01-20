@@ -4,7 +4,7 @@ using TerrificNet.AssetCompiler.Bundler;
 using TerrificNet.AssetCompiler.Compiler;
 using TerrificNet.AssetCompiler.Helpers;
 
-namespace TerrificNet.UnityModule
+namespace TerrificNet.UnityModules
 {
 	public class TerrificBundleUnityModule : IUnityModule
 	{

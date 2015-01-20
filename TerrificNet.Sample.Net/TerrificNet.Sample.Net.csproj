@@ -165,10 +165,6 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TerrificNet.Generator\TerrificNet.Generator.csproj">
-      <Project>{7A0B68AB-F5EF-4BCE-ACE3-766C9EA06B82}</Project>
-      <Name>TerrificNet.Generator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.Mvc\TerrificNet.Mvc.csproj">
       <Project>{B91E9371-631F-4F33-AD32-2B78724C85D3}</Project>
       <Name>TerrificNet.Mvc</Name>
@@ -177,13 +173,13 @@
       <Project>{bbe75282-acd4-49bc-a592-68b300a3bf20}</Project>
       <Name>TerrificNet.Sample.Net.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.UnityModules\TerrificNet.UnityModules.csproj">
+      <Project>{56B54925-161C-4195-898B-DF0F1AE85C2A}</Project>
+      <Name>TerrificNet.UnityModules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TerrificNet\TerrificNet.csproj">
-      <Project>{68b78678-5eb5-4e5b-a181-1a2ffa804b3e}</Project>
-      <Name>TerrificNet</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

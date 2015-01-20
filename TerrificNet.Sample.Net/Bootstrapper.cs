@@ -1,11 +1,9 @@
 using System.IO;
-using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
-using TerrificNet.Configuration;
 using TerrificNet.Mvc;
-using TerrificNet.UnityModule;
+using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.ViewEngines;

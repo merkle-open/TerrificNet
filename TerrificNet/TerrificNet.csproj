@@ -115,8 +115,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSpecificControllerActivator.cs" />
-    <Compile Include="ApplicationSpecificControllerSelector.cs" />
+    <Compile Include="Dispatcher\ApplicationSpecificControllerActivator.cs" />
+    <Compile Include="Dispatcher\ApplicationSpecificControllerSelector.cs" />
     <Compile Include="Controllers\BundleController.cs" />
     <Compile Include="Controllers\ComponentAssetsController.cs" />
     <Compile Include="Controllers\GenerateController.cs" />
@@ -129,18 +129,13 @@
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TemplateControllerBase.cs" />
     <Compile Include="Controllers\ViewIndexController.cs" />
-    <Compile Include="GenericUnityTerrificTemplateHandlerFactory.cs" />
     <Compile Include="Models\ApplicationOverviewModel.cs" />
     <Compile Include="Models\ViewItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="UnityModule\DefaultModule.cs" />
     <Compile Include="Configuration\TerrificNetHostConfigurationLoader.cs" />
-    <Compile Include="UnityModule\IUnityModule.cs" />
-    <Compile Include="UnityModule\TerrificBundleUnityModule.cs" />
-    <Compile Include="UnityModule\TerrificNetApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -162,6 +157,10 @@
     <ProjectReference Include="..\TerrificNet.Generator\TerrificNet.Generator.csproj">
       <Project>{7A0B68AB-F5EF-4BCE-ACE3-766C9EA06B82}</Project>
       <Name>TerrificNet.Generator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.UnityModules\TerrificNet.UnityModules.csproj">
+      <Project>{56b54925-161c-4195-898b-df0f1ae85c2a}</Project>
+      <Name>TerrificNet.UnityModules</Name>
     </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
@@ -208,6 +207,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UnityModule\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

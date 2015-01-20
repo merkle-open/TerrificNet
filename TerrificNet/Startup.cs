@@ -1,26 +1,19 @@
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
 using Microsoft.Practices.Unity;
 using Owin;
-using TerrificNet.UnityModule;
+using TerrificNet.Dispatcher;
+using TerrificNet.UnityModules;
 using Unity.WebApi;
 
 namespace TerrificNet
 {
 	public class Startup
 	{
-		// This code configures Web API. The Startup class is specified as a type
-		// parameter in the WebApp.Start method.
 		public void Configuration(IAppBuilder appBuilder, IUnityContainer container)
 		{
-			// Configure Web API for self-host. 
 			var config = new HttpConfiguration();
-
-			//config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "ViewIndex",
@@ -40,7 +33,6 @@ namespace TerrificNet
 		    }
 
             config.DependencyResolver = new UnityDependencyResolver(container);
-		    config.MessageHandlers.Add(new InjectHttpRequestMessageToContainerHandler());
             config.Services.Replace(typeof(IHttpControllerActivator), new ApplicationSpecificControllerActivator());
             config.Services.Replace(typeof(IHttpControllerSelector), new ApplicationSpecificControllerSelector(container, config));
 
@@ -87,16 +79,4 @@ namespace TerrificNet
 	            );
 	    }
 	}
-
-    public class InjectHttpRequestMessageToContainerHandler : DelegatingHandler
-    {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            var container = request.GetDependencyScope().GetService(typeof(IUnityContainer)) as IUnityContainer;
-            if (container != null)
-                container.RegisterInstance(request);
-
-            return base.SendAsync(request, cancellationToken);
-        }
-    }
 }

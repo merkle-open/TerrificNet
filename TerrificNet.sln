@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet", "TerrificNet\TerrificNet.csproj", "{68B78678-5EB5-4E5B-A181-1A2FFA804B3E}"
 EndProject
@@ -43,6 +43,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Mvc", "TerrificNet.Mvc\TerrificNet.Mvc.csproj", "{B91E9371-631F-4F33-AD32-2B78724C85D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Test", "TerrificNet.Test\TerrificNet.Test.csproj", "{53891204-B74C-4FEF-AF1F-7E3081E83582}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.UnityModules", "TerrificNet.UnityModules\TerrificNet.UnityModules.csproj", "{56B54925-161C-4195-898B-DF0F1AE85C2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +116,10 @@ Global
 		{53891204-B74C-4FEF-AF1F-7E3081E83582}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53891204-B74C-4FEF-AF1F-7E3081E83582}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53891204-B74C-4FEF-AF1F-7E3081E83582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

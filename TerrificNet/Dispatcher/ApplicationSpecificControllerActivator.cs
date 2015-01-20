@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 
-namespace TerrificNet
+namespace TerrificNet.Dispatcher
 {
     public class ApplicationSpecificControllerActivator : IHttpControllerActivator
     {

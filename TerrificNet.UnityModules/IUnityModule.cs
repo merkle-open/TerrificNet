@@ -1,6 +1,6 @@
 using Microsoft.Practices.Unity;
 
-namespace TerrificNet.UnityModule
+namespace TerrificNet.UnityModules
 {
 	public interface IUnityModule
 	{

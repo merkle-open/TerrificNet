@@ -1,7 +1,7 @@
 using Microsoft.Practices.Unity;
 using TerrificNet.ViewEngine.Config;
 
-namespace TerrificNet.UnityModule
+namespace TerrificNet.UnityModules
 {
     public class TerrificNetApplication
     {
