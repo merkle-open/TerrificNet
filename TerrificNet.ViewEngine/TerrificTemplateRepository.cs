@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,51 +19,31 @@ namespace TerrificNet.ViewEngine
 
 		public bool TryGetTemplate(string id, string skin, out TemplateInfo templateInfo)
 		{
-            templateInfo = null;
-
-			var fileName = id;
+		    var fileName = id;
 			if (!string.IsNullOrEmpty(skin))
 				fileName += "-" + skin;
 
-			fileName = Path.ChangeExtension(fileName, HtmlExtension);
-
-			// locate views
-		    if (TryGetTemplate(id, ref templateInfo, _config.ViewPath, fileName)) 
-                return true;
-
-            if (TryGetTemplate(id, ref templateInfo, _config.ModulePath, fileName)) 
-                return true;
-
-		    return false;
+		    var templates = GetAll().ToDictionary(f => f.Id, f => f);
+		    return templates.TryGetValue(fileName, out templateInfo);
 		}
 
-	    private static bool TryGetTemplate(string id, ref TemplateInfo templateInfo, string viewPath, string fileName)
-	    {
-	        var path = Path.Combine(viewPath, fileName);
-
-	        
-			if (!File.Exists(path))
-                path = Path.Combine(viewPath, id, fileName);
-
-            if (File.Exists(path))
-            {
-	            templateInfo = new FileTemplateInfo(id, new FileInfo(path));
-	            return true;
-	        }
-
-	        return false;
-	    }
-
-		public IEnumerable<TemplateInfo> Read(string directory)
+	    private IEnumerable<TemplateInfo> Read(string directory)
 	    {
 	        if (!Directory.Exists(directory))
 	            return Enumerable.Empty<TemplateInfo>();
 
 			return Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories).Select(f =>
-	        {
-	            var info = new FileInfo(f); 
-                return new FileTemplateInfo(Path.GetFileNameWithoutExtension(info.Name), info); 
+			{
+			    var info = new FileInfo(f);
+			    var relativePath = GetTemplateId(info);
+                return new FileTemplateInfo(relativePath, info); 
             });
+	    }
+
+	    private string GetTemplateId(FileInfo info)
+	    {
+	        var path = Path.Combine(info.DirectoryName, Path.GetFileNameWithoutExtension(info.Name));
+            return new Uri(path).AbsoluteUri.Remove(0, new Uri(_config.BasePath).AbsoluteUri.Length);
 	    }
 
 	    public IEnumerable<TemplateInfo> GetAll()
