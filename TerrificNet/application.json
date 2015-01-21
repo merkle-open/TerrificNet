@@ -6,7 +6,7 @@
         },
         "sample": {
             "section":  "",
-            "basePath": "../../../TerrificNet.Sample/"
+            "basePath": "../TerrificNet.Sample/"
         }
     }
 }

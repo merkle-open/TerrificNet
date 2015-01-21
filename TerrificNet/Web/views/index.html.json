@@ -1,0 +1,20 @@
+﻿{
+    "_layout": "_layouts/_layout",
+    "_placeholder": {
+        "content": [
+            {
+                "_layout": "_layouts/page",
+                "_placeholder": {
+                    "phContent": [
+                        {
+                            "template": "ApplicationOverview",
+                            "data": {
+                                "$ref": "data/variation1"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

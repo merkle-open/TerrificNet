@@ -15,17 +15,17 @@ namespace TerrificNet
 		{
 			var config = new HttpConfiguration();
 
-            config.Routes.MapHttpRoute(
-                name: "ViewIndex",
-                routeTemplate: "web/index.html",
-                defaults: new { controller = "viewIndex", section="web/" }
-                );
+            //config.Routes.MapHttpRoute(
+            //    name: "ViewIndex",
+            //    routeTemplate: "web/index.html",
+            //    defaults: new { controller = "viewIndex", section="web/" }
+            //    );
 
-            config.Routes.MapHttpRoute(
-                name: "ViewIndexDefault",
-                routeTemplate: "",
-                defaults: new { controller = "viewIndex", section = "web/" }
-            );
+            //config.Routes.MapHttpRoute(
+            //    name: "ViewIndexDefault",
+            //    routeTemplate: "",
+            //    defaults: new { controller = "viewIndex", section = "web/" }
+            //);
 
 		    foreach (var application in container.ResolveAll<TerrificNetApplication>())
 		    {

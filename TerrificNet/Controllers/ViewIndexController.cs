@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Dependencies;
 using Microsoft.Practices.Unity;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
@@ -31,7 +30,7 @@ namespace TerrificNet.Controllers
                 }).ToList()
             };
 
-            return View("index", model);
+            return View("ApplicationOverview", model);
         }
 
         private static IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)

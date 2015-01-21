@@ -1,0 +1,20 @@
+﻿{
+    "_layout": "_base_layout",
+    "_placeholder": {
+        "content": [
+            {
+                "_layout": "_layout",
+                "_placeholder": {
+                    "phContent": [
+                        {
+                            "template": "ApplicationOverview",
+                            "data": {
+                                "$ref": "gugus"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

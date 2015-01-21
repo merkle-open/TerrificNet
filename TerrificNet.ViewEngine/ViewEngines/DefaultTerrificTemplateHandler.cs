@@ -45,7 +45,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
                 if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
                     _viewEngine.TryCreateView(templateInfo, out view))
                 {
-                    var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetModelForTemplate(templateInfo);
+                    var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetDefaultModelForTemplate(templateInfo);
                     view.Render(moduleModel, context);
                 }
                 else
@@ -61,7 +61,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
             if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
                 _viewEngine.TryCreateView(templateInfo, out view))
             {
-                var moduleModel = _modelProvider.GetModelForTemplate(templateInfo) ?? new object();
+                var moduleModel = _modelProvider.GetDefaultModelForTemplate(templateInfo) ?? new object();
                 view.Render(moduleModel, context);
             }
             else

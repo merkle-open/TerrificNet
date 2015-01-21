@@ -2,7 +2,9 @@
 {
     public interface IModelProvider
     {
-        object GetModelForTemplate(TemplateInfo template);
-        void UpdateModelForTemplate(TemplateInfo template, object content);
+        object GetDefaultModelForTemplate(TemplateInfo template);
+        void UpdateDefaultModelForTemplate(TemplateInfo template, object content);
+
+        object GetModelForTemplate(TemplateInfo template, string dataId);
     }
 }

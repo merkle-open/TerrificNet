@@ -21,7 +21,7 @@ namespace TerrificNet.Controllers
 	        if (!_templateRepository.TryGetTemplate(path, string.Empty, out templateInfo))
 	            return this.NotFound();
 
-	        return Json(_modelProvider.GetModelForTemplate(templateInfo));
+	        return Json(_modelProvider.GetDefaultModelForTemplate(templateInfo));
 		}
 
         [HttpPut]
@@ -29,7 +29,7 @@ namespace TerrificNet.Controllers
         {
             TemplateInfo templateInfo;
             if (_templateRepository.TryGetTemplate(path, string.Empty, out templateInfo))
-                _modelProvider.UpdateModelForTemplate(templateInfo, content);
+                _modelProvider.UpdateDefaultModelForTemplate(templateInfo, content);
         }
 	}
 }

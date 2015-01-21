@@ -14,27 +14,32 @@ namespace TerrificNet.ViewEngine.ModelProviders
             _basePath = config.DataPath;
         }
 
-        public object GetModelForTemplate(TemplateInfo template)
+        public object GetDefaultModelForTemplate(TemplateInfo template)
         {
-            var filePath = GetPath(template.Id);
-
-	        if (!File.Exists(filePath))
-		        return new JObject();
-
-            using (var stream = new StreamReader(filePath))
-            {
-                var content = stream.ReadToEnd();
-                return JsonConvert.DeserializeObject(content);
-            }
+            return GetModelForTemplate(template, template.Id);
         }
 
-        public void UpdateModelForTemplate(TemplateInfo template, object content)
+        public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
             var filePath = GetPath(template.Id);
             using (var stream = new StreamWriter(filePath))
             {
                 var value = JsonConvert.SerializeObject(content);
                 stream.Write(value);
+            }
+        }
+
+        public object GetModelForTemplate(TemplateInfo template, string dataId)
+        {
+            var filePath = GetPath(dataId);
+
+            if (!File.Exists(filePath))
+                return new JObject();
+
+            using (var stream = new StreamReader(filePath))
+            {
+                var content = stream.ReadToEnd();
+                return JsonConvert.DeserializeObject(content);
             }
         }
 
