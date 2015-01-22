@@ -152,7 +152,7 @@
     <Content Include="components\modules\Teaser\teaser-news-myfinma.html" />
     <Content Include="components\modules\Teaser\teaser-news.html" />
     <Content Include="project\data\home.json" />
-    <Content Include="project\data\test_module.json" />
+    <Content Include="views\test_module\data\_default.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\content_home.html" />
@@ -249,7 +249,7 @@
     <Content Include="config.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="project\data\test_module_1.json" />
+    <Content Include="views\test_module\data\test_module_1.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
