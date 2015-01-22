@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
-using NuGet;
 using TerrificNet.Configuration;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
@@ -48,12 +47,6 @@ namespace TerrificNet
                 Console.WriteLine("Started on " + baseAddress);
                 Console.ReadLine();
             }
-
-            //string installationPath = "";
-            //string packageSource = "";
-            //var repo = PackageRepositoryFactory.Default.CreateRepository(packageSource);
-            //var packageManager = new PackageManager(repo, path);
-            
         }
     }
 }

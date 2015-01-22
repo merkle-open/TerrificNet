@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet", "TerrificNet\TerrificNet.csproj", "{68B78678-5EB5-4E5B-A181-1A2FFA804B3E}"
 EndProject
@@ -47,6 +47,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{41AFD36B
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E2D9B7EC-FEAE-488D-83A4-3B1C157C6C77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Host", "TerrificNet.Host\TerrificNet.Host.csproj", "{376DE047-3724-4E58-A3AB-229F678DAE24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_nuget", "_nuget", "{7527265C-F66F-4BDB-ABDC-F4C5E10A20AE}"
+	ProjectSection(SolutionItems) = preProject
+		_nuget\TerrificNet.Core.nuspec = _nuget\TerrificNet.Core.nuspec
+		_nuget\TerrificNet.Host.nuspec = _nuget\TerrificNet.Host.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +130,10 @@ Global
 		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56B54925-161C-4195-898B-DF0F1AE85C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{376DE047-3724-4E58-A3AB-229F678DAE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{376DE047-3724-4E58-A3AB-229F678DAE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{376DE047-3724-4E58-A3AB-229F678DAE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{376DE047-3724-4E58-A3AB-229F678DAE24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
