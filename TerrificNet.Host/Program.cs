@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace TerrificNet.Host
 {
@@ -10,18 +11,29 @@ namespace TerrificNet.Host
     {
         static void Main(string[] args)
         {
-            var settings = new ApplicationSettings
-            {
-                PackageSource = "https://nuget.org/api/v2/",
-                PackageId = "EntityFramework"
-            };
+            var rootDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var configuration = ReadConfiguration(rootDirectory);
 
-            var wsSettings = new ApplicationWorkspaceSettings(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "projects", "packages");
-            var applicationInstaller = new ApplicationInstaller(settings);
-
-            InstallAll(wsSettings, applicationInstaller).Wait();
+            var installers = configuration.Projects.Values.Select(s => new ApplicationInstaller(s));
+            InstallAll(configuration.Workspace, installers.ToArray()).Wait();
 
             Console.Read();
+        }
+
+        private static Configuration ReadConfiguration(string rootDirectory)
+        {
+            using (var stream = new StreamReader(Path.Combine(rootDirectory, "config.json")))
+            {
+                var configuration = new JsonSerializer().Deserialize<Configuration>(new JsonTextReader(stream));
+
+                configuration.Workspace.RootDirectory = rootDirectory;
+                foreach (var project in configuration.Projects)
+                {
+                    project.Value.Name = project.Key;
+                }
+
+                return configuration;
+            }
         }
 
         private static async Task InstallAll(ApplicationWorkspaceSettings wsSettings, params ApplicationInstaller[] installers)

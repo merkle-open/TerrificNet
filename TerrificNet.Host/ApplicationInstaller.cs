@@ -23,19 +23,19 @@ namespace TerrificNet.Host
             var packageManager = new PackageManager(repo, new DefaultPackagePathResolver(fileSystem), fileSystem, localRepo);
 
             packageManager.Logger = new ConsoleLogger();
-            packageManager.PackageInstalled += (s, args) => OnPackageInstalled(args, workspace);
+            packageManager.PackageInstalled += (s, args) => InstallIntoWorkspace(workspace, args.Package);
             packageManager.InstallPackage(_settings.PackageId, null, false, false);
 
             return Task.FromResult<object>(null);
         }
 
-        private void OnPackageInstalled(PackageOperationEventArgs e, ApplicationWorkspace workspace)
+        private void InstallIntoWorkspace(ApplicationWorkspace workspace, IPackage package)
         {
             var projectDirectory = workspace.GetProjectDirectory(_settings);
             if (!Directory.Exists(projectDirectory))
                 Directory.CreateDirectory(projectDirectory);
 
-            foreach (var libFile in FilterAssemblyReferences(e.Package.AssemblyReferences))
+            foreach (var libFile in FilterAssemblyReferences(package.AssemblyReferences))
             {
                 using (var file = new FileStream(Path.Combine(projectDirectory, libFile.Name), FileMode.Create, FileAccess.ReadWrite))
                 {

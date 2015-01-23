@@ -1,31 +1,23 @@
-﻿namespace TerrificNet.Host
+﻿using Newtonsoft.Json;
+
+namespace TerrificNet.Host
 {
     public class ApplicationWorkspaceSettings
     {
-        private readonly string _rootDirectory;
-        private readonly string _projectsDirectoryName;
-        private readonly string _packagesDirectoryName;
-
         public ApplicationWorkspaceSettings(string rootDirectory, string projectsDirectoryName, string packagesDirectoryName)
         {
-            _rootDirectory = rootDirectory;
-            _projectsDirectoryName = projectsDirectoryName;
-            _packagesDirectoryName = packagesDirectoryName;
+            this.RootDirectory = rootDirectory;
+            this.ProjectsDirectoryName = projectsDirectoryName;
+            this.PackagesDirectoryName = packagesDirectoryName;
         }
 
-        public string RootDirectory
-        {
-            get { return _rootDirectory; }
-        }
+        [JsonIgnore]
+        public string RootDirectory { get; set; }
 
-        public string ProjectsDirectoryName
-        {
-            get { return _projectsDirectoryName; }
-        }
+        [JsonProperty("projectsDirectoryName")]
+        public string ProjectsDirectoryName { get; set; }
 
-        public string PackagesDirectoryName
-        {
-            get { return _packagesDirectoryName; }
-        }
+        [JsonProperty("packagesDirectoryName")]
+        public string PackagesDirectoryName { get; set; }
     }
 }

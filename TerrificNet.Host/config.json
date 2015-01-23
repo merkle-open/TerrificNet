@@ -1,0 +1,12 @@
+﻿{
+    "workspace": {
+        "projectsDirectoryName": "projects",
+        "packagesDirectoryName": "packages"
+    },
+    "projects": {
+        "test": {
+            "packageSource": "https://nuget.org/api/v2/",
+            "packageId": "EntityFramework"
+        }
+    }
+}

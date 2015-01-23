@@ -3,7 +3,7 @@ using NuGet;
 
 namespace TerrificNet.Host
 {
-    class ApplicationWorkspace
+    public class ApplicationWorkspace
     {
         private readonly ApplicationWorkspaceSettings _settings;
 
@@ -34,7 +34,7 @@ namespace TerrificNet.Host
 
         public string GetProjectDirectory(ApplicationSettings settings)
         {
-            return Path.Combine(RootDirectory, _settings.ProjectsDirectoryName, settings.PackageId);
+            return Path.Combine(RootDirectory, _settings.ProjectsDirectoryName, settings.Name);
         }
     }
 }
