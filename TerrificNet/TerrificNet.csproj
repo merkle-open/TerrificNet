@@ -158,7 +158,6 @@
     <None Include="Properties\app.manifest" />
     <None Include="Web\components\modules\ApplicationOverview\data\variation1.json" />
     <None Include="Web\components\modules\ApplicationOverview\data\_default.json" />
-    <None Include="Web\views\edit_advanced.json" />
     <None Include="Web\views\index.html.json" />
   </ItemGroup>
   <ItemGroup>

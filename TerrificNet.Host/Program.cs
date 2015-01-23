@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NuGet;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace TerrificNet.Host
 {
@@ -10,53 +10,24 @@ namespace TerrificNet.Host
     {
         static void Main(string[] args)
         {
-            string packageSource = "https://nuget.org/api/v2/";
-            string packageId = "EntityFramework";
-
-            var repo = PackageRepositoryFactory.Default.CreateRepository(packageSource);
-            var localRepo = PackageRepositoryFactory.Default.CreateRepository(InstallationPath);
-            var projectDir = Path.Combine(RootDirectory, "run");
-            var packageManager = new PackageManager(repo, InstallationPath);
-
-            packageManager.PackageInstalled += packageManager_PackageInstalled;
-            packageManager.InstallPackage(packageId, null, false, false);
-        }
-
-        private static IEnumerable<IPackageAssemblyReference> FilterAssemblyReferences(IEnumerable<IPackageAssemblyReference> assemblyReferences)
-        {
-            if (assemblyReferences != null)
+            var settings = new ApplicationSettings
             {
-                IEnumerable<IPackageAssemblyReference> compatibleItems;
-                if (VersionUtility.TryGetCompatibleItems(VersionUtility.DefaultTargetFramework, assemblyReferences, out compatibleItems))
-                {
-                    return compatibleItems;
-                }
-            }
-            return Enumerable.Empty<IPackageAssemblyReference>();
+                PackageSource = "https://nuget.org/api/v2/",
+                PackageId = "EntityFramework"
+            };
+
+            var wsSettings = new ApplicationWorkspaceSettings(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "projects", "packages");
+            var applicationInstaller = new ApplicationInstaller(settings);
+
+            InstallAll(wsSettings, applicationInstaller).Wait();
+
+            Console.Read();
         }
 
-        private static string InstallationPath
+        private static async Task InstallAll(ApplicationWorkspaceSettings wsSettings, params ApplicationInstaller[] installers)
         {
-            get
-            {
-                return Path.Combine(RootDirectory, "packages");
-            }
-        }
-
-        private static string RootDirectory
-        {
-            get { return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location); }
-        }
-
-        static void packageManager_PackageInstalled(object sender, PackageOperationEventArgs e)
-        {
-            foreach (var libFile in FilterAssemblyReferences(e.Package.AssemblyReferences))
-            {
-                using (var file = new FileStream(Path.Combine(InstallationPath, libFile.Name), FileMode.Create, FileAccess.ReadWrite))
-                {
-                    libFile.GetStream().CopyTo(file);
-                }
-            }
+            var workspace = new ApplicationWorkspace(wsSettings);
+            await Task.WhenAll(installers.Select(i => i.Install(workspace)));
         }
     }
 }

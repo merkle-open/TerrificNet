@@ -12,12 +12,6 @@
     <script src="assets/jsoneditor.min.js"></script>
     <script src="assets/common.js"></script>
 
-    <script>
-        // Set the default CSS theme and icon library globally
-        JSONEditor.defaults.theme = 'foundation5';
-        JSONEditor.defaults.iconlib = 'fontawesome4';
-    </script>
-
 </head>
 <body>
     <h1></h1>
@@ -26,6 +20,10 @@
     <button id='submit'>Save</button>
 
     <script>
+        // Set the default CSS theme and icon library globally
+        JSONEditor.defaults.theme = 'foundation5';
+        JSONEditor.defaults.iconlib = 'fontawesome4';
+
         $(document).ready(function () {
             var editor = null;
             var variables = Common.parseQueryString(window.location.href);

@@ -41,6 +41,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationInstaller.cs" />
+    <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="ApplicationWorkspace.cs" />
+    <Compile Include="ApplicationWorkspaceSettings.cs" />
+    <Compile Include="ConsoleLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

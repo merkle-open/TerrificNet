@@ -5,6 +5,19 @@
     <title>Terrific Start</title>
     <link rel="shortcut icon" type="image/ico" href="https://travel.local.nx/terrific/assets/img/favicon.ico" />
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    
+    {{#if styles}}
+    {{#each style}}
+    <link rel='stylesheet' href='{{href}}'>
+    {{/each}}
+    {{/if}}
+
+    {{#if scripts}}
+    {{#each scripts}}
+    <script src="{{src}}"></script>
+    {{/each}}
+    {{/if}}
+
     <style type="text/css" media="screen">
         h1 {
             color: #555;
