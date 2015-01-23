@@ -1,16 +1,13 @@
 ﻿{
-    "_layout": "_layouts/_layout",
+    "template": "views/_layouts/_layout",
     "_placeholder": {
         "content": [
             {
-                "_layout": "_layouts/page",
+                "template": "views/_layouts/page",
                 "_placeholder": {
                     "phContent": [
                         {
-                            "template": "ApplicationOverview",
-                            "data": {
-                                "$ref": "data/variation1"
-                            }
+                            "template": "components/modules/ApplicationOverview/ApplicationOverview"
                         }
                     ]
                 }

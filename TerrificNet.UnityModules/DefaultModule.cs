@@ -37,7 +37,8 @@ namespace TerrificNet.UnityModules
 		{
 			container.RegisterType<IViewEngine, VeilViewEngine>();
 			container.RegisterType<ICacheProvider, MemoryCacheProvider>();
-			container.RegisterType<IModelProvider, JsonModelProvider>();
+			container.RegisterType<IModelProvider, DefaultModelProvider>();
+            container.RegisterType<IModelProvider, JsonModelProvider>("json");
 			container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
 				new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),
 					new ResolvedParameter<PhysicalSchemaProvider>()));

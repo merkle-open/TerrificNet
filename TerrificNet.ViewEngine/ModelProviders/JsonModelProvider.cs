@@ -7,21 +7,23 @@ namespace TerrificNet.ViewEngine.ModelProviders
 {
     public class JsonModelProvider : IModelProvider
     {
+        private const string DefaultFilename = "_default.json";
+        private const string Foldername = "..\\data";
         private readonly string _basePath;
 
         public JsonModelProvider(ITerrificNetConfig config)
         {
-            _basePath = config.DataPath;
+            _basePath = config.BasePath;
         }
 
         public object GetDefaultModelForTemplate(TemplateInfo template)
         {
-            return GetModelForTemplate(template, template.Id);
+            return GetModelForTemplate(template, DefaultFilename);
         }
 
         public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
-            var filePath = GetPath(template.Id);
+            var filePath = GetPath(template, DefaultFilename);
             using (var stream = new StreamWriter(filePath))
             {
                 var value = JsonConvert.SerializeObject(content);
@@ -31,10 +33,10 @@ namespace TerrificNet.ViewEngine.ModelProviders
 
         public object GetModelForTemplate(TemplateInfo template, string dataId)
         {
-            var filePath = GetPath(dataId);
+            var filePath = GetPath(template, dataId);
 
             if (!File.Exists(filePath))
-                return new JObject();
+                return null;
 
             using (var stream = new StreamReader(filePath))
             {
@@ -43,9 +45,9 @@ namespace TerrificNet.ViewEngine.ModelProviders
             }
         }
 
-        private string GetPath(string id)
+        private string GetPath(TemplateInfo templateInfo, string id)
         {
-            return Path.Combine(_basePath, Path.ChangeExtension(id, ".json"));
+            return Path.Combine(_basePath, templateInfo.Id, Foldername, Path.ChangeExtension(id, ".json"));
         }
 
     }

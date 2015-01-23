@@ -53,6 +53,7 @@
     <Compile Include="IModelTypeProvider.cs" />
     <Compile Include="INamingRule.cs" />
     <Compile Include="ITemplateRepository.cs" />
+    <Compile Include="ModelProviders\DefaultModelProvider.cs" />
     <Compile Include="NamingRule.cs" />
     <Compile Include="RenderingContext.cs" />
     <Compile Include="SchemaProviders\IModelTypeRepository.cs" />
@@ -72,8 +73,11 @@
     <Compile Include="ViewEngines\DefaultTerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandlerFactory.cs" />
+    <Compile Include="ViewEngines\PlaceholderDefinition.cs" />
+    <Compile Include="ViewEngines\PlaceholderDefinitionCollection.cs" />
     <Compile Include="ViewEngines\VeilViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewEngines\ViewDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.ViewEngine.Schema\TerrificNet.ViewEngine.Schema.csproj">

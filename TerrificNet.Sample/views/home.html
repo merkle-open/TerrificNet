@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    {{module template="head"}}
+    {{module template="views/head"}}
 </head>
 <body class="mod mod-layout" data-culture="de-CH">
     <form method="post" action="content" id="mainform">
@@ -9,13 +9,13 @@
         <div class="l-page">
 
             <!-- Header -->
-            {{module template="header"}}
+            {{module template="views/header"}}
 
             <!-- Body -->
             <div class="l-body">
 
                 <div class="l-background">
-                    {{module template="stage"}}
+                    {{module template="components/modules/stage/stage"}}
                 </div>
 
                 <!-- Content-Wrapper -->
@@ -33,15 +33,6 @@
 
                                 <div class="l-sidebar">
                                     {{placeholder key="phSidebar"}}
-                                    <!--<?php component(' SidebarTeaser', ' img-text1');?>
-
-                                    <?php component(' SidebarTeaser', ' link-list');?>
-
-                                    <?php component(' SidebarTeaser', ' teaser');?>
-
-                                    <?php component(' SidebarTeaser', ' watchlist');?>
-
-                                    <?php component(' SidebarTeaser', ' faq');?>-->
                                 </div>
                             </div>
 
@@ -52,10 +43,10 @@
             </div>
 
             <!-- Footer -->
-            {{module template="footer" }}
+            {{module template="components/modules/Footer/footer" }}
         </div>
 
-        {{module template="foot" }}
+        {{module template="views/foot" }}
     </form>
 </body>
 </html>

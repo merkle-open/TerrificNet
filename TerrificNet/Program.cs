@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
+using TerrificNet.Controllers;
+using TerrificNet.ModelProviders;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.ViewEngines;
@@ -36,6 +38,9 @@ namespace TerrificNet
                 var childContainer = container.CreateChildContainer();
 
                 var app = DefaultUnityModule.RegisterForApplication(childContainer, Path.Combine(path, item.BasePath), item.ApplicationName, item.Section);
+
+                childContainer.RegisterType<IModelProvider, ApplicationOverviewModelProvider>();
+
                 container.RegisterInstance(item.ApplicationName, app);
             }
 

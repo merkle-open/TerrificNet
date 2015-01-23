@@ -1,4 +1,5 @@
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace TerrificNet.ViewEngine.ViewEngines
@@ -19,33 +20,39 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
         public void RenderPlaceholder(object model, string key, RenderingContext context)
         {
+            ViewDefinition definition;
             var tmp = model as JObject;
-            if (tmp == null)
-                return;
-
-            var placeholder = tmp.GetValue("_placeholder") as JObject;
-            if (placeholder == null)
-                return;
-
-            var placeholderConfigs = placeholder.GetValue(key) as JArray;
-            if (placeholderConfigs == null)
-                return;
-
-            foreach (var placeholderConfig in placeholderConfigs)
+            if (tmp != null)
             {
-                var templateName = placeholderConfig["template"].Value<string>();
+                definition = tmp.ToObject<ViewDefinition>();
+            }
+            else
+            {
+                definition = model as ViewDefinition;
+            }
 
-                var skin = string.Empty;
-                var skinRaw = placeholderConfig["skin"];
-                if (skinRaw != null)
-                    skin = placeholderConfig["skin"].Value<string>();
+            if (definition == null || definition.Placeholder == null)
+                return;
+
+            var placeholder = definition.Placeholder;
+
+            PlaceholderDefinition[] definitions;
+
+            if (!placeholder.TryGetValue(key, out definitions))
+                return;
+
+            foreach (var placeholderConfig in definitions)
+            {
+                var templateName = placeholderConfig.Template;
+
+                string skin = placeholderConfig.Skin;
 
                 TemplateInfo templateInfo;
                 IView view;
                 if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
                     _viewEngine.TryCreateView(templateInfo, out view))
                 {
-                    var moduleModel = placeholderConfig["data"] ?? _modelProvider.GetDefaultModelForTemplate(templateInfo);
+                    var moduleModel = placeholderConfig.Data ?? _modelProvider.GetDefaultModelForTemplate(templateInfo) ?? placeholderConfig;
                     view.Render(moduleModel, context);
                 }
                 else

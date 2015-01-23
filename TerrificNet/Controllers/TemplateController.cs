@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -8,6 +7,7 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.Controllers
 {
@@ -28,7 +28,7 @@ namespace TerrificNet.Controllers
 		}
 
 		[HttpGet]
-		public async Task<HttpResponseMessage> Get(string path, string skin = null, string data = null)
+		public HttpResponseMessage Get(string path, string skin = null, string data = null)
 		{
 		    path = path ?? "index";
 
@@ -43,26 +43,17 @@ namespace TerrificNet.Controllers
                     using (var reader = new JsonTextReader(new StreamReader(fileName)))
                     {
                         var viewDefinition = new JsonSerializer().Deserialize<ViewDefinition>(reader);
-
                         if (viewDefinition != null)
                         {
-                            using (var client = new HttpClient())
-                            {
-                                client.BaseAddress = this.Request.RequestUri;
-                                var result = await client.GetAsync(new Uri(string.Concat(this.Request.RequestUri.AbsoluteUri, "/", viewDefinition.Layout, "?data=", path, ".html")));
-
-                                return result;
-                            }
+                            return Get(viewDefinition.Template, viewDefinition);
                         }
-
                     }
-
 		        }
 
 		        return new HttpResponseMessage(HttpStatusCode.NotFound);
 		    }
 
-		    object model;
+            object model;
             if (!string.IsNullOrEmpty(data))
                 model = _modelProvider.GetModelForTemplate(templateInfo, data);
             else
@@ -70,31 +61,16 @@ namespace TerrificNet.Controllers
 
 			return View(view, model);
 		}
+
+	    private HttpResponseMessage Get(string path, object data)
+	    {
+	        IView view;
+			TemplateInfo templateInfo;
+	        if (!_templateRepository.TryGetTemplate(path, null, out templateInfo) ||
+	            !_viewEngine.TryCreateView(templateInfo, out view))
+	            return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+	        return View(view, data);
+	    }
 	}
-
-    public class ViewDefinition
-    {
-        [JsonProperty("_layout")]
-        public string Layout { get; set; }
-
-        [JsonProperty("_placeholder")]
-        public PlaceholderDefinitionCollection Placeholder { get; set; }
-    }
-
-    public class PlaceholderDefinitionCollection : Dictionary<string, PlaceholderDefinition[]>
-    {
-        
-    }
-
-    public class PlaceholderDefinition
-    {
-        [JsonProperty("template")]
-        public string Template { get; set; }
-
-        [JsonProperty("skin")]
-        public string Skin { get; set; }
-
-        [JsonProperty("data")]
-        public object Data { get; set; }
-    }
 }

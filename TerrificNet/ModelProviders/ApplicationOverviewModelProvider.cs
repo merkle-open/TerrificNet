@@ -1,27 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
 using Microsoft.Practices.Unity;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 
-namespace TerrificNet.Controllers
+namespace TerrificNet.ModelProviders
 {
-    public class ViewIndexController : TemplateControllerBase
+    public class ApplicationOverviewModelProvider : IModelProvider
     {
         private readonly TerrificNetApplication[] _applications;
 
-        public ViewIndexController(TerrificNetApplication[] applications)
+        public ApplicationOverviewModelProvider(TerrificNetApplication[] applications)
         {
             _applications = applications;
         }
 
-        [HttpGet]
-        public HttpResponseMessage Get()
+        public object GetDefaultModelForTemplate(TemplateInfo template)
         {
-			var model = new ApplicationOverviewModel
+            if (template.Id != "components/modules/ApplicationOverview/ApplicationOverview")
+                return null;
+
+            var model = new ApplicationOverviewModel
             {
                 Applications = _applications.Select(a => new ViewOverviewModel
                 {
@@ -30,7 +31,17 @@ namespace TerrificNet.Controllers
                 }).ToList()
             };
 
-            return View("ApplicationOverview", model);
+            return model;
+        }
+
+        public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
+        {
+            throw new NotSupportedException();
+        }
+
+        public object GetModelForTemplate(TemplateInfo template, string dataId)
+        {
+            throw new NotSupportedException();
         }
 
         private static IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)
