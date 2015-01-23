@@ -42,5 +42,15 @@ namespace TerrificNet.Host
         {
             return Path.Combine(RootDirectory, _settings.ProjectsDirectoryName, settings.Name);
         }
+
+        public void ClearLocalRepository()
+        {
+            Directory.Delete(InstallationPath);
+        }
+
+        public void ClearProjects()
+        {
+            Directory.Delete(Path.Combine(RootDirectory, _settings.ProjectsDirectoryName));
+        }
     }
 }
