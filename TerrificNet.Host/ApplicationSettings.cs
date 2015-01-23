@@ -7,10 +7,10 @@ namespace TerrificNet.Host
         [JsonIgnore]
         public string Name { get; set; }
 
-        [JsonProperty("packageSource")]
-        public string PackageSource { get; set; }
-
         [JsonProperty("packageId")]
         public string PackageId { get; set; }
+
+        [JsonProperty("preservedFiles")]
+        public string[] PreservedFiles { get; set; }
     }
 }

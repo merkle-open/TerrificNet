@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using NuGet;
 
 namespace TerrificNet.Host
@@ -15,6 +16,11 @@ namespace TerrificNet.Host
         public IFileSystem GetFileSystem()
         {
             return new PhysicalFileSystem(InstallationPath);
+        }
+
+        public IPackageRepository GetRemoteRepository()
+        {
+            return new AggregateRepository(_settings.Repositories.Select(r => PackageRepositoryFactory.Default.CreateRepository(r)));
         }
 
         public IPackageRepository GetLocalRepository()

@@ -19,5 +19,8 @@ namespace TerrificNet.Host
 
         [JsonProperty("packagesDirectoryName")]
         public string PackagesDirectoryName { get; set; }
+
+        [JsonProperty]
+        public string[] Repositories { get; set; }
     }
 }

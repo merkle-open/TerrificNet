@@ -15,9 +15,15 @@ namespace TerrificNet.Host
             var configuration = ReadConfiguration(rootDirectory);
 
             var installers = configuration.Projects.Values.Select(s => new ApplicationInstaller(s));
-            InstallAll(configuration.Workspace, installers.ToArray()).Wait();
+            var workspace = new ApplicationWorkspace(configuration.Workspace);
+            InstallAll(workspace, installers.ToArray()).Wait();
 
             Console.Read();
+        }
+
+        private static void ClearRepository(ApplicationWorkspace workspace)
+        {
+            //workspace.GetLocalRepository().
         }
 
         private static Configuration ReadConfiguration(string rootDirectory)
@@ -36,9 +42,8 @@ namespace TerrificNet.Host
             }
         }
 
-        private static async Task InstallAll(ApplicationWorkspaceSettings wsSettings, params ApplicationInstaller[] installers)
+        private static async Task InstallAll(ApplicationWorkspace workspace, params ApplicationInstaller[] installers)
         {
-            var workspace = new ApplicationWorkspace(wsSettings);
             await Task.WhenAll(installers.Select(i => i.Install(workspace)));
         }
     }

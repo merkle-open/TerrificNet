@@ -92,7 +92,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -147,15 +147,18 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="application.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="application.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
     <Content Include="Web\components\modules\ApplicationOverview\ApplicationOverview.html" />
     <Content Include="Web\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\app.manifest" />
+    <None Include="TerrificNet.nuspec" />
     <None Include="Web\components\modules\ApplicationOverview\data\variation1.json" />
     <None Include="Web\components\modules\ApplicationOverview\data\_default.json" />
     <None Include="Web\views\index.html.json" />

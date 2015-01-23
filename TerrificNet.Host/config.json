@@ -1,12 +1,15 @@
 ﻿{
     "workspace": {
         "projectsDirectoryName": "projects",
-        "packagesDirectoryName": "packages"
+        "packagesDirectoryName": "packages",
+        "repositories": [ "C:\\nuget_repository", "https://www.nuget.org/api/v2/" ]
     },
     "projects": {
-        "test": {
-            "packageSource": "https://nuget.org/api/v2/",
-            "packageId": "EntityFramework"
+        "terrific": {
+            "packageId": "TerrificNet",
+            "preservedFiles": [
+                "application.json"
+            ]
         }
     }
 }

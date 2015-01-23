@@ -34,7 +34,6 @@ namespace TerrificNet
 
             config.DependencyResolver = new UnityDependencyResolver(container);
             config.Services.Replace(typeof(IHttpControllerActivator), new ApplicationSpecificControllerActivator(config));
-            //config.Services.Replace(typeof(IHttpControllerSelector), new ApplicationSpecificControllerSelector(config));
 
 			appBuilder.UseWebApi(config);
 		}
