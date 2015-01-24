@@ -41,7 +41,8 @@ namespace TerrificNet
 
                 childContainer.RegisterType<IModelProvider, ApplicationOverviewModelProvider>();
 
-                container.RegisterInstance(item.ApplicationName, app);
+                // Replacement for container.RegisterInstance(item.ApplicationName, app)
+                container.RegisterType<TerrificNetApplication>(item.ApplicationName, new InjectionFactory(u => app));
             }
 
             new TerrificBundleUnityModule().Configure(container);

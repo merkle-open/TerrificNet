@@ -21,7 +21,8 @@ namespace TerrificNet.UnityModules
 	        var config = ConfigurationLoader.LoadTerrificConfiguration(basePath);
 	        var application = new TerrificNetApplication(applicationName, section, config, childContainer);
 
-	        childContainer.RegisterInstance(application);
+            // Replacement for childContainer.RegisterInstance(application);
+            childContainer.RegisterType<TerrificNetApplication>(new InjectionFactory(u => application));
 	        RegisterForConfiguration(childContainer, config);
 	        
             return application;
@@ -29,7 +30,8 @@ namespace TerrificNet.UnityModules
 
 	    public static void RegisterForConfiguration(IUnityContainer container, ITerrificNetConfig item)
 	    {
-	        container.RegisterInstance(item);
+            // Replacement for container.RegisterInstance(item);
+            container.RegisterType<ITerrificNetConfig>(new InjectionFactory(u => item));
 	        RegisterApplicationSpecific(container);
 	    }
 
