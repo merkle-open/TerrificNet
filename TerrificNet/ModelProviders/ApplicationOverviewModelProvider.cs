@@ -36,7 +36,8 @@ namespace TerrificNet.ModelProviders
 
         public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
-            throw new NotSupportedException();
+            if (template.Id == "components/modules/ApplicationOverview/ApplicationOverview")
+                throw new NotSupportedException();
         }
 
         public object GetModelForTemplate(TemplateInfo template, string dataId)
