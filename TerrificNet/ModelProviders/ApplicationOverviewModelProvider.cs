@@ -48,13 +48,16 @@ namespace TerrificNet.ModelProviders
         {
             foreach (var file in templateRepository.GetAll())
             {
+                var schemaUrl = string.Format("/{0}schema/{1}", section, file.Id);
+                var dataUrl = string.Format("/{0}model/{1}", section, file.Id);
+                var templateUrl = string.Format("/{0}{1}", section, file.Id);
                 yield return new ViewItemModel
                 {
                     Text = file.Id,
-                    Url = string.Format("/{0}", file.Id),
-                    EditUrl = string.Format("/web/edit?template={0}", file.Id),
-                    AdvancedUrl = string.Format("/web/edit_advanced?template={0}", file.Id),
-                    SchemaUrl = string.Format("{0}schema/{1}", section, file.Id)
+                    Url = templateUrl,
+                    EditUrl = string.Format("/web/edit?schema={0}&data={1}&template={2}", schemaUrl, dataUrl, templateUrl),
+                    AdvancedUrl = string.Format("/web/edit_advanced?schema={0}&data={1}&template={2}", schemaUrl, dataUrl, templateUrl),
+                    SchemaUrl = schemaUrl
                 };
             }
         }

@@ -1,0 +1,17 @@
+﻿<div id="content">
+
+</div>
+{{placeholder key="rightPanel"}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var query = Common.parseQueryString(window.location.href);
+        var template = query["template"];
+
+        var $contentFrame = $('<iframe />').attr('src', template).height($(document).height()).width($(document).width() / 2)
+            .appendTo($("#content"));
+
+        $(document).contents().find("#submit").click(function() {
+            $contentFrame.attr('src', $contentFrame.attr('src'));
+        });
+    });
+</script>
