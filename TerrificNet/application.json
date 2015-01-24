@@ -2,7 +2,7 @@
     "applications": {
         "admin": {
             "section": "web/",
-            "basePath": "Web"
+            "basePath": "../../Web"
         },
         "sample": {
             "section":  "",

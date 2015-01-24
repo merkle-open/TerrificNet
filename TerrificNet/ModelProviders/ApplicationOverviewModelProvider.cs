@@ -52,8 +52,8 @@ namespace TerrificNet.ModelProviders
                 {
                     Text = file.Id,
                     Url = string.Format("/{0}", file.Id),
-                    EditUrl = string.Format("/web/views/edit?template={0}", file.Id),
-                    AdvancedUrl = string.Format("/web/views/edit_advanced?template={0}", file.Id),
+                    EditUrl = string.Format("/web/edit?template={0}", file.Id),
+                    AdvancedUrl = string.Format("/web/edit_advanced?template={0}", file.Id),
                     SchemaUrl = string.Format("{0}schema/{1}", section, file.Id)
                 };
             }
