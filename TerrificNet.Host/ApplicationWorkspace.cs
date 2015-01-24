@@ -15,13 +15,21 @@ namespace TerrificNet.Host
 
         public IFileSystem GetFileSystem()
         {
-            return new PhysicalFileSystem(InstallationPath);
+            return new PhysicalFileSystem(InstallationPath)
+            {
+                Logger = Logger
+            };
         }
 
         public IPackageRepository GetRemoteRepository()
         {
-            return new AggregateRepository(_settings.Repositories.Select(r => PackageRepositoryFactory.Default.CreateRepository(r)));
+            return new AggregateRepository(_settings.Repositories.Select(r => PackageRepositoryFactory.Default.CreateRepository(r)))
+            {
+                Logger = Logger
+            };
         }
+
+        public ILogger Logger { get; set; }
 
         public IPackageRepository GetLocalRepository()
         {

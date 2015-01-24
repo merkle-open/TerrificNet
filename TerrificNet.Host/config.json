@@ -2,7 +2,7 @@
     "workspace": {
         "projectsDirectoryName": "projects",
         "packagesDirectoryName": "packages",
-        "repositories": [ "C:\\nuget_repository", "https://www.nuget.org/api/v2/" ]
+        "repositories": [ "D:\\projects\\TerrificNet\\packages\\NuGet.CommandLine.2.8.3\\tools", "http://www.nuget.org/api/v2/" ]
     },
     "projects": {
         "terrific": {
