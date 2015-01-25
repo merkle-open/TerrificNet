@@ -66,7 +66,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
             if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
                 _viewEngine.TryCreateView(templateInfo, out view))
             {
-                var moduleModel = _modelProvider.GetDefaultModelForTemplate(templateInfo) ?? new object();
+                var moduleModel = _modelProvider.GetDefaultModelForTemplate(templateInfo);
                 view.Render(moduleModel, context);
             }
             else

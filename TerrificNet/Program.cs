@@ -39,9 +39,7 @@ namespace TerrificNet
                 var childContainer = container.CreateChildContainer();
 
                 var app = DefaultUnityModule.RegisterForApplication(childContainer, Path.Combine(path, item.BasePath), item.ApplicationName, item.Section);
-
-                // Replacement for container.RegisterInstance(item.ApplicationName, app)
-                container.RegisterType<TerrificNetApplication>(item.ApplicationName, new InjectionFactory(u => app));
+                container.RegisterInstance(item.ApplicationName, app);
             }
 
             foreach (var app in container.ResolveAll<TerrificNetApplication>())
