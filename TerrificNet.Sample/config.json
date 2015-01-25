@@ -33,5 +33,8 @@
     "viewPath": "views",
     "modulePath": "components/modules",
     "assetPath": "assets",
-    "dataPath":  "project/data"
+    "dataPath": "project/data",
+
+    "default_layout":  "views/_layouts/_layout.html",
+    "default_layout_placeholder":  "content"
 }

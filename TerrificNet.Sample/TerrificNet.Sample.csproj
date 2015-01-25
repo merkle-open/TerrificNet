@@ -153,6 +153,8 @@
     <Content Include="components\modules\Teaser\teaser-news.html" />
     <Content Include="project\data\home.json" />
     <Content Include="components\modules\TestModule\data\_default.json" />
+    <Content Include="views\_layouts\page.html" />
+    <Content Include="views\_layouts\_layout.html" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\content_home.html" />

@@ -1,1 +1,14 @@
-{"_placeholder":{"phMain":[{"template":"content_home"}],"phSidebar":[{"template":"sidebarteaser","skin":"img-text1"},{"template":"sidebarteaser","skin":"faq","data":{}},{"template":"sidebarteaser","skin":"contact"},{"template":"sidebarteaser"}]}}
+{
+    "_placeholder": {
+        "phMain": [ { "template": "content_home" } ],
+        "phSidebar": [
+            {
+                "template": "sidebarteaser",
+                "skin": "img-text1"
+            },
+            { "template": "sidebarteaser", "skin": "faq", "data": { } },
+            { "template": "sidebarteaser", "skin": "contact" },
+            { "template": "sidebarteaser" }
+        ]
+    }
+}
