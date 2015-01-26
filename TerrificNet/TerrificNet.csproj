@@ -147,6 +147,7 @@
     <None Include="Web\views\edit_advanced.html.json" />
     <None Include="Web\views\edit.html.json" />
     <None Include="Web\views\index.html.json" />
+    <None Include="_build\build.targets" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.AssetCompiler\TerrificNet.AssetCompiler.csproj">
@@ -216,6 +217,7 @@
     <Folder Include="Web\project\data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(ProjectDir)\_build\build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -13,6 +13,9 @@ namespace TerrificNet.ViewEngine.Config
 
         public static ITerrificNetConfig LoadTerrificConfiguration(string basePath, string fileName, IFileSystem fileSystem)
         {
+            if (basePath == null)
+                throw new ArgumentNullException("basePath");
+
             // TODO: check need
             //if (!Path.IsPathRooted(basePath))
             //    basePath = Path.GetFullPath(basePath);

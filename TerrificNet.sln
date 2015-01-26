@@ -50,18 +50,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E2D9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Host", "TerrificNet.Host\TerrificNet.Host.csproj", "{376DE047-3724-4E58-A3AB-229F678DAE24}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_nuget", "_nuget", "{7527265C-F66F-4BDB-ABDC-F4C5E10A20AE}"
-	ProjectSection(SolutionItems) = preProject
-		_nuget\TerrificNet.Core.nuspec = _nuget\TerrificNet.Core.nuspec
-		_nuget\TerrificNet.Host.nuspec = _nuget\TerrificNet.Host.nuspec
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{95B02D29-C15F-486E-BCF9-7E7CDA918E0B}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ConsoleHost", "TerrificNet.ConsoleHost\TerrificNet.ConsoleHost.csproj", "{54C555EA-256E-4D9A-A783-499D16868DA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.WebHost", "TerrificNet.WebHost\TerrificNet.WebHost.csproj", "{58C353D6-C8CF-4FCD-83CA-FA408E8A1E32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +141,10 @@ Global
 		{54C555EA-256E-4D9A-A783-499D16868DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54C555EA-256E-4D9A-A783-499D16868DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54C555EA-256E-4D9A-A783-499D16868DA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C353D6-C8CF-4FCD-83CA-FA408E8A1E32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C353D6-C8CF-4FCD-83CA-FA408E8A1E32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C353D6-C8CF-4FCD-83CA-FA408E8A1E32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C353D6-C8CF-4FCD-83CA-FA408E8A1E32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
