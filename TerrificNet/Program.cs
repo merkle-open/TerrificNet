@@ -60,6 +60,11 @@ namespace TerrificNet
             foreach (var app in container.ResolveAll<TerrificNetApplication>())
             {
                 RegisterModelProviders(app.Container);
+
+                foreach (var template in app.Container.Resolve<ITemplateRepository>().GetAll())
+                {
+                    Console.WriteLine(template.Id);
+                }
             }
 
             new TerrificBundleUnityModule().Configure(container);
