@@ -147,7 +147,9 @@
     <None Include="Web\views\edit_advanced.html.json" />
     <None Include="Web\views\edit.html.json" />
     <None Include="Web\views\index.html.json" />
-    <None Include="_build\build.targets" />
+    <None Include="_build\build.targets">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.AssetCompiler\TerrificNet.AssetCompiler.csproj">

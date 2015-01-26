@@ -7,7 +7,4 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>My package description.</description>
   </metadata>
-  <files>
-    <!--<file src="bin\$configuration$\TerrificNet.exe.config" target="content" />-->
-  </files>
 </package>

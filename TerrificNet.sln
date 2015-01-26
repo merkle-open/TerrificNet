@@ -59,6 +59,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ConsoleHost", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.WebHost", "TerrificNet.WebHost\TerrificNet.WebHost.csproj", "{58C353D6-C8CF-4FCD-83CA-FA408E8A1E32}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{9DA31A39-17D9-4485-8029-4F954E0C2116}"
+	ProjectSection(SolutionItems) = preProject
+		Build.proj = Build.proj
+		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
+		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
