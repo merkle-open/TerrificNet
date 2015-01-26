@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace TerrificNet.ViewEngine.ViewEngines
+namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
     public class ViewDefinition
     {
@@ -15,17 +15,5 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
         [JsonProperty("scripts")]
         public ScriptImport[] Scripts { get; set; }
-    }
-
-    public class ScriptImport
-    {
-        [JsonProperty("src")]
-        public string Src { get; set; }
-    }
-
-    public class StyleImport
-    {
-        [JsonProperty("href")]
-        public string Href { get; set; }
     }
 }

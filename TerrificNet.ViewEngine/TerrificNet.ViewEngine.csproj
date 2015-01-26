@@ -58,6 +58,7 @@
     <Compile Include="ModelProviders\DefaultModelProvider.cs" />
     <Compile Include="NamingRule.cs" />
     <Compile Include="RenderingContext.cs" />
+    <Compile Include="SchemaProviders\DefaultModelTypeRepository.cs" />
     <Compile Include="SchemaProviders\IModelTypeRepository.cs" />
     <Compile Include="SchemaProviders\PhysicalSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
@@ -72,14 +73,16 @@
     <Compile Include="SchemaProviders\HandlebarsViewSchemaProvider.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
-    <Compile Include="ViewEngines\DefaultTerrificTemplateHandler.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\DefaultTerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandlerFactory.cs" />
-    <Compile Include="ViewEngines\PlaceholderDefinition.cs" />
-    <Compile Include="ViewEngines\PlaceholderDefinitionCollection.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\PlaceholderDefinition.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\PlaceholderDefinitionCollection.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\ScriptImport.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\StyleImport.cs" />
     <Compile Include="ViewEngines\VeilViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewEngines\ViewDefinition.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\ViewDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.ViewEngine.Schema\TerrificNet.ViewEngine.Schema.csproj">

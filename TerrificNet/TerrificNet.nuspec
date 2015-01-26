@@ -21,6 +21,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Debug\TerrificNet.exe.config" target="content" />
+    <file src="bin\$configuration$\TerrificNet.exe.config" target="content" />
   </files>
 </package>

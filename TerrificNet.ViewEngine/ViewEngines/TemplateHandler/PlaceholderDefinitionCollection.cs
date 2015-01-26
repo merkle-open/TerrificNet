@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TerrificNet.ViewEngine.ViewEngines
+namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
     public class PlaceholderDefinitionCollection : Dictionary<string, PlaceholderDefinition[]>
     {

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.ModelProviders

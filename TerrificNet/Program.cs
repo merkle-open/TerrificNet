@@ -4,12 +4,12 @@ using System.Linq;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
-using TerrificNet.Controllers;
 using TerrificNet.ModelProviders;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.ViewEngines;
+using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet
 {
@@ -27,8 +27,22 @@ namespace TerrificNet
             else
                 path = string.Empty;
 
+            var container = Initialize(path);
+
+            // Start OWIN host
+            using (WebApp.Start(baseAddress, builder => new Startup().Configuration(builder, container)))
+            {
+                Console.WriteLine("Started on " + baseAddress);
+                Console.ReadLine();
+            }
+        }
+
+        private static UnityContainer Initialize(string path)
+        {
             var container = new UnityContainer();
-            container.RegisterType<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
+            container
+                .RegisterType
+                <ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
             container.RegisterType<INamingRule, NamingRule>();
 
             new DefaultUnityModule().Configure(container);
@@ -38,7 +52,8 @@ namespace TerrificNet
             {
                 var childContainer = container.CreateChildContainer();
 
-                var app = DefaultUnityModule.RegisterForApplication(childContainer, Path.Combine(path, item.BasePath), item.ApplicationName, item.Section);
+                var app = DefaultUnityModule.RegisterForApplication(childContainer, Path.Combine(path, item.BasePath),
+                    item.ApplicationName, item.Section);
                 container.RegisterInstance(item.ApplicationName, app);
             }
 
@@ -48,13 +63,7 @@ namespace TerrificNet
             }
 
             new TerrificBundleUnityModule().Configure(container);
-
-            // Start OWIN host
-            using (WebApp.Start(baseAddress, builder => new Startup().Configuration(builder, container)))
-            {
-                Console.WriteLine("Started on " + baseAddress);
-                Console.ReadLine();
-            }
+            return container;
         }
 
         private static void RegisterModelProviders(IUnityContainer childContainer)

@@ -6,7 +6,6 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
-using TerrificNet.Controllers;
 using TerrificNet.UnityModules;
 using Unity.WebApi;
 

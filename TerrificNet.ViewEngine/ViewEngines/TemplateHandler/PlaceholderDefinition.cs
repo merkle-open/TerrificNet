@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TerrificNet.ViewEngine.ViewEngines
+namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
     public class PlaceholderDefinition : ViewDefinition
     {
