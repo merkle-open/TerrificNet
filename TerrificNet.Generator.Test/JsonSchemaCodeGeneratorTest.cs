@@ -70,6 +70,17 @@ namespace TerrificNet.Generator.Test
 			Assert.IsTrue(CompareCode(reference, GenerateCode("Schemas/listSimple.json")));
 		}
 
+        [TestMethod]
+        public void TestListSimpleWithComplexTitle()
+        {
+            const string reference = "namespace Person {public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}}";
+
+            var schema = GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Schemas/listSimple.json"));
+            schema.Title = "TestOuter/TestInner";
+            Assert.IsTrue(CompareCode(reference, GenerateCode(schema)));
+        }
+
+
 		[TestMethod]
 		public void TestListComplex()
 		{
@@ -109,12 +120,17 @@ namespace TerrificNet.Generator.Test
 
 		private string GenerateCode(string path)
 		{
-			var generator = new JsonSchemaCodeGenerator();
-			var schema = GetSchema(Path.Combine(TestContext.DeploymentDirectory, path));
-			return generator.Generate(schema);
+		    var schema = GetSchema(Path.Combine(TestContext.DeploymentDirectory, path));
+		    return GenerateCode(schema);
 		}
 
-		private static JsonSchema GetSchema(string path)
+	    private static string GenerateCode(JsonSchema schema)
+	    {
+	        var generator = new JsonSchemaCodeGenerator();
+	        return generator.Generate(schema);
+	    }
+
+	    private static JsonSchema GetSchema(string path)
 		{
 			string content;
 			using (var reader = new StreamReader(path))

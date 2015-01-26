@@ -19,9 +19,6 @@ namespace TerrificNet.ModelProviders
 
         public object GetDefaultModelForTemplate(TemplateInfo template)
         {
-            if (template.Id != "components/modules/ApplicationOverview/ApplicationOverview")
-                return null;
-
             var model = new ApplicationOverviewModel
             {
                 Applications = _applications.Select(a => new ViewOverviewModel
@@ -36,8 +33,7 @@ namespace TerrificNet.ModelProviders
 
         public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
-            if (template.Id == "components/modules/ApplicationOverview/ApplicationOverview")
-                throw new NotSupportedException();
+            throw new NotSupportedException();
         }
 
         public object GetModelForTemplate(TemplateInfo template, string dataId)
