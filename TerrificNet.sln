@@ -61,6 +61,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{95B02D
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ConsoleHost", "TerrificNet.ConsoleHost\TerrificNet.ConsoleHost.csproj", "{54C555EA-256E-4D9A-A783-499D16868DA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{376DE047-3724-4E58-A3AB-229F678DAE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{376DE047-3724-4E58-A3AB-229F678DAE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{376DE047-3724-4E58-A3AB-229F678DAE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54C555EA-256E-4D9A-A783-499D16868DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54C555EA-256E-4D9A-A783-499D16868DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54C555EA-256E-4D9A-A783-499D16868DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54C555EA-256E-4D9A-A783-499D16868DA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

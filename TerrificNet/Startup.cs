@@ -2,7 +2,6 @@ using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Routing;
 using Microsoft.Practices.Unity;
-using Owin;
 using TerrificNet.Dispatcher;
 using TerrificNet.UnityModules;
 using Unity.WebApi;
@@ -11,11 +10,9 @@ namespace TerrificNet
 {
 	public class Startup
 	{
-		public void Configuration(IAppBuilder appBuilder, IUnityContainer container)
+		public void Configuration(IUnityContainer container, HttpConfiguration config)
 		{
-			var config = new HttpConfiguration();
-
-            //config.Routes.MapHttpRoute(
+		    //config.Routes.MapHttpRoute(
             //    name: "ViewIndex",
             //    routeTemplate: "web/index.html",
             //    defaults: new { controller = "viewIndex", section="web/" }
@@ -35,7 +32,6 @@ namespace TerrificNet
             config.DependencyResolver = new UnityDependencyResolver(container);
             config.Services.Replace(typeof(IHttpControllerActivator), new ApplicationSpecificControllerActivator(config));
 
-			appBuilder.UseWebApi(config);
 		}
 
 	    private static void MapArea(HttpConfiguration config, string section = null)
