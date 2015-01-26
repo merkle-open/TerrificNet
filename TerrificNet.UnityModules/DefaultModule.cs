@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System;
+using System.Runtime.Serialization;
+using Microsoft.Practices.Unity;
 using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Cache;
@@ -18,13 +20,20 @@ namespace TerrificNet.UnityModules
 
 	    public static TerrificNetApplication RegisterForApplication(IUnityContainer childContainer, string basePath, string applicationName, string section)
 	    {
-	        var config = ConfigurationLoader.LoadTerrificConfiguration(basePath);
-	        var application = new TerrificNetApplication(applicationName, section, config, childContainer);
+	        try
+	        {
+	            var config = ConfigurationLoader.LoadTerrificConfiguration(basePath);
+	            var application = new TerrificNetApplication(applicationName, section, config, childContainer);
 
-            childContainer.RegisterInstance(application);
-	        RegisterForConfiguration(childContainer, config);
-	        
-            return application;
+	            childContainer.RegisterInstance(application);
+	            RegisterForConfiguration(childContainer, config);
+
+	            return application;
+	        }
+	        catch (ConfigurationException ex)
+	        {
+	            throw new InvalidApplicationException(string.Format("Could not load the configuration for application '{0}'.", applicationName), ex);
+	        }
 	    }
 
 	    public static void RegisterForConfiguration(IUnityContainer container, ITerrificNetConfig item)
@@ -47,4 +56,26 @@ namespace TerrificNet.UnityModules
 			container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
 		}
 	}
+
+    [Serializable]
+    public class InvalidApplicationException : Exception
+    {
+        public InvalidApplicationException()
+        {
+        }
+
+        public InvalidApplicationException(string message) : base(message)
+        {
+        }
+
+        public InvalidApplicationException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
+        protected InvalidApplicationException(
+            SerializationInfo info,
+            StreamingContext context) : base(info, context)
+        {
+        }
+    }
 }

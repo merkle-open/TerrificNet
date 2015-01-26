@@ -48,6 +48,7 @@
     <Compile Include="Cache\ICacheProvider.cs" />
     <Compile Include="Cache\MemoryCacheProvider.cs" />
     <Compile Include="Cache\NullCacheProvider.cs" />
+    <Compile Include="Config\ConfigurationException.cs" />
     <Compile Include="Config\ConfigurationLoader.cs" />
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="Config\TerrificNetConfig.cs" />

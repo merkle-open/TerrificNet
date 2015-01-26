@@ -13,15 +13,21 @@ namespace TerrificNet.ViewEngine.Config
 
         public static ITerrificNetConfig LoadTerrificConfiguration(string basePath, string fileName)
         {
+            if (!Path.IsPathRooted(basePath))
+                basePath = Path.GetFullPath(basePath);
+
+            if (!Directory.Exists(basePath))
+                throw new ConfigurationException(string.Format("The base path ('{0}') for the configuration doesn't exist.", basePath));
+
             var configPath = Path.Combine(basePath, fileName);
+            if (!File.Exists(configPath))
+                throw new ConfigurationException(string.Format("Could not find configuration in path '{0}'.", configPath));
+
             TerrificNetConfig config;
             using (var reader = new JsonTextReader(new StreamReader(configPath)))
             {
                 config = new JsonSerializer().Deserialize<TerrificNetConfig>(reader);
             }
-
-            if (!Path.IsPathRooted(basePath))
-                basePath = Path.GetFullPath(basePath);
 
             config.BasePath = basePath;
             config.ViewPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.ViewPath, basePath, "views"));
