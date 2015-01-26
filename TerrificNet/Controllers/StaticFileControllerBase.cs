@@ -5,23 +5,31 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controllers
 {
     public abstract class StaticFileControllerBase : ApiController
 	{
-	    public abstract HttpResponseMessage Get(string path);
+        private readonly IFileSystem _fileSystem;
+
+        public StaticFileControllerBase(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+        }
+
+        public abstract HttpResponseMessage Get(string path);
 
         protected abstract string FilePath { get; }
 
 	    protected HttpResponseMessage GetInternal(string path)
 	    {
             var filePath = Path.Combine(this.FilePath, path);
-            if (!File.Exists(filePath))
+            if (!_fileSystem.FileExists(filePath))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
+            var stream = _fileSystem.OpenRead(filePath);
+            var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream.BaseStream) };
             message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(Path.GetExtension(path).ToLower()));
             return message;
 	    }

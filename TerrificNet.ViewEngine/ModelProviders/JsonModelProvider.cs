@@ -6,12 +6,14 @@ namespace TerrificNet.ViewEngine.ModelProviders
 {
     public class JsonModelProvider : IModelProvider
     {
+        private readonly IFileSystem _fileSystem;
         private const string DefaultFilename = "_default.json";
         private const string Foldername = "..\\data";
         private readonly string _basePath;
 
-        public JsonModelProvider(ITerrificNetConfig config)
+        public JsonModelProvider(ITerrificNetConfig config, IFileSystem fileSystem)
         {
+            _fileSystem = fileSystem;
             _basePath = config.BasePath;
         }
 
@@ -23,7 +25,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
         public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
             var filePath = GetPath(template, DefaultFilename);
-            using (var stream = new StreamWriter(filePath))
+            using (var stream = _fileSystem.OpenWrite(filePath))
             {
                 var value = JsonConvert.SerializeObject(content);
                 stream.Write(value);
@@ -34,10 +36,10 @@ namespace TerrificNet.ViewEngine.ModelProviders
         {
             var filePath = GetPath(template, dataId);
 
-            if (!File.Exists(filePath))
+            if (!_fileSystem.FileExists(filePath))
                 return null;
 
-            using (var stream = new StreamReader(filePath))
+            using (var stream = _fileSystem.OpenRead(filePath))
             {
                 var content = stream.ReadToEnd();
                 return JsonConvert.DeserializeObject(content);

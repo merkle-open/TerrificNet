@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Web.Http;
+using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.Controllers
@@ -8,7 +9,7 @@ namespace TerrificNet.Controllers
 	{
 		private readonly ITerrificNetConfig _config;
 
-		public ComponentAssetsController(ITerrificNetConfig config)
+		public ComponentAssetsController(ITerrificNetConfig config, IFileSystem fileSystem) : base(fileSystem)
 		{
 			_config = config;
 		}

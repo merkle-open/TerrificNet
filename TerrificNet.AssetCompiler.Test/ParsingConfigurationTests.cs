@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.AssetCompiler.Test
@@ -16,7 +17,7 @@ namespace TerrificNet.AssetCompiler.Test
         public void ParseValidJson()
         {
             const string file = "valid.json";
-            var config = ConfigurationLoader.LoadTerrificConfiguration(Path.Combine(TestContext.DeploymentDirectory, "configs"), file);
+            var config = ConfigurationLoader.LoadTerrificConfiguration(Path.Combine(TestContext.DeploymentDirectory, "configs"), file, new FileSystem());
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));
@@ -28,14 +29,14 @@ namespace TerrificNet.AssetCompiler.Test
         public void ParseInvalidJson()
         {
             const string fileName = "invalid.json";
-            var config = ConfigurationLoader.LoadTerrificConfiguration(Path.Combine(TestContext.DeploymentDirectory, "configs"), fileName);
+            var config = ConfigurationLoader.LoadTerrificConfiguration(Path.Combine(TestContext.DeploymentDirectory, "configs"), fileName, new FileSystem());
         }
 
         [TestMethod]
         [DeploymentItem("configs/config.json")]
         public void ParseDefaultConfig()
         {
-            var config = ConfigurationLoader.LoadTerrificConfiguration(TestContext.DeploymentDirectory);
+            var config = ConfigurationLoader.LoadTerrificConfiguration(TestContext.DeploymentDirectory, new FileSystem());
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));
@@ -45,7 +46,7 @@ namespace TerrificNet.AssetCompiler.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void ParseNullConfig()
         {
-            var config = ConfigurationLoader.LoadTerrificConfiguration(null);
+            var config = ConfigurationLoader.LoadTerrificConfiguration(null, new FileSystem());
         }
     }
 }

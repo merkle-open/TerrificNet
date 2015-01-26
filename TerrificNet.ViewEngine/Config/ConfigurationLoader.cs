@@ -6,25 +6,26 @@ namespace TerrificNet.ViewEngine.Config
 {
     public static class ConfigurationLoader
     {
-        public static ITerrificNetConfig LoadTerrificConfiguration(string basePath)
+        public static ITerrificNetConfig LoadTerrificConfiguration(string basePath, IFileSystem fileSystem)
         {
-            return LoadTerrificConfiguration(basePath, "config.json");
+            return LoadTerrificConfiguration(basePath, "config.json", fileSystem);
         }
 
-        public static ITerrificNetConfig LoadTerrificConfiguration(string basePath, string fileName)
+        public static ITerrificNetConfig LoadTerrificConfiguration(string basePath, string fileName, IFileSystem fileSystem)
         {
-            if (!Path.IsPathRooted(basePath))
-                basePath = Path.GetFullPath(basePath);
+            // TODO: check need
+            //if (!Path.IsPathRooted(basePath))
+            //    basePath = Path.GetFullPath(basePath);
 
-            if (!Directory.Exists(basePath))
+            if (!fileSystem.DirectoryExists(basePath))
                 throw new ConfigurationException(string.Format("The base path ('{0}') for the configuration doesn't exist.", basePath));
 
             var configPath = Path.Combine(basePath, fileName);
-            if (!File.Exists(configPath))
+            if (!fileSystem.FileExists(configPath))
                 throw new ConfigurationException(string.Format("Could not find configuration in path '{0}'.", configPath));
 
             TerrificNetConfig config;
-            using (var reader = new JsonTextReader(new StreamReader(configPath)))
+            using (var reader = new JsonTextReader(fileSystem.OpenRead(configPath)))
             {
                 config = new JsonSerializer().Deserialize<TerrificNetConfig>(reader);
             }

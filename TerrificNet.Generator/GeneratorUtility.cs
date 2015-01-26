@@ -35,11 +35,12 @@ namespace TerrificNet.Generator
 
         private static void ExecuteInternal(string sourcePath, Action<JsonSchemaCodeGenerator, IEnumerable<JsonSchema>> executeAction)
         {
-            var config = ConfigurationLoader.LoadTerrificConfiguration(sourcePath);
+            var config = ConfigurationLoader.LoadTerrificConfiguration(sourcePath, new FileSystem());
 
+            var fileSystem = new FileSystem();
             var schemaProvider = new SchemaMergeProvider(new HandlebarsViewSchemaProvider(),
-                new PhysicalSchemaProvider(config));
-            var repo = new TerrificTemplateRepository(config);
+                new PhysicalSchemaProvider(config, fileSystem));
+            var repo = new TerrificTemplateRepository(config, fileSystem);
             var codeGenerator = new JsonSchemaCodeGenerator();
 
             var schemas = repo.GetAll().Select(schemaProvider.GetSchemaFromTemplate).ToList();

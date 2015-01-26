@@ -8,6 +8,7 @@ using TerrificNet.AssetCompiler.Compiler;
 using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
 using TerrificNet.AssetCompiler.Processors;
+using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.AssetCompiler.Test
@@ -23,7 +24,7 @@ namespace TerrificNet.AssetCompiler.Test
 		[TestInitialize]
 		public void Init()
 		{
-		    _terrificConfig = ConfigurationLoader.LoadTerrificConfiguration(TestContext.DeploymentDirectory);
+            _terrificConfig = ConfigurationLoader.LoadTerrificConfiguration(TestContext.DeploymentDirectory, new FileSystem());
 
 		    _container = new UnityContainer();
 			_container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");

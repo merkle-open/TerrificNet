@@ -18,14 +18,16 @@ namespace TerrificNet.Controllers
 		private readonly IModelProvider _modelProvider;
 		private readonly ITemplateRepository _templateRepository;
 	    private readonly ITerrificNetConfig _configuration;
+	    private readonly IFileSystem _fileSystem;
 
 	    public TemplateController(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateRepository templateRepository,
-            ITerrificNetConfig configuration)
+            ITerrificNetConfig configuration, IFileSystem fileSystem)
 		{
 			_viewEngine = viewEngine;
 			_modelProvider = modelProvider;
 			_templateRepository = templateRepository;
 		    _configuration = configuration;
+	        _fileSystem = fileSystem;
 		}
 
 		[HttpGet]
@@ -39,9 +41,9 @@ namespace TerrificNet.Controllers
 		        !_viewEngine.TryCreateView(templateInfo, out view))
 		    {
 		        var fileName = Path.ChangeExtension(Path.Combine(_configuration.ViewPath, path), "html.json");
-		        if (File.Exists(fileName))
+		        if (_fileSystem.FileExists(fileName))
 		        {
-                    using (var reader = new JsonTextReader(new StreamReader(fileName)))
+                    using (var reader = new JsonTextReader(_fileSystem.OpenRead(fileName)))
                     {
                         var viewDefinition = new JsonSerializer().Deserialize<ViewDefinition>(reader);
                         if (viewDefinition != null)

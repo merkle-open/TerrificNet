@@ -11,13 +11,15 @@ namespace TerrificNet.ViewEngine
 		private const string HtmlExtension = "html";
 
 		private readonly ITerrificNetConfig _config;
+	    private readonly IFileSystem _fileSystem;
 
-		public TerrificTemplateRepository(ITerrificNetConfig config)
+	    public TerrificTemplateRepository(ITerrificNetConfig config, IFileSystem fileSystem)
 		{
-			_config = config;
+		    _config = config;
+		    _fileSystem = fileSystem;
 		}
 
-		public bool TryGetTemplate(string id, string skin, out TemplateInfo templateInfo)
+	    public bool TryGetTemplate(string id, string skin, out TemplateInfo templateInfo)
 		{
 		    var fileName = id;
 			if (!string.IsNullOrEmpty(skin))
@@ -29,26 +31,30 @@ namespace TerrificNet.ViewEngine
 
 	    private IEnumerable<TemplateInfo> Read(string directory)
 	    {
-	        if (!Directory.Exists(directory))
+	        if (!_fileSystem.DirectoryExists(directory))
 	            return Enumerable.Empty<TemplateInfo>();
 
-			return Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories).Select(f =>
+			return _fileSystem.DirectoryGetFiles(directory, "html").Select(f =>
 			{
-			    var info = new FileInfo(f);
-			    var relativePath = GetTemplateId(info);
-                return new FileTemplateInfo(relativePath, info); 
+			    var relativePath = GetTemplateId(f);
+                return new FileTemplateInfo(relativePath, f, _fileSystem); 
             });
 	    }
 
-	    private string GetTemplateId(FileInfo info)
+	    private string GetTemplateId(string info)
 	    {
-	        var path = Path.Combine(info.DirectoryName, Path.GetFileNameWithoutExtension(info.Name));
-            var id = new Uri(path).AbsoluteUri.Remove(0, new Uri(_config.BasePath).AbsoluteUri.Length);
+	        var path = Path.Combine(Path.GetDirectoryName(info), Path.GetFileNameWithoutExtension(info));
+            var id = NormalizePath(path).Remove(0, NormalizePath(_config.BasePath).Length);
 	        if (id[0] == '/')
 	            return id.Substring(1);
 
             return id;
 	    }
+
+        private static string NormalizePath(string directory)
+        {
+            return directory.TrimStart('/').Replace('\\', '/');
+        }
 
 	    public IEnumerable<TemplateInfo> GetAll()
 	    {

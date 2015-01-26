@@ -52,7 +52,7 @@ namespace TerrificNet
             {
                 var childContainer = container.CreateChildContainer();
 
-                var app = DefaultUnityModule.RegisterForApplication(childContainer, Path.Combine(path, item.BasePath),
+                var app = DefaultUnityModule.RegisterForApplication(childContainer, path, item.BasePath,
                     item.ApplicationName, item.Section);
                 container.RegisterInstance(item.ApplicationName, app);
             }

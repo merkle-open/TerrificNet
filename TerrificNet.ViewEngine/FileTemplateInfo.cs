@@ -4,16 +4,18 @@ namespace TerrificNet.ViewEngine
 {
     internal class FileTemplateInfo : TemplateInfo
     {
-        private readonly FileInfo _file;
+        private readonly string _filePath;
+        private readonly IFileSystem _fileSystem;
 
-        public FileTemplateInfo(string id, FileInfo file) : base(id)
+        public FileTemplateInfo(string id, string filePath, IFileSystem fileSystem) : base(id)
         {
-            _file = file;
+            _filePath = filePath;
+            _fileSystem = fileSystem;
         }
 
         public override Stream Open()
         {
-            return _file.OpenRead();
+            return _fileSystem.OpenRead(_filePath).BaseStream;
         }
     }
 }
