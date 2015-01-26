@@ -26,7 +26,7 @@ namespace TerrificNet.Test
             var namingRule = new NamingRule();
             var codeGenerator = new JsonSchemaCodeGenerator(namingRule);
             const string input = "<p>{{name}}</p><p>{{first_name}}</p>";
-            var templateInfo = new StringTemplateInfo("test", input);
+            var templateInfo = new StringTemplateInfo("views/test", input);
 
             var schema = schemaProvider.GetSchemaFromTemplate(templateInfo);            
             var modelType = codeGenerator.Compile(schema);
