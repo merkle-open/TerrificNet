@@ -21,7 +21,7 @@ namespace TerrificNet.UnityModules
 	        var config = ConfigurationLoader.LoadTerrificConfiguration(basePath);
 	        var application = new TerrificNetApplication(applicationName, section, config, childContainer);
 
-	        childContainer.RegisterInstance(application);
+            childContainer.RegisterInstance(application);
 	        RegisterForConfiguration(childContainer, config);
 	        
             return application;
@@ -29,7 +29,7 @@ namespace TerrificNet.UnityModules
 
 	    public static void RegisterForConfiguration(IUnityContainer container, ITerrificNetConfig item)
 	    {
-	        container.RegisterInstance(item);
+            container.RegisterInstance(item);
 	        RegisterApplicationSpecific(container);
 	    }
 
@@ -37,8 +37,10 @@ namespace TerrificNet.UnityModules
 		{
 			container.RegisterType<IViewEngine, VeilViewEngine>();
 			container.RegisterType<ICacheProvider, MemoryCacheProvider>();
-			container.RegisterType<IModelProvider, DefaultModelProvider>();
-            container.RegisterType<IModelProvider, JsonModelProvider>("json");
+            container.RegisterType<IModelProvider, JsonModelProvider>("fallback");
+
+            container.RegisterType<IModelProvider, DefaultModelProvider>(new ContainerControlledLifetimeManager(), new InjectionConstructor(new ResolvedParameter<IModelProvider>("fallback")));
+
 			container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
 				new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),
 					new ResolvedParameter<PhysicalSchemaProvider>()));

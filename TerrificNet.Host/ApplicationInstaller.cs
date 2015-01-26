@@ -24,12 +24,14 @@ namespace TerrificNet.Host
             var fileSystem = workspace.GetFileSystem();
             var packageManager = new PackageManager(repo, new DefaultPackagePathResolver(fileSystem), fileSystem, localRepo);
 
-            packageManager.Logger = new ConsoleLogger();
+            packageManager.Logger = Logger;
             packageManager.PackageInstalled += (s, args) => InstallIntoWorkspace(workspace, args.Package);
             packageManager.InstallPackage(_settings.PackageId, null, false, true);
 
             return Task.FromResult<object>(null);
         }
+
+        public ILogger Logger { get; set; }
 
         private void InstallIntoWorkspace(ApplicationWorkspace workspace, IPackage package)
         {

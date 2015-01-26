@@ -20,6 +20,9 @@ namespace TerrificNet.ViewEngine.Config
                 config = new JsonSerializer().Deserialize<TerrificNetConfig>(reader);
             }
 
+            if (!Path.IsPathRooted(basePath))
+                basePath = Path.GetFullPath(basePath);
+
             config.BasePath = basePath;
             config.ViewPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.ViewPath, basePath, "views"));
             config.ModulePath = Path.Combine(basePath,

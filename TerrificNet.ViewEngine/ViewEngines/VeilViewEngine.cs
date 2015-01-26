@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Cache;
 using Veil;
 using Veil.Compiler;
@@ -72,8 +74,13 @@ namespace TerrificNet.ViewEngine.ViewEngines
                 if (model != null)
                     _adaptee.Render((T) model, context);
                 else
+                {
                     // TODO: Verify what is to be done with null model values
-                    _adaptee.Render(Activator.CreateInstance<T>(), context);
+                    if (typeof(T) == typeof(object))
+                        _adaptee.Render((T)(object) new JObject(), context);
+                    else
+                        _adaptee.Render(Activator.CreateInstance<T>(), context);
+                }
             }
         }
 

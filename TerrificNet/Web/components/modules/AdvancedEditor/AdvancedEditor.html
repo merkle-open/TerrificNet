@@ -1,0 +1,17 @@
+﻿<div class="row">
+    <div id="content" class="col-md-6"></div>
+    <div class="col-md-6">{{placeholder key="rightPanel"}}</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var query = Common.parseQueryString(window.location.href);
+        var template = query["template"];
+
+        var $contentFrame = $('<iframe />').attr('src', template).height($(document).height()).width($("#content").width())
+            .appendTo($("#content"));
+
+        $(document).contents().find("#submit").click(function() {
+            $contentFrame.attr('src', $contentFrame.attr('src'));
+        });
+    });
+</script>

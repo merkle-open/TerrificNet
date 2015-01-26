@@ -1,44 +1,25 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NuGet;
-using HttpClient = NuGet.HttpClient;
 
 namespace TerrificNet.Host
 {
     class Program
     {
-        class MyHttpClient : HttpClient
-        {
-            private WebRequest _client;
-
-            public MyHttpClient(Uri uri) : base(uri)
-            {
-                _client = WebRequest.Create(uri);
-            }
-
-            public override System.Net.WebResponse GetResponse()
-            {
-                return _client.GetResponse();
-
-                //return base.GetResponse();
-            }
-        }
-
         static void Main(string[] args)
         {
-            PackageRepositoryFactory.Default.HttpClientFactory = uri => new MyHttpClient(uri);
-
             var rootDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var configuration = ReadConfiguration(rootDirectory);
 
-            var installers = configuration.Projects.Values.Select(s => new ApplicationInstaller(s));
-            var workspace = new ApplicationWorkspace(configuration.Workspace);
+            var logger = new ConsoleLogger();
+            var installers = configuration.Projects.Values.Select(s => new ApplicationInstaller(s) { Logger = logger });
+            var workspace = new ApplicationWorkspace(configuration.Workspace)
+            {
+                Logger = logger
+            };
             InstallAll(workspace, installers.ToArray()).Wait();
 
             Console.Read();

@@ -1,36 +1,48 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace TerrificNet.ViewEngine.ModelProviders
 {
     public class DefaultModelProvider : IModelProvider
     {
-        private readonly IModelProvider[] _modelProviders;
+        private readonly IModelProvider _fallbackProvider;
+        private readonly Dictionary<string, IModelProvider> _providers = new Dictionary<string,IModelProvider>(); 
 
-        public DefaultModelProvider(IModelProvider[] modelProviders)
+        public DefaultModelProvider(IModelProvider fallbackProvider)
         {
-            _modelProviders = modelProviders;
+            _fallbackProvider = fallbackProvider;
+        }
+
+        public void RegisterProviderForTemplate(TemplateInfo template, IModelProvider provider)
+        {
+            if (!_providers.ContainsKey(template.Id))
+                _providers.Add(template.Id, provider);
         }
 
         public object GetDefaultModelForTemplate(TemplateInfo template)
         {
-            foreach (var provider in _modelProviders)
-            {
-                var model = provider.GetDefaultModelForTemplate(template);
-                if (model != null)
-                    return model;
-            }
-
-            return null;
+            var provider = GetProvider(template);
+            return provider.GetDefaultModelForTemplate(template);
         }
 
         public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
-            throw new NotImplementedException();
+            var provider = GetProvider(template);
+            provider.UpdateDefaultModelForTemplate(template, content);
         }
 
         public object GetModelForTemplate(TemplateInfo template, string dataId)
         {
-            throw new NotImplementedException();
+            var provider = GetProvider(template);
+            return provider.GetModelForTemplate(template, dataId);
         }
+
+        private IModelProvider GetProvider(TemplateInfo template)
+        {
+            IModelProvider provider;
+            if (!_providers.TryGetValue(template.Id, out provider))
+                provider = _fallbackProvider;
+            return provider;
+        }
+
     }
 }

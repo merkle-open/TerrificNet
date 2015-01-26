@@ -161,6 +161,8 @@
     <None Include="TerrificNet.nuspec" />
     <None Include="Web\components\modules\ApplicationOverview\data\variation1.json" />
     <None Include="Web\components\modules\ApplicationOverview\data\_default.json" />
+    <None Include="Web\views\edit_advanced.html.json" />
+    <None Include="Web\views\edit.html.json" />
     <None Include="Web\views\index.html.json" />
   </ItemGroup>
   <ItemGroup>
@@ -192,10 +194,10 @@
     <Content Include="Web\assets\jsoneditor.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web\views\edit.html">
+    <Content Include="Web\components\modules\DataEditor\DataEditor.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web\views\edit_advanced.html">
+    <Content Include="Web\components\modules\AdvancedEditor\AdvancedEditor.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web\views\_layouts\_layout.html">

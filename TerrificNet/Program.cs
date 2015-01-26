@@ -8,6 +8,7 @@ using TerrificNet.Controllers;
 using TerrificNet.ModelProviders;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet
@@ -38,10 +39,12 @@ namespace TerrificNet
                 var childContainer = container.CreateChildContainer();
 
                 var app = DefaultUnityModule.RegisterForApplication(childContainer, Path.Combine(path, item.BasePath), item.ApplicationName, item.Section);
-
-                childContainer.RegisterType<IModelProvider, ApplicationOverviewModelProvider>();
-
                 container.RegisterInstance(item.ApplicationName, app);
+            }
+
+            foreach (var app in container.ResolveAll<TerrificNetApplication>())
+            {
+                RegisterModelProviders(app.Container);
             }
 
             new TerrificBundleUnityModule().Configure(container);
@@ -52,6 +55,18 @@ namespace TerrificNet
                 Console.WriteLine("Started on " + baseAddress);
                 Console.ReadLine();
             }
+        }
+
+        private static void RegisterModelProviders(IUnityContainer childContainer)
+        {
+            var modelProvider = (DefaultModelProvider) childContainer.Resolve<IModelProvider>();
+            var repo = childContainer.Resolve<ITemplateRepository>();
+
+            TemplateInfo templateInfo;
+            if (repo.TryGetTemplate("components/modules/ApplicationOverview/ApplicationOverview", null,
+                out templateInfo))
+                modelProvider.RegisterProviderForTemplate(templateInfo,
+                    childContainer.Resolve<ApplicationOverviewModelProvider>());
         }
     }
 }

@@ -1,0 +1,46 @@
+﻿<div id='editor_holder'></div>
+<button id='submit'>Save</button>
+
+<script>
+    // Set the default CSS theme and icon library globally
+    JSONEditor.defaults.theme = 'bootstrap3';
+    JSONEditor.defaults.iconlib = 'fontawesome4';
+
+    $(document).ready(function () {
+        var editor = null;
+        var variables = Common.parseQueryString(window.location.href);
+        var template = variables["template"];
+        var schemaUrl = variables["schema"];
+        var dataUrl = variables["data"];
+
+        $("h1").html(template);
+        document.title = template;
+
+        $.get(schemaUrl, function (data) {
+            editor = new JSONEditor(document.getElementById('editor_holder'), {
+                schema: data
+            });
+
+            $.get(dataUrl, function (model) {
+                editor.setValue(model);
+            });
+        });
+
+        // Hook up the submit button to log to the console
+        $('#submit').click(function () {
+            // Get the value from the editor
+            console.log(editor.getValue());
+
+            if (editor.validate()) {
+                $.ajax({
+                    type: 'PUT',
+                    url: dataUrl,
+                    data: JSON.stringify(editor.getValue()),
+                    headers: { "Content-Type": "application/json" },
+                });
+            }
+
+        });
+
+    });
+</script>
