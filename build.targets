@@ -1,0 +1,50 @@
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <!-- Windows specific commands -->
+    <NuGetToolsPath>$([System.IO.Path]::Combine($(SolutionDir), ".nuget"))</NuGetToolsPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
+    <!-- We need to launch nuget.exe with the mono command if we're not on windows -->
+    <NuGetToolsPath>$(SolutionDir).nuget</NuGetToolsPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      BuildPackageCustom;
+      PublishPackage;
+    </BuildDependsOn>
+
+    <NuGetExePath Condition=" '$(NuGetExePath)' == '' ">$(NuGetToolsPath)\NuGet.exe</NuGetExePath>
+
+    <NuGetCommand Condition=" '$(OS)' == 'Windows_NT'">"$(NuGetExePath)"</NuGetCommand>
+    <NuGetCommand Condition=" '$(OS)' != 'Windows_NT' ">mono --runtime=v4.0.30319 $(NuGetExePath)</NuGetCommand>
+
+    <NugetRepository Condition="$(NugetRepository) == ''">C:\nuget_repository</NugetRepository>
+
+    <BuildPackage Condition="$(BuildPackage) == ''">true</BuildPackage>
+    <PublishPackage Condition="'$(PublishPackage)' == ''">true</PublishPackage>
+
+    <_NugetApiKey Condition="'$(NugetApiKey)' != ''"> -ApiKey "$(NugetApiKey)"</_NugetApiKey>
+
+    <PackageOutputDir>$([System.IO.Path]::GetDirectoryName('$(ProjectDir)$(IntermediateOutputPath)'))</PackageOutputDir>
+    <PackageSpec>$(ProjectPath.Replace('.csproj', '.nuspec'))</PackageSpec>
+    <PackageOutput>$(ProjectName.Replace('.csproj', '')).*.nupkg</PackageOutput>
+    <PackageSymbolsOutput>$(ProjectName.Replace('.csproj', '')).*.symbols.nupkg</PackageSymbolsOutput>
+    <BuildCommandSolution>$(NuGetCommand) pack "$(ProjectPath)" -Properties "Configuration=$(Configuration);Platform=$(Platform)" $(NonInteractiveSwitch) -OutputDirectory "$(PackageOutputDir)" -Symbols -IncludeReferencedProjects</BuildCommandSolution>
+    <PublishCommand>$(NuGetCommand) push "$(PackageOutputDir)\$(PackageOutput)" $(_NugetApiKey) -source "$(NugetRepository)"</PublishCommand>
+    <PublishSymbolsCommand>$(NuGetCommand) push "$(PackageOutputDir)\$(PackageSymbolsOutput)" $(_NugetApiKey) -source "$(NugetRepository)"</PublishSymbolsCommand>
+  </PropertyGroup>
+
+  <Target Name="PublishPackage" Condition="'$(PublishPackage)' == 'true'">
+    <Exec Command="$(PublishCommand)" LogStandardErrorAsError="true" />
+    <Exec Command="$(PublishSymbolsCommand)" LogStandardErrorAsError="true" />
+  </Target>
+
+  <Target Name="BuildPackageCustom" Condition="$(BuildPackage) == 'true'">
+    <Exec Command="$(BuildCommandSolution)" LogStandardErrorAsError="true" />
+  </Target>
+
+</Project>

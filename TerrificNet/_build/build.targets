@@ -16,9 +16,9 @@
   </ItemGroup>
 
   <Target Name="BuildZipFromWebDirectory">
-    <Zip Files="@(ZipFiles)" ZipFileName="web.zip" />
+    <Zip Files="@(ZipFiles)" ZipFileName="$(IntermediateOutputPath)\content\web.zip" />
     <ItemGroup>
-      <Content Include="web.zip" />
+      <Content Include="$(IntermediateOutputPath)\content\web.zip" />
     </ItemGroup>
   </Target>
 </Project>
