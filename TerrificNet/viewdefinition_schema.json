@@ -1,0 +1,42 @@
+﻿{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "http://terrific.namics.com/entry-schema#",
+    "type": "object",
+    "$ref": "#/definitions/viewDefinition",
+    "definitions": {
+        "viewDefinition": {
+            "title": "viewDefinition",
+            "headerTemplate": "{{self.template}}",
+            "type": "object",
+            "properties": {
+                "template": {
+                    "type": "string"
+                },
+                "_placeholder": {
+                    "title":  "Placeholders",
+                    "format": "tabs",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "headerTemplate": "{{self.name}}",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "content": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/viewDefinition"
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "placeholderDefinition": {
+
+        }
+    }
+    }
