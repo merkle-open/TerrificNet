@@ -52,7 +52,7 @@ namespace TerrificNet.Mvc
                     return new ViewEngineResult(new TerrificViewAdapter(view), this);
             }
 
-            throw new NotSupportedException();
+            return new ViewEngineResult(new[] { viewName, controllerName });
         }
 
         private class TerrificViewAdapter : IView, IViewDataContainer
