@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
 using TerrificNet.Configuration;
@@ -7,10 +8,8 @@ namespace TerrificNet.WebHost
 {
     public class TerrificHttpApplication : HttpApplication
     {
-        public override void Init()
+        protected void Application_Start(object sender, EventArgs args)
         {
-            base.Init();
-
             GlobalConfiguration.Configure(config =>
             {
                 var configuration = new TerrificNetHostConfiguration

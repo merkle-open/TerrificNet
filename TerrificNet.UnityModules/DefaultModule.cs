@@ -25,9 +25,6 @@ namespace TerrificNet.UnityModules
         {
             try
             {
-                //childContainer.RegisterType<IFileSystem, FileSystem>("file");
-                //childContainer.RegisterType<IFileSystem, ZipFileSystem>("zip");
-
                 IFileSystem fileSystem;
 
                 var uri = new Uri(basePath, UriKind.RelativeOrAbsolute);
@@ -66,15 +63,16 @@ namespace TerrificNet.UnityModules
             string result = string.Empty;
             foreach (var segment in new[] { uri.Host }.Union(uri.Segments))
             {
-                pathBuilder.Append(segment);
+                var part = segment.TrimEnd('/');
+                pathBuilder.Append(part);
 
-                if (!string.IsNullOrEmpty(Path.GetExtension(segment)))
+                if (!string.IsNullOrEmpty(Path.GetExtension(part)))
                 {
                     result = pathBuilder.ToString();
                     pathBuilder.Clear();
                 }
-                //else
-                    //pathBuilder.Append('/');
+                else
+                    pathBuilder.Append('/');
             }
 
             rootPath = pathBuilder.ToString();

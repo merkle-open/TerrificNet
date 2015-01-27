@@ -2,7 +2,7 @@
     "applications": {
         "admin": {
             "section": "web/",
-            "basePath": "zip://Web.zip/Web"
+            "basePath": "../TerrificNet/Web"
         },
         "sample": {
             "section":  "",
