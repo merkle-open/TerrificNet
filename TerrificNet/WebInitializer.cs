@@ -13,6 +13,12 @@ static public class WebInitializer
 {
     public static UnityContainer Initialize(string path)
     {
+        var configuration = TerrificNetHostConfigurationLoader.LoadConfiguration(Path.Combine(path, "application.json"));
+        return Initialize(path, configuration);
+    }
+
+    public static UnityContainer Initialize(string path, TerrificNetHostConfiguration configuration)
+    {
         var container = new UnityContainer();
         container
             .RegisterType
@@ -21,7 +27,6 @@ static public class WebInitializer
 
         new DefaultUnityModule().Configure(container);
 
-        var configuration = TerrificNetHostConfigurationLoader.LoadConfiguration(Path.Combine(path, "application.json"));
         foreach (var item in configuration.Applications.Values)
         {
             var childContainer = container.CreateChildContainer();

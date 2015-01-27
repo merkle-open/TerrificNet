@@ -1,5 +1,7 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Http;
+using TerrificNet.Configuration;
 
 namespace TerrificNet.WebHost
 {
@@ -11,7 +13,27 @@ namespace TerrificNet.WebHost
 
             GlobalConfiguration.Configure(config =>
             {
-                var container = WebInitializer.Initialize(string.Empty);
+                var configuration = new TerrificNetHostConfiguration
+                {
+                    Applications = new Dictionary<string, TerrificNetApplicationConfiguration>
+                    {
+                        { "administration", new TerrificNetApplicationConfiguration
+                        {
+                            BasePath = "zip://Web.zip/Web",
+                            ApplicationName = "administration",
+                            Section = "web/"
+                        } 
+                        },
+                        { "application", new TerrificNetApplicationConfiguration
+                        {
+                            BasePath = "",
+                            ApplicationName = "application",
+                            Section = ""
+                        }}
+                    }
+                };
+
+                var container = WebInitializer.Initialize(this.Server.MapPath("/"), configuration);
                 new Startup().Configuration(container, config);
             });
         }

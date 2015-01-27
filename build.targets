@@ -24,8 +24,8 @@
 
     <NugetRepository Condition="$(NugetRepository) == ''">C:\nuget_repository</NugetRepository>
 
-    <BuildPackage Condition="$(BuildPackage) == ''">true</BuildPackage>
-    <PublishPackage Condition="'$(PublishPackage)' == ''">true</PublishPackage>
+    <BuildPackage Condition="$(BuildPackage) == ''">false</BuildPackage>
+    <PublishPackage Condition="'$(PublishPackage)' == ''">false</PublishPackage>
 
     <_NugetApiKey Condition="'$(NugetApiKey)' != ''"> -ApiKey "$(NugetApiKey)"</_NugetApiKey>
 
