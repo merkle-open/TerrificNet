@@ -8,8 +8,8 @@ namespace TerrificNet.ViewEngine
     {
         bool DirectoryExists(string directory);
         IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension);
-        StreamReader OpenRead(string filePath);
-        StreamWriter OpenWrite(string filePath);
+		Stream OpenRead(string filePath);
+        Stream OpenWrite(string filePath);
         bool FileExists(string filePath);
     }
 }

@@ -15,7 +15,7 @@ namespace TerrificNet.ViewEngine
 
         public override Stream Open()
         {
-            return _fileSystem.OpenRead(_filePath).BaseStream;
+            return _fileSystem.OpenRead(_filePath);
         }
     }
 }

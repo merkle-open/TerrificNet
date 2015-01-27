@@ -28,7 +28,7 @@ namespace TerrificNet.ViewEngine.Config
                 throw new ConfigurationException(string.Format("Could not find configuration in path '{0}'.", configPath));
 
             TerrificNetConfig config;
-            using (var reader = new JsonTextReader(fileSystem.OpenRead(configPath)))
+            using (var reader = new JsonTextReader(new StreamReader(fileSystem.OpenRead(configPath))))
             {
                 config = new JsonSerializer().Deserialize<TerrificNetConfig>(reader);
             }

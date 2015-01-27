@@ -32,13 +32,13 @@ namespace TerrificNet.ViewEngine
                 .Select(e => e.Name);
         }
 
-        public StreamReader OpenRead(string filePath)
+		public Stream OpenRead(string filePath)
         {
             var file = _file.GetEntry(NormalizePath(filePath));
-            return new StreamReader(_file.GetInputStream(file));
+            return _file.GetInputStream(file);
         }
 
-        public StreamWriter OpenWrite(string filePath)
+		public Stream OpenWrite(string filePath)
         {
             throw new System.NotImplementedException();
         }

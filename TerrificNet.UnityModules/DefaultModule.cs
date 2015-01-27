@@ -37,7 +37,8 @@ namespace TerrificNet.UnityModules
                 }
                 else
                 {
-                    fileSystem = new FileSystem();
+					fileSystem = new FileSystem();
+					//fileSystem = new CachedFileSystem();
                     basePath = Path.Combine(hostPath, basePath);
                 }
 

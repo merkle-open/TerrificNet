@@ -132,14 +132,20 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="application.json" />
+    <Content Include="application.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web\components\modules\ApplicationOverview\ApplicationOverview.html" />
-    <None Include="Web\config.json"/>
+    <Content Include="Web\components\modules\ApplicationOverview\ApplicationOverview.html" />
+    <Content Include="Web\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\app.manifest" />
-    <None Include="TerrificNet.nuspec" />
+    <None Include="TerrificNet.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web\components\modules\ApplicationOverview\data\variation1.json" />
     <None Include="Web\components\modules\ApplicationOverview\data\_default.json" />
     <None Include="Web\views\edit_advanced.html.json" />
@@ -172,19 +178,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web\assets\common.js">
-    </None>
-    <None Include="Web\assets\jsoneditor.min.js">
-    </None>
-    <None Include="Web\components\modules\DataEditor\DataEditor.html">
-    </None>
-    <None Include="Web\components\modules\AdvancedEditor\AdvancedEditor.html">
-    </None>
-    <None Include="Web\views\_layouts\_layout.html">
-    </None>
-    <None Include="Web\views\_layouts\page.html">
-      
-    </None>
+    <Content Include="Web\assets\common.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\assets\jsoneditor.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\components\modules\DataEditor\DataEditor.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\components\modules\AdvancedEditor\AdvancedEditor.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\views\_layouts\_layout.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web\views\_layouts\page.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Web\assets\common.ts" />
@@ -213,7 +224,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)\_build\build.targets" />
-  <Import Project="$(SolutionDir)\build.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

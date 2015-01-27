@@ -29,7 +29,7 @@ namespace TerrificNet.Controllers
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             var stream = _fileSystem.OpenRead(filePath);
-            var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream.BaseStream) };
+            var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
             message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(Path.GetExtension(path).ToLower()));
             return message;
 	    }

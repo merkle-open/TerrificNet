@@ -15,14 +15,14 @@ namespace TerrificNet.ViewEngine
             return Directory.GetFiles(directory, string.Concat("*.", fileExtension), SearchOption.AllDirectories);
         }
 
-        public StreamReader OpenRead(string filePath)
+        public Stream OpenRead(string filePath)
         {
-            return new StreamReader(filePath);
+            return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 
-        public StreamWriter OpenWrite(string filePath)
+		public Stream OpenWrite(string filePath)
         {
-            return new StreamWriter(filePath);
+			return new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write);
         }
 
         public bool FileExists(string filePath)

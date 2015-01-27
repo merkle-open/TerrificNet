@@ -28,7 +28,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
         private JsonSchema GetSchema(string path)
         {
             string content = null;
-            using (var reader = _fileSystem.OpenRead(path))
+            using (var reader = new StreamReader(_fileSystem.OpenRead(path)))
             {
                 content = reader.ReadToEnd();
             }

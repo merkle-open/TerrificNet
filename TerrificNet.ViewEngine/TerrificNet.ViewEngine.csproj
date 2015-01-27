@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedFileSystem.cs" />
     <Compile Include="Cache\ICacheProvider.cs" />
     <Compile Include="Cache\MemoryCacheProvider.cs" />
     <Compile Include="Cache\NullCacheProvider.cs" />

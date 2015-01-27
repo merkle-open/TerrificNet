@@ -25,7 +25,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
         public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
             var filePath = GetPath(template, DefaultFilename);
-            using (var stream = _fileSystem.OpenWrite(filePath))
+            using (var stream = new StreamWriter(_fileSystem.OpenWrite(filePath)))
             {
                 var value = JsonConvert.SerializeObject(content);
                 stream.Write(value);
@@ -39,7 +39,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
             if (!_fileSystem.FileExists(filePath))
                 return null;
 
-            using (var stream = _fileSystem.OpenRead(filePath))
+            using (var stream = new StreamReader(_fileSystem.OpenRead(filePath)))
             {
                 var content = stream.ReadToEnd();
                 return JsonConvert.DeserializeObject(content);
