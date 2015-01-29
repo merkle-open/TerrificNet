@@ -81,7 +81,12 @@ namespace TerrificNet.ViewEngine
 			_filesContentCache.TryRemove(filePath, out tmp);
 		}
 
-		private class NotifiyFileStream : FileStream
+	    public void CreateDirectory(string directory)
+	    {
+	        Directory.CreateDirectory(directory);
+	    }
+
+	    private class NotifiyFileStream : FileStream
 		{
 			public NotifiyFileStream(string path, FileMode mode)
 				: base(path, mode)

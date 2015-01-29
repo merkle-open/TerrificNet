@@ -34,5 +34,10 @@ namespace TerrificNet.ViewEngine
 	    {
 		    File.Delete(filePath);
 	    }
+
+        public void CreateDirectory(string directory)
+        {
+            Directory.CreateDirectory(directory);
+        }
     }
 }

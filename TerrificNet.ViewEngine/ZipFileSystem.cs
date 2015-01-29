@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,5 +54,10 @@ namespace TerrificNet.ViewEngine
 	    {
 		    throw new System.NotImplementedException();
 	    }
+
+        public void CreateDirectory(string directory)
+        {
+            throw new NotSupportedException();
+        }
     }
 }
