@@ -1,7 +1,31 @@
 ﻿<div class="mod mod-teaser skin-teaser-news">
-    {{module template="teaser_heading"}}
+    <div class="teaser-heading-line">
+        <p class="teaser-headline-title">{{title}}</p>
+
+        <span class="teaser-sort-label" style="margin-left: 195px">{{orderBy}}</span>
+        <div class="teaser-dropdown home" style="right: 28px;">
+            <select class="e-dropdown">
+                {{#each sortings}}
+                <option value="{{key}}">{{name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <a class="e-btn btn-icon icon-rss" href="{{rssLink}}" rel="alternate" type="application/rss+xml" title="{{rssTitle}}"></a>
+    </div>
 
     {{#each entries}}
-        {{module template="teaser_entry"}}
+    <div class="teaser-news">
+        <div class="teaser-info">
+            <span class="teaser-info-date">{{date}}</span>
+            <span class="teaser-info-date-mobile">{{dateMobile}}</span>
+            <span class="teaser-tag-label">{{label}}</span>
+        </div>
+
+        <div class="teaser-content">
+            <a class="teaser-content-title" href="{{link}}">{{title}}</a>
+            <p class="teaser-content-text">{{{text}}}</p>
+            <a class="e-text text-link-std bold" href="{{link}}">{{linkText}}</a>
+        </div>
+    </div>
     {{/each}}
 </div>

@@ -166,15 +166,15 @@
     <Content Include="views\placeholder.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="views\teaser_heading.html" />
-    <Content Include="views\teaser_entry.html" />
+    <Content Include="components\modules\Teaser\teaser_heading.html" />
+    <Content Include="components\modules\Teaser\teaser_entry.html" />
     <Content Include="components\modules\Teaser\teaser.html" />
     <Content Include="components\modules\Slider\slider.html" />
-    <Content Include="views\foot.html" />
+    <Content Include="components\modules\Foot\foot.html" />
     <Content Include="components\modules\Footer\footer.html" />
     <Content Include="components\modules\Logo\logo.html" />
     <Content Include="views\header.html" />
-    <Content Include="views\head.html" />
+    <Content Include="components\modules\Head\head.html" />
     <Content Include="components\modules\NavService\navservice.html" />
     <Content Include="components\modules\NavMeta\navmeta.html" />
     <Content Include="views\simple.html">
@@ -184,15 +184,13 @@
     <Content Include="components\modules\TestModule\test_module.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="views\home.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\" />
+    <Folder Include="components\modules\Foot\data\" />
     <Folder Include="project\templates\" />
   </ItemGroup>
   <ItemGroup>
@@ -202,7 +200,7 @@
     <Content Include="views\schemas\test_module.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="project\data\navmain.json" />
+    <Content Include="components\modules\NavMain\data\_default.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\schemas\service.json" />
@@ -252,6 +250,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="components\modules\TestModule\data\variation1.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="views\home.html.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Logo\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\NavMeta\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Head\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Footer\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\NavSidebar\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\SidebarTeaser\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Teaser\data\_default.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
