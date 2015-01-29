@@ -25,6 +25,9 @@ namespace TerrificNet.ViewEngine.ModelProviders
         public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
         {
             var filePath = GetPath(template, DefaultFilename);
+            if (!_fileSystem.DirectoryExists(Path.GetDirectoryName(filePath)))
+                _fileSystem.CreateDirectory(Path.GetDirectoryName(filePath));
+
             using (var stream = new StreamWriter(_fileSystem.OpenWrite(filePath)))
             {
                 var value = JsonConvert.SerializeObject(content);
