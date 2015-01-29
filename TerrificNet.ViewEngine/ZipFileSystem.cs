@@ -48,5 +48,10 @@ namespace TerrificNet.ViewEngine
             var dir = _file.GetEntry(NormalizePath(filePath));
             return dir != null;
         }
+
+	    public void RemoveFile(string filePath)
+	    {
+		    throw new System.NotImplementedException();
+	    }
     }
 }

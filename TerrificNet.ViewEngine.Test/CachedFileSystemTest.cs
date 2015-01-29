@@ -1,29 +1,17 @@
 ﻿using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TerrificNet.ViewEngine.Test
 {
 	[TestClass]
-	public class CachedFileSystemTest
+	public class CachedFileSystemTest : FileSystemTest
 	{
-		private IFileSystem _fileSystem;
-
 		[TestInitialize]
-		public void Init()
+		public override void Init()
 		{
-			// Cleanup previous tests
-			foreach (var file in Directory.GetFiles("./", "*"))
-			{
-				Console.WriteLine(file);
-			}
+			FileSystem = new CachedFileSystem();
 
-			_fileSystem = new CachedFileSystem();
-		}
-
-		[TestMethod]
-		public void TestRead()
-		{
+			FileSystem.RemoveFile(TestFileName);
 		}
 	}
 }

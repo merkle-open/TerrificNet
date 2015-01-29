@@ -86,9 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="application.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="TerrificNet.ConsoleHost.nuspec" />
   </ItemGroup>

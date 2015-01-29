@@ -41,7 +41,7 @@ namespace TerrificNet.Sample.Net
             var rootPath = HostingEnvironment.MapPath("~/");
             var basePath = Path.Combine(rootPath, @"..\TerrificNet.Sample");
 
-            var config = ConfigurationLoader.LoadTerrificConfiguration(basePath, new FileSystem());
+            var config = ConfigurationLoader.LoadTerrificConfiguration(basePath, new CachedFileSystem());
             DefaultUnityModule.RegisterForConfiguration(container, config);
         }
     }
