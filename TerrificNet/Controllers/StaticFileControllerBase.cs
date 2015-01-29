@@ -24,13 +24,13 @@ namespace TerrificNet.Controllers
 
 	    protected HttpResponseMessage GetInternal(string path)
 	    {
-            var filePath = Path.Combine(this.FilePath, path);
+            var filePath = _fileSystem.Path.Combine(this.FilePath, path);
             if (!_fileSystem.FileExists(filePath))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             var stream = _fileSystem.OpenRead(filePath);
             var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
-            message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(Path.GetExtension(path).ToLower()));
+            message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(_fileSystem.Path.GetExtension(path).ToLower()));
             return message;
 	    }
 

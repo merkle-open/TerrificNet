@@ -8,6 +8,7 @@ namespace TerrificNet.ViewEngine
 {
     public class ZipFileSystem : IFileSystem
     {
+        private static readonly IPathHelper PathHelper = new ZipPathHelper();
         private readonly ZipFile _file;
 
         public ZipFileSystem(string filePath)
@@ -60,9 +61,42 @@ namespace TerrificNet.ViewEngine
 		    throw new System.NotImplementedException();
 	    }
 
+        public IPathHelper Path
+        {
+            get { return PathHelper; }
+        }
+
         public void CreateDirectory(string directory)
         {
             throw new NotSupportedException();
+        }
+
+        private class ZipPathHelper : IPathHelper
+        {
+            public string Combine(params string[] parts)
+            {
+                return string.Join("/", parts);
+            }
+
+            public string GetDirectoryName(string filePath)
+            {
+                return System.IO.Path.GetDirectoryName(filePath);
+            }
+
+            public string ChangeExtension(string fileName, string extension)
+            {
+                return System.IO.Path.ChangeExtension(fileName, extension);
+            }
+
+            public string GetFileNameWithoutExtension(string path)
+            {
+                return System.IO.Path.GetFileNameWithoutExtension(path);
+            }
+
+            public string GetExtension(string path)
+            {
+                return System.IO.Path.GetExtension(path);
+            }
         }
     }
 }

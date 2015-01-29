@@ -40,7 +40,7 @@ namespace TerrificNet.Controllers
 		    if (!_templateRepository.TryGetTemplate(path, skin, out templateInfo) ||
 		        !_viewEngine.TryCreateView(templateInfo, out view))
 		    {
-		        var fileName = Path.ChangeExtension(Path.Combine(_configuration.ViewPath, path), "html.json");
+                var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_configuration.ViewPath, path), "html.json");
 		        if (_fileSystem.FileExists(fileName))
 		        {
                     using (var reader = new JsonTextReader(new StreamReader(_fileSystem.OpenRead(fileName))))

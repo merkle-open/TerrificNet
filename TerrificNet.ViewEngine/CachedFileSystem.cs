@@ -9,6 +9,8 @@ namespace TerrificNet.ViewEngine
 {
 	public class CachedFileSystem : IFileSystem
 	{
+	    private static readonly IPathHelper PathHelper = new FileSystem.FilePathHelper();
+
 		private readonly ConcurrentDictionary<string, IEnumerable<string>> _directoryCache = new ConcurrentDictionary<string, IEnumerable<string>>();
 		private readonly ConcurrentDictionary<string, byte[]> _filesContentCache = new ConcurrentDictionary<string, byte[]>();
 
@@ -52,7 +54,12 @@ namespace TerrificNet.ViewEngine
 			return OpenInternal(filePath, FileMode.OpenOrCreate);
 		}
 
-		private Stream OpenInternal(string filePath, FileMode fileMode)
+	    public IPathHelper Path
+	    {
+            get { return PathHelper; }
+	    }
+
+	    private Stream OpenInternal(string filePath, FileMode fileMode)
 		{
 			var data = _filesContentCache.GetOrAdd(filePath, file =>
 			{

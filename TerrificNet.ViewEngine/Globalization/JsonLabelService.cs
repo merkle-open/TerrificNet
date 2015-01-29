@@ -14,7 +14,7 @@ namespace TerrificNet.ViewEngine.Globalization
 		{
 			_fileSystem = fileSystem;
 
-			_fileName = Path.Combine(config.BasePath, "labels.json");
+			_fileName = _fileSystem.Path.Combine(config.BasePath, "labels.json");
 		}
 
 		private Dictionary<string, string> Load()

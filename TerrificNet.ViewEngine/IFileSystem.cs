@@ -14,5 +14,15 @@ namespace TerrificNet.ViewEngine
 		void RemoveFile(string filePath);
         void CreateDirectory(string directory);
 	    Stream OpenReadOrCreate(string filePath);
+        IPathHelper Path { get; }
+    }
+
+    public interface IPathHelper
+    {
+        string Combine(params string[] parts);
+        string GetDirectoryName(string filePath);
+        string ChangeExtension(string fileName, string extension);
+        string GetFileNameWithoutExtension(string path);
+        string GetExtension(string path);
     }
 }

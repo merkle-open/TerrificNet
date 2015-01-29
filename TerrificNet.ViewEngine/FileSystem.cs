@@ -5,6 +5,8 @@ namespace TerrificNet.ViewEngine
 {
     public class FileSystem : IFileSystem
     {
+        private static readonly IPathHelper PathHelper = new FilePathHelper();
+
         public bool DirectoryExists(string directory)
         {
             return Directory.Exists(directory);
@@ -25,7 +27,12 @@ namespace TerrificNet.ViewEngine
 			return new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);
 		}
 
-		public Stream OpenWrite(string filePath)
+        public IPathHelper Path
+        {
+            get { return PathHelper; }
+        }
+
+        public Stream OpenWrite(string filePath)
         {
 			return new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write);
         }
@@ -43,6 +50,34 @@ namespace TerrificNet.ViewEngine
         public void CreateDirectory(string directory)
         {
             Directory.CreateDirectory(directory);
+        }
+
+        internal class FilePathHelper : IPathHelper
+        {
+            public string Combine(params string[] parts)
+            {
+                return System.IO.Path.Combine(parts);
+            }
+
+            public string GetDirectoryName(string filePath)
+            {
+                return System.IO.Path.GetDirectoryName(filePath);
+            }
+
+            public string ChangeExtension(string fileName, string extension)
+            {
+                return System.IO.Path.ChangeExtension(fileName, extension);
+            }
+
+            public string GetFileNameWithoutExtension(string path)
+            {
+                return System.IO.Path.GetFileNameWithoutExtension(path);
+            }
+
+            public string GetExtension(string path)
+            {
+                return System.IO.Path.GetExtension(path);
+            }
         }
     }
 }

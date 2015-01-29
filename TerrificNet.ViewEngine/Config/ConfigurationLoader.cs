@@ -23,7 +23,7 @@ namespace TerrificNet.ViewEngine.Config
             if (!fileSystem.DirectoryExists(basePath))
                 throw new ConfigurationException(string.Format("The base path ('{0}') for the configuration doesn't exist.", basePath));
 
-            var configPath = Path.Combine(basePath, fileName);
+            var configPath = fileSystem.Path.Combine(basePath, fileName);
             if (!fileSystem.FileExists(configPath))
                 throw new ConfigurationException(string.Format("Could not find configuration in path '{0}'.", configPath));
 
@@ -34,19 +34,19 @@ namespace TerrificNet.ViewEngine.Config
             }
 
             config.BasePath = basePath;
-            config.ViewPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.ViewPath, basePath, "views"));
-            config.ModulePath = Path.Combine(basePath,
-                GetDefaultValueIfNotSet(config.ModulePath, basePath, "components/modules"));
-            config.AssetPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.AssetPath, basePath, "assets"));
-            config.DataPath = Path.Combine(basePath, GetDefaultValueIfNotSet(config.DataPath, basePath, "project/data"));
+            config.ViewPath = fileSystem.Path.Combine(basePath, GetDefaultValueIfNotSet(config.ViewPath, fileSystem, basePath, "views"));
+            config.ModulePath = fileSystem.Path.Combine(basePath,
+                GetDefaultValueIfNotSet(config.ModulePath, fileSystem, basePath, "components", "modules"));
+            config.AssetPath = fileSystem.Path.Combine(basePath, GetDefaultValueIfNotSet(config.AssetPath, fileSystem, basePath, "assets"));
+            config.DataPath = fileSystem.Path.Combine(basePath, GetDefaultValueIfNotSet(config.DataPath, fileSystem, basePath, "project", "data"));
 
             return config;
         }
 
-        private static string GetDefaultValueIfNotSet(string value, string basePath, string defaultLocation)
+        private static string GetDefaultValueIfNotSet(string value, IFileSystem fileSystem, params string[] defaultLocation)
         {
             if (String.IsNullOrEmpty(value))
-                return Path.Combine(basePath, defaultLocation);
+                return fileSystem.Path.Combine(defaultLocation);
 
             return value;
         }

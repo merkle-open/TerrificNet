@@ -43,7 +43,7 @@ namespace TerrificNet.ViewEngine
 
 	    private string GetTemplateId(string info)
 	    {
-	        var path = Path.Combine(Path.GetDirectoryName(info), Path.GetFileNameWithoutExtension(info));
+	        var path = _fileSystem.Path.Combine(_fileSystem.Path.GetDirectoryName(info), _fileSystem.Path.GetFileNameWithoutExtension(info));
             var id = NormalizePath(path).Remove(0, NormalizePath(_config.BasePath).Length);
 	        if (id[0] == '/')
 	            return id.Substring(1);
