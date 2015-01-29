@@ -1,8 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using Microsoft.Practices.Unity;
 using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
@@ -25,23 +22,7 @@ namespace TerrificNet.UnityModules
         {
             try
             {
-                IFileSystem fileSystem;
-
-                var uri = new Uri(basePath, UriKind.RelativeOrAbsolute);
-                if (uri.IsAbsoluteUri && uri.Scheme == "zip")
-                {
-                    string baseInFile;
-                    var filePath = Path.Combine(hostPath, GetFilePath(hostPath, uri, out baseInFile));
-                    fileSystem = new ZipFileSystem(filePath);
-                    basePath = baseInFile;
-                }
-                else
-                {
-					fileSystem = new FileSystem();
-					//fileSystem = new CachedFileSystem();
-                    basePath = Path.Combine(hostPath, basePath);
-                }
-
+                var fileSystem = childContainer.Resolve<FileSystemProvider>().GetFileSystem(hostPath, basePath, out basePath);
                 childContainer.RegisterInstance(fileSystem);
 
                 var config = ConfigurationLoader.LoadTerrificConfiguration(basePath, fileSystem);
@@ -56,29 +37,6 @@ namespace TerrificNet.UnityModules
             {
                 throw new InvalidApplicationException(string.Format("Could not load the configuration for application '{0}'.", applicationName), ex);
             }
-        }
-
-        private static string GetFilePath(string hostPath, Uri uri, out string rootPath)
-        {
-            var pathBuilder = new StringBuilder();
-            string result = string.Empty;
-            foreach (var segment in new[] { uri.Host }.Union(uri.Segments))
-            {
-                var part = segment.TrimEnd('/');
-                pathBuilder.Append(part);
-
-                if (!string.IsNullOrEmpty(Path.GetExtension(part)))
-                {
-                    result = pathBuilder.ToString();
-                    pathBuilder.Clear();
-                }
-                else
-                    pathBuilder.Append('/');
-            }
-
-            rootPath = pathBuilder.ToString();
-
-            return result;
         }
 
         public static void RegisterForConfiguration(IUnityContainer container, ITerrificNetConfig item)
