@@ -12,11 +12,11 @@ namespace TerrificNet
 	{
 		public void Configuration(IUnityContainer container, HttpConfiguration config)
 		{
-		    //config.Routes.MapHttpRoute(
-            //    name: "ViewIndex",
-            //    routeTemplate: "web/index.html",
-            //    defaults: new { controller = "viewIndex", section="web/" }
-            //    );
+            config.Routes.MapHttpRoute(
+                name: "AdministrationHome",
+                routeTemplate: "web/",
+                defaults: new { controller = "Home", action = "Index", section = "web/" }
+                );
 
             //config.Routes.MapHttpRoute(
             //    name: "ViewIndexDefault",
@@ -57,13 +57,6 @@ namespace TerrificNet
 				routeTemplate: section + "assets/{*path}",
 				defaults: new { controller = "assets", section = section }
 				);
-
-            // TODO: Verify if required
-            //config.Routes.MapHttpRoute(
-            //    name: "ComponentAssetsRoot" + section,
-            //    routeTemplate: section + "components/modules/{*path}",
-            //    defaults: new { controller = "ComponentAssets", section = section }
-            //    );
 			config.Routes.MapHttpRoute(
 				name: "BundleRoot" + section,
 				routeTemplate: section + "bundle_{name}",

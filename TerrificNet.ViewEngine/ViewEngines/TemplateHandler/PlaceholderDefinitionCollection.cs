@@ -2,7 +2,7 @@
 
 namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
-    public class PlaceholderDefinitionCollection : Dictionary<string, PlaceholderDefinition[]>
+    public class PlaceholderDefinitionCollection : Dictionary<string, ViewDefinition[]>
     {
         
     }

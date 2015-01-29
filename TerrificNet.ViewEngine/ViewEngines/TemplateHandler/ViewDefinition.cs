@@ -15,5 +15,12 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
         [JsonProperty("scripts")]
         public ScriptImport[] Scripts { get; set; }
+
+        [JsonProperty("skin")]
+        public string Skin { get; set; }
+
+        [JsonProperty("data")]
+        public object Data { get; set; }
+
     }
 }

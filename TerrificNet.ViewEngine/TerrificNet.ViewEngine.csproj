@@ -88,7 +88,6 @@
     <Compile Include="ViewEngines\TemplateHandler\DefaultTerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandlerFactory.cs" />
-    <Compile Include="ViewEngines\TemplateHandler\PlaceholderDefinition.cs" />
     <Compile Include="ViewEngines\TemplateHandler\PlaceholderDefinitionCollection.cs" />
     <Compile Include="ViewEngines\TemplateHandler\ScriptImport.cs" />
     <Compile Include="ViewEngines\TemplateHandler\StyleImport.cs" />

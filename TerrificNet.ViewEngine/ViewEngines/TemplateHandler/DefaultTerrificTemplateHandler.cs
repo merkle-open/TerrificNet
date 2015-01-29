@@ -37,7 +37,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
             var placeholder = definition.Placeholder;
 
-            PlaceholderDefinition[] definitions;
+            ViewDefinition[] definitions;
 
             if (!placeholder.TryGetValue(key, out definitions))
                 return;
