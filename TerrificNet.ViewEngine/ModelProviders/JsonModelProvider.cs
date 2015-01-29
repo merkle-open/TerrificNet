@@ -48,7 +48,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
 
         private string GetPath(TemplateInfo templateInfo, string id)
         {
-            return Path.Combine(_basePath, templateInfo.Id, Foldername, Path.ChangeExtension(id, ".json"));
+            return Path.GetFullPath(Path.Combine(_basePath, templateInfo.Id, Foldername, Path.ChangeExtension(id, ".json")));
         }
 
     }
