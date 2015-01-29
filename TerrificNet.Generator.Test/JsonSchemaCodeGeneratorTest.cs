@@ -73,13 +73,22 @@ namespace TerrificNet.Generator.Test
         [TestMethod]
         public void TestListSimpleWithComplexTitle()
         {
-            const string reference = "namespace Person {public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}}";
+			const string reference = "namespace TestOuter {public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}}";
 
             var schema = GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Schemas/listSimple.json"));
-            schema.Title = "TestOuter/TestInner";
+			schema.Title = "TestOuter/Person";
             Assert.IsTrue(CompareCode(reference, GenerateCode(schema)));
         }
 
+		[TestMethod]
+		public void TestListSimpleWithComplexTitleCasesinsitive()
+		{
+			const string reference = "namespace TestOuter {public class Person{ public System.Collections.Generic.IList<string> Names{get;set;}}}";
+
+			var schema = GetSchema(Path.Combine(TestContext.DeploymentDirectory, "Schemas/listSimple.json"));
+			schema.Title = "testOuter/person";
+			Assert.IsTrue(CompareCode(reference, GenerateCode(schema)));
+		}
 
 		[TestMethod]
 		public void TestListComplex()

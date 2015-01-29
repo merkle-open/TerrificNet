@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="CachedFileSystemTest.cs" />
     <Compile Include="FileSystemTest.cs" />
+    <Compile Include="NamingRuleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
