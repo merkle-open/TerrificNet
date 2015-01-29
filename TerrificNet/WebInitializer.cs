@@ -55,10 +55,17 @@ static public class WebInitializer
         var modelProvider = (DefaultModelProvider) childContainer.Resolve<IModelProvider>();
         var repo = childContainer.Resolve<ITemplateRepository>();
 
+        RegisterModelProvider<ApplicationOverviewModelProvider>(childContainer, repo, modelProvider, "components/modules/ApplicationOverview/ApplicationOverview");
+        RegisterModelProvider<DataVariationModelProvider>(childContainer, repo, modelProvider, "components/modules/DataEditor/DataEditor");
+    }
+
+    private static void RegisterModelProvider<T>(IUnityContainer childContainer, ITemplateRepository repo, DefaultModelProvider modelProvider, string templateId)
+        where T : IModelProvider
+    {
         TemplateInfo templateInfo;
-        if (repo.TryGetTemplate("components/modules/ApplicationOverview/ApplicationOverview", null,
+        if (repo.TryGetTemplate(templateId, null,
             out templateInfo))
             modelProvider.RegisterProviderForTemplate(templateInfo,
-                childContainer.Resolve<ApplicationOverviewModelProvider>());
+                childContainer.Resolve<T>());
     }
 }

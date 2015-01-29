@@ -1,4 +1,17 @@
-﻿<div id='editor_holder'></div>
+﻿{{#if variations}}
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="variationdropdown" data-toggle="dropdown" aria-expanded="true">
+        Variations
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="variationdropdown">
+        {{#each variations}}
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{link}}">{{name}}</a></li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}
+<div id='editor_holder'></div>
 <button id='submit'>Save</button>
 
 <script>

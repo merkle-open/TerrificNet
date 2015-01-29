@@ -120,7 +120,10 @@
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TemplateControllerBase.cs" />
     <Compile Include="ModelProviders\ApplicationOverviewModelProvider.cs" />
+    <Compile Include="ModelProviders\DataVariationModelProvider.cs" />
     <Compile Include="Models\ApplicationOverviewModel.cs" />
+    <Compile Include="Models\DataVariationCollectionModel.cs" />
+    <Compile Include="Models\DataVariationModel.cs" />
     <Compile Include="Models\ViewItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

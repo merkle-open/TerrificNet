@@ -1,13 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
-using TerrificNet.ViewEngine.ViewEngines;
 using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet.Controllers
@@ -33,7 +30,8 @@ namespace TerrificNet.Controllers
 		[HttpGet]
 		public HttpResponseMessage Get(string path, string skin = null, string data = null)
 		{
-		    path = path ?? "index";
+		    
+            path = path ?? "index";
 
 			IView view;
 			TemplateInfo templateInfo;

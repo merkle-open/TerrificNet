@@ -15,11 +15,14 @@ namespace TerrificNet.Controllers
         }
 
 	    [HttpGet]
-		public object Get(string path)
+		public object Get(string path, string dataId = null)
 	    {
 	        TemplateInfo templateInfo;
 	        if (!_templateRepository.TryGetTemplate(path, string.Empty, out templateInfo))
 	            return this.NotFound();
+
+	        if (!string.IsNullOrEmpty(dataId))
+	            return Json(_modelProvider.GetModelForTemplate(templateInfo, dataId));
 
 	        return Json(_modelProvider.GetDefaultModelForTemplate(templateInfo));
 		}
