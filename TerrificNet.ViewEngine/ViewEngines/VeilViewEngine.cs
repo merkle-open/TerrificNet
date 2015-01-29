@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -54,6 +55,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
             return view;
         }
 
+		// do not remove, invoked dynamicaly
         private static IView CreateView<T>(string content, TerrificHelperHandler helperHandler, IVeilEngine veilEngine)
         {
             var render = veilEngine.Compile<T>("handlebars", new StringReader(content));
@@ -169,6 +171,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 				{
 				    var key = parameters["key"].Trim('"');
                     _handler.RenderPlaceholder(model, key, _context);
+				}
+				else if ("label".Equals(name, StringComparison.OrdinalIgnoreCase))
+				{
+					var key = parameters.Keys.First().Trim('"');
+					_handler.RenderLabel(key, _context);
 				}
                 else
 			        throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));

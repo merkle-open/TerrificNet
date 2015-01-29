@@ -53,5 +53,10 @@ namespace TerrificNet.ViewEngine
 	    {
 		    throw new System.NotImplementedException();
 	    }
+
+	    public Stream OpenReadOrCreate(string filePath)
+	    {
+		    throw new System.NotImplementedException();
+	    }
     }
 }

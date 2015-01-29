@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Linq;
+using TerrificNet.ViewEngine.Globalization;
 
 namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
@@ -7,13 +8,15 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
         private readonly IViewEngine _viewEngine;
         private readonly IModelProvider _modelProvider;
         private readonly ITemplateRepository _templateRepository;
+	    private readonly ILabelService _labelService;
 
-        public DefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider,
-            ITemplateRepository templateRepository)
+	    public DefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider,
+            ITemplateRepository templateRepository, ILabelService labelService)
         {
             _viewEngine = viewEngine;
             _modelProvider = modelProvider;
             _templateRepository = templateRepository;
+		    _labelService = labelService;
         }
 
         public void RenderPlaceholder(object model, string key, RenderingContext context)
@@ -72,5 +75,10 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
             else
                 context.Writer.Write("Problem loading template " + templateName + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
         }
+
+		public void RenderLabel(string key, RenderingContext context)
+	    {
+		    context.Writer.Write(_labelService.Get(key));
+	    }
     }
 }

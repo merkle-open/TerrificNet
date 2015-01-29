@@ -22,5 +22,10 @@ namespace TerrificNet.Mvc
 
             new HtmlHelper(mvcContext.ViewContext, mvcContext.ViewDataContainer).RenderAction("Index", templateName);
         }
+
+	    public void RenderLabel(string key, RenderingContext context)
+	    {
+		    throw new NotImplementedException();
+	    }
     }
 }

@@ -61,6 +61,8 @@
     <Compile Include="Config\TerrificNetConfig.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="FileSystemProvider.cs" />
+    <Compile Include="Globalization\ILabelService.cs" />
+    <Compile Include="Globalization\JsonLabelService.cs" />
     <Compile Include="IFileSystem.cs" />
     <Compile Include="IModelTypeProvider.cs" />
     <Compile Include="INamingRule.cs" />
