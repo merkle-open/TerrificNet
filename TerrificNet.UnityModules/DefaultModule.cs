@@ -5,6 +5,7 @@ using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.Globalization;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
@@ -57,6 +58,8 @@ namespace TerrificNet.UnityModules
                 new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),
                     new ResolvedParameter<PhysicalSchemaProvider>()));
             container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
+
+	        container.RegisterType<ILabelService, JsonLabelService>();
         }
     }
 

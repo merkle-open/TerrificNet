@@ -20,6 +20,11 @@ namespace TerrificNet.ViewEngine
             return new FileStream(filePath, FileMode.Open, FileAccess.Read);
         }
 
+		public Stream OpenReadOrCreate(string filePath)
+		{
+			return new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);
+		}
+
 		public Stream OpenWrite(string filePath)
         {
 			return new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write);

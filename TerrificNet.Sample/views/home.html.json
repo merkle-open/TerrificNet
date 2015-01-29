@@ -1,0 +1,40 @@
+{
+    "template": "views/_layouts/_layout",
+    "_placeholder": {
+        "content": [
+            {
+                "template": "views/_layouts/page",
+                "data": {
+                    "_placeholder": {
+                        "phMain": [
+                            {
+                                "template": "views/content_home",
+                                "data": {
+                                    "h1": "Das ist ein Test"
+                                }
+                            }
+                        ],
+                        "phSidebar": [
+                            {
+                                "template": "components/modules/SidebarTeaser/sidebarteaser",
+                                "skin": "img-text1"
+                            },
+                            {
+                                "template": "components/modules/SidebarTeaser/sidebarteaser",
+                                "skin": "faq",
+                                "data": { }
+                            },
+                            {
+                                "template": "components/modules/SidebarTeaser/sidebarteaser",
+                                "skin": "contact"
+                            },
+                            {
+                                "template": "components/modules/SidebarTeaser/sidebarteaser"
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

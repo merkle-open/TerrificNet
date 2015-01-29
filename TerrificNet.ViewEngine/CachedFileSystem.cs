@@ -44,10 +44,20 @@ namespace TerrificNet.ViewEngine
 
 		public Stream OpenRead(string filePath)
 		{
+			return OpenInternal(filePath, FileMode.Open);
+		}
+
+		public Stream OpenReadOrCreate(string filePath)
+		{
+			return OpenInternal(filePath, FileMode.OpenOrCreate);
+		}
+
+		private Stream OpenInternal(string filePath, FileMode fileMode)
+		{
 			var data = _filesContentCache.GetOrAdd(filePath, file =>
 			{
 				var buffer = new MemoryStream();
-				using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+				using (var stream = new FileStream(filePath, fileMode, FileAccess.Read, FileShare.Read))
 				{
 					stream.CopyTo(buffer);
 				}
