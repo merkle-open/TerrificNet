@@ -11,5 +11,6 @@ namespace TerrificNet.ViewEngine
 		Stream OpenRead(string filePath);
         Stream OpenWrite(string filePath);
         bool FileExists(string filePath);
+		void RemoveFile(string filePath);
     }
 }

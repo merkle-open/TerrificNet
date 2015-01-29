@@ -29,5 +29,10 @@ namespace TerrificNet.ViewEngine
         {
             return File.Exists(filePath);
         }
+
+	    public void RemoveFile(string filePath)
+	    {
+		    File.Delete(filePath);
+	    }
     }
 }
