@@ -1,5 +1,6 @@
 ﻿{
     "template": "views/_layouts/_layout",
+    "title": "Data Editor",
     "_placeholder": {
         "content": [
             {

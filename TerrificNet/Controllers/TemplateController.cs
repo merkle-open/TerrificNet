@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
@@ -43,10 +44,12 @@ namespace TerrificNet.Controllers
 		        {
                     using (var reader = new JsonTextReader(new StreamReader(_fileSystem.OpenRead(fileName))))
                     {
-                        var viewDefinition = new JsonSerializer().Deserialize<ViewDefinition>(reader);
+                        var serializer = new JsonSerializer();
+                        var jObj = JToken.ReadFrom(reader);
+                        var viewDefinition = jObj.ToObject<ViewDefinition>(serializer);
                         if (viewDefinition != null)
                         {
-                            return Get(viewDefinition.Template, viewDefinition);
+                            return Get(viewDefinition.Template, jObj);
                         }
                     }
 		        }

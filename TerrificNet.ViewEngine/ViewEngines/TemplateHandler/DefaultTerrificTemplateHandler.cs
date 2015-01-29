@@ -53,7 +53,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
                 if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
                     _viewEngine.TryCreateView(templateInfo, out view))
                 {
-                    var moduleModel = placeholderConfig.Data ?? _modelProvider.GetDefaultModelForTemplate(templateInfo) ?? placeholderConfig;
+                    object moduleModel = _modelProvider.GetDefaultModelForTemplate(templateInfo) ?? JObject.FromObject(placeholderConfig);
                     view.Render(moduleModel, context);
                 }
                 else

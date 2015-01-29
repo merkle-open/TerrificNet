@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
@@ -21,6 +23,9 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
         [JsonProperty("data")]
         public object Data { get; set; }
+
+        [JsonExtensionData]
+        public IDictionary<string, object> ExtensionData { get; set; }
 
     }
 }

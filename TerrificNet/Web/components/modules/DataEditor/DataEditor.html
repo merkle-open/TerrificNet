@@ -27,7 +27,6 @@
         var dataUrl = variables["data"];
 
         $("h1").html(template);
-        document.title = template;
 
         $.get(schemaUrl, function (data) {
             editor = new JSONEditor(document.getElementById('editor_holder'), {

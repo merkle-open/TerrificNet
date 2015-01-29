@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
+using Newtonsoft.Json.Linq;
 using TerrificNet.Dispatcher;
 using TerrificNet.ViewEngine;
 
@@ -17,6 +18,8 @@ namespace TerrificNet.Controllers
 
         protected HttpResponseMessage View(string viewName, object model)
         {
+            model = JObject.FromObject(model);
+
             var dependencyResolver = ((IDependencyResolverAware)this).DependencyResolver;
             var templateRepository = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));
             var viewEngine = (IViewEngine)dependencyResolver.GetService(typeof(IViewEngine));
@@ -24,7 +27,7 @@ namespace TerrificNet.Controllers
             IView view;
             TemplateInfo templateInfo;
             if (!templateRepository.TryGetTemplate(viewName, string.Empty, out templateInfo) ||
-                !viewEngine.TryCreateView(templateInfo, model.GetType(), out view))
+                !viewEngine.TryCreateView(templateInfo, out view))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             return View(view, model);
