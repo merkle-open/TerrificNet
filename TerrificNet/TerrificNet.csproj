@@ -132,16 +132,12 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="application.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="application.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Web\components\modules\ApplicationOverview\ApplicationOverview.html" />
-    <Content Include="Web\config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="Web\components\modules\ApplicationOverview\ApplicationOverview.html" />
+    <None Include="Web\config.json" />
     <None Include="Properties\app.manifest" />
     <None Include="TerrificNet.nuspec">
       <SubType>Designer</SubType>
@@ -179,24 +175,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web\assets\common.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\assets\jsoneditor.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\components\modules\DataEditor\DataEditor.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\components\modules\AdvancedEditor\AdvancedEditor.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\views\_layouts\_layout.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web\views\_layouts\page.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="Web\assets\common.js" />
+    <None Include="Web\assets\jsoneditor.min.js" />
+    <None Include="Web\components\modules\DataEditor\DataEditor.html" />
+    <None Include="Web\components\modules\AdvancedEditor\AdvancedEditor.html" />
+    <None Include="Web\views\_layouts\_layout.html" />
+    <None Include="Web\views\_layouts\page.html" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Web\assets\common.ts" />
