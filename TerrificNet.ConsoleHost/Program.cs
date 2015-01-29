@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web.Http;
 using Microsoft.Owin.Hosting;
@@ -19,9 +20,9 @@ namespace TerrificNet.ConsoleHost
             if (!string.IsNullOrEmpty(path))
                 path = path.Substring(PathArgumentPrefix.Length);
             else
-                path = string.Empty;
+                path = ".";
 
-            var container = WebInitializer.Initialize(path);
+            var container = WebInitializer.Initialize(Path.GetFullPath(path));
 
             // Start OWIN host
             using (WebApp.Start(baseAddress, builder => Initialize(builder, container)))

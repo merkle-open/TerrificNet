@@ -60,6 +60,7 @@
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="Config\TerrificNetConfig.cs" />
     <Compile Include="FileSystem.cs" />
+    <Compile Include="FileSystemProvider.cs" />
     <Compile Include="IFileSystem.cs" />
     <Compile Include="IModelTypeProvider.cs" />
     <Compile Include="INamingRule.cs" />
