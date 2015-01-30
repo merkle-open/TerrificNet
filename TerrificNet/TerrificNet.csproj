@@ -106,6 +106,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DataEditController.cs" />
+    <Compile Include="Controllers\DefaultLayout.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Dispatcher\IDependencyResolverAware.cs" />
     <Compile Include="Dispatcher\ApplicationSpecificControllerActivator.cs" />
@@ -120,8 +122,6 @@
     <Compile Include="Controllers\SchemaController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TemplateControllerBase.cs" />
-    <Compile Include="ModelProviders\ApplicationOverviewModelProvider.cs" />
-    <Compile Include="ModelProviders\DataVariationModelProvider.cs" />
     <Compile Include="Models\ApplicationOverviewModel.cs" />
     <Compile Include="Models\DataVariationCollectionModel.cs" />
     <Compile Include="Models\DataVariationModel.cs" />
@@ -150,9 +150,6 @@
     <None Include="viewdefinition_schema.json" />
     <None Include="Web\components\modules\ApplicationOverview\data\variation1.json" />
     <None Include="Web\components\modules\ApplicationOverview\data\_default.json" />
-    <None Include="Web\views\edit_advanced.html.json" />
-    <None Include="Web\views\edit.html.json" />
-    <None Include="Web\views\index.html.json" />
     <None Include="_build\build.targets">
       <SubType>Designer</SubType>
     </None>

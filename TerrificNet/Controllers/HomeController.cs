@@ -1,56 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using Microsoft.Practices.Unity;
 using TerrificNet.Models;
+using TerrificNet.UnityModules;
+using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet.Controllers
 {
     public class HomeController : TemplateControllerBase
     {
+        private readonly TerrificNetApplication[] _applications;
+
+        public HomeController(TerrificNetApplication[] applications)
+        {
+            _applications = applications;
+        }
+
         [HttpGet]
         public HttpResponseMessage Index()
         {
-            var viewDefinition = WithDefaultLayout(new ViewDefinition
+            var viewDefinition = DefaultLayout.WithDefaultLayout(new ViewDefinition
             {
-                Template = "components/modules/ApplicationOverview/ApplicationOverview"
+                Template = "components/modules/ApplicationOverview/ApplicationOverview",
+                Data = GetOverviewModel()
             });
 
             return View(viewDefinition.Template, viewDefinition);
         }
 
-        private static ViewDefinition WithDefaultLayout(params ViewDefinition[] content)
+        private ApplicationOverviewModel GetOverviewModel()
         {
-            var viewDefinition = new ViewDefinition
+            var model = new ApplicationOverviewModel
             {
-                Template = "views/_layouts/_layout",
-                Placeholder = new PlaceholderDefinitionCollection
+                Applications = _applications.Select(a => new ViewOverviewModel
                 {
-                    {
-                        "content", new[]
-                        {
-                            new NavigationGroupModel
-                            {
-                                Template = "views/_layouts/page",
-                                Actions = new List<ActionModel>
-                                {
-                                    new ActionModel { Name = "Create View", Link = "#" },
-                                    new ActionModel { Name = "Create Module", Link = "#" }
-                                }
-                                ,
-                                Placeholder = new PlaceholderDefinitionCollection
-                                {
-                                    {
-                                        "phContent", content
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                    Name = a.Name,
+                    Views = GetViews(a.Section, a.Container.Resolve<ITemplateRepository>()).ToList()
+                }).ToList()
             };
-            return viewDefinition;
+
+            return model;
+        }
+
+        private static IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)
+        {
+            foreach (var file in templateRepository.GetAll())
+            {
+                var schemaUrl = string.Format("/{0}schema/{1}", section, file.Id);
+                var dataUrl = string.Format("/{0}model/{1}", section, file.Id);
+                var templateUrl = string.Format("/{0}{1}", section, file.Id);
+                var templateId = file.Id;
+                yield return new ViewItemModel
+                {
+                    Text = file.Id,
+                    Url = templateUrl,
+                    EditUrl = string.Format("web/edit?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
+                    AdvancedUrl = string.Format("web/edit_advanced?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
+                    SchemaUrl = schemaUrl
+                };
+            }
         }
     }
 }

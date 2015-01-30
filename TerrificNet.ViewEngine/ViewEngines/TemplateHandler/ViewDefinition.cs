@@ -13,10 +13,10 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
         public PlaceholderDefinitionCollection Placeholder { get; set; }
 
         [JsonProperty("styles")]
-        public StyleImport[] Styles { get; set; }
+        public List<StyleImport> Styles { get; set; }
 
         [JsonProperty("scripts")]
-        public ScriptImport[] Scripts { get; set; }
+        public List<ScriptImport> Scripts { get; set; }
 
         [JsonProperty("skin")]
         public string Skin { get; set; }

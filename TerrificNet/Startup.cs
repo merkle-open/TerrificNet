@@ -18,6 +18,18 @@ namespace TerrificNet
                 defaults: new { controller = "Home", action = "Index", section = "web/" }
                 );
 
+            config.Routes.MapHttpRoute(
+                name: "AdministrationDataEdit",
+                routeTemplate: "web/edit",
+                defaults: new { controller = "DataEdit", action = "Index", section = "web/" }
+                );
+
+            config.Routes.MapHttpRoute(
+                name: "AdministrationDataEditAdvanced",
+                routeTemplate: "web/edit_advanced",
+                defaults: new { controller = "DataEdit", action = "IndexAdvanced", section = "web/" }
+            );
+
             //config.Routes.MapHttpRoute(
             //    name: "ViewIndexDefault",
             //    routeTemplate: "",
@@ -26,7 +38,9 @@ namespace TerrificNet
 
 		    foreach (var application in container.ResolveAll<TerrificNetApplication>())
 		    {
-                MapArea(config, application.Section);
+		        var section = application.Section;
+
+		        MapArea(config, section);
 		    }
 
             config.DependencyResolver = new UnityDependencyResolver(container);

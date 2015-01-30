@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
-using TerrificNet.ModelProviders;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.ModelProviders;
@@ -38,8 +37,6 @@ static public class WebInitializer
 
         foreach (var app in container.ResolveAll<TerrificNetApplication>())
         {
-            RegisterModelProviders(app.Container);
-
             foreach (var template in app.Container.Resolve<ITemplateRepository>().GetAll())
             {
                 Console.WriteLine(template.Id);
@@ -48,15 +45,6 @@ static public class WebInitializer
 
         new TerrificBundleUnityModule().Configure(container);
         return container;
-    }
-
-    public static void RegisterModelProviders(IUnityContainer childContainer)
-    {
-        var modelProvider = (DefaultModelProvider) childContainer.Resolve<IModelProvider>();
-        var repo = childContainer.Resolve<ITemplateRepository>();
-
-        RegisterModelProvider<ApplicationOverviewModelProvider>(childContainer, repo, modelProvider, "components/modules/ApplicationOverview/ApplicationOverview");
-        RegisterModelProvider<DataVariationModelProvider>(childContainer, repo, modelProvider, "components/modules/DataEditor/DataEditor");
     }
 
     private static void RegisterModelProvider<T>(IUnityContainer childContainer, ITemplateRepository repo, DefaultModelProvider modelProvider, string templateId)

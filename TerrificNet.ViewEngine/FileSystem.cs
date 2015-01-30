@@ -34,7 +34,9 @@ namespace TerrificNet.ViewEngine
 
         public Stream OpenWrite(string filePath)
         {
-			return new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write);
+			var stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write);
+            stream.SetLength(0);
+            return stream;
         }
 
         public bool FileExists(string filePath)
