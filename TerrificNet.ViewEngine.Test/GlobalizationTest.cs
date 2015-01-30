@@ -21,7 +21,7 @@ namespace TerrificNet.ViewEngine.Test
 		{
 			_fileSystem = new FileSystem();
 			_terrificConfig = new TerrificNetConfig { BasePath = "" };
-			_service = new JsonLabelService(_fileSystem, _terrificConfig);
+			_service = new JsonLabelService(_fileSystem);
 			_service.Remove(TestKey);
 			_service.Remove(TestPathKey);
 		}
@@ -56,7 +56,7 @@ namespace TerrificNet.ViewEngine.Test
 		{
 			_service.Set(TestPathKey, "xyz");
 
-			var service2 = new JsonLabelService(_fileSystem, _terrificConfig);
+			var service2 = new JsonLabelService(_fileSystem);
 			var name = service2.Get(TestPathKey);
 			Assert.AreEqual("xyz", name);
 		}

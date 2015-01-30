@@ -69,6 +69,7 @@
     <Compile Include="ITemplateRepository.cs" />
     <Compile Include="ModelProviders\DefaultModelProvider.cs" />
     <Compile Include="NamingRule.cs" />
+    <Compile Include="PathUtility.cs" />
     <Compile Include="RenderingContext.cs" />
     <Compile Include="SchemaProviders\DefaultModelTypeRepository.cs" />
     <Compile Include="SchemaProviders\IModelTypeRepository.cs" />

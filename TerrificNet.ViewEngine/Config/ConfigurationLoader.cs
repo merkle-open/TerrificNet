@@ -16,24 +16,20 @@ namespace TerrificNet.ViewEngine.Config
             if (basePath == null)
                 throw new ArgumentNullException("basePath");
 
-            // TODO: check need
-            //if (!Path.IsPathRooted(basePath))
-            //    basePath = Path.GetFullPath(basePath);
+            if (!fileSystem.DirectoryExists(string.Empty))
+                throw new ConfigurationException(string.Format("The base path for the configuration doesn't exist in {0}.", fileSystem.BasePath));
 
-            if (!fileSystem.DirectoryExists(basePath))
-                throw new ConfigurationException(string.Format("The base path ('{0}') for the configuration doesn't exist.", basePath));
+            var configFile = fileSystem.Path.Combine(basePath, fileName);
 
-            var configPath = fileSystem.Path.Combine(basePath, fileName);
-            if (!fileSystem.FileExists(configPath))
-                throw new ConfigurationException(string.Format("Could not find configuration in path '{0}'.", configPath));
+            if (!fileSystem.FileExists(configFile))
+                throw new ConfigurationException(string.Format("Could not find configuration in path '{0}' in {1}.", configFile, fileSystem.BasePath));
 
             TerrificNetConfig config;
-            using (var reader = new JsonTextReader(new StreamReader(fileSystem.OpenRead(configPath))))
+            using (var reader = new JsonTextReader(new StreamReader(fileSystem.OpenRead(configFile))))
             {
                 config = new JsonSerializer().Deserialize<TerrificNetConfig>(reader);
             }
 
-            config.BasePath = basePath;
             config.ViewPath = fileSystem.Path.Combine(basePath, GetDefaultValueIfNotSet(config.ViewPath, fileSystem, basePath, "views"));
             config.ModulePath = fileSystem.Path.Combine(basePath,
                 GetDefaultValueIfNotSet(config.ModulePath, fileSystem, basePath, "components", "modules"));

@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
-using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.ModelProviders
 {
@@ -8,14 +7,11 @@ namespace TerrificNet.ViewEngine.ModelProviders
     {
         private readonly IFileSystem _fileSystem;
         private const string DefaultFilename = "_default.json";
-        private readonly string _folderPath;
-        private readonly string _basePath;
+        private const string FolderPath = "../data";
 
-        public JsonModelProvider(ITerrificNetConfig config, IFileSystem fileSystem)
+        public JsonModelProvider(IFileSystem fileSystem)
         {
             _fileSystem = fileSystem;
-            _folderPath = _fileSystem.Path.Combine("..", "data");
-            _basePath = config.BasePath;
         }
 
         public object GetDefaultModelForTemplate(TemplateInfo template)
@@ -52,7 +48,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
 
         private string GetPath(TemplateInfo templateInfo, string id)
         {
-            return _fileSystem.Path.Combine(_basePath, templateInfo.Id, _folderPath, _fileSystem.Path.ChangeExtension(id, ".json"));
+            return _fileSystem.Path.Combine(templateInfo.Id, FolderPath, _fileSystem.Path.ChangeExtension(id, ".json"));
         }
 
     }

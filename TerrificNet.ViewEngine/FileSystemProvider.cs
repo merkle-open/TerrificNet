@@ -19,21 +19,23 @@ namespace TerrificNet.ViewEngine
                 else
                     filePath = Path.GetFullPath(filePath);
 
-                fileSystem = CreateZipFileSystem(filePath);
-                basePath = baseInFile;
+                fileSystem = CreateZipFileSystem(filePath, baseInFile);
+                basePath = string.Empty;
             }
             else
             {
-                fileSystem = new FileSystem();
                 //fileSystem = new CachedFileSystem();
                 basePath = Path.Combine(hostPath, path);
+                fileSystem = new FileSystem(basePath);
+
+                basePath = string.Empty;
             }
             return fileSystem;
         }
 
-        protected internal virtual ZipFileSystem CreateZipFileSystem(string filePath)
+        protected internal virtual ZipFileSystem CreateZipFileSystem(string filePath, string baseInFile)
         {
-            return new ZipFileSystem(filePath);
+            return new ZipFileSystem(filePath, baseInFile);
         }
 
         private static string GetFilePath(Uri uri, out string rootPath)

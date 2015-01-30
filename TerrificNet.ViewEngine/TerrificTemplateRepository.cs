@@ -36,25 +36,15 @@ namespace TerrificNet.ViewEngine
 
 			return _fileSystem.DirectoryGetFiles(directory, "html").Select(f =>
 			{
-			    var relativePath = GetTemplateId(f);
+			    var relativePath = GetTemplateId(f).TrimStart('/');
                 return new FileTemplateInfo(relativePath, f, _fileSystem); 
             });
 	    }
 
 	    private string GetTemplateId(string info)
 	    {
-	        var path = _fileSystem.Path.Combine(_fileSystem.Path.GetDirectoryName(info), _fileSystem.Path.GetFileNameWithoutExtension(info));
-            var id = NormalizePath(path).Remove(0, NormalizePath(_config.BasePath).Length);
-	        if (id[0] == '/')
-	            return id.Substring(1);
-
-            return id;
+	        return _fileSystem.Path.Combine(_fileSystem.Path.GetDirectoryName(info), _fileSystem.Path.GetFileNameWithoutExtension(info));
 	    }
-
-        private static string NormalizePath(string directory)
-        {
-            return directory.TrimStart('/').Replace('\\', '/');
-        }
 
 	    public IEnumerable<TemplateInfo> GetAll()
 	    {

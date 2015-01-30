@@ -14,7 +14,9 @@ namespace TerrificNet.ViewEngine
 		private readonly ConcurrentDictionary<string, IEnumerable<string>> _directoryCache = new ConcurrentDictionary<string, IEnumerable<string>>();
 		private readonly ConcurrentDictionary<string, byte[]> _filesContentCache = new ConcurrentDictionary<string, byte[]>();
 
-		public bool DirectoryExists(string directory)
+	    public string BasePath { get; private set; }
+
+	    public bool DirectoryExists(string directory)
 		{
 			return Directory.Exists(directory);
 		}

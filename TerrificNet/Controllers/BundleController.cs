@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using TerrificNet.AssetCompiler;
 using TerrificNet.AssetCompiler.Helpers;
+using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.Controllers
@@ -13,19 +14,25 @@ namespace TerrificNet.Controllers
 		private readonly IAssetBundler _assetBundler;
 		private readonly ITerrificNetConfig _config;
 		private readonly IAssetHelper _assetHelper;
+	    private readonly IFileSystem _fileSystem;
 
-		public BundleController(IAssetCompilerFactory assetCompilerFactory, IAssetBundler assetBundler, ITerrificNetConfig config, IAssetHelper assetHelper)
+	    public BundleController(IAssetCompilerFactory assetCompilerFactory, 
+            IAssetBundler assetBundler, 
+            ITerrificNetConfig config, 
+            IAssetHelper assetHelper,
+            IFileSystem fileSystem)
 		{
 			_assetCompilerFactory = assetCompilerFactory;
 			_assetBundler = assetBundler;
 			_config = config;
 			_assetHelper = assetHelper;
+		    _fileSystem = fileSystem;
 		}
 
 		[HttpGet]
 		public async Task<HttpResponseMessage> Get(string name)
 		{
-			var components = _assetHelper.GetGlobComponentsForAsset(_config.Assets[name], _config.BasePath);
+			var components = _assetHelper.GetGlobComponentsForAsset(_config.Assets[name], _fileSystem.BasePath);
 			var content = await _assetBundler.BundleAsync(components);
 			var compiler = _assetCompilerFactory.GetCompiler(name);
 			var compiledContent = await compiler.CompileAsync(content);

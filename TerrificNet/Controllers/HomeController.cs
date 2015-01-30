@@ -57,8 +57,8 @@ namespace TerrificNet.Controllers
                 {
                     Text = file.Id,
                     Url = templateUrl,
-                    EditUrl = string.Format("web/edit?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
-                    AdvancedUrl = string.Format("web/edit_advanced?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
+                    EditUrl = string.Format("/web/edit?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
+                    AdvancedUrl = string.Format("/web/edit_advanced?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
                     SchemaUrl = schemaUrl
                 };
             }

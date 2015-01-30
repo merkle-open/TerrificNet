@@ -6,6 +6,8 @@ namespace TerrificNet.ViewEngine
 {
     public interface IFileSystem
     {
+        string BasePath { get; }
+
         bool DirectoryExists(string directory);
         IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension);
 		Stream OpenRead(string filePath);

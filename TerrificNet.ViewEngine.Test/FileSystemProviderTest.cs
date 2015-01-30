@@ -40,15 +40,13 @@ namespace TerrificNet.ViewEngine.Test
         private static void TestZip(string hostPath, string expression, string expectedPath, string expectedInnerPath)
         {
             var underTest = new Mock<FileSystemProvider>();
-            underTest.Setup(u => u.CreateZipFileSystem(It.Is<string>(filePath => filePath == expectedPath)))
+            underTest.Setup(u => u.CreateZipFileSystem(It.Is<string>(filePath => filePath == expectedPath), It.Is<string>(p => p == expectedInnerPath)))
                 .Returns((ZipFileSystem) null);
 
             string basePath;
             var result = underTest.Object.GetFileSystem(hostPath, expression, out basePath);
 
             underTest.VerifyAll();
-
-            Assert.AreEqual(basePath, expectedInnerPath);
         }
     }
 }

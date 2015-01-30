@@ -14,7 +14,7 @@ namespace TerrificNet.Controllers
                 Placeholder = new PlaceholderDefinitionCollection
                 {
                     {
-                        "content", new[]
+                        "content", new ViewDefinition[]
                         {
                             new NavigationGroupModel
                             {
@@ -23,8 +23,7 @@ namespace TerrificNet.Controllers
                                 {
                                     new ActionModel { Name = "Create View", Link = "#" },
                                     new ActionModel { Name = "Create Module", Link = "#" }
-                                }
-                                ,
+                                },
                                 Placeholder = new PlaceholderDefinitionCollection
                                 {
                                     {

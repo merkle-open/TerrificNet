@@ -17,7 +17,7 @@ namespace TerrificNet.AssetCompiler.Test
         public void ParseValidJson()
         {
             const string file = "valid.json";
-            var config = ConfigurationLoader.LoadTerrificConfiguration(Path.Combine(TestContext.DeploymentDirectory, "configs"), file, new FileSystem());
+            var config = ConfigurationLoader.LoadTerrificConfiguration(string.Empty, file, new FileSystem(Path.Combine(TestContext.DeploymentDirectory, "configs")));
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));
@@ -29,14 +29,14 @@ namespace TerrificNet.AssetCompiler.Test
         public void ParseInvalidJson()
         {
             const string fileName = "invalid.json";
-            var config = ConfigurationLoader.LoadTerrificConfiguration(Path.Combine(TestContext.DeploymentDirectory, "configs"), fileName, new FileSystem());
+            var config = ConfigurationLoader.LoadTerrificConfiguration(string.Empty, fileName, new FileSystem(Path.Combine(TestContext.DeploymentDirectory, "configs")));
         }
 
         [TestMethod]
         [DeploymentItem("configs/config.json")]
         public void ParseDefaultConfig()
         {
-            var config = ConfigurationLoader.LoadTerrificConfiguration(TestContext.DeploymentDirectory, new FileSystem());
+            var config = ConfigurationLoader.LoadTerrificConfiguration(string.Empty, new FileSystem(TestContext.DeploymentDirectory));
             Assert.IsNotNull(config);
             Assert.IsTrue(config.Assets.ContainsKey("app.css"));
             Assert.IsTrue(config.Assets.ContainsKey("app.js"));

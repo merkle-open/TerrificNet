@@ -24,7 +24,7 @@ namespace TerrificNet.AssetCompiler.Test
 		[TestInitialize]
 		public void Init()
 		{
-            _terrificConfig = ConfigurationLoader.LoadTerrificConfiguration(TestContext.DeploymentDirectory, new FileSystem());
+            _terrificConfig = ConfigurationLoader.LoadTerrificConfiguration("", new FileSystem(TestContext.DeploymentDirectory));
 
 		    _container = new UnityContainer();
 			_container.RegisterType<IAssetCompiler, JsAssetCompiler>("Js");

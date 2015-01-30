@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine.Globalization
 {
@@ -10,11 +9,10 @@ namespace TerrificNet.ViewEngine.Globalization
 		private readonly IFileSystem _fileSystem;
 		private readonly string _fileName;
 
-		public JsonLabelService(IFileSystem fileSystem, ITerrificNetConfig config)
+		public JsonLabelService(IFileSystem fileSystem)
 		{
 			_fileSystem = fileSystem;
-
-			_fileName = _fileSystem.Path.Combine(config.BasePath, "labels.json");
+			_fileName = "labels.json";
 		}
 
 		private Dictionary<string, string> Load()
