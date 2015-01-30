@@ -19,11 +19,6 @@ namespace TerrificNet.Controllers
                             new NavigationGroupModel
                             {
                                 Template = "views/_layouts/page",
-                                Actions = new List<ActionModel>
-                                {
-                                    new ActionModel { Name = "Create View", Link = "#" },
-                                    new ActionModel { Name = "Create Module", Link = "#" }
-                                },
                                 Placeholder = new PlaceholderDefinitionCollection
                                 {
                                     {
@@ -35,6 +30,17 @@ namespace TerrificNet.Controllers
                     }
                 }
             };
+            return viewDefinition;
+        }
+
+        public static ViewDefinition AddAction(this ViewDefinition viewDefinition, ActionModel actionModel)
+        {
+            var model = (NavigationGroupModel)viewDefinition.Placeholder["content"][0];
+            if (model.Actions == null)
+                model.Actions = new List<ActionModel>();
+
+            model.Actions.Add(actionModel);
+
             return viewDefinition;
         }
 

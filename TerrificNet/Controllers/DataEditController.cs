@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -27,7 +28,10 @@ namespace TerrificNet.Controllers
             if (!templateRepository.TryGetTemplate(id, null, out templateInfo))
                 return null;
 
-            var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(GetDataEditor()));
+            var model = GetVariations();
+            var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(GetDataEditor(model)));
+
+            AddSaveAction(viewDefinition, model);
 
             return View(viewDefinition.Template, viewDefinition);
         }
@@ -35,24 +39,38 @@ namespace TerrificNet.Controllers
         [HttpGet]
         public HttpResponseMessage IndexAdvanced()
         {
+            var model = GetVariations();
             var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(new ViewDefinition
             {
                 Template = "components/modules/AdvancedEditor/AdvancedEditor",
                 Placeholder = new PlaceholderDefinitionCollection
                 {
-                    {"rightPanel", new [] { GetDataEditor() } }
+                    {"rightPanel", new [] { GetDataEditor(model) } }
                 }
             }));
+
+            AddSaveAction(viewDefinition, model);
 
             return View(viewDefinition.Template, viewDefinition);
         }
 
-        private ViewDefinition GetDataEditor()
+        private static void AddSaveAction(ViewDefinition viewDefinition, DataVariationCollectionModel model)
+        {
+            var saveAction = new ActionModel
+            {
+                Name = "Save",
+                Link = "#",
+                Id = model.SaveActionId
+            };
+            viewDefinition.AddAction(saveAction);
+        }
+
+        private ViewDefinition GetDataEditor(DataVariationCollectionModel model)
         {
             return new ViewDefinition
             {
                 Template = "components/modules/DataEditor/DataEditor",
-                Data = GetVariations()
+                Data = model
             };
         }
 
@@ -88,7 +106,8 @@ namespace TerrificNet.Controllers
                         Link = "",
                         Name = "Variation2"
                     }
-                }
+                },
+                SaveActionId = string.Concat("action_", Guid.NewGuid().ToString())
             };
         }
 

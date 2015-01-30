@@ -12,7 +12,6 @@
 </div>
 {{/if}}
 <div id='editor_holder'></div>
-<button id='submit'>Save</button>
 
 <script>
     // Set the default CSS theme and icon library globally
@@ -39,7 +38,7 @@
         });
 
         // Hook up the submit button to log to the console
-        $('#submit').click(function () {
+        $('#{{save_action_id}}').click(function () {
             // Get the value from the editor
             console.log(editor.getValue());
 
