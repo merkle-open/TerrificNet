@@ -43,9 +43,13 @@ namespace TerrificNet.Controllers
             var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(new ViewDefinition
             {
                 Template = "components/modules/AdvancedEditor/AdvancedEditor",
+                ExtensionData = new Dictionary<string, object>
+                {
+                    { "save_action_id", model.SaveActionId }
+                },
                 Placeholder = new PlaceholderDefinitionCollection
                 {
-                    {"rightPanel", new [] { GetDataEditor(model) } }
+                    { "rightPanel", new [] { GetDataEditor(model) } }
                 }
             }));
 

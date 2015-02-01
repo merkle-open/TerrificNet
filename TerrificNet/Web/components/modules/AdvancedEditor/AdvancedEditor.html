@@ -10,7 +10,7 @@
         var $contentFrame = $('<iframe />').attr('src', template).height($(document).height()).width($("#content").width())
             .appendTo($("#content"));
 
-        $(document).contents().find("#submit").click(function() {
+        $(document).contents().find("{{save_action_id}}").click(function() {
             $contentFrame.attr('src', $contentFrame.attr('src'));
         });
     });
