@@ -38,6 +38,7 @@ namespace TerrificNet.Controllers
                 Applications = _applications.Select(a => new ViewOverviewModel
                 {
                     Name = a.Name,
+                    Modules = a.Container.Resolve<IModuleRepository>().GetAll().Select(m => m.Id).ToList(),
                     Views = GetViews(a.Section, a.Container.Resolve<ITemplateRepository>()).ToList()
                 }).ToList()
             };

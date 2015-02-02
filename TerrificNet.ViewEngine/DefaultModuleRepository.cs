@@ -32,7 +32,12 @@ namespace TerrificNet.ViewEngine
             var moduleId = GetModuleId(t.Key);
             var defaultTemplateCandidates = GetDefaultTemplateCandidates(moduleId);
             var defaultTemplate = t.FirstOrDefault(a => defaultTemplateCandidates.Contains(a.Id));
-            return new ModuleDefinition(moduleId, defaultTemplate, t.Where(t1 => t1 != defaultTemplate).ToDictionary(GetSkinName));
+            var templates = t.ToList();
+
+            if (defaultTemplate == null && templates.Count == 1)
+                defaultTemplate = templates[0];
+
+            return new ModuleDefinition(moduleId, defaultTemplate, templates.Where(t1 => t1 != defaultTemplate).ToDictionary(GetSkinName));
         }
 
         private static IEnumerable<string> GetDefaultTemplateCandidates(string moduleId)

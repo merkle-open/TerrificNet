@@ -21,8 +21,13 @@
                 </span>
             </div>
             {{/each}}
+            {{/if}}
+            {{#if modules}}
+            {{#each modules}}
+                {{this}}
+            {{/each}}
+            {{/if}}
         </div>
-        {{/if}}
         {{/each}}
         {{/if}}
     </div>

@@ -58,6 +58,7 @@ namespace TerrificNet.UnityModules
                 new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),
                     new ResolvedParameter<PhysicalSchemaProvider>()));
             container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
+            container.RegisterType<IModuleRepository, DefaultModuleRepository>();
 
 	        container.RegisterType<ILabelService, JsonLabelService>();
         }

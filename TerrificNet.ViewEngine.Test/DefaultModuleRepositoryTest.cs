@@ -55,6 +55,21 @@ namespace TerrificNet.ViewEngine.Test
             Assert.AreEqual(2, result[0].Skins.Count, "Two skins expected for module");
         }
 
+        [TestMethod]
+        public void TestModuleContainsUseDefaultTemplateWhenOnlyOneTemplate()
+        {
+            var templateRepository = CreateRepository("modules/Mod1/test");
+            var terrificNetConfig = CreateConfig();
+
+            var underTest = new DefaultModuleRepository(terrificNetConfig, templateRepository);
+            var result = underTest.GetAll().ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual("modules/Mod1", result[0].Id, "Module name should be modules/Mod1");
+            Assert.IsNotNull(result[0].DefaultTemplate);
+            Assert.AreEqual("modules/Mod1/test", result[0].DefaultTemplate.Id);
+            Assert.AreEqual(0, result[0].Skins.Count, "No skins expected for module");
+        }
 
         private static ITerrificNetConfig CreateConfig()
         {
