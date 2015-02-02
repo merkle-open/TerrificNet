@@ -60,6 +60,7 @@
     <Compile Include="SchemaAssertions.cs" />
     <Compile Include="SchemaComparisionTest.cs" />
     <Compile Include="SchemaExtractorTest.cs" />
+    <Compile Include="SchemaCombinerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Mocks\arrayProperty.mustache" />
@@ -93,7 +94,9 @@
       <Name>Veil</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Mocks\Combiner\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -132,4 +132,17 @@ namespace TerrificNet.ViewEngine.Schema
 
         public string PropertyName { get; private set; }
     }
+
+    public class ValueConflict : SchemaComparisonNotification
+    {
+        public string PropertyName { get; private set; }
+
+        public ValueConflict(string propertyName, JsonSchema schemaPart, JsonSchema schemaPartBase, SchemaComparisionNotificationLevel level) : base(schemaPart, schemaPartBase, level)
+        {
+            PropertyName = propertyName;
+        }
+
+        public object Value1 { get; internal set; }
+        public object Value2 { get; internal set; }
+    }
 }
