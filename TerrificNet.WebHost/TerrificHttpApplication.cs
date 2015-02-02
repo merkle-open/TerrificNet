@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
+using System.Web.Routing;
 using TerrificNet.Configuration;
 
 namespace TerrificNet.WebHost
@@ -35,6 +36,7 @@ namespace TerrificNet.WebHost
                 var container = WebInitializer.Initialize(this.Server.MapPath("/"), configuration);
                 new Startup().Configuration(container, config);
             });
+            RouteTable.Routes.RouteExistingFiles = true;
         }
     }
 }
