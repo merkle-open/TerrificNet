@@ -39,5 +39,6 @@ Default Datavariation
 * Backend for label service
 * Helper refactoring
 * Update for console host
+* Fake model generator (eg. Lorem ipsum text)
 * Shared model schemas, eg. use of modules
 	* $ref parameter
