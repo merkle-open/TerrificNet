@@ -8,8 +8,11 @@ Default Skin
 Handlebar Syntax
 Helpers
 
-```
+```handlebars
 <p>{{hallo}}</p>
+{{module template="templatepath"}}
+{{placeholder key="phContent"}}
+{{label "person/male"}}
 ```
 ### Datavariation
 Default Datavariation
