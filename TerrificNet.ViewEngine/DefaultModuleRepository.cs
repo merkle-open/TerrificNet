@@ -24,7 +24,26 @@ namespace TerrificNet.ViewEngine
             return _templateRepository.GetAll()
                 .Where(t => t.Id.StartsWith(_configuration.ModulePath))
                 .GroupBy(t => Path.GetDirectoryName(t.Id))
-                .Select(t => new ModuleDefinition(t.Key, t.ToDictionary(GetSkinName)));
+                .Select(CreateModuleDefinition);
+        }
+
+        private static ModuleDefinition CreateModuleDefinition(IGrouping<string, TemplateInfo> t)
+        {
+            var moduleId = GetModuleId(t.Key);
+            var defaultTemplateCandidates = GetDefaultTemplateCandidates(moduleId);
+            var defaultTemplate = t.FirstOrDefault(a => defaultTemplateCandidates.Contains(a.Id));
+            return new ModuleDefinition(moduleId, defaultTemplate, t.Where(t1 => t1 != defaultTemplate).ToDictionary(GetSkinName));
+        }
+
+        private static IEnumerable<string> GetDefaultTemplateCandidates(string moduleId)
+        {
+            yield return string.Concat(moduleId, '/', "default");
+            yield return string.Concat(moduleId, '/', Path.GetFileName(moduleId));
+        }
+
+        private static string GetModuleId(string moduleId)
+        {
+            return moduleId.Replace('\\', '/');
         }
 
         private static string GetSkinName(TemplateInfo templateInfo)

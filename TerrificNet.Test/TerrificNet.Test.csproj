@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringTemplateInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.Generator\TerrificNet.Generator.csproj">

@@ -6,9 +6,10 @@ namespace TerrificNet.ViewEngine
     {
         public string Id { get; private set; }
 
-        public ModuleDefinition(string id, IReadOnlyDictionary<string, TemplateInfo> skins)
+        public ModuleDefinition(string id, TemplateInfo defaultTemplate, IReadOnlyDictionary<string, TemplateInfo> skins)
         {
             Id = id;
+            DefaultTemplate = defaultTemplate;
             Skins = skins;
         }
 
