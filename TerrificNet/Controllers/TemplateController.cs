@@ -36,7 +36,7 @@ namespace TerrificNet.Controllers
 
 			IView view;
 			TemplateInfo templateInfo;
-		    if (!_templateRepository.TryGetTemplate(path, skin, out templateInfo) ||
+		    if (!_templateRepository.TryGetTemplate(path, out templateInfo) ||
 		        !_viewEngine.TryCreateView(templateInfo, out view))
 		    {
                 var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_configuration.ViewPath, path), "html.json");
@@ -70,7 +70,7 @@ namespace TerrificNet.Controllers
 	    {
 	        IView view;
 			TemplateInfo templateInfo;
-	        if (!_templateRepository.TryGetTemplate(path, null, out templateInfo) ||
+	        if (!_templateRepository.TryGetTemplate(path, out templateInfo) ||
 	            !_viewEngine.TryCreateView(templateInfo, out view))
 	            return new HttpResponseMessage(HttpStatusCode.NotFound);
 

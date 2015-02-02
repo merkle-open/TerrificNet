@@ -19,22 +19,16 @@ namespace TerrificNet.ViewEngine
 		    _fileSystem = fileSystem;
 		}
 
-	    public bool TryGetTemplate(string id, string skin, out TemplateInfo templateInfo)
+	    public bool TryGetTemplate(string id, out TemplateInfo templateInfo)
 		{
 		    var fileName = id;
-			if (!string.IsNullOrEmpty(skin))
-				fileName += "-" + skin;
-
 		    var templates = GetAll().ToDictionary(f => f.Id, f => f);
 		    return templates.TryGetValue(fileName, out templateInfo);
 		}
 
-	    private IEnumerable<TemplateInfo> Read(string directory)
+	    private IEnumerable<TemplateInfo> Read()
 	    {
-	        if (!_fileSystem.DirectoryExists(directory))
-	            return Enumerable.Empty<TemplateInfo>();
-
-			return _fileSystem.DirectoryGetFiles(directory, "html").Select(f =>
+			return _fileSystem.DirectoryGetFiles(null, "html").Select(f =>
 			{
 			    var relativePath = GetTemplateId(f).TrimStart('/');
                 return new FileTemplateInfo(relativePath, f, _fileSystem); 
@@ -48,8 +42,7 @@ namespace TerrificNet.ViewEngine
 
 	    public IEnumerable<TemplateInfo> GetAll()
 	    {
-	        return Read(_config.ViewPath)
-                .Union(Read(_config.ModulePath));
+	        return Read();
 	    }
 	}
 }

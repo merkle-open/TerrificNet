@@ -25,7 +25,7 @@ namespace TerrificNet.Controllers
         {
             var templateRepository = ResolveForApp<ITemplateRepository>(app);
             TemplateInfo templateInfo;
-            if (!templateRepository.TryGetTemplate(id, null, out templateInfo))
+            if (!templateRepository.TryGetTemplate(id, out templateInfo))
                 return null;
 
             var model = GetVariations();

@@ -70,6 +70,9 @@ namespace TerrificNet.ViewEngine
 
         private string GetRootPath(string part)
         {
+            if (string.IsNullOrEmpty(part))
+                return _basePath;
+
             return Path.Combine(_basePath, part.TrimStart('/'));
         }
 

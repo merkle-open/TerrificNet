@@ -51,7 +51,7 @@ static public class WebInitializer
         where T : IModelProvider
     {
         TemplateInfo templateInfo;
-        if (repo.TryGetTemplate(templateId, null,
+        if (repo.TryGetTemplate(templateId,
             out templateInfo))
             modelProvider.RegisterProviderForTemplate(templateInfo,
                 childContainer.Resolve<T>());

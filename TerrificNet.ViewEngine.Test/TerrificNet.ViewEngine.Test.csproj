@@ -62,8 +62,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileSystemProviderTest.cs" />
     <Compile Include="FilePathHelperTest.cs" />
+    <Compile Include="DefaultModuleRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.Test\TerrificNet.Test.csproj">
+      <Project>{53891204-B74C-4FEF-AF1F-7E3081E83582}</Project>
+      <Name>TerrificNet.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>

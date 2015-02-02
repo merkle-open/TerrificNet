@@ -50,7 +50,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
                 TemplateInfo templateInfo;
                 IView view;
-                if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
+                if (_templateRepository.TryGetTemplate(templateName, out templateInfo) &&
                     _viewEngine.TryCreateView(templateInfo, out view))
                 {
                     object moduleModel = placeholderConfig.Data ?? _modelProvider.GetDefaultModelForTemplate(templateInfo) ?? JObject.FromObject(placeholderConfig);
@@ -66,7 +66,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
         {
             TemplateInfo templateInfo;
             IView view;
-            if (_templateRepository.TryGetTemplate(templateName, skin, out templateInfo) &&
+            if (_templateRepository.TryGetTemplate(templateName, out templateInfo) &&
                 _viewEngine.TryCreateView(templateInfo, out view))
             {
                 var moduleModel = _modelProvider.GetDefaultModelForTemplate(templateInfo);

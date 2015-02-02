@@ -74,6 +74,9 @@ namespace TerrificNet.ViewEngine
 
         private string GetFullPath(string path)
         {
+            if (string.IsNullOrEmpty(path))
+                return _rootPath;
+
             return PathUtility.Combine(_rootPath, path);
         }
 

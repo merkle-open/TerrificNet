@@ -25,7 +25,7 @@ namespace TerrificNet.Controllers
 		public HttpResponseMessage Get(string path)
 		{
             TemplateInfo templateInfo;
-            if (!_templateRepository.TryGetTemplate(path, null, out templateInfo))
+            if (!_templateRepository.TryGetTemplate(path, out templateInfo))
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Template not found");
 
 			var schema = _schemaProvider.GetSchemaFromTemplate(templateInfo);

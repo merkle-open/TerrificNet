@@ -41,7 +41,7 @@ namespace TerrificNet.Mvc
         {
             TemplateInfo templateInfo;
 
-            if ((_templateRepository.TryGetTemplate(viewName, string.Empty, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, string.Empty, out templateInfo)))
+            if ((_templateRepository.TryGetTemplate(viewName, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, out templateInfo)))
             {
                 Type modelType;
                 if (!_modelTypeProvider.TryGetModelTypeFromTemplate(templateInfo, out modelType))

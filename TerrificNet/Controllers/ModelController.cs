@@ -18,7 +18,7 @@ namespace TerrificNet.Controllers
 		public object Get(string path, string dataId = null)
 	    {
 	        TemplateInfo templateInfo;
-	        if (!_templateRepository.TryGetTemplate(path, string.Empty, out templateInfo))
+	        if (!_templateRepository.TryGetTemplate(path, out templateInfo))
 	            return this.NotFound();
 
 	        if (!string.IsNullOrEmpty(dataId))
@@ -31,7 +31,7 @@ namespace TerrificNet.Controllers
 	    public void Put(string path, [FromBody] object content)
         {
             TemplateInfo templateInfo;
-            if (_templateRepository.TryGetTemplate(path, string.Empty, out templateInfo))
+            if (_templateRepository.TryGetTemplate(path, out templateInfo))
                 _modelProvider.UpdateDefaultModelForTemplate(templateInfo, content);
         }
 	}
