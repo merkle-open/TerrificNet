@@ -11,14 +11,29 @@ using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet.Controllers
 {
-    public class DataEditController : TemplateControllerBase
-    {
-        private readonly TerrificNetApplication[] _applications;
+	public class AdministrationTemplateControllerBase : TemplateControllerBase
+	{
+		private readonly TerrificNetApplication[] _applications;
 
-        public DataEditController(TerrificNetApplication[] applications)
-        {
-            _applications = applications;
-        }
+		protected AdministrationTemplateControllerBase(TerrificNetApplication[] applications)
+		{
+			_applications = applications;
+		}
+
+		protected T ResolveForApp<T>(string applicationName)
+		{
+			applicationName = applicationName ?? string.Empty;
+			var application = _applications.First(a => a.Section == applicationName);
+
+			return application.Container.Resolve<T>();
+		}
+	}
+
+	public class DataEditController : AdministrationTemplateControllerBase
+    {
+		public DataEditController(TerrificNetApplication[] applications) : base(applications)
+		{
+		}
 
         [HttpGet]
         public HttpResponseMessage Index(string id, string app)
@@ -86,15 +101,7 @@ namespace TerrificNet.Controllers
                 .IncludeStyle("//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css");
         }
 
-        private T ResolveForApp<T>(string applicationName)
-        {
-            applicationName = applicationName ?? string.Empty;
-            var application = _applications.First(a => a.Section == applicationName);
-
-            return application.Container.Resolve<T>();
-        }
-
-        private DataVariationCollectionModel GetVariations()
+		private DataVariationCollectionModel GetVariations()
         {
             return new DataVariationCollectionModel
             {

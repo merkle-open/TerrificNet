@@ -1,0 +1,28 @@
+﻿<h1 class="terrific">{{name}}</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>{{name}}</h3>
+        {{#if default_template}}
+        <h4 class="list-group-item-heading">Default Template</h4>
+        <div class="list-group-item clearfix">
+            <a href="{{default_template.url}}" alt="">{{default_template.text}}</a>
+        </div>
+        {{/if}}
+        {{#if skins}}
+        <h4 class="list-group-item-heading">Skins</h4>
+        <div class="list-group">
+        {{#each skins}}
+            <div class="list-group-item clearfix">
+                <a href="{{url}}" alt="">{{text}}</a>
+                <!--<span class="pull-right">
+                    <a href="{{editUrl}}" class="btn btn-xs" role="button">Data</a>
+                    <a href="{{schemaUrl}}" class="btn btn-xs" role="button">Schema</a>
+                    <a href="{{advancedUrl}}" class="btn btn-xs" role="button">Advanced</a>
+                </span>-->
+            </div>
+        {{/each}}
+        </div>
+        {{/if}}
+    </div>
+</div>

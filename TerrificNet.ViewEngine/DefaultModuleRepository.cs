@@ -62,7 +62,8 @@ namespace TerrificNet.ViewEngine
 
         public bool TryGetModuleDefinitionById(string id, out ModuleDefinition moduleDefinition)
         {
-            throw new NotImplementedException();
+	        var results = this.GetAll().ToDictionary(k => k.Id);
+	        return results.TryGetValue(id, out moduleDefinition);
         }
     }
 }

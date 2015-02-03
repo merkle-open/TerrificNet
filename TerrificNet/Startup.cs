@@ -18,6 +18,12 @@ namespace TerrificNet
                 defaults: new { controller = "Home", action = "Index", section = "web/" }
                 );
 
+			config.Routes.MapHttpRoute(
+				name: "AdministrationModuleDetail",
+				routeTemplate: "web/module",
+				defaults: new { controller = "ModuleDetail", action = "Index", section = "web/" }
+				);
+
             config.Routes.MapHttpRoute(
                 name: "AdministrationDataEdit",
                 routeTemplate: "web/edit",

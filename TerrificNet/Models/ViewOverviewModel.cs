@@ -9,9 +9,9 @@ namespace TerrificNet.Models
         public string Name { get; set; }
 
         [JsonProperty("views")]
-        public IList<ViewItemModel> Views { get; set; }
+        public IList<TemplateItemModel> Views { get; set; }
 
         [JsonProperty("modules")]
-        public IList<ViewItemModel> Modules { get; set; }
+        public IList<TemplateItemModel> Modules { get; set; }
     }
 }

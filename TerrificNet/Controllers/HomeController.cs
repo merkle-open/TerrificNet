@@ -46,24 +46,24 @@ namespace TerrificNet.Controllers
 			return model;
 		}
 
-		private static ViewItemModel GetView(string section, ModuleDefinition m)
+		private static TemplateItemModel GetView(string section, ModuleDefinition m)
 		{
 			var schemaUrl = string.Format("/{0}schema/{1}", section, m.Id);
 			var dataUrl = string.Format("/{0}model/{1}", section, m.Id);
 			var templateUrl = string.Format("/{0}{1}", section, m.Id);
 			var templateId = m.Id;
 
-			return new ViewItemModel
+			return new TemplateItemModel
 			{
 				Text = m.Id,
-				Url = templateUrl,
+				Url = string.Format("/web/module?id={0}&app={1}", m.Id, section),
 				EditUrl = string.Format("/web/edit?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
 				AdvancedUrl = string.Format("/web/edit_advanced?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, templateId),
 				SchemaUrl = schemaUrl
 			};
 		}
 
-		private static IEnumerable<ViewItemModel> GetViews(string section, ITemplateRepository templateRepository)
+		private static IEnumerable<TemplateItemModel> GetViews(string section, ITemplateRepository templateRepository)
 		{
 			foreach (var file in templateRepository.GetAll())
 			{
@@ -71,7 +71,7 @@ namespace TerrificNet.Controllers
 				var dataUrl = string.Format("/{0}model/{1}", section, file.Id);
 				var templateUrl = string.Format("/{0}{1}", section, file.Id);
 				var templateId = file.Id;
-				yield return new ViewItemModel
+				yield return new TemplateItemModel
 				{
 					Text = file.Id,
 					Url = templateUrl,

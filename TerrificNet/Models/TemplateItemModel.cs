@@ -2,7 +2,7 @@
 
 namespace TerrificNet.Models
 {
-    public class ViewItemModel
+    public class TemplateItemModel
     {
         [JsonProperty("url")]
         public string Url { get; set; }
