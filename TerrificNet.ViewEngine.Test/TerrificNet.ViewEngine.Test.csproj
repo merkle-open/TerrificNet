@@ -40,6 +40,10 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -63,11 +67,16 @@
     <Compile Include="FileSystemProviderTest.cs" />
     <Compile Include="FilePathHelperTest.cs" />
     <Compile Include="DefaultModuleRepositoryTest.cs" />
+    <Compile Include="DefaultModuleSchemaProviderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.Test\TerrificNet.Test.csproj">
       <Project>{53891204-B74C-4FEF-AF1F-7E3081E83582}</Project>
       <Name>TerrificNet.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.ViewEngine.Schema\TerrificNet.ViewEngine.Schema.csproj">
+      <Project>{29F13A40-21B8-4FEA-8A30-D5BAA24622B2}</Project>
+      <Name>TerrificNet.ViewEngine.Schema</Name>
     </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
@@ -75,6 +84,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

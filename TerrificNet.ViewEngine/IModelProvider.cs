@@ -6,5 +6,6 @@
         void UpdateDefaultModelForTemplate(TemplateInfo template, object content);
 
         object GetModelForTemplate(TemplateInfo template, string dataId);
+        object GetModelForModule(ModuleDefinition moduleDefinition, string dataId);
     }
 }

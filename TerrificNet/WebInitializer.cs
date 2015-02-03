@@ -4,7 +4,6 @@ using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
-using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.ViewEngines;
 using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
@@ -45,15 +44,5 @@ static public class WebInitializer
 
         new TerrificBundleUnityModule().Configure(container);
         return container;
-    }
-
-    private static void RegisterModelProvider<T>(IUnityContainer childContainer, ITemplateRepository repo, DefaultModelProvider modelProvider, string templateId)
-        where T : IModelProvider
-    {
-        TemplateInfo templateInfo;
-        if (repo.TryGetTemplate(templateId,
-            out templateInfo))
-            modelProvider.RegisterProviderForTemplate(templateInfo,
-                childContainer.Resolve<T>());
     }
 }

@@ -6,7 +6,7 @@ namespace TerrificNet.ViewEngine.Schema
 {
     public class SchemaCombiner
     {
-        public JsonSchema Apply(JsonSchema schema1, JsonSchema schema2, SchemaComparisionReport report,
+        public virtual JsonSchema Apply(JsonSchema schema1, JsonSchema schema2, SchemaComparisionReport report,
             string propertyName = null)
         {
             if (schema1 == null)

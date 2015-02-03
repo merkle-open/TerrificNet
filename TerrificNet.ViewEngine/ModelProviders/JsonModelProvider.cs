@@ -8,6 +8,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
         private readonly IFileSystem _fileSystem;
         private const string DefaultFilename = "_default.json";
         private const string FolderPath = "../data";
+        private const string ModuleFolerPath = "data";
 
         public JsonModelProvider(IFileSystem fileSystem)
         {
@@ -35,7 +36,17 @@ namespace TerrificNet.ViewEngine.ModelProviders
         public object GetModelForTemplate(TemplateInfo template, string dataId)
         {
             var filePath = GetPath(template, dataId);
+            return GetModelFromPath(filePath);
+        }
 
+        public object GetModelForModule(ModuleDefinition moduleDefinition, string dataId)
+        {
+            var filePath = GetPath(moduleDefinition, dataId);
+            return GetModelFromPath(filePath);
+        }
+
+        private object GetModelFromPath(string filePath)
+        {
             if (!_fileSystem.FileExists(filePath))
                 return null;
 
@@ -44,6 +55,12 @@ namespace TerrificNet.ViewEngine.ModelProviders
                 var content = stream.ReadToEnd();
                 return JsonConvert.DeserializeObject(content);
             }
+        }
+
+        private string GetPath(ModuleDefinition moduleDefinition, string dataId)
+        {
+            return _fileSystem.Path.Combine(moduleDefinition.Id, ModuleFolerPath,
+                _fileSystem.Path.ChangeExtension(dataId, ".json"));
         }
 
         private string GetPath(TemplateInfo templateInfo, string id)

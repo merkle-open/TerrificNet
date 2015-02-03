@@ -50,9 +50,7 @@ namespace TerrificNet.UnityModules
         {
             container.RegisterType<IViewEngine, VeilViewEngine>();
             container.RegisterType<ICacheProvider, MemoryCacheProvider>();
-            container.RegisterType<IModelProvider, JsonModelProvider>("fallback");
-
-            container.RegisterType<IModelProvider, DefaultModelProvider>(new ContainerControlledLifetimeManager(), new InjectionConstructor(new ResolvedParameter<IModelProvider>("fallback")));
+            container.RegisterType<IModelProvider, JsonModelProvider>();
 
             container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
                 new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),

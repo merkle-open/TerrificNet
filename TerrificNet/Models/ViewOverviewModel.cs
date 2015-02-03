@@ -12,6 +12,6 @@ namespace TerrificNet.Models
         public IList<ViewItemModel> Views { get; set; }
 
         [JsonProperty("modules")]
-        public IList<string> Modules { get; set; }
+        public IList<ViewItemModel> Modules { get; set; }
     }
 }

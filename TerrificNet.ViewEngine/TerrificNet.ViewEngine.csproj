@@ -67,14 +67,15 @@
     <Compile Include="IFileSystem.cs" />
     <Compile Include="IModelTypeProvider.cs" />
     <Compile Include="IModuleRepository.cs" />
+    <Compile Include="IModuleSchemaProvider.cs" />
     <Compile Include="INamingRule.cs" />
     <Compile Include="ITemplateRepository.cs" />
-    <Compile Include="ModelProviders\DefaultModelProvider.cs" />
     <Compile Include="ModuleDefinition.cs" />
     <Compile Include="NamingRule.cs" />
     <Compile Include="PathUtility.cs" />
     <Compile Include="RenderingContext.cs" />
     <Compile Include="SchemaProviders\DefaultModelTypeRepository.cs" />
+    <Compile Include="SchemaProviders\DefaultModuleSchemaProvider.cs" />
     <Compile Include="SchemaProviders\IModelTypeRepository.cs" />
     <Compile Include="SchemaProviders\PhysicalSchemaProvider.cs" />
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
