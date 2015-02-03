@@ -1,4 +1,4 @@
-# TerrificNet
+# TerrificNet 
 ===========
 ## Definitions
 ### Module
@@ -42,3 +42,4 @@ Default Datavariation
 * Fake model generator (eg. Lorem ipsum text)
 * Shared model schemas, eg. use of modules
 	* $ref parameter
+* Frontify integration
