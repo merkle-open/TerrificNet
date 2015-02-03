@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -23,22 +24,34 @@ namespace TerrificNet.Controllers
 			if (!moduleRepository.TryGetModuleDefinitionById(id, out moduleDefinition))
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
+			var modelProvider = this.ResolveForApp<IModelProvider>(app);
+
 			var viewDefinition = DefaultLayout.WithDefaultLayout(new ViewDefinition
 			{
 				Template = "components/modules/ModuleDetail/ModuleDetail",
-				Data = GetOverviewModel(moduleDefinition)
+				Data = GetOverviewModel(moduleDefinition, modelProvider.GetDataVariations(moduleDefinition))
 			});
 
 			return View(viewDefinition.Template, viewDefinition);
 		}
 
-		private ModuleDetailModel GetOverviewModel(ModuleDefinition moduleDefinition)
+		private ModuleDetailModel GetOverviewModel(ModuleDefinition moduleDefinition, IEnumerable<string> dataVariations)
 		{
 			return new ModuleDetailModel
 			{
 				Name = moduleDefinition.Id,
 				DefaultTemplate = GetModel(moduleDefinition.DefaultTemplate),
-				Skins = moduleDefinition.Skins.Select(kv => GetModel(kv.Value, kv.Key)).ToList()
+				Skins = moduleDefinition.Skins.Select(kv => GetModel(kv.Value, kv.Key)).ToList(),
+				DataVariations = dataVariations.Select(GetDataVariation).ToList()
+			};
+		}
+
+		private DataVariationModel GetDataVariation(string id)
+		{
+			return new DataVariationModel
+			{
+				Name = id,
+				Link = "#"
 			};
 		}
 

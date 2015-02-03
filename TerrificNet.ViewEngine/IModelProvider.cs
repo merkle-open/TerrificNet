@@ -1,4 +1,6 @@
-﻿namespace TerrificNet.ViewEngine
+﻿using System.Collections.Generic;
+
+namespace TerrificNet.ViewEngine
 {
     public interface IModelProvider
     {
@@ -7,5 +9,6 @@
 
         object GetModelForTemplate(TemplateInfo template, string dataId);
         object GetModelForModule(ModuleDefinition moduleDefinition, string dataId);
+	    IEnumerable<string> GetDataVariations(ModuleDefinition moduleDefinition);
     }
 }

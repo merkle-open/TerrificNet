@@ -6,7 +6,7 @@
         {{#if default_template}}
         <h4 class="list-group-item-heading">Default Template</h4>
         <div class="list-group-item clearfix">
-            <a href="{{default_template.url}}" alt="">{{default_template.text}}</a>
+            <a href="{{url}}" alt="">{{text}}</a>
         </div>
         {{/if}}
         {{#if skins}}
@@ -22,6 +22,21 @@
                 </span>-->
             </div>
         {{/each}}
+        </div>
+        {{/if}}
+        {{#if data_variations}}
+        <h4 class="list-group-item-heading">Data Variations</h4>
+        <div class="list-group">
+            {{#each data_variations}}
+            <div class="list-group-item clearfix">
+                <a href="{{url}}" alt="">{{name}}</a>
+                <!--<span class="pull-right">
+                <a href="{{editUrl}}" class="btn btn-xs" role="button">Data</a>
+                <a href="{{schemaUrl}}" class="btn btn-xs" role="button">Schema</a>
+                <a href="{{advancedUrl}}" class="btn btn-xs" role="button">Advanced</a>
+            </span>-->
+            </div>
+            {{/each}}
         </div>
         {{/if}}
     </div>

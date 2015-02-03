@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace TerrificNet.ViewEngine.ModelProviders
@@ -45,7 +47,17 @@ namespace TerrificNet.ViewEngine.ModelProviders
             return GetModelFromPath(filePath);
         }
 
-        private object GetModelFromPath(string filePath)
+	    public IEnumerable<string> GetDataVariations(ModuleDefinition moduleDefinition)
+	    {
+		    var directory = _fileSystem.Path.Combine(moduleDefinition.Id, ModuleFolerPath);
+		    if (!_fileSystem.DirectoryExists(directory))
+			    return Enumerable.Empty<string>();
+
+		    return _fileSystem.DirectoryGetFiles(directory, "json")
+				.Select(f => _fileSystem.Path.GetFileNameWithoutExtension(f));
+	    }
+
+	    private object GetModelFromPath(string filePath)
         {
             if (!_fileSystem.FileExists(filePath))
                 return null;
