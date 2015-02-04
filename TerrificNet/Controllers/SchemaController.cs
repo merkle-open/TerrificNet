@@ -11,7 +11,8 @@ namespace TerrificNet.Controllers
         private readonly ITemplateRepository _templateRepository;
         private readonly ISchemaProvider _schemaProvider;
 
-        public SchemaController(ITemplateRepository templateRepository, ISchemaProvider schemaProvider)
+        public SchemaController(ITemplateRepository templateRepository, 
+            ISchemaProvider schemaProvider)
         {
             _templateRepository = templateRepository;
             _schemaProvider = schemaProvider;

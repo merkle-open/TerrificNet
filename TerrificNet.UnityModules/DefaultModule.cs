@@ -17,6 +17,8 @@ namespace TerrificNet.UnityModules
         public void Configure(IUnityContainer container)
         {
             container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
+            container.RegisterType<IModuleRepository, DefaultModuleRepository>();
+            container.RegisterType<IModuleSchemaProvider, DefaultModuleSchemaProvider>();
         }
 
         public static TerrificNetApplication RegisterForApplication(IUnityContainer childContainer, string hostPath, string basePath, string applicationName, string section)

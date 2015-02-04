@@ -5,8 +5,10 @@
         <h3>{{name}}</h3>
         {{#if default_template}}
         <h4 class="list-group-item-heading">Default Template</h4>
-        <div class="list-group-item clearfix">
-            <a href="{{url}}" alt="">{{text}}</a>
+        <div class="list-group">
+            <div class="list-group-item clearfix">
+                <a href="{{default_template.url}}" alt="">{{default_template.text}}</a>
+            </div>
         </div>
         {{/if}}
         {{#if skins}}
@@ -23,6 +25,10 @@
             </div>
         {{/each}}
         </div>
+        {{/if}}
+        {{#if schema_url}}
+        <h4>Schema</h4>
+        <a href="{{schema_url}}" alt="schema url">Schema</a>
         {{/if}}
         {{#if data_variations}}
         <h4 class="list-group-item-heading">Data Variations</h4>

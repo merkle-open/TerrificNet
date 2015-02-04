@@ -29,24 +29,26 @@ namespace TerrificNet.Controllers
 			var viewDefinition = DefaultLayout.WithDefaultLayout(new ViewDefinition
 			{
 				Template = "components/modules/ModuleDetail/ModuleDetail",
-				Data = GetOverviewModel(moduleDefinition, modelProvider.GetDataVariations(moduleDefinition))
+				Data = GetOverviewModel(moduleDefinition, modelProvider.GetDataVariations(moduleDefinition), app)
 			});
 
 			return View(viewDefinition.Template, viewDefinition);
 		}
 
-		private ModuleDetailModel GetOverviewModel(ModuleDefinition moduleDefinition, IEnumerable<string> dataVariations)
+		private ModuleDetailModel GetOverviewModel(ModuleDefinition moduleDefinition, IEnumerable<string> dataVariations, string section)
 		{
-			return new ModuleDetailModel
+		    var variationsModel = dataVariations.Select(GetDataVariation).ToList();
+		    return new ModuleDetailModel
 			{
 				Name = moduleDefinition.Id,
 				DefaultTemplate = GetModel(moduleDefinition.DefaultTemplate),
 				Skins = moduleDefinition.Skins.Select(kv => GetModel(kv.Value, kv.Key)).ToList(),
-				DataVariations = dataVariations.Select(GetDataVariation).ToList()
+				DataVariations = variationsModel.Count > 0 ? variationsModel : null,
+                SchemaUrl = string.Format("/{0}module_schema/{1}", section, moduleDefinition.Id) 
 			};
 		}
 
-		private DataVariationModel GetDataVariation(string id)
+	    private DataVariationModel GetDataVariation(string id)
 		{
 			return new DataVariationModel
 			{

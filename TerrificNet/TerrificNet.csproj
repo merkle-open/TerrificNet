@@ -110,6 +110,7 @@
     <Compile Include="Controllers\DefaultLayout.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleDetailController.cs" />
+    <Compile Include="Controllers\ModuleSchemaController.cs" />
     <Compile Include="Dispatcher\IDependencyResolverAware.cs" />
     <Compile Include="Dispatcher\ApplicationSpecificControllerActivator.cs" />
     <Compile Include="Controllers\BundleController.cs" />

@@ -37,7 +37,11 @@ namespace TerrificNet.ViewEngine
             if (defaultTemplate == null && templates.Count == 1)
                 defaultTemplate = templates[0];
 
-            return new ModuleDefinition(moduleId, defaultTemplate, templates.Where(t1 => t1 != defaultTemplate).ToDictionary(GetSkinName));
+            var skins = templates.Where(t1 => t1 != defaultTemplate).ToDictionary(GetSkinName);
+            if (defaultTemplate == null && skins.TryGetValue(string.Empty, out defaultTemplate))
+                skins.Remove(string.Empty);
+
+            return new ModuleDefinition(moduleId, defaultTemplate, skins);
         }
 
         private static IEnumerable<string> GetDefaultTemplateCandidates(string moduleId)
@@ -57,7 +61,7 @@ namespace TerrificNet.ViewEngine
             if (parts.Length > 1)
                 return parts[parts.Length - 1];
 
-            return templateInfo.Id;
+            return string.Empty;
         }
 
         public bool TryGetModuleDefinitionById(string id, out ModuleDefinition moduleDefinition)

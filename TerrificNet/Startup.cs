@@ -62,6 +62,11 @@ namespace TerrificNet
 	            routeTemplate: section + "model/{*path}",
 	            defaults: new {controller = "model", section = section }
 	            );
+            config.Routes.MapHttpRoute(
+                name: "ModuleSchemaRoot" + section,
+                routeTemplate: section + "module_schema/{*path}",
+                defaults: new { controller = "moduleschema", section = section }
+                );
 	        config.Routes.MapHttpRoute(
 	            name: "SchemaRoot" + section,
                 routeTemplate: section + "schema/{*path}",

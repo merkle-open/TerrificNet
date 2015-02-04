@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TerrificNet.Dispatcher;
 using TerrificNet.ViewEngine;
@@ -18,7 +19,11 @@ namespace TerrificNet.Controllers
 
         protected HttpResponseMessage View(string viewName, object model)
         {
-            model = JObject.FromObject(model);
+            var serializer = new JsonSerializer
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
+            model = JObject.FromObject(model, serializer);
 
             var dependencyResolver = ((IDependencyResolverAware)this).DependencyResolver;
             var templateRepository = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));
