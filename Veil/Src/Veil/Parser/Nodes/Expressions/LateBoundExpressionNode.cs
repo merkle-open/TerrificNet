@@ -1,4 +1,5 @@
 ﻿using System;
+using Veil.Compiler;
 
 namespace Veil.Parser.Nodes
 {
@@ -11,6 +12,8 @@ namespace Veil.Parser.Nodes
         /// The name of the expression to late-bind
         /// </summary>
         public string ItemName { get; set; }
+
+        public IMemberLocator MemberLocator { get; set; }
 
         /// <summary>
         /// The type of result from this expression evaluation

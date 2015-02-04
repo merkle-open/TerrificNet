@@ -16,6 +16,7 @@ Helpers
 {{module template="templatepath"}}
 {{placeholder key="phContent"}}
 {{label "person/male"}}
+{{partial template="templatepath"}}
 ```
 
 ### Datavariation

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
+using Veil.Compiler;
 
 namespace Veil
 {
@@ -95,30 +96,34 @@ namespace Veil
 
         private static ConcurrentDictionary<Tuple<Type, string>, Func<object, object>> lateBoundCache = new ConcurrentDictionary<Tuple<Type, string>, Func<object, object>>();
 
-        public static object RuntimeBind(object model, string itemName, bool isCaseSensitive)
+        public static object RuntimeBind(object model, string itemName, bool isCaseSensitive, IMemberLocator memberLocator)
         {
             if (model == null)
                 return null;
 
+            var runtimeModel = model as IRuntimeModel;
+            if (runtimeModel != null && runtimeModel.Data != null)
+                model = runtimeModel.Data;
+
             var binder = lateBoundCache.GetOrAdd(Tuple.Create(model.GetType(), itemName), new Func<Tuple<Type, string>, Func<object, object>>(pair =>
             {
                 var type = pair.Item1;
-                var flags = GetBindingFlags(isCaseSensitive);
+                var name = pair.Item2;
 
-                if (pair.Item2.EndsWith("()"))
+                if (name.EndsWith("()"))
                 {
-                    var function = type.GetMethod(pair.Item2.Substring(0, pair.Item2.Length - 2), flags, null, new Type[0], new ParameterModifier[0]);
+                    var function = memberLocator.FindMember(type, name.Substring(0, name.Length - 2), MemberTypes.Method) as MethodInfo;
                     if (function != null) return DelegateBuilder.FunctionCall(type, function);
                 }
 
-                var property = type.GetProperty(pair.Item2, flags);
+                var property = memberLocator.FindMember(type, name, MemberTypes.Property) as PropertyInfo;
                 if (property != null) return DelegateBuilder.Property(type, property);
 
-                var field = type.GetField(pair.Item2, flags);
+                var field = memberLocator.FindMember(type, name, MemberTypes.Field) as FieldInfo;
                 if (field != null) return DelegateBuilder.Field(type, field);
 
                 var dictionaryType = type.GetDictionaryTypeWithKey<string>();
-                if (dictionaryType != null) return DelegateBuilder.Dictionary(dictionaryType, pair.Item2);
+                if (dictionaryType != null) return DelegateBuilder.Dictionary(dictionaryType, name);
 
                 return null;
             }));
@@ -137,5 +142,10 @@ namespace Veil
             }
             return flags;
         }
+    }
+
+    public interface IRuntimeModel
+    {
+        object Data { get; }
     }
 }

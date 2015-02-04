@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Veil.Compiler;
 using Veil.Parser.Nodes;
 
 namespace Veil.Parser
@@ -105,10 +106,11 @@ namespace Veil.Parser
 		/// <param name="itemName">The name of the proeprty that will be searched for</param>
 		/// <param name="isCaseSenstiive">Indcates whether the expression should be evaluated with case sensitivity</param>
 		/// <param name="scope">The scope this expression evaluated in</param>
-		public static LateBoundExpressionNode LateBound(string itemName, bool isCaseSenstiive = true, ExpressionScope scope = ExpressionScope.CurrentModelOnStack)
+		public static LateBoundExpressionNode LateBound(string itemName, IMemberLocator memberLocator, bool isCaseSenstiive = true, ExpressionScope scope = ExpressionScope.CurrentModelOnStack)
 		{
 			return new LateBoundExpressionNode
 			{
+                MemberLocator = memberLocator,
 				ItemName = itemName,
 				Scope = scope
 			};

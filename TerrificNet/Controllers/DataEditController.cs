@@ -55,7 +55,7 @@ namespace TerrificNet.Controllers
         public HttpResponseMessage IndexAdvanced()
         {
             var model = GetVariations();
-            var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(new ViewDefinition
+            var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(new PartialViewDefinition
             {
                 Template = "components/modules/AdvancedEditor/AdvancedEditor",
                 ExtensionData = new Dictionary<string, object>
@@ -86,14 +86,14 @@ namespace TerrificNet.Controllers
 
         private ViewDefinition GetDataEditor(DataVariationCollectionModel model)
         {
-            return new ViewDefinition
+            return new PartialViewDefinition
             {
                 Template = "components/modules/DataEditor/DataEditor",
                 Data = model
             };
         }
 
-        private static ViewDefinition IncludeResources(ViewDefinition layout)
+        private static PageViewDefinition IncludeResources(PageViewDefinition layout)
         {
             return layout
                 .IncludeScript("/web/assets/jsoneditor.min.js")

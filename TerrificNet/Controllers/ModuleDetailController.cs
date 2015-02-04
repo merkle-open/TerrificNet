@@ -26,7 +26,7 @@ namespace TerrificNet.Controllers
 
 			var modelProvider = this.ResolveForApp<IModelProvider>(app);
 
-			var viewDefinition = DefaultLayout.WithDefaultLayout(new ViewDefinition
+			var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
 			{
 				Template = "components/modules/ModuleDetail/ModuleDetail",
 				Data = GetOverviewModel(moduleDefinition, modelProvider.GetDataVariations(moduleDefinition), app)

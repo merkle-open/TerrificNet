@@ -43,7 +43,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
 
         public object GetModelForModule(ModuleDefinition moduleDefinition, string dataId)
         {
-            var filePath = GetPath(moduleDefinition, dataId);
+            var filePath = GetPath(moduleDefinition, dataId ?? DefaultFilename);
             return GetModelFromPath(filePath);
         }
 

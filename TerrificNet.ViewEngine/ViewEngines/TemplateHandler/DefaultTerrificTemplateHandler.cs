@@ -9,14 +9,16 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
         private readonly IModelProvider _modelProvider;
         private readonly ITemplateRepository _templateRepository;
 	    private readonly ILabelService _labelService;
+        private readonly IModuleRepository _moduleRepository;
 
-	    public DefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider,
-            ITemplateRepository templateRepository, ILabelService labelService)
+        public DefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider,
+            ITemplateRepository templateRepository, ILabelService labelService, IModuleRepository moduleRepository)
         {
             _viewEngine = viewEngine;
             _modelProvider = modelProvider;
             _templateRepository = templateRepository;
 		    _labelService = labelService;
+            _moduleRepository = moduleRepository;
         }
 
         public void RenderPlaceholder(object model, string key, RenderingContext context)
@@ -25,7 +27,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
             var tmp = model as JObject;
             if (tmp != null)
             {
-                definition = tmp.ToObject<ViewDefinition>();
+                definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
             }
             else
             {
@@ -44,41 +46,53 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
             foreach (var placeholderConfig in definitions)
             {
-                var templateName = placeholderConfig.Template;
+                //var templateName = placeholderConfig.Template;
+                //string skin = placeholderConfig.Skin;
 
-                string skin = placeholderConfig.Skin;
-
-                TemplateInfo templateInfo;
-                IView view;
-                if (_templateRepository.TryGetTemplate(templateName, out templateInfo) &&
-                    _viewEngine.TryCreateView(templateInfo, out view))
-                {
-                    object moduleModel = placeholderConfig.Data ?? _modelProvider.GetDefaultModelForTemplate(templateInfo) ?? JObject.FromObject(placeholderConfig);
-                    view.Render(moduleModel, context);
-                }
-                else
-                    context.Writer.Write("Problem loading template " + templateName +
-                              (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
+                //RenderModule(templateName, skin, context);
+                placeholderConfig.Render(this, model, context);
             }
         }
 
-        public void RenderModule(string templateName, string skin, RenderingContext context)
+        public void RenderModule(string moduleId, string skin, RenderingContext context)
         {
-            TemplateInfo templateInfo;
-            IView view;
-            if (_templateRepository.TryGetTemplate(templateName, out templateInfo) &&
-                _viewEngine.TryCreateView(templateInfo, out view))
+            ModuleDefinition moduleDefinition;
+            if (_moduleRepository.TryGetModuleDefinitionById(moduleId, out moduleDefinition))
             {
-                var moduleModel = _modelProvider.GetDefaultModelForTemplate(templateInfo);
-                view.Render(moduleModel, context);
+                TemplateInfo templateInfo;
+                if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null || !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
+                    templateInfo = moduleDefinition.DefaultTemplate;
+
+                IView view;
+                if (_viewEngine.TryCreateView(templateInfo, out view))
+                {
+                    var moduleModel = _modelProvider.GetModelForModule(moduleDefinition, null);
+                    view.Render(moduleModel, context);
+                    return;
+                }
             }
-            else
-                context.Writer.Write("Problem loading template " + templateName + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
+
+            context.Writer.Write("Problem loading template " + moduleId + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
         }
 
 		public void RenderLabel(string key, RenderingContext context)
 	    {
 		    context.Writer.Write(_labelService.Get(key));
 	    }
+
+        public void RenderPartial(string template, object model, RenderingContext context)
+        {
+            TemplateInfo templateInfo;
+            if (_templateRepository.TryGetTemplate(template, out templateInfo))
+            {
+                IView view;
+                if (_viewEngine.TryCreateView(templateInfo, out view))
+                {
+                    view.Render(model, context);
+                    return;
+                }
+            }
+            context.Writer.Write("Problem loading template " + template);
+        }
     }
 }

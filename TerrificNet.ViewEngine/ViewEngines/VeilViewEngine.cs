@@ -177,6 +177,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 					var key = parameters.Keys.First().Trim('"');
 					_handler.RenderLabel(key, _context);
 				}
+                else if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    var template = parameters["template"].Trim('"');
+                    _handler.RenderPartial(template, model, _context);
+                }
                 else
 			        throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
 			}

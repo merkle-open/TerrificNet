@@ -23,7 +23,7 @@ namespace TerrificNet.Controllers
             {
                 NullValueHandling = NullValueHandling.Ignore
             };
-            model = JObject.FromObject(model, serializer);
+            //model = JObject.FromObject(model, serializer);
 
             var dependencyResolver = ((IDependencyResolverAware)this).DependencyResolver;
             var templateRepository = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));

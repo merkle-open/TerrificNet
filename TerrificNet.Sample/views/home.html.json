@@ -4,35 +4,34 @@
         "content": [
             {
                 "template": "views/_layouts/page",
-                "data": {
-                    "_placeholder": {
-                        "phMain": [
-                            {
-                                "template": "views/content_home",
-                                "data": {
-                                    "h1": "Das ist ein Test"
-                                }
+                "_placeholder": {
+                    "phMain": [
+                        {
+                            "template": "views/content_home",
+                            "data": {
+                                "h1": "Das ist ein Test"
                             }
-                        ],
-                        "phSidebar": [
-                            {
-                                "template": "components/modules/SidebarTeaser/sidebarteaser",
-                                "skin": "img-text1"
-                            },
-                            {
-                                "template": "components/modules/SidebarTeaser/sidebarteaser",
-                                "skin": "faq",
-                                "data": { }
-                            },
-                            {
-                                "template": "components/modules/SidebarTeaser/sidebarteaser",
-                                "skin": "contact"
-                            },
-                            {
-                                "template": "components/modules/SidebarTeaser/sidebarteaser"
-                            }
-                        ]
-                    }
+                        }
+                    ],
+                    "phSidebar": [
+                        {
+                            "module": "components/modules/SidebarTeaser",
+                            "skin": "img-text1"
+                        },
+                        {
+                            "module": "components/modules/SidebarTeaser",
+                            "skin": "faq",
+                            "data": { }
+                        },
+                        {
+                            "module": "components/modules/SidebarTeaser",
+                            "skin": "contact",
+                            "data_variation":  ""
+                        },
+                        {
+                            "module": "components/modules/SidebarTeaser"
+                        }
+                    ]
                 }
             }
         ]

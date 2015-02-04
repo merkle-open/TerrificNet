@@ -63,7 +63,8 @@ namespace Veil.Compiler
 			return Expression.Call(null, RuntimeBindFunction, new[] {
                 modelExpression,
                 Expression.Constant(node.ItemName),
-                Expression.Constant(node.IsCaseSensitive)
+                Expression.Constant(node.IsCaseSensitive),
+                Expression.Constant(node.MemberLocator)
             });
 		}
 

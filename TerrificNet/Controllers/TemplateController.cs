@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -44,9 +45,8 @@ namespace TerrificNet.Controllers
 		        {
                     using (var reader = new JsonTextReader(new StreamReader(_fileSystem.OpenRead(fileName))))
                     {
-                        var serializer = new JsonSerializer();
                         var jObj = JToken.ReadFrom(reader);
-                        var viewDefinition = jObj.ToObject<ViewDefinition>(serializer);
+                        var viewDefinition = ViewDefinition.FromJObject<PageViewDefinition>(jObj);
                         if (viewDefinition != null)
                         {
                             return Get(viewDefinition.Template, jObj);
@@ -77,4 +77,5 @@ namespace TerrificNet.Controllers
 	        return View(view, data);
 	    }
 	}
+
 }

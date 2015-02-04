@@ -59,7 +59,7 @@ namespace Veil.Handlebars
                 return SyntaxTreeExpression.Helper(parts);
             }
 
-            if (IsLateBoundAcceptingType(modelType)) return SyntaxTreeExpression.LateBound(expression, false, expressionScope);
+            if (IsLateBoundAcceptingType(modelType)) return SyntaxTreeExpression.LateBound(expression, memberLocator, false, expressionScope);
 
             throw new VeilParserException(String.Format("Unable to parse model expression '{0}' againt model '{1}'", expression, modelType.Name));
         }

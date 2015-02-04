@@ -22,7 +22,7 @@ namespace TerrificNet.Controllers
 		[HttpGet]
 		public HttpResponseMessage Index()
 		{
-			var viewDefinition = DefaultLayout.WithDefaultLayout(new ViewDefinition
+			var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
 			{
 				Template = "components/modules/ApplicationOverview/ApplicationOverview",
 				Data = GetOverviewModel()

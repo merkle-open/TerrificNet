@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet.Models
 {
-    public class NavigationGroupModel : ViewDefinition
+    public class NavigationGroupModel
     {
         [JsonProperty("actions")]
         public List<ActionModel> Actions { get; set; }

@@ -6,9 +6,9 @@ namespace TerrificNet.Controllers
 {
     static internal class DefaultLayout
     {
-        public static ViewDefinition WithDefaultLayout(params ViewDefinition[] content)
+        public static PageViewDefinition WithDefaultLayout(params ViewDefinition[] content)
         {
-            var viewDefinition = new ViewDefinition
+            var viewDefinition = new PageViewDefinition
             {
                 Template = "views/_layouts/_layout",
                 Placeholder = new PlaceholderDefinitionCollection
@@ -16,7 +16,7 @@ namespace TerrificNet.Controllers
                     {
                         "content", new ViewDefinition[]
                         {
-                            new NavigationGroupModel
+                            new PartialViewDefinition
                             {
                                 Template = "views/_layouts/page",
                                 Placeholder = new PlaceholderDefinitionCollection
@@ -24,7 +24,8 @@ namespace TerrificNet.Controllers
                                     {
                                         "phContent", content
                                     }
-                                }
+                                },
+                                Data = new NavigationGroupModel()
                             }
                         }
                     }
@@ -35,7 +36,7 @@ namespace TerrificNet.Controllers
 
         public static ViewDefinition AddAction(this ViewDefinition viewDefinition, ActionModel actionModel)
         {
-            var model = (NavigationGroupModel)viewDefinition.Placeholder["content"][0];
+            var model = (NavigationGroupModel)((PartialViewDefinition)viewDefinition.Placeholder["content"][0]).Data;
             if (model.Actions == null)
                 model.Actions = new List<ActionModel>();
 
@@ -44,7 +45,7 @@ namespace TerrificNet.Controllers
             return viewDefinition;
         }
 
-        public static ViewDefinition IncludeScript(this ViewDefinition viewDefintion, string scriptSource)
+        public static PageViewDefinition IncludeScript(this PageViewDefinition viewDefintion, string scriptSource)
         {
             var script = new ScriptImport {Src = scriptSource};
 
@@ -56,16 +57,16 @@ namespace TerrificNet.Controllers
             return viewDefintion;
         }
 
-        public static ViewDefinition IncludeStyle(this ViewDefinition viewDefintion, string styleSource)
+        public static PageViewDefinition IncludeStyle(this PageViewDefinition viewDefinition, string styleSource)
         {
             var script = new StyleImport { Href = styleSource };
 
-            if (viewDefintion.Styles == null)
-                viewDefintion.Styles = new List<StyleImport>();
+            if (viewDefinition.Styles == null)
+                viewDefinition.Styles = new List<StyleImport>();
 
-            viewDefintion.Styles.Add(script);
+            viewDefinition.Styles.Add(script);
 
-            return viewDefintion;
+            return viewDefinition;
         }
     }
 }
