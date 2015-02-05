@@ -9,5 +9,11 @@ namespace TerrificNet.Models
 
         [JsonProperty("link")]
         public string Link { get; set; }
+
+		[JsonProperty("delete_link")]
+	    public string DeleteLink { get; set; }
+
+		[JsonProperty("edit_link")]
+	    public string EditLink { get; set; }
     }
 }

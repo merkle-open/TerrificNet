@@ -125,7 +125,7 @@
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\TemplateControllerBase.cs" />
     <Compile Include="Models\ApplicationOverviewModel.cs" />
-    <Compile Include="Models\DataVariationCollectionModel.cs" />
+    <Compile Include="Models\DataEditModel.cs" />
     <Compile Include="Models\DataVariationModel.cs" />
     <Compile Include="Models\ModuleDetailModel.cs" />
     <Compile Include="Models\NavigationGroupModel.cs" />

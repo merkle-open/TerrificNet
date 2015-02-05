@@ -20,7 +20,7 @@ namespace TerrificNet
 
 			config.Routes.MapHttpRoute(
 				name: "AdministrationModuleDetail",
-				routeTemplate: "web/module",
+				routeTemplate: "web/module/{action}",
 				defaults: new { controller = "ModuleDetail", action = "Index", section = "web/" }
 				);
 

@@ -1,17 +1,4 @@
-﻿{{#if variations}}
-<div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="variationdropdown" data-toggle="dropdown" aria-expanded="true">
-        Variations
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="variationdropdown">
-        {{#each variations}}
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{link}}">{{name}}</a></li>
-        {{/each}}
-    </ul>
-</div>
-{{/if}}
-<div id='editor_holder'></div>
+﻿<div id='editor_holder'></div>
 
 <script>
     // Set the default CSS theme and icon library globally
@@ -20,12 +7,8 @@
 
     $(document).ready(function () {
         var editor = null;
-        var variables = Common.parseQueryString(window.location.href);
-        var template = variables["template"];
-        var schemaUrl = variables["schema"];
-        var dataUrl = variables["data"];
-
-        $("h1").html(template);
+        var schemaUrl = "{{schemaUrl}}";
+        var dataUrl = "{{dataUrl}}";
 
         $.get(schemaUrl, function (data) {
             editor = new JSONEditor(document.getElementById('editor_holder'), {

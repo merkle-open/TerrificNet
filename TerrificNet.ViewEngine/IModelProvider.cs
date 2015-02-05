@@ -9,6 +9,7 @@ namespace TerrificNet.ViewEngine
 
         object GetModelForTemplate(TemplateInfo template, string dataId);
         object GetModelForModule(ModuleDefinition moduleDefinition, string dataId);
+	    void UpdateModelForModule(ModuleDefinition moduleDefinition, string dataId, object content);
 	    IEnumerable<string> GetDataVariations(ModuleDefinition moduleDefinition);
     }
 }

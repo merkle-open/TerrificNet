@@ -28,14 +28,10 @@ namespace TerrificNet.ViewEngine.ModelProviders
             if (!_fileSystem.DirectoryExists(_fileSystem.Path.GetDirectoryName(filePath)))
                 _fileSystem.CreateDirectory(_fileSystem.Path.GetDirectoryName(filePath));
 
-            using (var stream = new StreamWriter(_fileSystem.OpenWrite(filePath)))
-            {
-                var value = JsonConvert.SerializeObject(content);
-                stream.Write(value);
-            }
+            Update(content, filePath);
         }
 
-        public object GetModelForTemplate(TemplateInfo template, string dataId)
+	    public object GetModelForTemplate(TemplateInfo template, string dataId)
         {
             var filePath = GetPath(template, dataId);
             return GetModelFromPath(filePath);
@@ -46,6 +42,15 @@ namespace TerrificNet.ViewEngine.ModelProviders
             var filePath = GetPath(moduleDefinition, dataId ?? DefaultFilename);
             return GetModelFromPath(filePath);
         }
+
+	    public void UpdateModelForModule(ModuleDefinition moduleDefinition, string dataId, object content)
+	    {
+			var filePath = GetPath(moduleDefinition, dataId ?? DefaultFilename);
+			if (!_fileSystem.DirectoryExists(_fileSystem.Path.GetDirectoryName(filePath)))
+				_fileSystem.CreateDirectory(_fileSystem.Path.GetDirectoryName(filePath));
+
+		    Update(content, filePath);
+	    }
 
 	    public IEnumerable<string> GetDataVariations(ModuleDefinition moduleDefinition)
 	    {
@@ -68,6 +73,15 @@ namespace TerrificNet.ViewEngine.ModelProviders
                 return JsonConvert.DeserializeObject(content);
             }
         }
+
+		private void Update(object content, string filePath)
+		{
+			using (var stream = new StreamWriter(_fileSystem.OpenWrite(filePath)))
+			{
+				var value = JsonConvert.SerializeObject(content);
+				stream.Write(value);
+			}
+		}
 
         private string GetPath(ModuleDefinition moduleDefinition, string dataId)
         {

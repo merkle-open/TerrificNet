@@ -6,33 +6,30 @@ namespace TerrificNet.Controllers
 	public class ModelController : ApiController
 	{
 	    private readonly IModelProvider _modelProvider;
-	    private readonly ITemplateRepository _templateRepository;
+		private readonly IModuleRepository _moduleRepository;
 
-	    public ModelController(IModelProvider modelProvider, ITemplateRepository templateRepository)
+	    public ModelController(IModelProvider modelProvider, IModuleRepository moduleRepository)
         {
             _modelProvider = modelProvider;
-            _templateRepository = templateRepository;
+            _moduleRepository = moduleRepository;
         }
 
 	    [HttpGet]
 		public object Get(string path, string dataId = null)
 	    {
-	        TemplateInfo templateInfo;
-	        if (!_templateRepository.TryGetTemplate(path, out templateInfo))
+	        ModuleDefinition moduleDefinition;
+	        if (!_moduleRepository.TryGetModuleDefinitionById(path, out moduleDefinition))
 	            return this.NotFound();
 
-	        if (!string.IsNullOrEmpty(dataId))
-	            return Json(_modelProvider.GetModelForTemplate(templateInfo, dataId));
-
-	        return Json(_modelProvider.GetDefaultModelForTemplate(templateInfo));
-		}
+	        return Json(_modelProvider.GetModelForModule(moduleDefinition, dataId));
+	    }
 
         [HttpPut]
-	    public void Put(string path, [FromBody] object content)
+		public void Put(string path, [FromBody] object content, string dataId = null)
         {
-            TemplateInfo templateInfo;
-            if (_templateRepository.TryGetTemplate(path, out templateInfo))
-                _modelProvider.UpdateDefaultModelForTemplate(templateInfo, content);
+            ModuleDefinition moduleDefinition;
+            if (_moduleRepository.TryGetModuleDefinitionById(path, out moduleDefinition))
+                _modelProvider.UpdateModelForModule(moduleDefinition, dataId, content);
         }
 	}
 }

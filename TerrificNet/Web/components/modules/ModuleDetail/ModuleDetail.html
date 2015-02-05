@@ -36,6 +36,10 @@
             {{#each data_variations}}
             <div class="list-group-item clearfix">
                 <a href="{{link}}" alt="">{{name}}</a>
+                <span class="pull-right">
+                    <a href="{{edit_link}}" class="btn btn-xs" role="button">Edit</a>
+                    <!--<a href="{{delete_link}}" class="btn btn-xs" role="button">Delete</a>-->
+                </span>
             </div>
             {{/each}}
         </div>

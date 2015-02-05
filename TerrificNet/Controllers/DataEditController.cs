@@ -36,14 +36,9 @@ namespace TerrificNet.Controllers
 		}
 
         [HttpGet]
-        public HttpResponseMessage Index(string id, string app)
+        public HttpResponseMessage Index(string schema, string data)
         {
-            var templateRepository = ResolveForApp<ITemplateRepository>(app);
-            TemplateInfo templateInfo;
-            if (!templateRepository.TryGetTemplate(id, out templateInfo))
-                return null;
-
-            var model = GetVariations();
+            var model = GetVariations(schema, data);
             var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(GetDataEditor(model)));
 
             AddSaveAction(viewDefinition, model);
@@ -54,7 +49,7 @@ namespace TerrificNet.Controllers
         [HttpGet]
         public HttpResponseMessage IndexAdvanced()
         {
-            var model = GetVariations();
+			var model = GetVariations(null, null);
             var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(new PartialViewDefinition
             {
                 Template = "components/modules/AdvancedEditor/AdvancedEditor",
@@ -73,7 +68,7 @@ namespace TerrificNet.Controllers
             return View(viewDefinition.Template, viewDefinition);
         }
 
-        private static void AddSaveAction(ViewDefinition viewDefinition, DataVariationCollectionModel model)
+        private static void AddSaveAction(ViewDefinition viewDefinition, DataEditModel model)
         {
             var saveAction = new ActionModel
             {
@@ -84,7 +79,7 @@ namespace TerrificNet.Controllers
             viewDefinition.AddAction(saveAction);
         }
 
-        private ViewDefinition GetDataEditor(DataVariationCollectionModel model)
+        private ViewDefinition GetDataEditor(DataEditModel model)
         {
             return new PartialViewDefinition
             {
@@ -101,23 +96,12 @@ namespace TerrificNet.Controllers
                 .IncludeStyle("//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css");
         }
 
-		private DataVariationCollectionModel GetVariations()
+		private DataEditModel GetVariations(string schemaUrl, string dataUrl)
         {
-            return new DataVariationCollectionModel
+            return new DataEditModel
             {
-                Variations = new List<DataVariationModel>
-                {
-                    new DataVariationModel
-                    {
-                        Link = "",
-                        Name = "Variation1"
-                    },
-                    new DataVariationModel
-                    {
-                        Link = "",
-                        Name = "Variation2"
-                    }
-                },
+				SchemaUrl = schemaUrl,
+				DataUrl = dataUrl,
                 SaveActionId = string.Concat("action_", Guid.NewGuid().ToString())
             };
         }
