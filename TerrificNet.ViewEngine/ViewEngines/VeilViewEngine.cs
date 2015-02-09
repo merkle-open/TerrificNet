@@ -37,7 +37,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			{
 				var helperHandler = new TerrificHelperHandler(_templateHandlerFactory.Create());
 				var gridHandler = new GridHelperHandler();
-				var helpers = new ITerrificHelperHandler[] { helperHandler, gridHandler, new GridWithHelperHandler() };
+				var helpers = new ITerrificHelperHandler[] { helperHandler, gridHandler, new GridWidthHelperHandler() };
 
 				var viewEngine = new VeilEngine(helperHandlers: helpers.Cast<IHelperHandler>().ToArray(), memberLocator: _memberLocator);
 				if (modelType == typeof(object))

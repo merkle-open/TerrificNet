@@ -24,21 +24,23 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 		public void Evaluate(object model, string name, IDictionary<string, string> parameters)
 		{
 			var gridStack = GridStack.FromContext(_context);
+			double ratio = GetValue(parameters, "ratio", 1);
+			double margin = GetValue(parameters, "margin", 0);
+			double padding = GetValue(parameters, "padding", 0);
+
+			gridStack.Push((gridStack.CurrentWidth - padding - margin) * ratio);
+		}
+
+		private static double GetValue(IDictionary<string, string> parameters, string key, double defaultValue)
+		{
+			double result = defaultValue;
 			string value;
-			if (parameters.TryGetValue("ratio", out value))
+			if (parameters.TryGetValue(key, out value))
 			{
-				double ratio;
-				if (!double.TryParse(value, out ratio) && !DefaultRatioTable.TryGetValue(value, out ratio))
-				{
-					gridStack.Push(gridStack.CurrentWidth);
-				}
-				else
-				{
-					gridStack.Push(gridStack.CurrentWidth * ratio);
-				}
+				if (!double.TryParse(value, out result) && !DefaultRatioTable.TryGetValue(value, out result))
+					result = defaultValue;
 			}
-			else
-				gridStack.Push(gridStack.CurrentWidth);
+			return result;
 		}
 
 		public void Leave(object model, string name, IDictionary<string, string> parameters)
