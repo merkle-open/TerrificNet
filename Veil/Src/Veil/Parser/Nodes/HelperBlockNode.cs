@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Veil.Parser.Nodes
+﻿namespace Veil.Parser.Nodes
 {
 	public class HelperBlockNode : SyntaxTreeNode
 	{
