@@ -67,10 +67,11 @@ namespace TerrificNet.Mvc
             public void Render(ViewContext viewContext, TextWriter writer)
             {
                 this.ViewData = viewContext.ViewData;
-                _adaptee.Render(viewContext.ViewData.Model, new MvcRenderingContext(viewContext, this));
+	            var context = MvcRenderingContext.Build(viewContext, this);
+	            _adaptee.Render(viewContext.ViewData.Model, context);
             }
 
-            public ViewDataDictionary ViewData { get; set; }
+	        public ViewDataDictionary ViewData { get; set; }
         }
     }
 }
