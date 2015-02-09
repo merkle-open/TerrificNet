@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using TerrificNet.Mvc;
 
 namespace TerrificNet.Sample.Net.Controllers
 {
@@ -7,7 +8,7 @@ namespace TerrificNet.Sample.Net.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            return View("views/content_home");
         }
     }
 }

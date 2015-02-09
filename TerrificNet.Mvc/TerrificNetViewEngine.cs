@@ -15,12 +15,14 @@ namespace TerrificNet.Mvc
         private readonly IViewEngineTerrific _viewEngine;
         private readonly ITemplateRepository _templateRepository;
         private readonly IModelTypeProvider _modelTypeProvider;
+	    private readonly IModuleRepository _moduleRepository;
 
-        public TerrificNetViewEngine(IViewEngineTerrific viewEngine, ITemplateRepository templateRepository, IModelTypeProvider modelTypeProvider)
+	    public TerrificNetViewEngine(IViewEngineTerrific viewEngine, ITemplateRepository templateRepository, IModelTypeProvider modelTypeProvider, IModuleRepository moduleRepository)
         {
             _viewEngine = viewEngine;
             _templateRepository = templateRepository;
             _modelTypeProvider = modelTypeProvider;
+	        _moduleRepository = moduleRepository;
         }
 
         public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
@@ -39,9 +41,15 @@ namespace TerrificNet.Mvc
 
         private ViewEngineResult GetViewResult(string controllerName, string viewName)
         {
-            TemplateInfo templateInfo;
+			TemplateInfo templateInfo = null;
+	        ModuleDefinition moduleDefinition;
+			if ((_moduleRepository.TryGetModuleDefinitionById(viewName, out moduleDefinition) ||
+				 _moduleRepository.TryGetModuleDefinitionById(controllerName, out moduleDefinition)))
+			{
+				templateInfo = moduleDefinition.DefaultTemplate;
+			}
 
-            if ((_templateRepository.TryGetTemplate(viewName, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, out templateInfo)))
+            if (templateInfo != null || (_templateRepository.TryGetTemplate(viewName, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, out templateInfo)))
             {
                 Type modelType;
                 if (!_modelTypeProvider.TryGetModelTypeFromTemplate(templateInfo, out modelType))

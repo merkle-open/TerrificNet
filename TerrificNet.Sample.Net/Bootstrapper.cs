@@ -39,9 +39,11 @@ namespace TerrificNet.Sample.Net
             container.RegisterType<IModelTypeProvider>(new InjectionFactory(u => new StaticModelTypeProvider("TerrificNet.Sample.Net.Models", "TerrificNet.Sample.Net.Models", u.Resolve<INamingRule>(), u.Resolve<ISchemaProvider>())));
 
             var rootPath = HostingEnvironment.MapPath("~/");
-            var basePath = Path.Combine(rootPath, @"..\TerrificNet.Sample");
+			var fileSystem = new FileSystem(Path.Combine(rootPath, @"..\TerrificNet.Sample"));
 
-            var config = ConfigurationLoader.LoadTerrificConfiguration(basePath, new FileSystem());
+	        container.RegisterInstance<IFileSystem>(fileSystem);
+
+	        var config = ConfigurationLoader.LoadTerrificConfiguration(string.Empty, fileSystem);
             DefaultUnityModule.RegisterForConfiguration(container, config);
         }
     }
