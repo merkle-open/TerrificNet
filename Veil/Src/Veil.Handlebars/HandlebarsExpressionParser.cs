@@ -53,12 +53,6 @@ namespace Veil.Handlebars
                 }
             }
 
-            var parts = expression.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length > 1)
-            {
-                return SyntaxTreeExpression.Helper(parts);
-            }
-
             if (IsLateBoundAcceptingType(modelType)) return SyntaxTreeExpression.LateBound(expression, memberLocator, false, expressionScope);
 
             throw new VeilParserException(String.Format("Unable to parse model expression '{0}' againt model '{1}'", expression, modelType.Name));

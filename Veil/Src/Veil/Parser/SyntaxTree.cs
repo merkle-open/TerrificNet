@@ -159,5 +159,14 @@ namespace Veil.Parser
                 Node = node
             };
         }
+
+	    public static SyntaxTreeNode Helper(HelperExpressionNode helperExpression, BlockNode block)
+	    {
+		    return new HelperBlockNode
+		    {
+				HelperExpression = helperExpression,
+				Block = block
+		    };
+	    }
     }
 }

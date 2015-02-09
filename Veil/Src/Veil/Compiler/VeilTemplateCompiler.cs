@@ -15,12 +15,12 @@ namespace Veil.Compiler
 		private LinkedList<Expression> modelStack = new LinkedList<Expression>();
 		private readonly Func<string, Type, SyntaxTreeNode> includeParser;
 		private readonly IDictionary<string, SyntaxTreeNode> overrideSections = new Dictionary<string, Veil.Parser.SyntaxTreeNode>();
-		private readonly IHelperHandler _helperHandler;
+		private readonly IHelperHandler[] _helperHandlers;
 
-		public VeilTemplateCompiler(Func<string, Type, SyntaxTreeNode> includeParser, IHelperHandler helperHandler)
+		public VeilTemplateCompiler(Func<string, Type, SyntaxTreeNode> includeParser, IHelperHandler[] helperHandlers)
 		{
 			this.includeParser = includeParser;
-			_helperHandler = helperHandler;
+			_helperHandlers = helperHandlers;
 		}
 
 		public Action<TextWriter, T> Compile(SyntaxTreeNode templateSyntaxTree)

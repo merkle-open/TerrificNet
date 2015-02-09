@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json.Schema;
+using Veil.Compiler;
+using Veil.Helper;
 using Veil.Parser;
 using Veil.Parser.Nodes;
 
@@ -15,11 +17,11 @@ namespace TerrificNet.ViewEngine.Schema
             _templateParser = templateParser;
         }
 
-        public JsonSchema Run(StreamReader reader)
+        public JsonSchema Run(StreamReader reader, IMemberLocator memberLocator, IHelperHandler[] helperHandlers)
         {
             using (reader)
             {
-                var node = _templateParser.Parse(reader, typeof(object), null);
+                var node = _templateParser.Parse(reader, typeof(object), memberLocator, helperHandlers);
                 var visitor = new SchemaBuilderVisitor();
                 visitor.Visit(node);
 

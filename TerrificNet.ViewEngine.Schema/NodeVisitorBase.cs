@@ -42,10 +42,21 @@ namespace TerrificNet.ViewEngine.Schema
                 return VisitWriteLiteralNode(writeLiteralNode);
             }
 
+	        var helperNode = node as HelperExpressionNode;
+			if (helperNode != null)
+			{
+				return VisitHelperNode(helperNode);
+			}
+
             throw new NotSupportedException(string.Format("The given node type '{0}' isn't supported.", node.GetType()));
         }
 
-        protected virtual TResult VisitWriteLiteralNode(WriteLiteralNode writeLiteralNode)
+	    protected virtual TResult VisitHelperNode(HelperExpressionNode helperNode)
+	    {
+			return null;
+	    }
+
+	    protected virtual TResult VisitWriteLiteralNode(WriteLiteralNode writeLiteralNode)
         {
             return null;
         }

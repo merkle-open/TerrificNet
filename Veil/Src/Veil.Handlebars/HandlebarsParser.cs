@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Veil.Compiler;
+using Veil.Helper;
 using Veil.Parser;
 using Veil.Parser.Nodes;
 
@@ -32,11 +34,16 @@ namespace Veil.Handlebars
             { x => x.Content == "/with", HandleEndWith },
             { x => x.Content.StartsWith(">"), HandlePartial },
             { x => x.Content.StartsWith("<"), HandleMaster },
-            { x => x.Content == "body", HandleBody },
-            { x => true, HandleExpression }
+            { x => x.Content == "body", HandleBody }
         };
 
-        public SyntaxTreeNode Parse(TextReader templateReader, Type modelType, IMemberLocator memberLocator)
+	    private static readonly Dictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>> SyntaxHandlersAfter = new Dictionary
+		    <Func<HandlebarsToken, bool>, Action<HandlebarsParserState>>
+	    {
+			{ x => true, HandleExpression }
+	    };
+
+		public SyntaxTreeNode Parse(TextReader templateReader, Type modelType, IMemberLocator memberLocator, IHelperHandler[] helperHandlers)
         {
             if (memberLocator == null)
                 memberLocator = MemberLocator.Default;
@@ -49,7 +56,7 @@ namespace Veil.Handlebars
             {
                 state.SetCurrentToken(token);
 
-                foreach (var handler in SyntaxHandlers)
+				foreach (var handler in SyntaxHandlers.Union(GetHelperHandlers(helperHandlers ?? Enumerable.Empty<IHelperHandler>())).Union(SyntaxHandlersAfter))
                 {
                     if (handler.Key(token))
                     {
@@ -69,7 +76,57 @@ namespace Veil.Handlebars
             return state.RootNode;
         }
 
-        private static void HandleStringLiteral(HandlebarsParserState state)
+	    private static IDictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>> GetHelperHandlers(IEnumerable<IHelperHandler> helperHandlers)
+	    {
+		    var dict = new Dictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>>();
+		    foreach (var helper in helperHandlers)
+		    {
+			    var innerDict = GetHelperHandlers(helper);
+			    foreach (var entry in innerDict)
+				    dict.Add(entry.Key, entry.Value);
+		    }
+			return dict;
+	    }
+
+	    private static IDictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>> GetHelperHandlers(IHelperHandler helper)
+	    {
+		    var blockHelper = helper as IBlockHelperHandler;
+		    if (blockHelper != null)
+		    {
+				return new Dictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>>
+				{
+					{x => x.Content.StartsWith("#") && helper.IsSupported(x.Content.Substring(1)), state => HandleHelperStart(state, blockHelper)},
+					{x => x.Content.StartsWith("/") && helper.IsSupported(x.Content.Substring(1)), state => HandleHelperEnd(state, blockHelper)}
+				};
+		    }
+
+		    return new Dictionary<Func<HandlebarsToken, bool>, Action<HandlebarsParserState>>
+		    {
+				{x => helper.IsSupported(x.Content), state => HandleHelper(state, helper)}
+		    };
+	    }
+
+		private static void HandleHelperEnd(HandlebarsParserState state, IBlockHelperHandler helper)
+	    {
+			// TODO: Stack validation
+			state.BlockStack.PopBlock();
+	    }
+
+	    private static void HandleHelperStart(HandlebarsParserState state, IBlockHelperHandler helper)
+	    {
+			var block = SyntaxTree.Block();
+			var helperBlock = SyntaxTree.Helper(SyntaxTreeExpression.Helper(state.CurrentToken.Content.Substring(1)), block);
+			state.AddNodeToCurrentBlock(helperBlock);
+			state.BlockStack.PushModelInheritingBlock(block);
+	    }
+
+	    private static void HandleHelper(HandlebarsParserState state, IHelperHandler helper)
+	    {
+		    string expression = state.CurrentToken.Content;
+			state.AddNodeToCurrentBlock(SyntaxTreeExpression.Helper(expression));
+	    }
+
+	    private static void HandleStringLiteral(HandlebarsParserState state)
         {
             state.WriteLiteral(state.CurrentToken.Content);
         }

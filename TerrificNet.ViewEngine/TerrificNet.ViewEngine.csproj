@@ -90,6 +90,10 @@
     <Compile Include="SchemaProviders\HandlebarsViewSchemaProvider.cs" />
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\Grid\GridHelperHandler.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\Grid\GridStack.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\Grid\GridWithHelperHandler.cs" />
+    <Compile Include="ViewEngines\TemplateHandler\ITerrificHelperHandler.cs" />
     <Compile Include="ViewEngines\TemplateHandler\DefaultTerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandler.cs" />
     <Compile Include="ViewEngines\ITerrificTemplateHandlerFactory.cs" />

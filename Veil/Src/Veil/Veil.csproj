@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ActionDisposable.cs" />
     <Compile Include="AssemblyParserFinder.cs" />
+    <Compile Include="Compiler\VeilTemplateCompiler.HelperHandlerExpression.cs" />
     <Compile Include="Helper\IHelperHandler.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.Block.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.Conditional.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Parser\ITemplateParserRegistration.cs" />
     <Compile Include="IVeilContext.cs" />
     <Compile Include="NullVeilContext.cs" />
+    <Compile Include="Parser\Nodes\HelperBlockNode.cs" />
     <Compile Include="Parser\SyntaxTreeExpression.cs" />
     <Compile Include="Parser\ExpressionNode.cs" />
     <Compile Include="Parser\ExpressionScope.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Veil.Helper;
@@ -10,7 +11,6 @@ namespace Veil.Compiler
 	internal partial class VeilTemplateCompiler<T>
 	{
 		private static readonly MethodInfo RuntimeBindFunction = typeof(Helpers).GetMethod("RuntimeBind");
-		private static readonly MethodInfo HelperFunction = typeof(IHelperHandler).GetMethod("Evaluate");
 
 		private Expression ParseExpression(ExpressionNode node)
 		{
@@ -28,11 +28,6 @@ namespace Veil.Compiler
 			if (node is LateBoundExpressionNode) return EvaluateLateBoundExpression((LateBoundExpressionNode)node);
 			if (node is CollectionHasItemsExpressionNode) return EvaluateHasItemsNode((CollectionHasItemsExpressionNode)node);
 			if (node is FunctionCallExpressionNode) return EvaluateFunctionCall((FunctionCallExpressionNode)node);
-			if (node is HelperExpressionNode)
-			{
-				escapeHtml = false;
-				return EvaluateHelperCall((HelperExpressionNode)node);
-			}
 
 			throw new VeilCompilerException("Unknown expression type '{0}'".FormatInvariant(node.GetType().Name));
 		}
@@ -41,13 +36,6 @@ namespace Veil.Compiler
 		{
 			var modelExpression = EvaluateScope(node.Scope);
 			return Expression.Call(modelExpression, node.MethodInfo);
-		}
-
-		private Expression EvaluateHelperCall(HelperExpressionNode node)
-		{
-			var modelExpression = EvaluateScope(node.Scope);
-			return Expression.Call(Expression.Constant(_helperHandler), HelperFunction,
-					modelExpression, Expression.Constant(node.Name), Expression.Constant(node.Parameters));
 		}
 
 		private Expression EvaluateHasItemsNode(CollectionHasItemsExpressionNode node)

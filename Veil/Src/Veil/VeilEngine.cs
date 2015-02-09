@@ -15,16 +15,16 @@ namespace Veil
 	{
 		private static readonly MethodInfo genericCompileMethod = typeof(VeilEngine).GetMethod("Compile");
 		private readonly IVeilContext context;
-		private readonly IHelperHandler _helperHandler;
+		private readonly IHelperHandler[] _helperHandlers;
 	    private readonly IMemberLocator _memberLocator;
 
 	    /// <summary>
 		/// Creates a VeilEngine with an <see cref="IVeilContext"/> to enable support for Includes/Partials/MasterPages.
 		/// </summary>
-		public VeilEngine(IVeilContext context = null, IHelperHandler helperHandler = null, IMemberLocator memberLocator = null)
+		public VeilEngine(IVeilContext context = null, IHelperHandler[] helperHandlers = null, IMemberLocator memberLocator = null)
 		{
 			this.context = context;
-			_helperHandler = helperHandler;
+			_helperHandlers = helperHandlers;
 	        _memberLocator = memberLocator;
 		}
 
@@ -42,8 +42,8 @@ namespace Veil
 			if (!VeilStaticConfiguration.IsParserRegistered(parserKey)) throw new ArgumentException("A parser with key '{0}' is not registered.".FormatInvariant(parserKey), "parserKey");
 
 			var parser = VeilStaticConfiguration.GetParserInstance(parserKey);
-			var syntaxTree = parser.Parse(templateContents, typeof(T), _memberLocator);
-			return new VeilTemplateCompiler<T>(CreateIncludeParser(parserKey, context, _memberLocator), _helperHandler).Compile(syntaxTree);
+			var syntaxTree = parser.Parse(templateContents, typeof(T), _memberLocator, _helperHandlers);
+			return new VeilTemplateCompiler<T>(CreateIncludeParser(parserKey, context, _memberLocator), _helperHandlers).Compile(syntaxTree);
 		}
 
 		/// <summary>
@@ -74,13 +74,13 @@ namespace Veil
 			return lambda.Compile();
 		}
 
-		private static Func<string, Type, SyntaxTreeNode> CreateIncludeParser(string parserKey, IVeilContext context, IMemberLocator memberLocator)
+		private Func<string, Type, SyntaxTreeNode> CreateIncludeParser(string parserKey, IVeilContext context, IMemberLocator memberLocator)
 		{
 			return (includeName, modelType) =>
 			{
 				var template = context.GetTemplateByName(includeName, parserKey);
 				if (template == null) throw new InvalidOperationException("Unable to load template '{0}' using parser '{1}'".FormatInvariant(includeName, parserKey));
-                return VeilStaticConfiguration.GetParserInstance(parserKey).Parse(template, modelType, memberLocator);
+                return VeilStaticConfiguration.GetParserInstance(parserKey).Parse(template, modelType, memberLocator, _helperHandlers);
 			};
 		}
 	}

@@ -116,14 +116,23 @@ namespace Veil.Parser
 			};
 		}
 
+		public static HelperExpressionNode Helper(string expression)
+		{
+			var parts = expression.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			return Helper(parts);
+		}
+
 		public static HelperExpressionNode Helper(string[] parameter)
 		{
 			var data = new Dictionary<string, string>();
 
-			foreach (var value in parameter.Skip(1))
+			if (parameter.Length > 1)
 			{
-				var tmp = value.Split(new[] { '=' }, 2);
-				data.Add(tmp[0], tmp.Length == 2 ? tmp[1] : string.Empty);
+				foreach (var value in parameter.Skip(1))
+				{
+					var tmp = value.Split(new[] {'='}, 2);
+					data.Add(tmp[0], tmp.Length == 2 ? tmp[1] : string.Empty);
+				}
 			}
 
 			return new HelperExpressionNode
