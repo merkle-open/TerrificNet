@@ -28,7 +28,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 			double margin = GetValue(parameters, "margin", 0);
 			double padding = GetValue(parameters, "padding", 0);
 
-			gridStack.Push((gridStack.CurrentWidth - padding - margin) * ratio);
+			gridStack.Push((int)(((gridStack.CurrentWidth - margin) * ratio) - padding));
 		}
 
 		private static double GetValue(IDictionary<string, string> parameters, string key, double defaultValue)
