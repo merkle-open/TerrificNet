@@ -22,7 +22,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 			}
 
 			var gridStack = GridStack.FromContext(_context);
-			_context.Writer.Write(gridStack.CurrentWidth * ratio);
+			_context.Writer.Write((int)(gridStack.Current.Width * ratio));
 		}
 
 		public void SetContext(RenderingContext context)

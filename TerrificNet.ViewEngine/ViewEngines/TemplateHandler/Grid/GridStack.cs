@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
@@ -5,27 +6,32 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 	internal class GridStack
 	{
 		private const string Gridstackkey = "gridstack";
-		private readonly Stack<double> _with = new Stack<double>();
-		private readonly int _fullWidth;
+		private readonly Stack<GridContext> _contexts = new Stack<GridContext>();
 
 		private GridStack()
 		{
-			_fullWidth = 1024;
+			_contexts.Push(new GridContext(null, 0));
 		}
 
 		public void Push(double width)
 		{
-			_with.Push(width);
+			_contexts.Push(new GridContext(Current, width));
 		}
 
-		public double CurrentWidth
+		public GridContext Current
 		{
-			get { return _with.Count > 0 ? _with.Peek() : _fullWidth; }
+			get
+			{
+				if (_contexts.Count <= 0)
+					throw new InvalidOperationException("No grid context found.");
+
+				return _contexts.Peek();
+			}
 		}
 
 		public void Pop()
 		{
-			_with.Pop();
+			_contexts.Pop();
 		}
 
 		public static GridStack FromContext(RenderingContext renderingContext)
