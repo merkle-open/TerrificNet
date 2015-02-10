@@ -57,25 +57,32 @@ namespace TerrificNet.Mvc
 
                 IViewTerrific view;
                 if (_viewEngine.TryCreateView(templateInfo, modelType, out view))
-                    return new ViewEngineResult(new TerrificViewAdapter(view), this);
+					return new ViewEngineResult(new TerrificViewAdapter(view, ResolveContext), this);
             }
 
             return new ViewEngineResult(new[] { viewName, controllerName });
         }
 
+		protected virtual MvcRenderingContext ResolveContext(ViewContext viewContext, IViewDataContainer viewDataContainer)
+	    {
+		    return MvcRenderingContext.Build(viewContext, viewDataContainer);
+	    }
+
         private class TerrificViewAdapter : IView, IViewDataContainer
         {
             private readonly IViewTerrific _adaptee;
+			private readonly Func<ViewContext, IViewDataContainer, RenderingContext> _resolveContext;
 
-            public TerrificViewAdapter(IViewTerrific adaptee)
+	        public TerrificViewAdapter(IViewTerrific adaptee, Func<ViewContext, IViewDataContainer, RenderingContext> resolveContext)
             {
-                _adaptee = adaptee;
+	            _adaptee = adaptee;
+	            _resolveContext = resolveContext;
             }
 
-            public void Render(ViewContext viewContext, TextWriter writer)
+	        public void Render(ViewContext viewContext, TextWriter writer)
             {
                 this.ViewData = viewContext.ViewData;
-	            var context = MvcRenderingContext.Build(viewContext, this);
+		        var context = _resolveContext(viewContext, this);
 	            _adaptee.Render(viewContext.ViewData.Model, context);
             }
 

@@ -9,8 +9,10 @@ namespace Veil.Handlebars
 {
     internal static class HandlebarsExpressionParser
     {
-        public static ExpressionNode Parse(HandlebarsBlockStack blockStack, string expression, IMemberLocator memberLocator)
+        public static ExpressionNode Parse(HandlebarsBlockStack blockStack, string expression, IMemberLocator memberLocator = null)
         {
+	        memberLocator = memberLocator ?? MemberLocator.Default;
+
             expression = expression.Trim();
 
             if (expression == "this")

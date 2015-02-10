@@ -9,7 +9,7 @@ namespace TerrificNet.Mvc
 	    public ViewContext ViewContext { get; private set; }
         public IViewDataContainer ViewDataContainer { get; private set; }
 
-	    private MvcRenderingContext(ViewContext viewContext, IViewDataContainer viewDataContainer, RenderingContext parentContext) : base(viewContext.Writer)
+	    public MvcRenderingContext(ViewContext viewContext, IViewDataContainer viewDataContainer, RenderingContext parentContext) : base(viewContext.Writer)
         {
             ViewContext = viewContext;
             ViewDataContainer = viewDataContainer;

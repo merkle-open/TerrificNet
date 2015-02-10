@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using DeepEqual.Syntax;
+using Veil.Compiler;
 using Veil.Parser;
 
 namespace Veil
@@ -18,7 +19,7 @@ namespace Veil
         {
             using (var reader = new StringReader(template))
             {
-                return this.parser.Parse(reader, modelType ?? typeof(object));
+                return this.parser.Parse(reader, modelType ?? typeof(object), MemberLocator.Default);
             }
         }
 

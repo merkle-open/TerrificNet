@@ -17,7 +17,7 @@ namespace Veil.Compiler
 		private readonly IDictionary<string, SyntaxTreeNode> overrideSections = new Dictionary<string, Veil.Parser.SyntaxTreeNode>();
 		private readonly IHelperHandler[] _helperHandlers;
 
-		public VeilTemplateCompiler(Func<string, Type, SyntaxTreeNode> includeParser, IHelperHandler[] helperHandlers)
+		public VeilTemplateCompiler(Func<string, Type, SyntaxTreeNode> includeParser, params IHelperHandler[] helperHandlers)
 		{
 			this.includeParser = includeParser;
 			_helperHandlers = helperHandlers;

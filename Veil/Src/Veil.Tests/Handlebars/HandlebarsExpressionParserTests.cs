@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using DeepEqual.Syntax;
 using NUnit.Framework;
+using Veil.Compiler;
 using Veil.Parser;
 
 namespace Veil.Handlebars
@@ -62,7 +63,7 @@ namespace Veil.Handlebars
         public void Should_parse_as_late_bound_when_model_type_is_not_known<T>(T model)
         {
             var result = HandlebarsExpressionParser.Parse(CreateScopes(typeof(T)), "Name");
-            result.ShouldDeepEqual(SyntaxTreeExpression.LateBound("Name", false, ExpressionScope.CurrentModelOnStack));
+            result.ShouldDeepEqual(SyntaxTreeExpression.LateBound("Name", MemberLocator.Default, false, ExpressionScope.CurrentModelOnStack));
         }
 
         [Test]
