@@ -57,13 +57,18 @@ namespace TerrificNet.Mvc
 
                 IViewTerrific view;
                 if (_viewEngine.TryCreateView(templateInfo, modelType, out view))
-					return new ViewEngineResult(new TerrificViewAdapter(view, ResolveContext), this);
+					return new ViewEngineResult(new TerrificViewAdapter(CreateAdapter(view), ResolveContext), this);
             }
 
             return new ViewEngineResult(new[] { viewName, controllerName });
         }
 
-		protected virtual MvcRenderingContext ResolveContext(ViewContext viewContext, IViewDataContainer viewDataContainer)
+	    protected virtual IViewTerrific CreateAdapter(IViewTerrific view)
+	    {
+		    return view;
+	    }
+
+	    protected virtual MvcRenderingContext ResolveContext(ViewContext viewContext, IViewDataContainer viewDataContainer)
 	    {
 		    return MvcRenderingContext.Build(viewContext, viewDataContainer);
 	    }
