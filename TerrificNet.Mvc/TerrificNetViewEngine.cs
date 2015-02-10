@@ -68,17 +68,17 @@ namespace TerrificNet.Mvc
 		    return view;
 	    }
 
-	    protected virtual MvcRenderingContext ResolveContext(ViewContext viewContext, IViewDataContainer viewDataContainer)
+	    protected virtual MvcRenderingContext ResolveContext(ViewContext viewContext, IViewDataContainer viewDataContainer, TextWriter writer)
 	    {
-		    return MvcRenderingContext.Build(viewContext, viewDataContainer);
+		    return MvcRenderingContext.Build(viewContext, viewDataContainer, writer);
 	    }
 
         private class TerrificViewAdapter : IView, IViewDataContainer
         {
             private readonly IViewTerrific _adaptee;
-			private readonly Func<ViewContext, IViewDataContainer, RenderingContext> _resolveContext;
+			private readonly Func<ViewContext, IViewDataContainer, TextWriter, RenderingContext> _resolveContext;
 
-	        public TerrificViewAdapter(IViewTerrific adaptee, Func<ViewContext, IViewDataContainer, RenderingContext> resolveContext)
+	        public TerrificViewAdapter(IViewTerrific adaptee, Func<ViewContext, IViewDataContainer, TextWriter, RenderingContext> resolveContext)
             {
 	            _adaptee = adaptee;
 	            _resolveContext = resolveContext;
@@ -87,7 +87,7 @@ namespace TerrificNet.Mvc
 	        public void Render(ViewContext viewContext, TextWriter writer)
             {
                 this.ViewData = viewContext.ViewData;
-		        var context = _resolveContext(viewContext, this);
+		        var context = _resolveContext(viewContext, this, writer);
 	            _adaptee.Render(viewContext.ViewData.Model, context);
             }
 

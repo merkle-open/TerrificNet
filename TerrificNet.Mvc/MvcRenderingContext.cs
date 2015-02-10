@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web.Mvc;
 using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Mvc
@@ -9,7 +10,8 @@ namespace TerrificNet.Mvc
 	    public ViewContext ViewContext { get; private set; }
         public IViewDataContainer ViewDataContainer { get; private set; }
 
-	    public MvcRenderingContext(ViewContext viewContext, IViewDataContainer viewDataContainer, RenderingContext parentContext) : base(viewContext.Writer)
+	    public MvcRenderingContext(ViewContext viewContext, IViewDataContainer viewDataContainer, TextWriter writer, RenderingContext parentContext) 
+			: base(writer ?? viewContext.Writer)
         {
             ViewContext = viewContext;
             ViewDataContainer = viewDataContainer;
@@ -21,7 +23,7 @@ namespace TerrificNet.Mvc
 	        }
         }
 
-		internal static MvcRenderingContext Build(ViewContext viewContext, IViewDataContainer viewDataContainer)
+		internal static MvcRenderingContext Build(ViewContext viewContext, IViewDataContainer viewDataContainer, TextWriter writer)
 		{
 			var context = GetFromViewContext(viewContext);
 			if (context != null)
@@ -31,7 +33,7 @@ namespace TerrificNet.Mvc
 			if (viewContext.ParentActionViewContext != null)
 				parentContext = GetFromViewContext(viewContext.ParentActionViewContext);
 
-			context = new MvcRenderingContext(viewContext, viewDataContainer, parentContext);
+			context = new MvcRenderingContext(viewContext, viewDataContainer, writer, parentContext);
 			viewContext.ViewData.Add(ContextKey, context);
 
 			return context;
