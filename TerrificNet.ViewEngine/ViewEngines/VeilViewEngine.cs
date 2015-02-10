@@ -104,9 +104,12 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			public void Render(T model, RenderingContext context)
 			{
 				foreach (var helper in _terrificHelpers)
-					helper.SetContext(context);
+					helper.PushContext(context);
 
 				_render(context.Writer, model);
+
+				foreach (var helper in _terrificHelpers)
+					helper.PopContext();
 			}
 		}
 
@@ -149,22 +152,29 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		private class TerrificHelperHandler : ITerrificHelperHandler
 		{
 			private readonly ITerrificTemplateHandler _handler;
-			private RenderingContext _context;
+			private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 
 			public TerrificHelperHandler(ITerrificTemplateHandler handler)
 			{
 				_handler = handler;
 			}
 
-			public void SetContext(RenderingContext context)
+			public void PushContext(RenderingContext context)
 			{
-				_context = context;
+				_contextStack.Push(context);
+			}
+
+			public void PopContext()
+			{
+				_contextStack.Pop();
 			}
 
 			public bool IsSupported(string name)
 			{
 				return new[] { "module", "placeholder", "label", "partial" }.Any(name.StartsWith);
 			}
+
+			private RenderingContext Context { get { return _contextStack.Peek(); } }
 
 			public void Evaluate(object model, string name, IDictionary<string, string> parameters)
 			{
@@ -176,22 +186,22 @@ namespace TerrificNet.ViewEngine.ViewEngines
 					if (parameters.ContainsKey("skin"))
 						skin = parameters["skin"].Trim('"');
 
-					_handler.RenderModule(templateName, skin, _context);
+					_handler.RenderModule(templateName, skin, Context);
 				}
 				else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
 					var key = parameters["key"].Trim('"');
-					_handler.RenderPlaceholder(model, key, _context);
+					_handler.RenderPlaceholder(model, key, Context);
 				}
 				else if ("label".Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
 					var key = parameters.Keys.First().Trim('"');
-					_handler.RenderLabel(key, _context);
+					_handler.RenderLabel(key, Context);
 				}
 				else if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
 				{
 					var template = parameters["template"].Trim('"');
-					_handler.RenderPartial(template, model, _context);
+					_handler.RenderPartial(template, model, Context);
 				}
 				else
 					throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));

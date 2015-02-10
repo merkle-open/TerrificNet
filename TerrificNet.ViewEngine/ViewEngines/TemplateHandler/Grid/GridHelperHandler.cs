@@ -5,7 +5,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 {
 	internal class GridHelperHandler : IBlockHelperHandler, ITerrificHelperHandler
 	{
-		private RenderingContext _context;
+		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 
 		private static readonly Dictionary<string, double> DefaultRatioTable = new Dictionary<string, double>
 		{
@@ -23,7 +23,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 
 		public void Evaluate(object model, string name, IDictionary<string, string> parameters)
 		{
-			var gridStack = GridStack.FromContext(_context);
+			var gridStack = GridStack.FromContext(Context);
 			double ratio = GetValue(parameters, "ratio", 1);
 			double margin = GetValue(parameters, "margin", 0);
 			double padding = GetValue(parameters, "padding", 0);
@@ -46,13 +46,20 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 
 		public void Leave(object model, string name, IDictionary<string, string> parameters)
 		{
-			var gridStack = GridStack.FromContext(_context);
+			var gridStack = GridStack.FromContext(Context);
 			gridStack.Pop();
 		}
 
-		public void SetContext(RenderingContext context)
+		private RenderingContext Context { get { return _contextStack.Peek(); } }
+
+		public void PushContext(RenderingContext context)
 		{
-			_context = context;
+			_contextStack.Push(context);
+		}
+
+		public void PopContext()
+		{
+			_contextStack.Pop();
 		}
 	}
 }

@@ -4,7 +4,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 {
 	internal class GridWidthHelperHandler : ITerrificHelperHandler
 	{
-		private RenderingContext _context;
+		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 
 		public bool IsSupported(string name)
 		{
@@ -21,13 +21,20 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 					ratio = 1.0;
 			}
 
-			var gridStack = GridStack.FromContext(_context);
-			_context.Writer.Write((int)(gridStack.Current.Width * ratio));
+			var gridStack = GridStack.FromContext(Context);
+			Context.Writer.Write((int)(gridStack.Current.Width * ratio));
 		}
 
-		public void SetContext(RenderingContext context)
+		private RenderingContext Context { get { return _contextStack.Peek(); } }
+
+		public void PushContext(RenderingContext context)
 		{
-			_context = context;
+			_contextStack.Push(context);
+		}
+
+		public void PopContext()
+		{
+			_contextStack.Pop();
 		}
 	}
 }
