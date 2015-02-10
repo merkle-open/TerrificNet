@@ -71,8 +71,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{9DA31A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ViewEngine.Test", "TerrificNet.ViewEngine.Test\TerrificNet.ViewEngine.Test.csproj", "{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veil.Tests", "Veil\Src\Veil.Tests\Veil.Tests.csproj", "{B5584FBD-6E00-499A-A6E3-784DB92B3180}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -163,10 +161,6 @@ Global
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5584FBD-6E00-499A-A6E3-784DB92B3180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5584FBD-6E00-499A-A6E3-784DB92B3180}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5584FBD-6E00-499A-A6E3-784DB92B3180}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5584FBD-6E00-499A-A6E3-784DB92B3180}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +177,5 @@ Global
 		{BBE75282-ACD4-49BC-A592-68B300A3BF20} = {F545AF87-B59F-465D-A6A3-40A38E94877E}
 		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
-		{B5584FBD-6E00-499A-A6E3-784DB92B3180} = {BF17DEA6-822B-4405-AE5C-7F7A421AC45E}
 	EndGlobalSection
 EndGlobal
