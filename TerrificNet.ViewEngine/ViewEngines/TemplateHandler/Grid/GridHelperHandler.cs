@@ -12,8 +12,8 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 			{"1/4", 0.25},
 			{"1/2", 0.5},
 			{"3/4", 0.75},
-			{"1/3", 0.33},
-			{"2/3", 0.66}
+			{"1/3", 1/(double)3},
+			{"2/3", 2/(double)3}
 		};
 
 		public bool IsSupported(string name)

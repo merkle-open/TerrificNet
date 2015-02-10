@@ -63,6 +63,7 @@
     <Compile Include="CachedFileSystemTest.cs" />
     <Compile Include="FileSystemTest.cs" />
     <Compile Include="GlobalizationTest.cs" />
+    <Compile Include="Grid\GridHelperHandlerTest.cs" />
     <Compile Include="NamingRuleTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileSystemProviderTest.cs" />
@@ -82,6 +83,10 @@
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Veil\Src\Veil\Veil.csproj">
+      <Project>{97d96b66-edfe-474b-bc72-d8439830fc76}</Project>
+      <Name>Veil</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
