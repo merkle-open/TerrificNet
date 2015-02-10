@@ -23,20 +23,28 @@ namespace TerrificNet.Mvc
 
 		internal static MvcRenderingContext Build(ViewContext viewContext, IViewDataContainer viewDataContainer)
 		{
-			var parentContext = GetFromViewContext(viewContext);
-			var context = new MvcRenderingContext(viewContext, viewDataContainer, parentContext);
+			var context = GetFromViewContext(viewContext);
+			if (context != null)
+				return context;
+
+			MvcRenderingContext parentContext = null; 
+			if (viewContext.ParentActionViewContext != null)
+				parentContext = GetFromViewContext(viewContext.ParentActionViewContext);
+
+			context = new MvcRenderingContext(viewContext, viewDataContainer, parentContext);
 			viewContext.ViewData.Add(ContextKey, context);
+
 			return context;
 		}
 
 	    public static MvcRenderingContext GetFromViewContext(ViewContext viewContext)
 	    {
-		    object parentContextObj;
-		    MvcRenderingContext parentContext = null;
-		    if (viewContext.ViewData.TryGetValue(ContextKey, out parentContextObj))
-			    parentContext = parentContextObj as MvcRenderingContext;
+		    object contextObj;
+		    MvcRenderingContext context = null;
+		    if (viewContext.ViewData.TryGetValue(ContextKey, out contextObj))
+			    context = contextObj as MvcRenderingContext;
 
-		    return parentContext;
+		    return context;
 	    }
     }
 }
