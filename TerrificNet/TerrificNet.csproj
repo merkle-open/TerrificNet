@@ -215,6 +215,9 @@
   <ItemGroup>
     <None Include="Web\components\modules\ModuleDetail\ModuleDetail.html" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\components\modules\ApplicationOverview\partials\row.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)\_build\build.targets" />
   <Import Project="$(SolutionDir)\build.targets" />

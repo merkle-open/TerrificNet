@@ -8,24 +8,24 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid;
 using Veil;
 using Veil.Compiler;
-using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
 	public class VeilViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
-		private readonly ITerrificTemplateHandlerFactory _templateHandlerFactory;
-		private readonly IMemberLocator _memberLocator;
+        private readonly ITerrificHelperHandlerFactory _helperHandlerFactory;
+	    private readonly IMemberLocator _memberLocator;
 
-		public VeilViewEngine(ICacheProvider cacheProvider, ITerrificTemplateHandlerFactory templateHandlerFactory, INamingRule namingRule)
+		public VeilViewEngine(ICacheProvider cacheProvider,
+            ITerrificHelperHandlerFactory helperHandlerFactory,
+            INamingRule namingRule)
 		{
 			_cacheProvider = cacheProvider;
-			_templateHandlerFactory = templateHandlerFactory;
-			_memberLocator = new MemberLocatorFromNamingRule(namingRule);
+		    _helperHandlerFactory = helperHandlerFactory;
+		    _memberLocator = new MemberLocatorFromNamingRule(namingRule);
 		}
 
 		private IView CreateView(string content, Type modelType)
@@ -35,15 +35,12 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			IView view;
 			if (!_cacheProvider.TryGet(hash, out view))
 			{
-				var helperHandler = new TerrificHelperHandler(_templateHandlerFactory.Create());
-				var gridHandler = new GridHelperHandler();
-				var helpers = new ITerrificHelperHandler[] { helperHandler, gridHandler, new GridWidthHelperHandler() };
-
-				var viewEngine = new VeilEngine(helperHandlers: helpers.Cast<IHelperHandler>().ToArray(), memberLocator: _memberLocator);
+			    var helperHandlers = _helperHandlerFactory.Create().ToArray();
+			    var viewEngine = new VeilEngine(helperHandlers: helperHandlers, memberLocator: _memberLocator);
 				if (modelType == typeof(object))
-					view = CreateNonGenericView(content, helpers, viewEngine);
+                    view = CreateNonGenericView(content, helperHandlers, viewEngine);
 				else
-					view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { content, helpers, viewEngine });
+					view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { content, helperHandlers, viewEngine });
 
 				_cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
 			}
@@ -149,80 +146,28 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			return sBuilder.ToString();
 		}
 
-		private class TerrificHelperHandler : ITerrificHelperHandler
-		{
-			private readonly ITerrificTemplateHandler _handler;
-			private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
-
-			public TerrificHelperHandler(ITerrificTemplateHandler handler)
-			{
-				_handler = handler;
-			}
-
-			public void PushContext(RenderingContext context)
-			{
-				_contextStack.Push(context);
-			}
-
-			public void PopContext()
-			{
-				_contextStack.Pop();
-			}
-
-			public bool IsSupported(string name)
-			{
-				return new[] { "module", "placeholder", "label", "partial" }.Any(name.StartsWith);
-			}
-
-			private RenderingContext Context { get { return _contextStack.Peek(); } }
-
-			public void Evaluate(object model, string name, IDictionary<string, string> parameters)
-			{
-				if ("module".Equals(name, StringComparison.OrdinalIgnoreCase))
-				{
-					var templateName = parameters["template"].Trim('"');
-
-					var skin = string.Empty;
-					if (parameters.ContainsKey("skin"))
-						skin = parameters["skin"].Trim('"');
-
-					_handler.RenderModule(templateName, skin, Context);
-				}
-				else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
-				{
-					var key = parameters["key"].Trim('"');
-					_handler.RenderPlaceholder(model, key, Context);
-				}
-				else if ("label".Equals(name, StringComparison.OrdinalIgnoreCase))
-				{
-					var key = parameters.Keys.First().Trim('"');
-					_handler.RenderLabel(key, Context);
-				}
-				else if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
-				{
-					var template = parameters["template"].Trim('"');
-					_handler.RenderPartial(template, model, Context);
-				}
-				else
-					throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
-			}
-		}
-
-		private class MemberLocatorFromNamingRule : MemberLocator
-		{
-			private readonly INamingRule _namingRule;
-
-			public MemberLocatorFromNamingRule(INamingRule namingRule)
-			{
-				_namingRule = namingRule;
-			}
-
-			public override MemberInfo FindMember(Type modelType, string name, MemberTypes types)
-			{
-				name = _namingRule.GetPropertyName(name);
-				return base.FindMember(modelType, name, types);
-			}
-
-		}
+		
 	}
+
+    public class MemberLocatorFromNamingRule : MemberLocator
+    {
+        private readonly INamingRule _namingRule;
+
+        public MemberLocatorFromNamingRule(INamingRule namingRule)
+        {
+            _namingRule = namingRule;
+        }
+
+        public override MemberInfo FindMember(Type modelType, string name, MemberTypes types)
+        {
+            name = _namingRule.GetPropertyName(name);
+            return base.FindMember(modelType, name, types);
+        }
+
+    }
+
+    public interface ITerrificHelperHandlerFactory
+    {
+        IEnumerable<ITerrificHelperHandler> Create();
+    }
 }

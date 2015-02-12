@@ -90,7 +90,7 @@ namespace TerrificNet
 	        config.Routes.MapHttpRoute(
                 name: section + "TemplateRoot" + section,
 	            routeTemplate: section + "{*path}",
-                defaults: new { controller = "template", section = section }
+                defaults: new { controller = "template", section = section, path = "index" }
 	            );
 	    }
 	}

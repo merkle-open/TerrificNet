@@ -48,10 +48,24 @@ namespace TerrificNet.ViewEngine.Schema
 				return VisitHelperNode(helperNode);
 			}
 
+            var helperBlockNode = node as HelperBlockNode;
+            if (helperBlockNode != null)
+            {
+                return VisitHelperBlockNode(helperBlockNode);
+            }
+
             throw new NotSupportedException(string.Format("The given node type '{0}' isn't supported.", node.GetType()));
         }
 
-	    protected virtual TResult VisitHelperNode(HelperExpressionNode helperNode)
+        protected virtual TResult VisitHelperBlockNode(HelperBlockNode helperBlockNode)
+        {
+            var result = this.Visit(helperBlockNode.HelperExpression);
+            this.Visit(helperBlockNode.Block);
+
+            return result;
+        }
+
+        protected virtual TResult VisitHelperNode(HelperExpressionNode helperNode)
 	    {
 			return null;
 	    }

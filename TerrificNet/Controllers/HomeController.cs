@@ -39,12 +39,21 @@ namespace TerrificNet.Controllers
 				{
 					Name = a.Name,
 					Modules = a.Container.Resolve<IModuleRepository>().GetAll().Select(m => GetView(a.Section, m)).ToList(),
-					Views = GetViews(a.Section, a.Container.Resolve<ITemplateRepository>()).ToList()
+					Views = a.Container.Resolve<TerrificViewDefinitionRepository>().GetAll().Select(m => GetViews(a.Section, m)).ToList(),
+                    Partials = null
 				}).ToList()
 			};
 
 			return model;
 		}
+
+        private static TemplateItemModel GetViews(string section, PageViewDefinition pageViewDefinition)
+        {
+            return new TemplateItemModel
+            {
+                Text = pageViewDefinition.Id
+            };
+        }
 
 		private static TemplateItemModel GetView(string section, ModuleDefinition m)
 		{

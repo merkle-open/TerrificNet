@@ -115,7 +115,7 @@ namespace Veil.Handlebars
 	    private static void HandleHelperStart(HandlebarsParserState state, IBlockHelperHandler helper)
 	    {
 			var block = SyntaxTree.Block();
-			var helperBlock = SyntaxTree.Helper(SyntaxTreeExpression.Helper(state.CurrentToken.Content.Substring(1)), block);
+			var helperBlock = SyntaxTree.Helper(SyntaxTreeExpression.Helper(state.CurrentToken.Content.Substring(1), helper), block);
 			state.AddNodeToCurrentBlock(helperBlock);
 			state.BlockStack.PushModelInheritingBlock(block);
 	    }
@@ -123,7 +123,7 @@ namespace Veil.Handlebars
 	    private static void HandleHelper(HandlebarsParserState state, IHelperHandler helper)
 	    {
 		    string expression = state.CurrentToken.Content;
-			state.AddNodeToCurrentBlock(SyntaxTreeExpression.Helper(expression));
+			state.AddNodeToCurrentBlock(SyntaxTreeExpression.Helper(expression, helper));
 	    }
 
 	    private static void HandleStringLiteral(HandlebarsParserState state)

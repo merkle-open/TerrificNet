@@ -89,7 +89,7 @@ namespace TerrificNet.ViewEngine
         {
             _basePath = PathUtility.Combine(basePath);
 
-            if (!(useCache || string.IsNullOrEmpty(basePath)))
+            if (!useCache || string.IsNullOrEmpty(basePath))
             {
                 _directoryExistsAction = directory => Directory.Exists(GetRootPath(directory));
                 _directoryGetFilesAction = (directory, fileExtension) => Directory.EnumerateFiles(GetRootPath(directory), string.Concat("*.", fileExtension), SearchOption.AllDirectories).Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length)));

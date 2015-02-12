@@ -9,6 +9,8 @@ using TerrificNet.ViewEngine.Globalization;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
+using Veil.Compiler;
+using Veil.Helper;
 
 namespace TerrificNet.UnityModules
 {
@@ -19,6 +21,9 @@ namespace TerrificNet.UnityModules
             container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
             container.RegisterType<IModuleSchemaProvider, DefaultModuleSchemaProvider>();
+            container.RegisterType<ITerrificHelperHandlerFactory, DefaultTerrificHelperHandlerFactory>();
+            container.RegisterType<IHelperHandlerFactory, DefaultTerrificHelperHandlerFactory>();
+            container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
         }
 
         public static TerrificNetApplication RegisterForApplication(IUnityContainer childContainer, string hostPath, string basePath, string applicationName, string section)
@@ -57,10 +62,26 @@ namespace TerrificNet.UnityModules
             container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
                 new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),
                     new ResolvedParameter<PhysicalSchemaProvider>()));
+            container.RegisterType<ISchemaProviderFactory, UnitySchemaProviderFactory>();
             container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
 
 	        container.RegisterType<ILabelService, JsonLabelService>();
+        }
+
+        private class UnitySchemaProviderFactory : ISchemaProviderFactory
+        {
+            private readonly IUnityContainer _container;
+
+            public UnitySchemaProviderFactory(IUnityContainer container)
+            {
+                _container = container;
+            }
+
+            public ISchemaProvider Create()
+            {
+                return _container.Resolve<ISchemaProvider>();
+            }
         }
     }
 

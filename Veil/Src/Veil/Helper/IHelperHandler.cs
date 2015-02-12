@@ -12,4 +12,9 @@ namespace Veil.Helper
 	{
 		void Leave(object model, string name, IDictionary<string, string> parameters);
 	}
+
+    public interface IHelperHandlerFactory
+    {
+        IEnumerable<IHelperHandler> Create();
+    }
 }
