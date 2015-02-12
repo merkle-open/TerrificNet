@@ -16,20 +16,19 @@
                     "phSidebar": [
                         {
                             "module": "components/modules/SidebarTeaser",
-                            "skin": "img-text1"
+                            "data_variation":  "teaser1"                 
                         },
                         {
                             "module": "components/modules/SidebarTeaser",
-                            "skin": "faq",
-                            "data": { }
+                            "skin": "faq"
                         },
                         {
                             "module": "components/modules/SidebarTeaser",
-                            "skin": "contact",
-                            "data_variation":  ""
+                            "skin": "contact"
                         },
                         {
-                            "module": "components/modules/SidebarTeaser"
+                            "module": "components/modules/SidebarTeaser",
+                            "skin":  "img-text1"
                         }
                     ]
                 }

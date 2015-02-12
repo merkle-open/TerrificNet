@@ -11,16 +11,10 @@ namespace TerrificNet.Mvc
         public IViewDataContainer ViewDataContainer { get; private set; }
 
 	    public MvcRenderingContext(ViewContext viewContext, IViewDataContainer viewDataContainer, TextWriter writer, RenderingContext parentContext) 
-			: base(writer ?? viewContext.Writer)
+			: base(writer ?? viewContext.Writer, parentContext)
         {
             ViewContext = viewContext;
             ViewDataContainer = viewDataContainer;
-
-	        if (parentContext != null)
-	        {
-		        foreach (var dataEntry in parentContext.Data)
-			        this.Data.Add(dataEntry);
-	        }
         }
 
 		internal static MvcRenderingContext Build(ViewContext viewContext, IViewDataContainer viewDataContainer, TextWriter writer)
