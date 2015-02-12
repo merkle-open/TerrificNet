@@ -46,16 +46,17 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
             foreach (var placeholderConfig in definitions)
             {
-                //var templateName = placeholderConfig.Template;
-                //string skin = placeholderConfig.Skin;
-
-                //RenderModule(templateName, skin, context);
                 placeholderConfig.Render(this, model, context);
             }
         }
 
         public void RenderModule(string moduleId, string skin, RenderingContext context)
         {
+	        string dataVariation = null;
+	        object dataVariationObj;
+	        if (context.Data.TryGetValue("data_variation", out dataVariationObj))
+				dataVariation = dataVariationObj as string;
+
             ModuleDefinition moduleDefinition;
             if (_moduleRepository.TryGetModuleDefinitionById(moduleId, out moduleDefinition))
             {
@@ -66,7 +67,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
                 IView view;
                 if (_viewEngine.TryCreateView(templateInfo, out view))
                 {
-                    var moduleModel = _modelProvider.GetModelForModule(moduleDefinition, null);
+                    var moduleModel = _modelProvider.GetModelForModule(moduleDefinition, dataVariation);
                     view.Render(moduleModel, context);
                     return;
                 }
