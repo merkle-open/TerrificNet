@@ -18,7 +18,7 @@ namespace Veil.Handlebars
             {
                 if (index < match.Index)
                 {
-                    yield return new HandlebarsToken(false, template.Substring(index, match.Index - index), false, false, false);
+                    yield return new HandlebarsToken(false, template.Substring(index, match.Index - index), false, false, false, index);
                 }
 
                 var token = match.Value.Trim();
@@ -27,13 +27,13 @@ namespace Veil.Handlebars
                 var trimLastLiteral = token.StartsWith("~");
                 var trimNextLiteral = token.EndsWith("~");
                 token = token.Trim('~').Trim();
-                yield return new HandlebarsToken(true, token, isHtmlEscape, trimLastLiteral, trimNextLiteral);
+                yield return new HandlebarsToken(true, token, isHtmlEscape, trimLastLiteral, trimNextLiteral, index);
 
                 index = match.Index + match.Length;
             }
             if (index < template.Length)
             {
-                yield return new HandlebarsToken(false, template.Substring(index), false, false, false);
+                yield return new HandlebarsToken(false, template.Substring(index), false, false, false, index);
             }
         }
     }
@@ -46,7 +46,7 @@ namespace Veil.Handlebars
         private bool trimLastLiteral;
         private bool trimNextLiteral;
 
-        public HandlebarsToken(bool isSyntaxToken, string content, bool isHtmlEscape, bool trimLastLiteral, bool trimNextLiteral)
+        public HandlebarsToken(bool isSyntaxToken, string content, bool isHtmlEscape, bool trimLastLiteral, bool trimNextLiteral, int index)
         {
             this.isSyntaxToken = isSyntaxToken;
             this.content = content;
