@@ -46,7 +46,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
             foreach (var placeholderConfig in definitions)
             {
-                placeholderConfig.Render(this, model, context);
+                placeholderConfig.Render(this, model, new RenderingContext(context.Writer, context));
             }
         }
 
@@ -68,7 +68,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
                 if (_viewEngine.TryCreateView(templateInfo, out view))
                 {
                     var moduleModel = _modelProvider.GetModelForModule(moduleDefinition, dataVariation);
-                    view.Render(moduleModel, context);
+                    view.Render(moduleModel, new RenderingContext(context.Writer, context));
                     return;
                 }
             }
@@ -89,7 +89,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
                 IView view;
                 if (_viewEngine.TryCreateView(templateInfo, out view))
                 {
-                    view.Render(model, context);
+                    view.Render(model, new RenderingContext(context.Writer, context));
                     return;
                 }
             }
