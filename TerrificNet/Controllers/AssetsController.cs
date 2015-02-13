@@ -1,15 +1,17 @@
 using System.Net.Http;
 using System.Web.Http;
+using TerrificNet.Configuration;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.Controllers
 {
-    public class AssetsController : StaticFileControllerBase
+    public class AssetsController : StaticFileController
     {
         private readonly ITerrificNetConfig _config;
 
-        public AssetsController(ITerrificNetConfig config, IFileSystem fileSystem) : base(fileSystem)
+        public AssetsController(ITerrificNetConfig config, IFileSystem fileSystem, ServerConfiguration serverConfiguration) 
+			: base(fileSystem, serverConfiguration)
         {
             _config = config;
         }

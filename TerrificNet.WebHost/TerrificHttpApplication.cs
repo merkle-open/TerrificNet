@@ -33,7 +33,8 @@ namespace TerrificNet.WebHost
                     }
                 };
 
-                var container = WebInitializer.Initialize(this.Server.MapPath("/"), configuration);
+	            var serverConfiguration = ServerConfiguration.LoadConfiguration(this.Server.MapPath("/server.json"));
+                var container = WebInitializer.Initialize(this.Server.MapPath("/"), configuration, serverConfiguration);
                 new Startup().Configuration(container, config);
             });
             RouteTable.Routes.RouteExistingFiles = true;

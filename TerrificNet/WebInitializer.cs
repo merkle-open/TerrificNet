@@ -12,16 +12,19 @@ static public class WebInitializer
     public static UnityContainer Initialize(string path)
     {
         var configuration = TerrificNetHostConfigurationLoader.LoadConfiguration(Path.Combine(path, "application.json"));
-        return Initialize(path, configuration);
+	    var serverConfiguration = ServerConfiguration.LoadConfiguration(Path.Combine(path, "server.json"));
+
+        return Initialize(path, configuration, serverConfiguration);
     }
 
-    public static UnityContainer Initialize(string path, TerrificNetHostConfiguration configuration)
+    public static UnityContainer Initialize(string path, TerrificNetHostConfiguration configuration, ServerConfiguration serverConfiguration)
     {
         var container = new UnityContainer();
         container
             .RegisterType
             <ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
         container.RegisterType<INamingRule, NamingRule>();
+	    container.RegisterInstance(serverConfiguration);
 
         new DefaultUnityModule().Configure(container);
 

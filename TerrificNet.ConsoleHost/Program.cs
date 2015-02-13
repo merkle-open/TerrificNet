@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Http;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 using Owin;
 
 namespace TerrificNet.ConsoleHost
