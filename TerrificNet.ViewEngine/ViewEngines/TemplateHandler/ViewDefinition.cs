@@ -67,6 +67,8 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 
     public class PageViewDefinition : PartialViewDefinition
     {
+        public string Id { get; set; }
+
         [JsonProperty("title")]
         public string Title { get; set; }
 

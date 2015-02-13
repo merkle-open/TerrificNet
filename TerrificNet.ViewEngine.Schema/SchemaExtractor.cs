@@ -49,15 +49,16 @@ namespace TerrificNet.ViewEngine.Schema
                 var arrayItemSchema = new JsonSchema();
 
                 schema.Type = JsonSchemaType.Array;
-                schema.Items = new List<JsonSchema>
-                {
-                    arrayItemSchema
-                };
 
                 _schemas.Push(arrayItemSchema);
                 this.VisitBlockNode(iterateNode.Body);
                 this.VisitBlockNode(iterateNode.EmptyBody);
-                _schemas.Pop();
+                arrayItemSchema = _schemas.Pop();
+
+                schema.Items = new List<JsonSchema>
+                {
+                    arrayItemSchema
+                };
 
                 return schema;
             }
@@ -76,7 +77,7 @@ namespace TerrificNet.ViewEngine.Schema
             {
                 foreach (var child in blockNode.Nodes)
                 {
-                    Visit(child);    
+                    Visit(child);
                 }
 
                 return null;
@@ -123,6 +124,27 @@ namespace TerrificNet.ViewEngine.Schema
 
                 return existingSchema;
             }
+
+            protected override JsonSchema VisitHelperNode(HelperExpressionNode helperNode)
+            {
+                var provider = helperNode.HelperHandler as IHelperHandlerWithSchema;
+                if (provider != null)
+                {
+                    var schema = provider.GetSchema(helperNode.Name, helperNode.Parameters);
+                    if (schema != null)
+                    {
+                        var result = new SchemaCombiner().Apply(_schemas.Pop(), schema, new SchemaComparisionReport());
+                        _schemas.Push(result);
+                        return result;
+                    }
+                }
+                return base.VisitHelperNode(helperNode);
+            }
         }
+    }
+
+    public interface IHelperHandlerWithSchema
+    {
+        JsonSchema GetSchema(string name, IDictionary<string, string> parameters);
     }
 }

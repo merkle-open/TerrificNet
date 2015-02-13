@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Veil.Compiler;
+using Veil.Helper;
 using Veil.Parser.Nodes;
 
 namespace Veil.Parser
@@ -116,13 +117,13 @@ namespace Veil.Parser
 			};
 		}
 
-		public static HelperExpressionNode Helper(string expression)
+		public static HelperExpressionNode Helper(string expression, IHelperHandler helperHandler)
 		{
 			var parts = expression.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-			return Helper(parts);
+			return Helper(parts, helperHandler);
 		}
 
-		public static HelperExpressionNode Helper(string[] parameter)
+        public static HelperExpressionNode Helper(string[] parameter, IHelperHandler helperHandler)
 		{
 			var data = new Dictionary<string, string>();
 
@@ -138,7 +139,8 @@ namespace Veil.Parser
 			return new HelperExpressionNode
 			{
 				Name = parameter[0],
-				Parameters = data
+				Parameters = data,
+                HelperHandler = helperHandler
 			};
 		}
 	}

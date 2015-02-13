@@ -1,34 +1,119 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace TerrificNet.ViewEngine
 {
+    internal class LookupFileSystem
+    {
+        private readonly string _basePath;
+        private HashSet<string> _fileInfos;
+        private HashSet<string> _directoryInfos;
+
+        public LookupFileSystem(string basePath)
+        {
+            if (string.IsNullOrEmpty(basePath))
+                throw new ArgumentNullException("basePath");
+
+            _basePath = basePath;
+            Initialize();
+            InitializeWatcher();
+        }
+
+        public bool DirectoryExists(string directory)
+        {
+            return string.IsNullOrEmpty(directory) || _directoryInfos.Contains(directory);
+        }
+
+        public bool FileExists(string filePath)
+        {
+            return _fileInfos.Contains(filePath);
+        }
+
+        public IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension)
+        {
+            var checkDirectory = directory == null;
+            var checkExtension = fileExtension == null;
+            if (!checkExtension)
+                fileExtension = string.Concat(".", fileExtension);
+
+            return
+                _fileInfos.Where(
+                    f =>
+                    {
+                        return (checkDirectory || f.StartsWith(directory, StringComparison.InvariantCultureIgnoreCase)) &&
+                                    (checkExtension || f.EndsWith(fileExtension));
+                    });
+        }
+
+        private void Initialize()
+        {
+            _fileInfos = new HashSet<string>(Directory.EnumerateFiles(_basePath, "*", SearchOption.AllDirectories).Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length + 1))));
+            _directoryInfos = new HashSet<string>(Directory.EnumerateDirectories(_basePath, "*", SearchOption.AllDirectories).Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length + 1))));
+        }
+
+        private void InitializeWatcher()
+        {
+            var watcher = new FileSystemWatcher(_basePath)
+            {
+                Path = _basePath,
+                EnableRaisingEvents = true,
+                IncludeSubdirectories = true
+            };
+            watcher.Changed += (sender, args) => { Initialize(); };
+            watcher.Created += (sender, args) => { Initialize(); };
+            watcher.Deleted += (sender, args) => { Initialize(); };
+            watcher.Renamed += (sender, args) => { Initialize(); };
+        }
+    }
+
     public class FileSystem : IFileSystem
     {
         private readonly string _basePath;
         private static readonly IPathHelper PathHelper = new FilePathHelper();
+        private readonly Func<string, bool> _directoryExistsAction;
+        private readonly Func<string, string, IEnumerable<string>> _directoryGetFilesAction;
+        private readonly Func<string, bool> _fileExistsAction;
+        private readonly LookupFileSystem _lookupSystem;
 
-        public FileSystem() : this(string.Empty)
+        public FileSystem() : this(string.Empty, false)
         {
         }
 
-        public FileSystem(string basePath)
+        public FileSystem(string basePath) : this(basePath, true)
+        {
+        }
+
+        private FileSystem(string basePath, bool useCache)
         {
             _basePath = PathUtility.Combine(basePath);
+
+            if (!useCache || string.IsNullOrEmpty(basePath))
+            {
+                _directoryExistsAction = directory => Directory.Exists(GetRootPath(directory));
+                _directoryGetFilesAction = (directory, fileExtension) => Directory.EnumerateFiles(GetRootPath(directory), string.Concat("*.", fileExtension), SearchOption.AllDirectories).Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length)));
+                _fileExistsAction = filePath => File.Exists(GetRootPath(filePath));
+            }
+            else
+            {
+                _lookupSystem = new LookupFileSystem(_basePath);
+                _directoryExistsAction = directory => _lookupSystem.DirectoryExists(directory);
+                _directoryGetFilesAction = (directory, fileExtension) => _lookupSystem.DirectoryGetFiles(directory, fileExtension);
+                _fileExistsAction = filePath => _lookupSystem.FileExists(filePath);
+            }
         }
 
         public string BasePath { get { return _basePath; } }
 
         public bool DirectoryExists(string directory)
         {
-            return Directory.Exists(GetRootPath(directory));
+            return _directoryExistsAction(directory);
         }
 
         public IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension)
         {
-            return Directory.GetFiles(GetRootPath(directory), string.Concat("*.", fileExtension), SearchOption.AllDirectories)
-                .Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length)));
+            return _directoryGetFilesAction(directory, fileExtension);
         }
 
         public Stream OpenRead(string filePath)
@@ -55,7 +140,7 @@ namespace TerrificNet.ViewEngine
 
         public bool FileExists(string filePath)
         {
-            return File.Exists(GetRootPath(filePath));
+            return _fileExistsAction(filePath);
         }
 
 	    public void RemoveFile(string filePath)

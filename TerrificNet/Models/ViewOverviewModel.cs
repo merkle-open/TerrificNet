@@ -13,5 +13,8 @@ namespace TerrificNet.Models
 
         [JsonProperty("modules")]
         public IList<TemplateItemModel> Modules { get; set; }
+
+        [JsonProperty("partials")]
+        public IList<TemplateItemModel> Partials { get; set; }
     }
 }

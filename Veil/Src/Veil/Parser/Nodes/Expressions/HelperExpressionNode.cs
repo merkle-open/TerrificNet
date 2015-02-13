@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Veil.Helper;
 
 namespace Veil.Parser.Nodes
 {
@@ -12,5 +13,7 @@ namespace Veil.Parser.Nodes
 
 		public string Name { get; set; }
 		public IDictionary<string, string> Parameters { get; set; }
+
+        public IHelperHandler HelperHandler { get; set; }
 	}
 }

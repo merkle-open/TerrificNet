@@ -1,5 +1,7 @@
 {
     "template": "views/_layouts/_layout",
+    "title": "gugus",
+    "something":  "do",
     "_placeholder": {
         "content": [
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TerrificNet.Generator;
@@ -7,6 +8,7 @@ using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
+using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet.Test
 {
@@ -17,13 +19,12 @@ namespace TerrificNet.Test
         public void TemplateEngineShouldUseSameNamingConventionForBinding()
         {
             var cacheProvider = new MemoryCacheProvider();
-            var handlerFactory = new Mock<ITerrificTemplateHandlerFactory>();
-            var handler = new Mock<ITerrificTemplateHandler>();
+            var handlerFactory = new Mock<ITerrificHelperHandlerFactory>();
 
-            handlerFactory.Setup(f => f.Create()).Returns(handler.Object);
+            handlerFactory.Setup(f => f.Create()).Returns(Enumerable.Empty<ITerrificHelperHandler>());
 
-            var schemaProvider = new HandlebarsViewSchemaProvider();
             var namingRule = new NamingRule();
+            var schemaProvider = new HandlebarsViewSchemaProvider(null, new MemberLocatorFromNamingRule(namingRule));
             var codeGenerator = new JsonSchemaCodeGenerator(namingRule);
             const string input = "<p>{{name}}</p><p>{{first_name}}</p>";
             var templateInfo = new StringTemplateInfo("views/test", input);
@@ -31,7 +32,7 @@ namespace TerrificNet.Test
             var schema = schemaProvider.GetSchemaFromTemplate(templateInfo);            
             var modelType = codeGenerator.Compile(schema);
 
-            var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object, namingRule);
+            var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object,  namingRule);
 
             IView view;
             viewEngine.TryCreateView(templateInfo, modelType, out view);
