@@ -81,7 +81,7 @@ namespace TerrificNet.ViewEngine
         {
         }
 
-        public FileSystem(string basePath) : this(basePath, true)
+        public FileSystem(string basePath) : this(basePath, false)
         {
         }
 

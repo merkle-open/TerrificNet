@@ -279,6 +279,9 @@
   <ItemGroup>
     <Content Include="components\modules\SidebarTeaser\data\teaser1.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="views\index.html.json" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
