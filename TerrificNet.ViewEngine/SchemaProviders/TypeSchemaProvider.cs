@@ -11,10 +11,10 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _modelTypeRepository = modelTypeRepository;
         }
 
-        public JsonSchema GetSchemaFromTemplate(TemplateInfo template)
+        public JSchema GetSchemaFromTemplate(TemplateInfo template)
         {
             var type = _modelTypeRepository.GetModelTypeFromTemplate(template);
-            var schemaGenerator = new JsonSchemaGenerator();
+            var schemaGenerator = new JSchemaGenerator();
             return schemaGenerator.Generate(type);
         }
     }

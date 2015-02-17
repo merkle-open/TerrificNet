@@ -5,7 +5,7 @@ namespace TerrificNet.Generator
 {
 	public interface IJsonSchemaCodeGenerator
 	{
-		string Generate(JsonSchema schema);
-	    Type Compile(JsonSchema schema);
+        string Generate(JSchema schema);
+        Type Compile(JSchema schema);
 	}
 }

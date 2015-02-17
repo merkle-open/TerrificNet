@@ -19,7 +19,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _memberLocator = memberLocator;
         }
 
-        public JsonSchema GetSchemaFromTemplate(TemplateInfo template)
+        public JSchema GetSchemaFromTemplate(TemplateInfo template)
         {
             var extractor = new SchemaExtractor(new HandlebarsParser());
             var helperHandlers = _helperHandlerFactory != null ? _helperHandlerFactory.Create().ToArray() : null;

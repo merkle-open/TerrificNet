@@ -69,16 +69,40 @@ namespace TerrificNet.ViewEngine.ViewEngines
                 throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
         }
 
-        public JsonSchema GetSchema(string name, IDictionary<string, string> parameters)
+        public JSchema GetSchema(string name, IDictionary<string, string> parameters)
         {
-            if (!"partial".Equals(name, StringComparison.OrdinalIgnoreCase))
-                return null;
+            if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
+            {
+                TemplateInfo templateInfo;
+                if (!_templateRepository.TryGetTemplate(parameters["template"].Trim('"'), out templateInfo))
+                    return null;
 
-            TemplateInfo templateInfo;
-            if (!_templateRepository.TryGetTemplate(parameters["template"].Trim('"'), out templateInfo))
-                return null;
+                return _schemaProvider.GetSchemaFromTemplate(templateInfo);
+            }
+            else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
+            {
+                var placeholderSchema = new JSchema();
+                var itemSchema = new JSchema
+                {
+                    Type = JSchemaType.Array
+                };
+                placeholderSchema.Items.Add(GetViewSchema());
+                placeholderSchema.Properties.Add(parameters["key"].Trim('"'), itemSchema);
 
-            return _schemaProvider.GetSchemaFromTemplate(templateInfo);
+                var schema = new JSchema();
+                schema.Properties.Add("_placeholders", placeholderSchema);
+                
+                return schema;
+            }
+            return null;
+        }
+
+        private static JSchema GetViewSchema()
+        {
+            var schema = new JSchema();
+            //schema.OneOf
+
+            return schema;
         }
     }
 }

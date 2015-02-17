@@ -15,7 +15,7 @@ namespace TerrificNet.ViewEngine.Test
 		public void TestUseSchemaFromDefaultTemplateIfNoSkins()
 		{
 			var templateInfo = new StringTemplateInfo("test", "");
-			var schema = new JsonSchema();
+            var schema = new JSchema();
 
 			var templateSchemaProvider = new Mock<ISchemaProvider>();
 			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplate(templateInfo)).Returns(schema);
@@ -33,8 +33,8 @@ namespace TerrificNet.ViewEngine.Test
 		{
 			var templateInfo = new StringTemplateInfo("test", "");
 			var templateInfo2 = new StringTemplateInfo("test2", "");
-			var schema1 = new JsonSchema();
-			var schema2 = new JsonSchema();
+			var schema1 = new JSchema();
+            var schema2 = new JSchema();
 
 			var templateSchemaProvider = new Mock<ISchemaProvider>();
 			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplate(templateInfo)).Returns(schema1);
@@ -42,8 +42,8 @@ namespace TerrificNet.ViewEngine.Test
 
 			var combiner = new Mock<SchemaCombiner>();
 			combiner.Setup(c =>
-				c.Apply(It.Is<JsonSchema>(s => s == schema1), It.Is<JsonSchema>(s => s == schema2), It.IsAny<SchemaComparisionReport>(), It.IsAny<string>()))
-				.Returns(new JsonSchema());
+                c.Apply(It.Is<JSchema>(s => s == schema1), It.Is<JSchema>(s => s == schema2), It.IsAny<SchemaComparisionReport>(), It.IsAny<string>()))
+                .Returns(new JSchema());
 
 			var moduleDefintion = new ModuleDefinition("testmod", null, new Dictionary<string, TemplateInfo>
             {

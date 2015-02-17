@@ -13,8 +13,8 @@ namespace TerrificNet.ViewEngine.Schema.Test
         {
             const string expectedResult = "title";
 
-            var schema1 = new JsonSchema();
-            var schema2 = new JsonSchema
+            var schema1 = new JSchema();
+            var schema2 = new JSchema
             {
                 Title = expectedResult
             };
@@ -29,11 +29,11 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [TestMethod]
         public void TestReportTitleConflictWhenBothHaveTitle()
         {
-            var schema1 = new JsonSchema
+            var schema1 = new JSchema
             {
                 Title = "s1"
             };
-            var schema2 = new JsonSchema
+            var schema2 = new JSchema
             {
                 Title = "s2"
             };
@@ -58,20 +58,11 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [TestMethod]
         public void TestCombineSchemaProperties()
         {
-            var schema1 = new JsonSchema
-            {
-                Properties = new Dictionary<string, JsonSchema>
-                {
-                    {"prop1", new JsonSchema()}
-                }
-            };
-            var schema2 = new JsonSchema
-            {
-                Properties = new Dictionary<string, JsonSchema>
-                {
-                    {"prop2", new JsonSchema()}
-                }
-            };
+            var schema1 = new JSchema();
+            schema1.Properties.Add("prop1", new JSchema());
+
+            var schema2 = new JSchema();
+            schema2.Properties.Add("prop2", new JSchema());
 
             var underTest = new SchemaCombiner();
             var result = underTest.Apply(schema1, schema2, null);
@@ -86,32 +77,15 @@ namespace TerrificNet.ViewEngine.Schema.Test
         [TestMethod]
         public void TestCombineSubSchemaProperties()
         {
-            var schema1 = new JsonSchema
-            {
-                Properties = new Dictionary<string, JsonSchema>
-                {
-                    {"prop1", new JsonSchema
-                    {
-                        Properties = new Dictionary<string, JsonSchema>
-                        {
-                            {"sub_prop1", new JsonSchema()}
-                        }
-                    }}
-                }
-            };
-            var schema2 = new JsonSchema
-            {
-                Properties = new Dictionary<string, JsonSchema>
-                {
-                    {"prop1", new JsonSchema
-                    {
-                        Properties = new Dictionary<string, JsonSchema>
-                        {
-                            {"sub_prop2", new JsonSchema()}
-                        }
-                    }}
-                }
-            };
+            var schema1 = new JSchema();
+            var propSchema1 = new JSchema();
+            propSchema1.Properties.Add("sub_prop1", new JSchema());
+            schema1.Properties.Add("prop1", propSchema1);
+
+            var schema2 = new JSchema();
+            var propSchema2 = new JSchema();
+            propSchema2.Properties.Add("sub_prop2", new JSchema());
+            schema2.Properties.Add("prop1", propSchema2);
 
             var underTest = new SchemaCombiner();
             var result = underTest.Apply(schema1, schema2, null);

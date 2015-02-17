@@ -19,7 +19,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor(new HandlebarsParser());
             var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "simpleSingleProperty.mustache")), null, null);
 
-            SchemaAssertions.AssertSingleProperty(schema, "Name", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Name", JSchemaType.String);
         }
 
         [TestMethod]
@@ -29,8 +29,8 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor(new HandlebarsParser());
             var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "simpleSinglePropertyPath.mustache")), null, null);
 
-            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JSchemaType.String);
         }
 
         [TestMethod]
@@ -40,12 +40,12 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor(new HandlebarsParser());
             var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "multipleProperties.mustache")), null, null);
 
-            SchemaAssertions.AssertSingleProperty(schema, "Title", JsonSchemaType.String);
-            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Age", JsonSchemaType.String);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Order", JsonSchemaType.Object);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Order"], "Count", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Title", JSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Age", JSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Order", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Order"], "Count", JSchemaType.String);
         }
 
         [TestMethod]
@@ -55,8 +55,8 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor(new HandlebarsParser());
             var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "noRequiredProperty.mustache")), null, null);
 
-            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String, false);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JSchemaType.String, false);
         }
 
         [TestMethod]
@@ -66,9 +66,9 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor(new HandlebarsParser());
             var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "booleanProperty.mustache")), null, null);
 
-            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "HasName", JsonSchemaType.Boolean, false);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "HasName", JSchemaType.Boolean, false);
         }
 
         [TestMethod]
@@ -83,12 +83,12 @@ namespace TerrificNet.ViewEngine.Schema.Test
 	        var helperHandlers = new [] { helper.Object };
 	        var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "ignoreHelpers.mustache")), null, helperHandlers);
 
-            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Name", JSchemaType.String);
 
             Assert.IsFalse(schema.Properties.ContainsKey("helper param=\"val1\""), "No property helper should be inside the schema.");
             //Assert.IsTrue(schema.Properties.ContainsKey("noregistredHelper param=\"val1\""), "The none registred helpers should be still included.");
-            SchemaAssertions.AssertSingleProperty(schema, "variableExpressionWithWhitespace", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema, "variableExpressionWithWhitespace", JSchemaType.String);
         }
 
         [TestMethod]
@@ -98,13 +98,13 @@ namespace TerrificNet.ViewEngine.Schema.Test
             var schemaExtractor = new SchemaExtractor(new HandlebarsParser());
             var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "arrayProperty.mustache")), null, null);
 
-            SchemaAssertions.AssertSingleProperty(schema, "Customer", JsonSchemaType.Object);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Addresses", JsonSchemaType.Array);
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"], "Addresses", JSchemaType.Array);
             Assert.IsNotNull(schema.Properties["Customer"].Properties["Addresses"].Items, "an items array should be given for an array type.");
             Assert.AreEqual(1, schema.Properties["Customer"].Properties["Addresses"].Items.Count, "expectects exactly on item inside items");
 
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "Street", JsonSchemaType.String);
-            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "ZipCode", JsonSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "Street", JSchemaType.String);
+            SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "ZipCode", JSchemaType.String);
         }
     }
 }

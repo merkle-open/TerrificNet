@@ -4,6 +4,6 @@ namespace TerrificNet.ViewEngine
 {
     public interface IModuleSchemaProvider
     {
-        JsonSchema GetSchemaFromModule(ModuleDefinition module);
+        JSchema GetSchemaFromModule(ModuleDefinition module);
     }
 }

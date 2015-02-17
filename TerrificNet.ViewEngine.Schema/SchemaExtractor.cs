@@ -17,7 +17,7 @@ namespace TerrificNet.ViewEngine.Schema
             _templateParser = templateParser;
         }
 
-        public JsonSchema Run(StreamReader reader, IMemberLocator memberLocator, IHelperHandler[] helperHandlers)
+        public JSchema Run(StreamReader reader, IMemberLocator memberLocator, IHelperHandler[] helperHandlers)
         {
             using (reader)
             {
@@ -29,51 +29,49 @@ namespace TerrificNet.ViewEngine.Schema
             }
         }
 
-        private class SchemaBuilderVisitor : NodeVisitorBase<JsonSchema>
+        private class SchemaBuilderVisitor : NodeVisitorBase<JSchema>
         {
-            private readonly Stack<JsonSchema> _schemas = new Stack<JsonSchema>();
+            private readonly Stack<JSchema> _schemas = new Stack<JSchema>();
 
             public SchemaBuilderVisitor()
             {
-                _schemas.Push(new JsonSchema());
+                _schemas.Push(new JSchema());
             }
 
-            public JsonSchema Schema { get { return _schemas.Peek(); } }
+            public JSchema Schema { get { return _schemas.Peek(); } }
 
-            protected override JsonSchema VisitIterateNode(IterateNode iterateNode)
+            protected override JSchema VisitIterateNode(IterateNode iterateNode)
             {
                 var schema = this.VisitExpressionNode(iterateNode.Collection);
                 if (schema == null)
                     return null;
 
-                var arrayItemSchema = new JsonSchema();
+                var arrayItemSchema = new JSchema();
 
-                schema.Type = JsonSchemaType.Array;
+                schema.Type = JSchemaType.Array;
 
                 _schemas.Push(arrayItemSchema);
                 this.VisitBlockNode(iterateNode.Body);
                 this.VisitBlockNode(iterateNode.EmptyBody);
                 arrayItemSchema = _schemas.Pop();
 
-                schema.Items = new List<JsonSchema>
-                {
-                    arrayItemSchema
-                };
+                schema.Items.Add(arrayItemSchema);
 
                 return schema;
             }
 
-            protected override JsonSchema VisitConditionalNode(ConditionalNode node)
+            protected override JSchema VisitConditionalNode(ConditionalNode node)
             {
                 var schema = base.VisitConditionalNode(node);
-                schema.Required = false;
+                var parentSchema = _schemas.Peek();
+                //schema.Required = false;
                 if (schema.Type == null)
-                    schema.Type = JsonSchemaType.Boolean;
+                    schema.Type = JSchemaType.Boolean;
 
                 return schema;
             }
 
-            protected override JsonSchema VisitBlockNode(BlockNode blockNode)
+            protected override JSchema VisitBlockNode(BlockNode blockNode)
             {
                 foreach (var child in blockNode.Nodes)
                 {
@@ -83,17 +81,17 @@ namespace TerrificNet.ViewEngine.Schema
                 return null;
             }
 
-            protected override JsonSchema VisitWriteExpressionNode(WriteExpressionNode writeExpressionNode)
+            protected override JSchema VisitWriteExpressionNode(WriteExpressionNode writeExpressionNode)
             {
                 var schema = base.VisitWriteExpressionNode(writeExpressionNode);
                 if (schema == null)
                     return null;
 
-                schema.Type = JsonSchemaType.String;
+                schema.Type = JSchemaType.String;
                 return schema;
             }
 
-            protected override JsonSchema VisitSubModelExpressionNode(SubModelExpressionNode subModuleExpression)
+            protected override JSchema VisitSubModelExpressionNode(SubModelExpressionNode subModuleExpression)
             {
                 var schema = this.VisitExpressionNode(subModuleExpression.ModelExpression);
                 _schemas.Push(schema);
@@ -103,29 +101,24 @@ namespace TerrificNet.ViewEngine.Schema
                 return schema;
             }
 
-            protected override JsonSchema VisitLateBoundExpression(LateBoundExpressionNode lateboundExpression)
+            protected override JSchema VisitLateBoundExpression(LateBoundExpressionNode lateboundExpression)
             {
-                JsonSchema modelSchema = _schemas.Peek();
+                var modelSchema = _schemas.Peek();
                 string propertyName = lateboundExpression.ItemName;
-                if (modelSchema.Properties == null)
-                    modelSchema.Properties = new Dictionary<string, JsonSchema>();
 
-                modelSchema.Type = JsonSchemaType.Object;
-                JsonSchema existingSchema;
+                modelSchema.Type = JSchemaType.Object;
+                JSchema existingSchema;
                 if (!modelSchema.Properties.TryGetValue(propertyName, out existingSchema))
                 {
-                    existingSchema = new JsonSchema
-                    {
-                        Required = true,
-                        //Type = JsonSchemaType.String
-                    };
+                    existingSchema = new JSchema();
                     modelSchema.Properties.Add(propertyName, existingSchema);
                 }
+                modelSchema.Required.Add(propertyName);
 
                 return existingSchema;
             }
 
-            protected override JsonSchema VisitHelperNode(HelperExpressionNode helperNode)
+            protected override JSchema VisitHelperNode(HelperExpressionNode helperNode)
             {
                 var provider = helperNode.HelperHandler as IHelperHandlerWithSchema;
                 if (provider != null)
@@ -141,10 +134,5 @@ namespace TerrificNet.ViewEngine.Schema
                 return base.VisitHelperNode(helperNode);
             }
         }
-    }
-
-    public interface IHelperHandlerWithSchema
-    {
-        JsonSchema GetSchema(string name, IDictionary<string, string> parameters);
     }
 }

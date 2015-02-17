@@ -6,7 +6,7 @@ namespace TerrificNet.ViewEngine
 {
 	public class NamingRule : INamingRule
 	{
-		public string GetClassName(JsonSchema schema, string propertyName)
+        public string GetClassName(JSchema schema, string propertyName)
 		{
 			var className = GetPropertyName(schema.Title);
 
@@ -21,7 +21,7 @@ namespace TerrificNet.ViewEngine
 			return className;
 		}
 
-		public string GetClassNameFromArrayItem(JsonSchema schema, string propertyName)
+        public string GetClassNameFromArrayItem(JSchema schema, string propertyName)
 		{
 			var className = GetPropertyName(schema.Title);
 			if (string.IsNullOrEmpty(className))
@@ -45,7 +45,7 @@ namespace TerrificNet.ViewEngine
 			return NormalizeName(input);
 		}
 
-		public string GetNamespaceName(JsonSchema schema)
+        public string GetNamespaceName(JSchema schema)
 		{
 			var input = NormalizeName(schema.Title);
 

@@ -23,13 +23,13 @@ namespace TerrificNet.Generator
             _namingRule = namingRule;
         }
 
-        public string Generate(JsonSchema schema)
+        public string Generate(JSchema schema)
         {
             var root = GetSyntax(schema);
             return root.NormalizeWhitespace().ToFullString();
         }
 
-        private CompilationUnitSyntax GetSyntax(JsonSchema schema)
+        private CompilationUnitSyntax GetSyntax(JSchema schema)
         {
             var typeContext = new Dictionary<string, MemberDeclarationSyntax>();
 
@@ -40,7 +40,7 @@ namespace TerrificNet.Generator
             return root;
         }
 
-        public Type Compile(JsonSchema schema)
+        public Type Compile(JSchema schema)
         {
             var schemas = new[] { schema };
             using (var stream = new MemoryStream())
@@ -56,7 +56,7 @@ namespace TerrificNet.Generator
             return null;
         }
 
-        public void WriteTo(IEnumerable<JsonSchema> schemas, Stream stream, string rootNamespace = null)
+        public void WriteTo(IEnumerable<JSchema> schemas, Stream stream, string rootNamespace = null)
         {
             var syntaxTree = GetSyntaxTree(schemas, rootNamespace);
             var text = syntaxTree.GetText();
@@ -66,12 +66,12 @@ namespace TerrificNet.Generator
             streamWriter.Flush();            
         }
 
-        public void CompileTo(IEnumerable<JsonSchema> schemas, Stream stream, string rootNamespace = null)
+        public void CompileTo(IEnumerable<JSchema> schemas, Stream stream, string rootNamespace = null)
         {
             CompileToInternal(schemas, stream, rootNamespace);
         }
 
-        private EmitResult CompileToInternal(IEnumerable<JsonSchema> schemas, Stream stream, string rootNamespace = null)
+        private EmitResult CompileToInternal(IEnumerable<JSchema> schemas, Stream stream, string rootNamespace = null)
         {
             var syntaxTree = GetSyntaxTree(schemas, rootNamespace);
 
@@ -85,7 +85,7 @@ namespace TerrificNet.Generator
             return result;
         }
 
-        private SyntaxTree GetSyntaxTree(IEnumerable<JsonSchema> schemas, string rootNamespace = null)
+        private SyntaxTree GetSyntaxTree(IEnumerable<JSchema> schemas, string rootNamespace = null)
         {
             var syntaxTree = SyntaxTree.Create(
                 Syntax.CompilationUnit()
@@ -95,7 +95,7 @@ namespace TerrificNet.Generator
             return syntaxTree;
         }
 
-        private SyntaxList<MemberDeclarationSyntax> GetRootNamespace(IEnumerable<JsonSchema> schemas, string rootNamespace)
+        private SyntaxList<MemberDeclarationSyntax> GetRootNamespace(IEnumerable<JSchema> schemas, string rootNamespace)
         {
             var list = Syntax.List(schemas.SelectMany(s => GetSyntax(s).Members));
             if (!string.IsNullOrEmpty(rootNamespace))
@@ -107,7 +107,7 @@ namespace TerrificNet.Generator
 
     static class RoslynExtension
     {
-        public static SyntaxList<MemberDeclarationSyntax> AddProperties(this SyntaxList<MemberDeclarationSyntax> memberList, JsonSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, INamingRule namingRule)
+        public static SyntaxList<MemberDeclarationSyntax> AddProperties(this SyntaxList<MemberDeclarationSyntax> memberList, JSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, INamingRule namingRule)
         {
             var result = memberList;
             if (schema.Properties != null)
@@ -133,24 +133,24 @@ namespace TerrificNet.Generator
             return result;
         }
 
-        private static TypeSyntax GetPropertyType(JsonSchema value, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName, INamingRule namingRule)
+        private static TypeSyntax GetPropertyType(JSchema value, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName, INamingRule namingRule)
         {
             switch (value.Type)
             {
-                case JsonSchemaType.String:
+                case JSchemaType.String:
                     return Syntax.ParseTypeName("string");
-                case JsonSchemaType.Integer:
+                case JSchemaType.Integer:
                     return Syntax.ParseTypeName("int");
-                case JsonSchemaType.Float:
+                case JSchemaType.Float:
                     return Syntax.ParseTypeName("double");
-                case JsonSchemaType.Boolean:
+                case JSchemaType.Boolean:
                     return Syntax.ParseTypeName("bool");
-                case JsonSchemaType.Array:
+                case JSchemaType.Array:
                     var valueType = value.Items.FirstOrDefault();
                     var name = namingRule.GetClassNameFromArrayItem(value, propertyName);
                     var genericType = GetPropertyType(valueType, typeContext, name, namingRule);
                     return Syntax.QualifiedName(GetQualifiedName("System", "Collections", "Generic"), Syntax.GenericName(Syntax.Identifier("IList"), Syntax.TypeArgumentList(Syntax.SeparatedList(genericType))));
-                case JsonSchemaType.Object:
+                case JSchemaType.Object:
                     var className = GenerateClass(value, typeContext, propertyName, namingRule);
                     return Syntax.IdentifierName(className);
                 default:
@@ -165,9 +165,9 @@ namespace TerrificNet.Generator
             return Syntax.QualifiedName(syntax, Syntax.IdentifierName(parts[2]));
         }
 
-        public static string GenerateClass(JsonSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName, INamingRule namingRule)
+        public static string GenerateClass(JSchema schema, Dictionary<string, MemberDeclarationSyntax> typeContext, string propertyName, INamingRule namingRule)
         {
-            if (schema.Type == JsonSchemaType.Object)
+            if (schema.Type == JSchemaType.Object)
             {
                 var className = namingRule.GetClassName(schema, propertyName);
 

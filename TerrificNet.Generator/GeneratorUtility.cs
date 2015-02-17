@@ -33,7 +33,7 @@ namespace TerrificNet.Generator
             }
         }
 
-        private static void ExecuteInternal(string sourcePath, Action<JsonSchemaCodeGenerator, IEnumerable<JsonSchema>> executeAction)
+        private static void ExecuteInternal(string sourcePath, Action<JsonSchemaCodeGenerator, IEnumerable<JSchema>> executeAction)
         {
             var config = ConfigurationLoader.LoadTerrificConfiguration(sourcePath, new FileSystem());
 
@@ -48,7 +48,7 @@ namespace TerrificNet.Generator
             executeAction(codeGenerator, schemas);
         }
 
-        private static void WriteToFile(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JsonSchema> schemas,
+        private static void WriteToFile(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JSchema> schemas,
             string fileName, string rootNamespace = null)
         {
             using (var stream = new FileStream(fileName, FileMode.Create))
@@ -57,7 +57,7 @@ namespace TerrificNet.Generator
             }
         }
 
-        private static void CompileToAssembly(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JsonSchema> schemas, string outputAssembly, string rootNamespace = null)
+        private static void CompileToAssembly(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JSchema> schemas, string outputAssembly, string rootNamespace = null)
         {
             using (var stream = new FileStream(outputAssembly, FileMode.Create))
             {

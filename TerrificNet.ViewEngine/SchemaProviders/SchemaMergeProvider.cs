@@ -14,7 +14,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _schemaBaseProvider = schemaBaseProvider;
         }
 
-        public JsonSchema GetSchemaFromTemplate(TemplateInfo template)
+        public JSchema GetSchemaFromTemplate(TemplateInfo template)
         {
             var comparer = new SchemaComparer();
             return comparer.Apply(_schemaProvider.GetSchemaFromTemplate(template), _schemaBaseProvider.GetSchemaFromTemplate(template), new SchemaComparisionReport());

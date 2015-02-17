@@ -7,7 +7,7 @@ namespace TerrificNet.ViewEngine.Schema
 {
     public class SchemaComparer
     {
-        public JsonSchema Apply(JsonSchema schema, JsonSchema baseSchema, SchemaComparisionReport report, string propertyName = null)
+        public JSchema Apply(JSchema schema, JSchema baseSchema, SchemaComparisionReport report, string propertyName = null)
         {
             if (schema == null)
                 return baseSchema;
@@ -55,13 +55,13 @@ namespace TerrificNet.ViewEngine.Schema
             return schema;
         }
 
-        private bool CanConvert(JsonSchemaType? type, JsonSchemaType? typeBase)
+        private bool CanConvert(JSchemaType? type, JSchemaType? typeBase)
         {
             if (!type.HasValue)
                 return true;
 
-            if ((type.Value != JsonSchemaType.Object && type.Value != JsonSchemaType.Array)
-                && (typeBase.Value == JsonSchemaType.Object || typeBase.Value == JsonSchemaType.Array))
+            if ((type.Value != JSchemaType.Object && type.Value != JSchemaType.Array)
+                && (typeBase.Value == JSchemaType.Object || typeBase.Value == JSchemaType.Array))
                 return false;
 
             return true;
@@ -98,21 +98,21 @@ namespace TerrificNet.ViewEngine.Schema
 
     public abstract class SchemaComparisonNotification
     {
-        protected SchemaComparisonNotification(JsonSchema schemaPart, JsonSchema schemaPartBase, SchemaComparisionNotificationLevel level)
+        protected SchemaComparisonNotification(JSchema schemaPart, JSchema schemaPartBase, SchemaComparisionNotificationLevel level)
         {
             SchemaPart = schemaPart;
             SchemaBasePart = schemaPartBase;
             Level = level;
         }
 
-        public JsonSchema SchemaPart { get; private set; }
-        public JsonSchema SchemaBasePart { get; private set; }
+        public JSchema SchemaPart { get; private set; }
+        public JSchema SchemaBasePart { get; private set; }
         public SchemaComparisionNotificationLevel Level { get; set; }
     }
 
     public class MissingPropertyInfo : SchemaComparisonNotification
     {
-        public MissingPropertyInfo(string propertyName, JsonSchema schemaPart, JsonSchema schemaPartBase) 
+        public MissingPropertyInfo(string propertyName, JSchema schemaPart, JSchema schemaPartBase) 
             : base(schemaPart, schemaPartBase, SchemaComparisionNotificationLevel.Info)
         {
             PropertyName = propertyName;
@@ -124,7 +124,7 @@ namespace TerrificNet.ViewEngine.Schema
 
     public class TypeChangeFailure : SchemaComparisonNotification
     {
-        public TypeChangeFailure(string propertyName, JsonSchema schemaPart, JsonSchema schemaPartBase)
+        public TypeChangeFailure(string propertyName, JSchema schemaPart, JSchema schemaPartBase)
             : base(schemaPart, schemaPartBase, SchemaComparisionNotificationLevel.Failure)
         {
             this.PropertyName = propertyName;
@@ -137,7 +137,8 @@ namespace TerrificNet.ViewEngine.Schema
     {
         public string PropertyName { get; private set; }
 
-        public ValueConflict(string propertyName, JsonSchema schemaPart, JsonSchema schemaPartBase, SchemaComparisionNotificationLevel level) : base(schemaPart, schemaPartBase, level)
+        public ValueConflict(string propertyName, JSchema schemaPart, JSchema schemaPartBase, SchemaComparisionNotificationLevel level)
+            : base(schemaPart, schemaPartBase, level)
         {
             PropertyName = propertyName;
         }
