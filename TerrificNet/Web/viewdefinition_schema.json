@@ -10,7 +10,8 @@
             "type": "object",
             "properties": {
                 "template": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "template"
                 },
                 "_placeholder": {
                     "title": "Placeholders",
@@ -20,15 +21,17 @@
                         "type": "object",
                         "headerTemplate": "{{self.name}}",
                         "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "content": {
+                            "test": {
                                 "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/viewDefinition"
-                                }
+                                "items": { 
 
+                                }
+                            }
+                        },
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/viewDefinition"
                             }
                         }
                     }
@@ -39,4 +42,4 @@
 
         }
     }
-    }
+}

@@ -16,7 +16,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _fileSystem = fileSystem;
         }
 
-        public JsonSchema GetSchemaFromTemplate(TemplateInfo template)
+        public JSchema GetSchemaFromTemplate(TemplateInfo template)
         {
             var file = Path.Combine(_config.ViewPath, "schemas", Path.ChangeExtension(template.Id, "json"));
             if (!_fileSystem.FileExists(file))
@@ -25,7 +25,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             return GetSchema(file);
         }
 
-        private JsonSchema GetSchema(string path)
+        private JSchema GetSchema(string path)
         {
             string content = null;
             using (var reader = new StreamReader(_fileSystem.OpenRead(path)))
@@ -33,7 +33,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
                 content = reader.ReadToEnd();
             }
 
-            return JsonConvert.DeserializeObject<JsonSchema>(content);
+            return JsonConvert.DeserializeObject<JSchema>(content);
         }
     }
 }

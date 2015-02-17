@@ -6,7 +6,7 @@ namespace TerrificNet.ViewEngine.Schema
 {
     public class SchemaCombiner
     {
-        public virtual JsonSchema Apply(JsonSchema schema1, JsonSchema schema2, SchemaComparisionReport report,
+        public virtual JSchema Apply(JSchema schema1, JSchema schema2, SchemaComparisionReport report,
             string propertyName = null)
         {
             if (schema1 == null)
@@ -18,17 +18,41 @@ namespace TerrificNet.ViewEngine.Schema
             if (report == null)
                 report = new SchemaComparisionReport();
 
-            var result = new JsonSchema
+            var result = new JSchema
             {
                 Title = Use(schema1, schema2, "title", s => s.Title, report),
-                Type = Use(schema1, schema2, "type", s => s.Type, report, v => v.HasValue),
-                Properties = UseProperties(schema1, schema2, report)
+                Type = Use(schema1, schema2, "type", s => s.Type, report, v => v.HasValue)
             };
+
+            foreach (var prop in UseProperties(schema1, schema2, report))
+            {
+                result.Properties.Add(prop);
+            }
+
+            foreach (var itemSchema in UseItems(schema1, schema2, report))
+            {
+                result.Items.Add(itemSchema);
+            }
 
             return result;
         }
 
-        private IDictionary<string, JsonSchema> UseProperties(JsonSchema schema1, JsonSchema schema2, SchemaComparisionReport report)
+        private IEnumerable<JSchema> UseItems(JSchema schema1, JSchema schema2, SchemaComparisionReport report)
+        {
+            for (int i = 0; i < schema1.Items.Count || i < schema2.Items.Count; i++)
+            {
+                if (i < schema1.Items.Count && i < schema2.Items.Count)
+                    yield return Apply(schema1.Items[i], schema2.Items[i], report);
+
+                else if (i < schema1.Items.Count)
+                    yield return schema1.Items[i];
+
+                else if (i < schema2.Items.Count)
+                    yield return schema2.Items[i];
+            }
+        }
+
+        private IDictionary<string, JSchema> UseProperties(JSchema schema1, JSchema schema2, SchemaComparisionReport report)
         {
             if (schema1.Properties == null)
                 return schema2.Properties;
@@ -36,7 +60,7 @@ namespace TerrificNet.ViewEngine.Schema
             if (schema2.Properties == null)
                 return schema2.Properties;
 
-            var result = new Dictionary<string, JsonSchema>();
+            var result = new Dictionary<string, JSchema>();
             foreach (var propertyEntry in schema1.Properties)
             {
                 Proceed(schema2, report, result, propertyEntry);
@@ -50,12 +74,12 @@ namespace TerrificNet.ViewEngine.Schema
             return result;
         }
 
-        private void Proceed(JsonSchema otherSchema, SchemaComparisionReport report, IDictionary<string, JsonSchema> result, KeyValuePair<string, JsonSchema> propertyEntry)
+        private void Proceed(JSchema otherSchema, SchemaComparisionReport report, IDictionary<string, JSchema> result, KeyValuePair<string, JSchema> propertyEntry)
         {
             if (!result.ContainsKey(propertyEntry.Key))
             {
-                JsonSchema resultSchema;
-                JsonSchema propSchema2;
+                JSchema resultSchema;
+                JSchema propSchema2;
                 if (otherSchema.Properties.TryGetValue(propertyEntry.Key, out propSchema2))
                     resultSchema = Apply(propertyEntry.Value, propSchema2, report, propertyEntry.Key);
                 else
@@ -65,8 +89,8 @@ namespace TerrificNet.ViewEngine.Schema
             }
         }
 
-        private static T Use<T>(JsonSchema schema1, JsonSchema schema2, string propertyName,
-            Func<JsonSchema, T> propertyAccess, SchemaComparisionReport report, Func<T, bool> hasValueCheck)
+        private static T Use<T>(JSchema schema1, JSchema schema2, string propertyName,
+            Func<JSchema, T> propertyAccess, SchemaComparisionReport report, Func<T, bool> hasValueCheck)
         {
             var val1 = propertyAccess(schema1);
             var val2 = propertyAccess(schema2);
@@ -93,7 +117,7 @@ namespace TerrificNet.ViewEngine.Schema
             return default(T);
         }
 
-        private static string Use(JsonSchema schema1, JsonSchema schema2, string propertyName, Func<JsonSchema, string> propertyAccess, SchemaComparisionReport report)
+        private static string Use(JSchema schema1, JSchema schema2, string propertyName, Func<JSchema, string> propertyAccess, SchemaComparisionReport report)
         {
             return Use<string>(schema1, schema2, propertyName, propertyAccess, report, f => !string.IsNullOrEmpty(f));
         }

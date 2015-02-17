@@ -13,5 +13,11 @@ namespace TerrificNet.Models
 
         [JsonProperty("save_action_id")]
         public string SaveActionId { get; set; }
+
+        [JsonProperty("template_partials")]
+        public string TemplatePartials { get; set; }
+
+        [JsonProperty("modules")]
+        public string Modules { get; set; }
     }
 }

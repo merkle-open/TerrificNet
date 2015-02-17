@@ -133,13 +133,13 @@ namespace TerrificNet.Generator.Test
 		    return GenerateCode(schema);
 		}
 
-	    private static string GenerateCode(JsonSchema schema)
+        private static string GenerateCode(JSchema schema)
 	    {
 	        var generator = new JsonSchemaCodeGenerator();
 	        return generator.Generate(schema);
 	    }
 
-	    private static JsonSchema GetSchema(string path)
+        private static JSchema GetSchema(string path)
 		{
 			string content;
 			using (var reader = new StreamReader(path))
@@ -147,7 +147,7 @@ namespace TerrificNet.Generator.Test
 				content = reader.ReadToEnd();
 			}
 
-			return JsonConvert.DeserializeObject<JsonSchema>(content);
+            return JsonConvert.DeserializeObject<JSchema>(content);
 		}
 	}
 }

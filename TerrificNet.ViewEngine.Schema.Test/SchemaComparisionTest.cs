@@ -21,7 +21,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
 
             Assert.IsNotNull(resultSchema);
             Assert.AreEqual("TestModel", resultSchema.Title, "Expected the title for the base schema");
-            SchemaAssertions.AssertSingleProperty(resultSchema, "name", JsonSchemaType.Integer);
+            SchemaAssertions.AssertSingleProperty(resultSchema, "name", JSchemaType.Integer);
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
             //Assert.AreEqual("TestModel", resultSchema.Properties["prop2"], "val2");
         }
 
-        private static JsonSchema GetSchema(string path)
+        private static JSchema GetSchema(string path)
         {
             string content;
             using (var reader = new StreamReader(path))
@@ -79,7 +79,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
                 content = reader.ReadToEnd();
             }
 
-            return JsonSchema.Parse(content);
+            return JSchema.Parse(content);
         }
     }
 }

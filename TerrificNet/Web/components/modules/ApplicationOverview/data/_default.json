@@ -1,9 +1,1 @@
-﻿{
-    "_placeholder": {
-        "phContent": [
-            {
-                "template": "ApplicationOverview"
-            }
-        ]
-    }
-}
+{"_placeholder":{"phContent":[{"template":"ApplicationOverview"}]},"applications":[{"name":"app1","views":[{"url":"afd","text":"asdf","editUrl":"sdf","schemaUrl":"dsdf","advancedUrl":"sfd"}],"modules":[],"partials":[]}]}

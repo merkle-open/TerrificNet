@@ -20,7 +20,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _schemaProvider = schemaProvider;
         }
 
-        public JsonSchema GetSchemaFromModule(ModuleDefinition module)
+        public JSchema GetSchemaFromModule(ModuleDefinition module)
         {
             IEnumerable<TemplateInfo> templates;
             if (module.Skins != null)
