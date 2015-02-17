@@ -10,7 +10,8 @@
             "type": "object",
             "properties": {
                 "template": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "template"
                 },
                 "_placeholder": {
                     "title": "Placeholders",

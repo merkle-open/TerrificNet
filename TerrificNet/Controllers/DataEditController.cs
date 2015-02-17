@@ -36,9 +36,11 @@ namespace TerrificNet.Controllers
 		}
 
         [HttpGet]
-        public HttpResponseMessage Index(string schema, string data)
+        public HttpResponseMessage Index(string schema, string data, string app)
         {
-            var model = GetVariations(schema, data);
+            var model = GetModel(schema, data);
+            model.TemplatePartials = string.Join(",", this.ResolveForApp<ITemplateRepository>(app).GetAll().Select(a => string.Concat("\"", a.Id, "\"")).ToArray());
+
             var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(GetDataEditor(model)));
 
             AddSaveAction(viewDefinition, model);
@@ -49,7 +51,7 @@ namespace TerrificNet.Controllers
         [HttpGet]
         public HttpResponseMessage IndexAdvanced()
         {
-			var model = GetVariations(null, null);
+			var model = GetModel(null, null);
             var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(new PartialViewDefinition
             {
                 Template = "components/modules/AdvancedEditor/AdvancedEditor",
@@ -96,7 +98,7 @@ namespace TerrificNet.Controllers
                 .IncludeStyle("//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css");
         }
 
-		private DataEditModel GetVariations(string schemaUrl, string dataUrl)
+		private DataEditModel GetModel(string schemaUrl, string dataUrl)
         {
             return new DataEditModel
             {

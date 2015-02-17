@@ -29,7 +29,27 @@ namespace TerrificNet.ViewEngine.Schema
                 result.Properties.Add(prop);
             }
 
+            foreach (var itemSchema in UseItems(schema1, schema2, report))
+            {
+                result.Items.Add(itemSchema);
+            }
+
             return result;
+        }
+
+        private IEnumerable<JSchema> UseItems(JSchema schema1, JSchema schema2, SchemaComparisionReport report)
+        {
+            for (int i = 0; i < schema1.Items.Count || i < schema2.Items.Count; i++)
+            {
+                if (i < schema1.Items.Count && i < schema2.Items.Count)
+                    yield return Apply(schema1.Items[i], schema2.Items[i], report);
+
+                else if (i < schema1.Items.Count)
+                    yield return schema1.Items[i];
+
+                else if (i < schema2.Items.Count)
+                    yield return schema2.Items[i];
+            }
         }
 
         private IDictionary<string, JSchema> UseProperties(JSchema schema1, JSchema schema2, SchemaComparisionReport report)

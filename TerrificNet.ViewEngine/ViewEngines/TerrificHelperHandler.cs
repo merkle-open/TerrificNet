@@ -86,7 +86,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
                 {
                     Type = JSchemaType.Array
                 };
-                placeholderSchema.Items.Add(GetViewSchema());
+                itemSchema.Items.Add(GetViewSchema());
                 placeholderSchema.Properties.Add(parameters["key"].Trim('"'), itemSchema);
 
                 var schema = new JSchema();
@@ -100,9 +100,20 @@ namespace TerrificNet.ViewEngine.ViewEngines
         private static JSchema GetViewSchema()
         {
             var schema = new JSchema();
-            //schema.OneOf
+            schema.OneOf.Add(GetPartialViewSchema());
+            schema.OneOf.Add(GetModuleViewSchema());
 
             return schema;
+        }
+
+        private static JSchema GetModuleViewSchema()
+        {
+            return new JSchemaGenerator().Generate(typeof(ModuleViewDefinition));
+        }
+
+        private static JSchema GetPartialViewSchema()
+        {
+            return new JSchemaGenerator().Generate(typeof (PartialViewDefinition));
         }
     }
 }
