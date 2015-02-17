@@ -26,6 +26,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
             yield return new TerrificHelperHandler(_terrificTemplateHandlerFactory.Create(), _schemaProviderFactory.Create(), _templateRepository);
             yield return new GridHelperHandler();
             yield return new GridWidthHelperHandler();
+			yield return new GridComponentWidthHelperHandler();
         }
 
         IEnumerable<IHelperHandler> IHelperHandlerFactory.Create()
