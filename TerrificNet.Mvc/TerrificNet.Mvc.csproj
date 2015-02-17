@@ -89,6 +89,7 @@
     <Compile Include="TerrificNetViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="TerrificNet.Mvc.nuspec" />
   </ItemGroup>
