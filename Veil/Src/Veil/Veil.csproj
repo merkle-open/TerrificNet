@@ -44,6 +44,7 @@
     <Compile Include="ActionDisposable.cs" />
     <Compile Include="AssemblyParserFinder.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.HelperHandlerExpression.cs" />
+    <Compile Include="Helper\IBlockHelperHandler.cs" />
     <Compile Include="Helper\IHelperHandler.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.Block.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.Conditional.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Compiler\VeilTemplateCompiler.WriteLiteral.cs" />
     <Compile Include="Compiler\IMemberLocator.cs" />
     <Compile Include="Compiler\MemberLocator.cs" />
+    <Compile Include="Helper\IHelperHandlerFactory.cs" />
     <Compile Include="Parser\ITemplateParserRegistration.cs" />
     <Compile Include="IVeilContext.cs" />
     <Compile Include="NullVeilContext.cs" />

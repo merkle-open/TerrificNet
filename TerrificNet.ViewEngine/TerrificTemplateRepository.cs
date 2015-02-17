@@ -1,21 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine
 {
 	public class TerrificTemplateRepository : ITemplateRepository
 	{
-		private const string HtmlExtension = "html";
+		private readonly IFileSystem _fileSystem;
 
-		private readonly ITerrificNetConfig _config;
-	    private readonly IFileSystem _fileSystem;
-
-	    public TerrificTemplateRepository(ITerrificNetConfig config, IFileSystem fileSystem)
+	    public TerrificTemplateRepository(IFileSystem fileSystem)
 		{
-		    _config = config;
 		    _fileSystem = fileSystem;
 		}
 

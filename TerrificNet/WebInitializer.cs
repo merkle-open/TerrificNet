@@ -7,45 +7,48 @@ using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.ViewEngines;
 using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
-static public class WebInitializer
+namespace TerrificNet
 {
-    public static UnityContainer Initialize(string path)
-    {
-        var configuration = TerrificNetHostConfigurationLoader.LoadConfiguration(Path.Combine(path, "application.json"));
-	    var serverConfiguration = ServerConfiguration.LoadConfiguration(Path.Combine(path, "server.json"));
+	static public class WebInitializer
+	{
+		public static UnityContainer Initialize(string path)
+		{
+			var configuration = TerrificNetHostConfigurationLoader.LoadConfiguration(Path.Combine(path, "application.json"));
+			var serverConfiguration = ServerConfiguration.LoadConfiguration(Path.Combine(path, "server.json"));
 
-        return Initialize(path, configuration, serverConfiguration);
-    }
+			return Initialize(path, configuration, serverConfiguration);
+		}
 
-    public static UnityContainer Initialize(string path, TerrificNetHostConfiguration configuration, ServerConfiguration serverConfiguration)
-    {
-        var container = new UnityContainer();
-        container
-            .RegisterType
-            <ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
-        container.RegisterType<INamingRule, NamingRule>();
-	    container.RegisterInstance(serverConfiguration);
+		public static UnityContainer Initialize(string path, TerrificNetHostConfiguration configuration, ServerConfiguration serverConfiguration)
+		{
+			var container = new UnityContainer();
+			container
+				.RegisterType
+				<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
+			container.RegisterType<INamingRule, NamingRule>();
+			container.RegisterInstance(serverConfiguration);
 
-        new DefaultUnityModule().Configure(container);
+			new DefaultUnityModule().Configure(container);
 
-        foreach (var item in configuration.Applications.Values)
-        {
-            var childContainer = container.CreateChildContainer();
+			foreach (var item in configuration.Applications.Values)
+			{
+				var childContainer = container.CreateChildContainer();
 
-            var app = DefaultUnityModule.RegisterForApplication(childContainer, path, item.BasePath,
-                item.ApplicationName, item.Section);
-            container.RegisterInstance(item.ApplicationName, app);
-        }
+				var app = DefaultUnityModule.RegisterForApplication(childContainer, path, item.BasePath,
+					item.ApplicationName, item.Section);
+				container.RegisterInstance(item.ApplicationName, app);
+			}
 
-        foreach (var app in container.ResolveAll<TerrificNetApplication>())
-        {
-            foreach (var template in app.Container.Resolve<ITemplateRepository>().GetAll())
-            {
-                Console.WriteLine(template.Id);
-            }
-        }
+			foreach (var app in container.ResolveAll<TerrificNetApplication>())
+			{
+				foreach (var template in app.Container.Resolve<ITemplateRepository>().GetAll())
+				{
+					Console.WriteLine(template.Id);
+				}
+			}
 
-        new TerrificBundleUnityModule().Configure(container);
-        return container;
-    }
+			new TerrificBundleUnityModule().Configure(container);
+			return container;
+		}
+	}
 }

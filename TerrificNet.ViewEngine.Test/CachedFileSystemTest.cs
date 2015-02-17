@@ -9,7 +9,7 @@ namespace TerrificNet.ViewEngine.Test
 		[TestInitialize]
 		public override void Init()
 		{
-			FileSystem = new CachedFileSystem();
+			FileSystem = new FileSystem("", true);
 
 			FileSystem.RemoveFile(TestFileName);
 		}

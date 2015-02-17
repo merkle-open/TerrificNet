@@ -81,11 +81,12 @@ namespace TerrificNet.ViewEngine
         {
         }
 
-        public FileSystem(string basePath) : this(basePath, false)
+        public FileSystem(string basePath) 
+			: this(basePath, false)
         {
         }
 
-        private FileSystem(string basePath, bool useCache)
+        public FileSystem(string basePath, bool useCache)
         {
             _basePath = PathUtility.Combine(basePath);
 
