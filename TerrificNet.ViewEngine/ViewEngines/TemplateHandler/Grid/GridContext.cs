@@ -10,7 +10,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 		{
 			Parent = parent;
 			Width = width;
-			ComponentPadding = componentWidth ?? parent.ComponentPadding;
+			ComponentPadding = componentWidth ?? (parent != null ? parent.ComponentPadding : 0);
 		}
 
 		public static GridContext GetFromRenderingContext(RenderingContext renderingContext)
