@@ -22,15 +22,16 @@
                         <div class="l-content l-left--right">
 
                             <div class="l-main">
-                                {{#grid-cell ratio=3/4 margin=4}}
+                                {{#grid-cell ratio=3/4 margin=4 component-padding=0}}
                                 <!--Grid-width: {{grid-width}}-->
                                 {{placeholder key="phMain"}}
                                 {{/grid-cell}}
                             </div>
 
                             <div class="l-sidebar">
-                                {{#grid-cell ratio=1/4 margin=4}}
+                                {{#grid-cell ratio=1/4 margin=4 component-padding=8}}
                                 <!--Grid-width: {{grid-width}}-->
+                                <!--Grid-Componentn-width: {{grid-component-width}}-->
                                 <!--Grid-width half: {{grid-width ratio=0.5}}-->
                                 {{placeholder key="phSidebar"}}
                                 {{/grid-cell}}

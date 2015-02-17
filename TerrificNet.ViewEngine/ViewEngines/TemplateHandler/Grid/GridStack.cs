@@ -13,9 +13,9 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 			_contexts.Push(new GridContext(null, 0));
 		}
 
-		public void Push(double width)
+		public void Push(double width, double? componentPadding = null)
 		{
-			_contexts.Push(new GridContext(Current, width));
+			_contexts.Push(new GridContext(Current, width, componentPadding));
 		}
 
 		public GridContext Current

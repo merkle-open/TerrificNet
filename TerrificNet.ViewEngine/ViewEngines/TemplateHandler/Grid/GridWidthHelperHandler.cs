@@ -2,14 +2,13 @@ using System.Collections.Generic;
 
 namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 {
-	internal class GridWidthHelperHandler : ITerrificHelperHandler
+	internal abstract class BaseGridWidthHelperHandler : ITerrificHelperHandler
 	{
 		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 
-		public bool IsSupported(string name)
-		{
-			return name.StartsWith("grid-width");
-		}
+		public abstract bool IsSupported(string name);
+
+		internal abstract double GetWidth(GridStack gridStack);
 
 		public void Evaluate(object model, string name, IDictionary<string, string> parameters)
 		{
@@ -22,7 +21,7 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 			}
 
 			var gridStack = GridStack.FromContext(Context);
-			Context.Writer.Write((int)(gridStack.Current.Width * ratio));
+			Context.Writer.Write((int)(GetWidth(gridStack) * ratio));
 		}
 
 		private RenderingContext Context { get { return _contextStack.Peek(); } }
@@ -35,6 +34,32 @@ namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 		public void PopContext()
 		{
 			_contextStack.Pop();
+		}
+	}
+
+	internal class GridWidthHelperHandler : BaseGridWidthHelperHandler
+	{
+		public override bool IsSupported(string name)
+		{
+			return name.StartsWith("grid-width");
+		}
+
+		internal override double GetWidth(GridStack gridStack)
+		{
+			return gridStack.Current.Width;
+		}
+	}
+
+	internal class GridComponentWidthHelperHandler : BaseGridWidthHelperHandler
+	{
+		public override bool IsSupported(string name)
+		{
+			return name.StartsWith("grid-component-width");
+		}
+
+		internal override double GetWidth(GridStack gridStack)
+		{
+			return gridStack.Current.Width - gridStack.Current.ComponentPadding * 2;
 		}
 	}
 }
