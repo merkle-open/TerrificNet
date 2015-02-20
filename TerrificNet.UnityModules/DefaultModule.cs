@@ -9,6 +9,7 @@ using TerrificNet.ViewEngine.Globalization;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
+using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 using Veil.Compiler;
 using Veil.Helper;
 
@@ -21,8 +22,8 @@ namespace TerrificNet.UnityModules
             container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
             container.RegisterType<IModuleSchemaProvider, DefaultModuleSchemaProvider>();
-            container.RegisterType<ITerrificHelperHandlerFactory, DefaultTerrificHelperHandlerFactory>();
-            container.RegisterType<IHelperHandlerFactory, DefaultTerrificHelperHandlerFactory>();
+            container.RegisterType<IRenderingHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>();
+            container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>();
             container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
         }
 

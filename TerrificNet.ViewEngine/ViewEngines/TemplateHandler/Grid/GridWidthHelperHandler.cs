@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 {
-	internal abstract class BaseGridWidthHelperHandler : ITerrificHelperHandler
+	internal abstract class BaseGridWidthHelperHandler : IRenderingHelperHandler
 	{
 		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 

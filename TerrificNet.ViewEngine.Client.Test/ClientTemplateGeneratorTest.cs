@@ -1,6 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TerrificNet.ViewEngine.Client.Javascript;
+using TerrificNet.ViewEngine.ViewEngines;
+using Veil.Compiler;
+using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.Client.Test
 {
@@ -11,7 +16,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 		public void TestClientTemplateWithoutHandlebars()
 		{
 			string input = "<html>gugus</html>";
-			var generator = new ClientTemplateGenerator();
+			var generator = CreateClientTemplateGenerator();
 
 			var clientContext = new Mock<IClientContext>();
 			clientContext.Setup(c => c.WriteLiteral(input));
@@ -25,7 +30,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 		public void TestClientTemplateWithExpression()
 		{
 			string input = "<html>{{test}}</html>";
-			var generator = new ClientTemplateGenerator();
+			var generator = CreateClientTemplateGenerator();
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
@@ -41,7 +46,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 		public void TestClientTemplateWithComplexExpression()
 		{
 			string input = "<html>{{test.prop1}}</html>";
-			var generator = new ClientTemplateGenerator();
+			var generator = CreateClientTemplateGenerator();
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
@@ -57,7 +62,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 		public void TestClientTemplateWithServeralExpression()
 		{
 			string input = "<html>{{prop1}}{{prop2}}</html>";
-			var generator = new ClientTemplateGenerator();
+			var generator = CreateClientTemplateGenerator();
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
@@ -74,7 +79,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 		public void TestClientTemplateWithBlockExpression()
 		{
 			string input = "<html>{{anyother}}{{#each test.prop1}}<li>{{name}}</li>{{/each}}{{anyafter}}</html>";
-			var generator = new ClientTemplateGenerator();
+			var generator = CreateClientTemplateGenerator();
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
@@ -96,7 +101,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 		public void TestClientTemplateWithConditionalExpression()
 		{
 			string input = "<html>{{#if test.prop1}}output{{/if}}</html>";
-			var generator = new ClientTemplateGenerator();
+			var generator = CreateClientTemplateGenerator();
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
@@ -108,6 +113,16 @@ namespace TerrificNet.ViewEngine.Client.Test
 			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
 
 			clientContext.VerifyAll();
+		}
+
+		private static ClientTemplateGenerator CreateClientTemplateGenerator()
+		{
+			IMemberLocator memberLocator = new MemberLocatorFromNamingRule(new NamingRule());
+			var helperHandlersMock = new Mock<IHelperHandlerFactory>();
+			helperHandlersMock.Setup(f => f.Create()).Returns(Enumerable.Empty<IHelperHandler>());
+
+			var generator = new ClientTemplateGenerator(helperHandlersMock.Object, memberLocator);
+			return generator;
 		}
 
 		private static JavascriptClientModel GetModelExpression(string expression)

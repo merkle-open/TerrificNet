@@ -15,11 +15,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 	public class VeilViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
-        private readonly ITerrificHelperHandlerFactory _helperHandlerFactory;
+        private readonly IRenderingHelperHandlerFactory _helperHandlerFactory;
 	    private readonly IMemberLocator _memberLocator;
 
 		public VeilViewEngine(ICacheProvider cacheProvider,
-            ITerrificHelperHandlerFactory helperHandlerFactory,
+            IRenderingHelperHandlerFactory helperHandlerFactory,
             INamingRule namingRule)
 		{
 			_cacheProvider = cacheProvider;
@@ -47,7 +47,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			return view;
 		}
 
-		private static IView CreateNonGenericView(string content, ITerrificHelperHandler[] helperHandlers, IVeilEngine viewEngine)
+		private static IView CreateNonGenericView(string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine viewEngine)
 		{
 			var render = viewEngine.CompileNonGeneric("handlebars", new StringReader(content), typeof(object));
 			var view = new VeilViewAdapter<object>(new VeilView<object>(render, helperHandlers));
@@ -56,7 +56,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		// do not remove, invoked dynamicaly
 		// ReSharper disable once UnusedMember.Local
-		private static IView CreateView<T>(string content, ITerrificHelperHandler[] helperHandlers, IVeilEngine veilEngine)
+		private static IView CreateView<T>(string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine veilEngine)
 		{
 			var render = veilEngine.Compile<T>("handlebars", new StringReader(content));
 			return new VeilViewAdapter<T>(new VeilView<T>(render, helperHandlers));
@@ -89,22 +89,22 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		private class VeilView<T> : IView<T>
 		{
 			private readonly Action<TextWriter, T> _render;
-			private readonly ITerrificHelperHandler[] _terrificHelpers;
+			private readonly IRenderingHelperHandler[] _renderingHelpers;
 
-			public VeilView(Action<TextWriter, T> render, ITerrificHelperHandler[] terrificHelpers)
+			public VeilView(Action<TextWriter, T> render, IRenderingHelperHandler[] renderingHelpers)
 			{
 				_render = render;
-				_terrificHelpers = terrificHelpers;
+				_renderingHelpers = renderingHelpers;
 			}
 
 			public void Render(T model, RenderingContext context)
 			{
-				foreach (var helper in _terrificHelpers)
+				foreach (var helper in _renderingHelpers)
 					helper.PushContext(context);
 
 				_render(context.Writer, model);
 
-				foreach (var helper in _terrificHelpers)
+				foreach (var helper in _renderingHelpers)
 					helper.PopContext();
 			}
 		}

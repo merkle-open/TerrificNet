@@ -1,17 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TerrificNet.ViewEngine.Schema;
 using TerrificNet.ViewEngine.ViewEngines;
 using Veil;
 using Veil.Compiler;
 using Veil.Helper;
-using Veil.Parser;
 using Veil.Parser.Nodes;
 
 namespace TerrificNet.ViewEngine.Client
 {
     public class ClientTemplateGenerator
     {
+	    private readonly IHelperHandlerFactory _helperHandlerFactory;
+	    private readonly IMemberLocator _memberLocator;
+
+	    public ClientTemplateGenerator(IHelperHandlerFactory helperHandlerFactory, IMemberLocator memberLocator)
+	    {
+		    _helperHandlerFactory = helperHandlerFactory;
+		    _memberLocator = memberLocator;
+	    }
+
 	    public void GenerateForTemplate(TemplateInfo templateInfo, IClientContext clientContext, IClientModel clientModel)
 	    {
 		    using (var stream = new StreamReader(templateInfo.Open()))
@@ -22,11 +31,10 @@ namespace TerrificNet.ViewEngine.Client
 
 		internal void GenerateForTemplate(string template, IClientContext clientContext, IClientModel model)
 	    {
-			ITemplateParser parser = VeilStaticConfiguration.GetParserInstance("handlebars");
-			IMemberLocator memberLocator = new MemberLocatorFromNamingRule(new NamingRule());
-		    IHelperHandler[] helperHandlers = null;
+			var parser = VeilStaticConfiguration.GetParserInstance("handlebars");
+		    var helperHandlers = _helperHandlerFactory.Create().ToArray();
 
-		    var tree = parser.Parse(new StringReader(template), typeof (object), memberLocator, helperHandlers);
+		    var tree = parser.Parse(new StringReader(template), typeof (object), _memberLocator, helperHandlers);
 		    new ClientNodeVisitor(clientContext, model).Visit(tree);
 	    }
 
@@ -80,6 +88,32 @@ namespace TerrificNet.ViewEngine.Client
 
 				_modelStack.Pop();
 				return result;
+			}
+
+			protected override IClientModel VisitHelperNode(HelperExpressionNode helperNode)
+			{
+				var helperHandlerClient = helperNode.HelperHandler as IHelperHandlerClient;
+				if (helperHandlerClient != null)
+					return helperHandlerClient.Evaluate(_clientContext, _modelStack.Peek(), helperNode.Name, helperNode.Parameters);
+
+				return base.VisitHelperNode(helperNode);
+			}
+
+			protected override IClientModel VisitHelperBlockNode(HelperBlockNode helperBlockNode)
+			{
+				var helperNode = helperBlockNode.HelperExpression;
+				var helperHandlerClient = helperNode.HelperHandler as IBlockHelperHandlerClient;
+				if (helperHandlerClient != null)
+					_modelStack.Push(helperHandlerClient.Evaluate(_clientContext, _modelStack.Peek(), helperNode.Name, helperNode.Parameters));
+
+				this.Visit(helperBlockNode.Block);
+
+				if (helperHandlerClient != null)
+				{
+					_modelStack.Pop();
+					helperHandlerClient.Leave(_clientContext, _modelStack.Peek(), helperNode.Name, helperNode.Parameters);
+				}
+				return null;
 			}
 
 			protected override IClientModel VisitConditionalNode(ConditionalNode node)

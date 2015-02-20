@@ -4,6 +4,11 @@ namespace TerrificNet.ViewEngine.Client
 {
 	public interface IHelperHandlerClient
 	{
-		void Evaluate(string name, IDictionary<string, string> parameters);
+		IClientModel Evaluate(IClientContext context, IClientModel peek, string name, IDictionary<string, string> parameters);
+	}
+
+	public interface IBlockHelperHandlerClient : IHelperHandlerClient
+	{
+		void Leave(IClientContext context, IClientModel peek, string name, IDictionary<string, string> parameters);
 	}
 }

@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Schema;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
-namespace TerrificNet.ViewEngine.ViewEngines
+namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
-    internal class TerrificHelperHandler : ITerrificHelperHandler, IHelperHandlerWithSchema
+    internal class TerrificRenderingHelperHandler : IRenderingHelperHandler, IHelperHandlerWithSchema
     {
         private readonly ITerrificTemplateHandler _handler;
         private readonly ISchemaProvider _schemaProvider;
         private readonly ITemplateRepository _templateRepository;
         private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 
-        public TerrificHelperHandler(ITerrificTemplateHandler handler, ISchemaProvider schemaProvider, ITemplateRepository templateRepository)
+        public TerrificRenderingHelperHandler(ITerrificTemplateHandler handler, ISchemaProvider schemaProvider, ITemplateRepository templateRepository)
         {
             _handler = handler;
             _schemaProvider = schemaProvider;

@@ -7,6 +7,7 @@ using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.ViewEngines;
+using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 using Unity.Mvc4;
 
 namespace TerrificNet.Sample.Net

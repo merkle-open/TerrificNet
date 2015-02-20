@@ -3,7 +3,7 @@ using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
 {
-	internal class GridHelperHandler : IBlockHelperHandler, ITerrificHelperHandler
+	internal class GridHelperHandler : IBlockHelperHandler, IRenderingHelperHandler
 	{
 		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 

@@ -1,4 +1,4 @@
-namespace TerrificNet.ViewEngine.ViewEngines
+namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
 {
     public interface ITerrificTemplateHandler
     {
