@@ -93,6 +93,8 @@
     <Compile Include="TerrificTemplateRepository.cs" />
     <Compile Include="FileTemplateInfo.cs" />
     <Compile Include="ViewEngines\DefaultTerrificHelperHandlerFactory.cs" />
+    <Compile Include="ViewEngines\ITerrificHelperHandlerFactory.cs" />
+    <Compile Include="ViewEngines\MemberLocatorFromNamingRule.cs" />
     <Compile Include="ViewEngines\TemplateHandler\Grid\GridContext.cs" />
     <Compile Include="ViewEngines\TemplateHandler\Grid\GridHelperHandler.cs" />
     <Compile Include="ViewEngines\TemplateHandler\Grid\GridStack.cs" />

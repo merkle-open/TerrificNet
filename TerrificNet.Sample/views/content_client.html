@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Content Client</title>
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<!--<script src="/js/components/modules/TestModule/test_module?jsRepository=Tc.TemplateRepository"></script>-->
+</head>
+<body>
+	<h1>Test with client-side rendering</h1>
+	<div id="content">
+		{{module template="components/modules/TestModule"}}
+	</div>
+	<button id="btnAction">Render on client</button>
+	<script type="text/javascript">
+		var Tc = Tc || {};
+
+		Tc.ViewEngine = {
+			promises: {},
+
+			loadAsync: function (templateId) {
+				var promise = this.promises[templateId]
+					|| Tc.TemplateRepository && Tc.TemplateRepository[templateId] ? $.Deferred().resolve(Tc.TemplateRepository[templateId].render) : null
+					|| $.get("/js/" + templateId + "?jsRepository=Tc.TemplateRepository").then(function () { return Tc.TemplateRepository[templateId].render; });
+				this.promises[templateId] = promise;
+				return promise;
+			},
+
+			renderAsync: function (templateId, model) {
+				var promise = this.loadAsync(templateId);
+				return promise.then(function (render) {
+					return render(model);
+				});
+			},
+
+			loadAndRenderAsync: function (templateId, modelPromise) {
+				var templatePromise = this.loadAsync(templateId);
+				return $.when(templatePromise, modelPromise).then(function (render, model) {
+					return render(model);
+				});
+			}
+		}
+
+		$(function () {
+			$("#btnAction").click(function () {
+				Tc.ViewEngine
+					.loadAndRenderAsync("components/modules/TestModule/test_module", $.get("/model/components/modules/TestModule").then(function (data) {
+						data.test = new Date();
+						return data;
+					}))
+					.then(function (html) {
+						$("#content").html(html);
+					});
+			});
+		});
+	</script>
+</body>
+</html>
