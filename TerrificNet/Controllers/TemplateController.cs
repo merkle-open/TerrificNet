@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler;
 
 namespace TerrificNet.Controllers
 {

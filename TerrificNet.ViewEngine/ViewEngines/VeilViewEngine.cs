@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Cache;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 using Veil;
 using Veil.Compiler;
 

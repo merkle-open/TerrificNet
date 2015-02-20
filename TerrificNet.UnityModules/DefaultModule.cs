@@ -8,8 +8,8 @@ using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.Globalization;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
+using TerrificNet.ViewEngine.TemplateHandler;
 using TerrificNet.ViewEngine.ViewEngines;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 using Veil.Compiler;
 using Veil.Helper;
 

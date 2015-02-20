@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using TerrificNet.ViewEngine.ViewEngines;
 
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
+namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 {
 	internal abstract class BaseGridWidthHelperHandler : IRenderingHelperHandler
 	{

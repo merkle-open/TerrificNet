@@ -4,8 +4,8 @@ using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.TemplateHandler;
 using TerrificNet.ViewEngine.ViewEngines;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet
 {

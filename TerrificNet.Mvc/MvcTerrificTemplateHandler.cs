@@ -2,8 +2,8 @@ using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.TemplateHandler;
 using TerrificNet.ViewEngine.ViewEngines;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 
 namespace TerrificNet.Mvc

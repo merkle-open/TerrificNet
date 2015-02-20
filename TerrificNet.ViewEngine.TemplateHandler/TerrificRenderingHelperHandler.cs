@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Schema;
+using TerrificNet.ViewEngine.ViewEngines;
 
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
+namespace TerrificNet.ViewEngine.TemplateHandler
 {
     internal class TerrificRenderingHelperHandler : IRenderingHelperHandler, IHelperHandlerWithSchema
     {

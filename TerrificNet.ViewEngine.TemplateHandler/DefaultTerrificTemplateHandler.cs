@@ -1,7 +1,7 @@
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Globalization;
 
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
+namespace TerrificNet.ViewEngine.TemplateHandler
 {
     public class DefaultTerrificTemplateHandler : ITerrificTemplateHandler
     {

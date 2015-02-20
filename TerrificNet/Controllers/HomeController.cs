@@ -6,7 +6,7 @@ using Microsoft.Practices.Unity;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler;
 
 namespace TerrificNet.Controllers
 {

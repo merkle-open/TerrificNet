@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Newtonsoft.Json.Linq;
 using TerrificNet.Mvc;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid;
+using TerrificNet.ViewEngine.TemplateHandler.Grid;
 
 namespace TerrificNet.Sample.Net.Controllers
 {

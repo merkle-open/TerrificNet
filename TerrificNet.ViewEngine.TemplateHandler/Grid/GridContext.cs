@@ -1,4 +1,4 @@
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
+namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 {
 	public class GridContext
 	{

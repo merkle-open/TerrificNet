@@ -186,6 +186,10 @@
       <Project>{56B54925-161C-4195-898B-DF0F1AE85C2A}</Project>
       <Name>TerrificNet.UnityModules</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.ViewEngine.TemplateHandler\TerrificNet.ViewEngine.TemplateHandler.csproj">
+      <Project>{F164E253-7164-47B9-B6E9-65965AE5724D}</Project>
+      <Name>TerrificNet.ViewEngine.TemplateHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>

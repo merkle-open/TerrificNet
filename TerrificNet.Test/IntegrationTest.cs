@@ -8,7 +8,6 @@ using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet.Test
 {

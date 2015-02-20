@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using TerrificNet.ViewEngine.ViewEngines;
 using Veil.Helper;
 
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
+namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 {
 	internal class GridHelperHandler : IBlockHelperHandler, IRenderingHelperHandler
 	{
