@@ -2,23 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Schema;
+using TerrificNet.ViewEngine.Client;
 using TerrificNet.ViewEngine.Schema;
 using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.ViewEngine.TemplateHandler
 {
-    internal class TerrificRenderingHelperHandler : IRenderingHelperHandler, IHelperHandlerWithSchema
+	internal class TerrificRenderingHelperHandler : IRenderingHelperHandler, IHelperHandlerWithSchema, IHelperHandlerClient
     {
         private readonly ITerrificTemplateHandler _handler;
         private readonly ISchemaProvider _schemaProvider;
         private readonly ITemplateRepository _templateRepository;
-        private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
+		private readonly IClientTemplateGenerator _clientTemplateGenerator;
+		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 
-        public TerrificRenderingHelperHandler(ITerrificTemplateHandler handler, ISchemaProvider schemaProvider, ITemplateRepository templateRepository)
+		public TerrificRenderingHelperHandler(ITerrificTemplateHandler handler, ISchemaProvider schemaProvider, ITemplateRepository templateRepository, IClientTemplateGenerator clientTemplateGenerator)
         {
             _handler = handler;
             _schemaProvider = schemaProvider;
             _templateRepository = templateRepository;
+	        _clientTemplateGenerator = clientTemplateGenerator;
         }
 
         public void PushContext(RenderingContext context)
@@ -115,5 +118,18 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         {
             return new JSchemaGenerator().Generate(typeof (PartialViewDefinition));
         }
+
+		public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)
+		{
+			if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
+			{
+				TemplateInfo templateInfo;
+				if (!_templateRepository.TryGetTemplate(parameters["template"].Trim('"'), out templateInfo))
+					return model;
+
+				_clientTemplateGenerator.Generate(templateInfo, context, model);
+			}
+			return model;
+		}
     }
 }

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using TerrificNet.ViewEngine.Schema;
-using TerrificNet.ViewEngine.ViewEngines;
 using Veil;
 using Veil.Compiler;
 using Veil.Helper;
@@ -10,8 +9,8 @@ using Veil.Parser.Nodes;
 
 namespace TerrificNet.ViewEngine.Client
 {
-    public class ClientTemplateGenerator
-    {
+	public class ClientTemplateGenerator : IClientTemplateGenerator
+	{
 	    private readonly IHelperHandlerFactory _helperHandlerFactory;
 	    private readonly IMemberLocator _memberLocator;
 
@@ -21,7 +20,7 @@ namespace TerrificNet.ViewEngine.Client
 		    _memberLocator = memberLocator;
 	    }
 
-	    public void GenerateForTemplate(TemplateInfo templateInfo, IClientContext clientContext, IClientModel clientModel)
+	    public void Generate(TemplateInfo templateInfo, IClientContext clientContext, IClientModel clientModel)
 	    {
 		    using (var stream = new StreamReader(templateInfo.Open()))
 		    {

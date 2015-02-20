@@ -8,9 +8,9 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 	public class JavascriptClientTemplateGenerator
 	{
 		private readonly string _templateRepository;
-		private readonly ClientTemplateGenerator _templateGenerator;
+		private readonly IClientTemplateGenerator _templateGenerator;
 
-		public JavascriptClientTemplateGenerator(string templateRepository, ClientTemplateGenerator templateGenerator)
+		public JavascriptClientTemplateGenerator(string templateRepository, IClientTemplateGenerator templateGenerator)
 		{
 			_templateRepository = templateRepository;
 			_templateGenerator = templateGenerator;
@@ -35,7 +35,7 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 				writer.Write("{0}[\"{1}\"] = {{ render: function(model) {{ var out = \"\";", nsBuilder, templateInfo.Id);
 				var clientContext = new JavascriptClientContext(writer);
 				var model = new JavascriptClientModel("model");
-				_templateGenerator.GenerateForTemplate(templateInfo, clientContext, model);
+				_templateGenerator.Generate(templateInfo, clientContext, model);
 
 				writer.Write("return out; }}");	
 			}

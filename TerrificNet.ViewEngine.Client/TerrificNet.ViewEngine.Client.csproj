@@ -43,6 +43,7 @@
     <Compile Include="ClientTemplateGenerator.cs" />
     <Compile Include="IClientContext.cs" />
     <Compile Include="IClientModel.cs" />
+    <Compile Include="IClientTemplateGenerator.cs" />
     <Compile Include="IHelperHandlerClient.cs" />
     <Compile Include="Javascript\JavascriptClientContext.cs" />
     <Compile Include="Javascript\JavascriptClientModel.cs" />

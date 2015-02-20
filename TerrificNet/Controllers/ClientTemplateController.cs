@@ -5,22 +5,18 @@ using System.Web.Http;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Client;
 using TerrificNet.ViewEngine.Client.Javascript;
-using Veil.Compiler;
-using Veil.Helper;
 
 namespace TerrificNet.Controllers
 {
 	public class ClientTemplateController : ApiController
 	{
 		private readonly ITemplateRepository _templateRepository;
-		private readonly IHelperHandlerFactory _helperHandlerFactory;
-		private readonly IMemberLocator _memberLocator;
+		private readonly IClientTemplateGeneratorFactory _clientFactory;
 
-		public ClientTemplateController(ITemplateRepository templateRepository, IHelperHandlerFactory helperHandlerFactory, IMemberLocator memberLocator)
+		public ClientTemplateController(ITemplateRepository templateRepository, IClientTemplateGeneratorFactory clientFactory)
 		{
 			_templateRepository = templateRepository;
-			_helperHandlerFactory = helperHandlerFactory;
-			_memberLocator = memberLocator;
+			_clientFactory = clientFactory;
 		}
 
 		[HttpGet]
@@ -31,7 +27,7 @@ namespace TerrificNet.Controllers
 			if (!_templateRepository.TryGetTemplate(path, out templateInfo))
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-			var generator = new JavascriptClientTemplateGenerator(jsRepository, new ClientTemplateGenerator(_helperHandlerFactory, _memberLocator));
+			var generator = new JavascriptClientTemplateGenerator(jsRepository, _clientFactory.Create());
 			var message = new HttpResponseMessage
 			{
 				Content = new StringContent(generator.Generate(templateInfo))

@@ -64,6 +64,10 @@
     <Compile Include="ViewDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.ViewEngine.Client\TerrificNet.ViewEngine.Client.csproj">
+      <Project>{E0262178-CB44-4A24-958A-868B68E96F84}</Project>
+      <Name>TerrificNet.ViewEngine.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine.Schema\TerrificNet.ViewEngine.Schema.csproj">
       <Project>{29F13A40-21B8-4FEA-8A30-D5BAA24622B2}</Project>
       <Name>TerrificNet.ViewEngine.Schema</Name>
