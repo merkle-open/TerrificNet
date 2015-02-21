@@ -6,6 +6,7 @@
     JSONEditor.defaults.iconlib = 'fontawesome4';
 
     var partials = [{{{template_partials}}}];
+    var editor = null;
 
     JSONEditor.defaults.editors.templateSelect = JSONEditor.defaults.editors.select.extend({
         preBuild: function() {
@@ -19,6 +20,28 @@
         onInputChange: function() {
             this._super();
 
+            var that = this;
+
+            $.get("/schema/" + this.value, function(data) {
+                var value = editor.getValue();
+                data.properties["template"] = { "type":"string", "format": "template"};
+                that.parent.schema = data;
+                var topEditor = that;
+                while (topEditor.parent) {
+                    topEditor = topEditor.parent;
+                }
+                var schema = topEditor.schema;
+
+                editor.destroy();
+
+                editor = new JSONEditor(document.getElementById('editor_holder'), {
+                    schema: schema
+                });
+                editor.setValue(value);
+
+                //that.init();
+                //that.parent.build();
+            });
         }
     });
 
@@ -29,7 +52,6 @@
     });
 
     $(document).ready(function () {
-        var editor = null;
         var schemaUrl = "{{schemaUrl}}";
         var dataUrl = "{{dataUrl}}";
 

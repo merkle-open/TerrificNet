@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Schema;
 using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
@@ -99,21 +100,58 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
         private static JSchema GetViewSchema()
         {
-            var schema = new JSchema();
-            schema.OneOf.Add(GetPartialViewSchema());
-            schema.OneOf.Add(GetModuleViewSchema());
+            //var schema = new JSchema();
+            //schema.OneOf.Add(GetPartialViewSchema());
+            //schema.OneOf.Add(GetModuleViewSchema());
 
-            return schema;
+            //return schema;
+            return GetPartialViewSchema();
         }
 
         private static JSchema GetModuleViewSchema()
         {
-            return new JSchemaGenerator().Generate(typeof(ModuleViewDefinition));
+            const string schema = @"{
+                ""type"":
+                ""object"",
+                ""properties"":
+                {
+                    ""module"":
+                    {
+                        ""type"": [""string"", ""null""],
+                        ""format"": ""template""
+                    }
+                ,
+                    ""skin"":
+                    {
+                        ""type"": [""string"", ""null""]
+                    }
+                ,
+                    ""data_variation"":
+                    {
+                        ""type"": [""string"", ""null""]
+                    }
+                }
+            }";
+
+            return JsonConvert.DeserializeObject<JSchema>(schema);
         }
 
         private static JSchema GetPartialViewSchema()
         {
-            return new JSchemaGenerator().Generate(typeof (PartialViewDefinition));
+            const string schema = @"{
+                ""type"":
+                ""object"",
+                ""properties"":
+                {
+                    ""template"":
+                    {
+                        ""type"": ""string"",
+                        ""format"": ""template""
+                    }
+                }
+            }";
+
+            return JsonConvert.DeserializeObject<JSchema>(schema);
         }
     }
 }
