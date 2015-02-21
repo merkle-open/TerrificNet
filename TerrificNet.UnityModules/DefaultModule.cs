@@ -4,10 +4,12 @@ using Microsoft.Practices.Unity;
 using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Cache;
+using TerrificNet.ViewEngine.Client;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.Globalization;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
+using TerrificNet.ViewEngine.TemplateHandler;
 using TerrificNet.ViewEngine.ViewEngines;
 using Veil.Compiler;
 using Veil.Helper;
@@ -21,8 +23,8 @@ namespace TerrificNet.UnityModules
             container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
             container.RegisterType<IModuleSchemaProvider, DefaultModuleSchemaProvider>();
-            container.RegisterType<ITerrificHelperHandlerFactory, DefaultTerrificHelperHandlerFactory>();
-            container.RegisterType<IHelperHandlerFactory, DefaultTerrificHelperHandlerFactory>();
+            container.RegisterType<IRenderingHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>();
+            container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>();
             container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
         }
 
@@ -65,11 +67,28 @@ namespace TerrificNet.UnityModules
             container.RegisterType<ISchemaProviderFactory, UnitySchemaProviderFactory>();
             container.RegisterType<IJsonSchemaCodeGenerator, JsonSchemaCodeGenerator>();
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
+	        container.RegisterType<IClientTemplateGenerator, ClientTemplateGenerator>();
+			container.RegisterType<IClientTemplateGeneratorFactory, UnityClientGeneratorFactory>();
 
 	        container.RegisterType<ILabelService, JsonLabelService>();
         }
 
-        private class UnitySchemaProviderFactory : ISchemaProviderFactory
+		private class UnityClientGeneratorFactory : IClientTemplateGeneratorFactory
+		{
+			private readonly IUnityContainer _container;
+
+			public UnityClientGeneratorFactory(IUnityContainer container)
+			{
+				_container = container;
+			}
+
+			public IClientTemplateGenerator Create()
+			{
+				return _container.Resolve<IClientTemplateGenerator>();
+			}
+		}
+
+	    private class UnitySchemaProviderFactory : ISchemaProviderFactory
         {
             private readonly IUnityContainer _container;
 

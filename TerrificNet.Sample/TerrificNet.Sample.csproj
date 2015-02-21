@@ -151,8 +151,10 @@
     <Content Include="components\modules\Teaser\teaser-news-detail.html" />
     <Content Include="components\modules\Teaser\teaser-news-myfinma.html" />
     <Content Include="components\modules\Teaser\teaser-news.html" />
+    <Content Include="components\modules\TestModule\testmodule-partial.html" />
     <Content Include="project\data\home.json" />
     <Content Include="components\modules\TestModule\data\_default.json" />
+    <Content Include="views\content_client.html" />
     <Content Include="views\translation.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -182,7 +184,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="components\modules\NavMain\navmain.html" />
-    <Content Include="components\modules\TestModule\test_module.html">
+    <Content Include="components\modules\TestModule\testmodule.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

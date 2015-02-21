@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using TerrificNet.Models;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler;
 
 namespace TerrificNet.Controllers
 {

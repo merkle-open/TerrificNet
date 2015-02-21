@@ -8,7 +8,6 @@ using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler;
 
 namespace TerrificNet.Test
 {
@@ -19,9 +18,9 @@ namespace TerrificNet.Test
         public void TemplateEngineShouldUseSameNamingConventionForBinding()
         {
             var cacheProvider = new MemoryCacheProvider();
-            var handlerFactory = new Mock<ITerrificHelperHandlerFactory>();
+            var handlerFactory = new Mock<IRenderingHelperHandlerFactory>();
 
-            handlerFactory.Setup(f => f.Create()).Returns(Enumerable.Empty<ITerrificHelperHandler>());
+            handlerFactory.Setup(f => f.Create()).Returns(Enumerable.Empty<IRenderingHelperHandler>());
 
             var namingRule = new NamingRule();
             var schemaProvider = new HandlebarsViewSchemaProvider(null, new MemberLocatorFromNamingRule(namingRule));

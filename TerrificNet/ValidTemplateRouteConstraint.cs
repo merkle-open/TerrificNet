@@ -31,16 +31,16 @@ namespace TerrificNet
 				if (!string.IsNullOrEmpty(path))
 				{
 					TemplateInfo templateInfo;
-					if (!_templateRepository.TryGetTemplate(path, out templateInfo))
-					{
-						var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_configuration.ViewPath, path),
-							"html.json");
-						if (_fileSystem.FileExists(fileName))
-							return true;
-					}
+					if (_templateRepository.TryGetTemplate(path, out templateInfo))
+						return true;
+
+					var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_configuration.ViewPath, path),
+						"html.json");
+					if (_fileSystem.FileExists(fileName))
+						return true;
 				}
 			}
-			
+
 			return false;
 		}
 	}

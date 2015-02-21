@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid;
+using TerrificNet.ViewEngine.TemplateHandler.Grid;
 
 namespace TerrificNet.ViewEngine.Test.Grid
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler.Grid
+namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 {
 	internal class GridStack
 	{

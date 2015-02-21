@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Veil;
 
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
+namespace TerrificNet.ViewEngine.TemplateHandler
 {
     public abstract class ViewDefinition
     {

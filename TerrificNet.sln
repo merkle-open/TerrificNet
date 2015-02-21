@@ -71,6 +71,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{9DA31A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ViewEngine.Test", "TerrificNet.ViewEngine.Test\TerrificNet.ViewEngine.Test.csproj", "{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ViewEngine.Client", "TerrificNet.ViewEngine.Client\TerrificNet.ViewEngine.Client.csproj", "{E0262178-CB44-4A24-958A-868B68E96F84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ViewEngine.Client.Test", "TerrificNet.ViewEngine.Client.Test\TerrificNet.ViewEngine.Client.Test.csproj", "{4AD8A282-93F7-4670-A986-A99AC06698A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.ViewEngine.TemplateHandler", "TerrificNet.ViewEngine.TemplateHandler\TerrificNet.ViewEngine.TemplateHandler.csproj", "{F164E253-7164-47B9-B6E9-65965AE5724D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +167,18 @@ Global
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0262178-CB44-4A24-958A-868B68E96F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0262178-CB44-4A24-958A-868B68E96F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0262178-CB44-4A24-958A-868B68E96F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0262178-CB44-4A24-958A-868B68E96F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD8A282-93F7-4670-A986-A99AC06698A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD8A282-93F7-4670-A986-A99AC06698A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD8A282-93F7-4670-A986-A99AC06698A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD8A282-93F7-4670-A986-A99AC06698A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F164E253-7164-47B9-B6E9-65965AE5724D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -177,5 +195,6 @@ Global
 		{BBE75282-ACD4-49BC-A592-68B300A3BF20} = {F545AF87-B59F-465D-A6A3-40A38E94877E}
 		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
+		{4AD8A282-93F7-4670-A986-A99AC06698A5} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 	EndGlobalSection
 EndGlobal

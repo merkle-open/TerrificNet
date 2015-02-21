@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
+using TerrificNet.ViewEngine.TemplateHandler;
 using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet.UnityModules

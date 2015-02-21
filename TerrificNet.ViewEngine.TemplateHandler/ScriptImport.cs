@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace TerrificNet.ViewEngine.ViewEngines.TemplateHandler
+namespace TerrificNet.ViewEngine.TemplateHandler
 {
     public class ScriptImport
     {

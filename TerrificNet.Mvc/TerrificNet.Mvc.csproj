@@ -94,6 +94,10 @@
     <None Include="TerrificNet.Mvc.nuspec" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.ViewEngine.TemplateHandler\TerrificNet.ViewEngine.TemplateHandler.csproj">
+      <Project>{F164E253-7164-47B9-B6E9-65965AE5724D}</Project>
+      <Name>TerrificNet.ViewEngine.TemplateHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{a2395b2d-f69e-420f-9534-e640dfe86138}</Project>
       <Name>TerrificNet.ViewEngine</Name>
