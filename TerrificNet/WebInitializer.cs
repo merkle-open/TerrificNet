@@ -30,7 +30,11 @@ namespace TerrificNet
 
 			new DefaultUnityModule().Configure(container);
 
-		    container.RegisterInstance<IFileSystem>(new FileSystem(path));
+#if DEBUG
+            container.RegisterInstance<IFileSystem>(new FileSystem(path));
+#else
+            container.RegisterInstance<IFileSystem>(new EmbeddedResourceFileSystem(typeof(WebInitializer).Assembly));
+#endif
 
 			foreach (var item in configuration.Applications.Values)
 			{

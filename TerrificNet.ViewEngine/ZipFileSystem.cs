@@ -43,7 +43,7 @@ namespace TerrificNet.ViewEngine
 
 		public Stream OpenWrite(string filePath)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public bool FileExists(string filePath)
@@ -54,12 +54,12 @@ namespace TerrificNet.ViewEngine
 
 	    public void RemoveFile(string filePath)
 	    {
-		    throw new System.NotImplementedException();
+	        throw new NotSupportedException();
 	    }
 
 	    public Stream OpenReadOrCreate(string filePath)
 	    {
-		    throw new System.NotImplementedException();
+            throw new NotSupportedException();
 	    }
 
         public IPathHelper Path

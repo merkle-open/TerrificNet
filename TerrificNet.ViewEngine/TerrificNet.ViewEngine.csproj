@@ -62,6 +62,7 @@
     <Compile Include="Config\ITerrificNetConfig.cs" />
     <Compile Include="Config\TerrificNetConfig.cs" />
     <Compile Include="DefaultModuleRepository.cs" />
+    <Compile Include="EmbeddedResourceFileSystem.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="FileSystemProvider.cs" />
     <Compile Include="Globalization\ILabelService.cs" />
