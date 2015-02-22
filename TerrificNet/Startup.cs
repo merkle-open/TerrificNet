@@ -37,7 +37,7 @@ namespace TerrificNet
 
             config.Routes.MapHttpRoute(
                 name: "CoreFiles",
-                routeTemplate: "_/{*path}",
+                routeTemplate: "$tcn/{*path}",
                 defaults: new { controller = "staticfile" }
             );
 
