@@ -20,14 +20,13 @@ namespace TerrificNet.Controllers
 		}
 
 		[HttpGet]
-		// TODO: Check xss for parameter
-		public HttpResponseMessage Get(string path, string jsRepository = "")
+		public HttpResponseMessage Get(string path)
 		{
 			TemplateInfo templateInfo;
 			if (!_templateRepository.TryGetTemplate(path, out templateInfo))
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-			var generator = new JavascriptClientTemplateGenerator(jsRepository, _clientFactory.Create());
+			var generator = new JavascriptClientTemplateGenerator("Tcn.TemplateRepository", _clientFactory.Create());
 			var message = new HttpResponseMessage
 			{
 				Content = new StringContent(generator.Generate(templateInfo))

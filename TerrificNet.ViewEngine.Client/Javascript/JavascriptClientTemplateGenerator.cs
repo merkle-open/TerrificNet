@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace TerrificNet.ViewEngine.Client.Javascript
@@ -30,11 +28,6 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 			}
 
 			return builder.ToString();
-		}
-
-		private IEnumerable<string> GetFunctionQualifier(string typename)
-		{
-			return typename.Split('.');
 		}
 	}
 }

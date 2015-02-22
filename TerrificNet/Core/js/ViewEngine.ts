@@ -104,7 +104,7 @@ module Tcn {
 		}
 	}
 
-	export var TemplateRepository: ITemplateRepository = new TemplateRepositoryInternal("/js/{id}?jsRepository=Tcn.TemplateRepository");
+	export var TemplateRepository: ITemplateRepository = new TemplateRepositoryInternal("/js/{id}");
 	export var ViewEngine: ViewEngineImplementation = new ViewEngineImplementation(TemplateRepository);
 
 }
