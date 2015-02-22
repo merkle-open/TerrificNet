@@ -165,9 +165,57 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 				if (!_templateRepository.TryGetTemplate(parameters["template"].Trim('"'), out templateInfo))
 					return model;
 
-				_clientTemplateGenerator.Generate(templateInfo, context, model);
+				_clientTemplateGenerator.Generate(templateInfo, new PartialClientContextAdapter(templateInfo.Id, context), model);
 			}
 			return model;
 		}
+
+	    private class PartialClientContextAdapter : IClientContext
+	    {
+	        private readonly IClientContext _adaptee;
+
+	        public PartialClientContextAdapter(string templateId, IClientContext adaptee)
+	        {
+	            _adaptee = adaptee;
+	            this.TemplateId = templateId;
+	        }
+
+	        public string TemplateId { get; private set; }
+
+	        public void WriteLiteral(string content)
+	        {
+	            _adaptee.WriteLiteral(content);
+	        }
+
+	        public void WriteExpression(IClientModel model)
+	        {
+                _adaptee.WriteExpression(model);
+	        }
+
+	        public IClientModel BeginIterate(IClientModel model)
+	        {
+	            return _adaptee.BeginIterate(model);
+	        }
+
+	        public void EndIterate()
+	        {
+	            _adaptee.EndIterate();
+	        }
+
+	        public void BeginIf(IClientModel model)
+	        {
+	            _adaptee.BeginIf(model);
+	        }
+
+	        public void EndIf()
+	        {
+	            _adaptee.EndIf();
+	        }
+
+	        public void ElseIf()
+	        {
+	            _adaptee.ElseIf();
+	        }
+	    }
     }
 }

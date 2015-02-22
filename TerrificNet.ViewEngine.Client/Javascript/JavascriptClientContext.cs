@@ -7,12 +7,15 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 	{
 		private readonly TextWriter _writer;
 
-		public JavascriptClientContext(TextWriter writer)
+		public JavascriptClientContext(string templateId, TextWriter writer)
 		{
-			_writer = writer;
+		    TemplateId = templateId;
+		    _writer = writer;
 		}
 
-		public void WriteLiteral(string content)
+	    public string TemplateId { get; private set; }
+
+	    public void WriteLiteral(string content)
 		{
 			_writer.Write("out += \"");
 			_writer.Write(HttpUtility.JavaScriptStringEncode(content));

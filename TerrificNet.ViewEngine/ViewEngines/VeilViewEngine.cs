@@ -26,7 +26,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		    _memberLocator = new MemberLocatorFromNamingRule(namingRule);
 		}
 
-		private IView CreateView(string content, Type modelType)
+		private IView CreateView(string templateId, string content, Type modelType)
 		{
 			var hash = string.Concat("template_", GetHash(new MD5CryptoServiceProvider(), content), modelType.FullName);
 
@@ -36,9 +36,9 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			    var helperHandlers = _helperHandlerFactory.Create().ToArray();
 			    var viewEngine = new VeilEngine(helperHandlers: helperHandlers, memberLocator: _memberLocator);
 				if (modelType == typeof(object))
-                    view = CreateNonGenericView(content, helperHandlers, viewEngine);
+                    view = CreateNonGenericView(templateId, content, helperHandlers, viewEngine);
 				else
-					view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { content, helperHandlers, viewEngine });
+                    view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { templateId, content, helperHandlers, viewEngine });
 
 				_cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
 			}
@@ -46,32 +46,36 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			return view;
 		}
 
-		private static IView CreateNonGenericView(string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine viewEngine)
+		private static IView CreateNonGenericView(string templateId, string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine viewEngine)
 		{
 			var render = viewEngine.CompileNonGeneric("handlebars", new StringReader(content), typeof(object));
-			var view = new VeilViewAdapter<object>(new VeilView<object>(render, helperHandlers));
+			var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render, helperHandlers));
 			return view;
 		}
 
 		// do not remove, invoked dynamicaly
 		// ReSharper disable once UnusedMember.Local
-		private static IView CreateView<T>(string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine veilEngine)
+		private static IView CreateView<T>(string templateId, string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine veilEngine)
 		{
 			var render = veilEngine.Compile<T>("handlebars", new StringReader(content));
-			return new VeilViewAdapter<T>(new VeilView<T>(render, helperHandlers));
+			return new VeilViewAdapter<T>(templateId, new VeilView<T>(render, helperHandlers));
 		}
 
 		private class VeilViewAdapter<T> : IView
 		{
-			private readonly IView<T> _adaptee;
+		    private readonly string _templateId;
+		    private readonly IView<T> _adaptee;
 
-			public VeilViewAdapter(IView<T> adaptee)
+			public VeilViewAdapter(string templateId, IView<T> adaptee)
 			{
-				_adaptee = adaptee;
+			    _templateId = templateId;
+			    _adaptee = adaptee;
 			}
 
-			public void Render(object model, RenderingContext context)
-			{
+		    public void Render(object model, RenderingContext context)
+		    {
+		        context.Data["templateId"] = _templateId;
+
 				if (model != null)
 					_adaptee.Render((T)model, context);
 				else
@@ -118,7 +122,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			{
 				var content = reader.ReadToEnd();
 
-				view = CreateView(content, modelType);
+				view = CreateView(templateInfo.Id, content, modelType);
 				return true;
 			}
 		}

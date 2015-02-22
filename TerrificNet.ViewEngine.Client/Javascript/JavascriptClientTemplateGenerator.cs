@@ -33,7 +33,7 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 
                 //nsBuilder.Remove(nsBuilder.Length - 1, 1);
                 writer.Write("{0}.register(\"{1}\", {{ render: function(model) {{ var out = \"\";", _templateRepository, templateInfo.Id);
-				var clientContext = new JavascriptClientContext(writer);
+				var clientContext = new JavascriptClientContext(templateInfo.Id, writer);
 				var model = new JavascriptClientModel("model");
 				_templateGenerator.Generate(templateInfo, clientContext, model);
 

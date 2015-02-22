@@ -2,6 +2,8 @@
 {
 	public interface IClientContext
 	{
+        string TemplateId { get; }
+
 		void WriteLiteral(string content);
 		void WriteExpression(IClientModel model);
 		IClientModel BeginIterate(IClientModel model);
