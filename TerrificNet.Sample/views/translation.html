@@ -8,12 +8,14 @@
     <script src="/$tcn/Core/js/ViewEngine.js"></script>
 </head>
 <body>
-    <h1>Translation test</h1>
-    {{label "person/male"}}
-{{label "person/female"}}
+<h1>Translation test</h1>
+    <ul>
+        <li>{{label "person/male"}}</li>
+        <li>{{label "person/female"}}</li>
+    </ul>
 <script type="text/javascript">
-    ViewEngine.loadAndRenderAsync("/js/views/translation", result).then(function(html) {
-
+    Tcn.ViewEngine.loadAndRenderAsync("views/translation", {}).then(function(html) {
+        console.log(html);
     });
 </script>
 </body>
