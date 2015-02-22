@@ -70,7 +70,10 @@ namespace TerrificNet.ViewEngine.Client
 			protected override IClientModel VisitWriteExpressionNode(WriteExpressionNode writeExpressionNode)
 			{
 				var result = this.VisitExpressionNode(writeExpressionNode.Expression);
-				_clientContext.WriteExpression(result);
+                if (writeExpressionNode.HtmlEncode)
+				    _clientContext.WriteEncodeExpression(result);
+                else
+                    _clientContext.WriteExpression(result);
 
 				return result;
 			}

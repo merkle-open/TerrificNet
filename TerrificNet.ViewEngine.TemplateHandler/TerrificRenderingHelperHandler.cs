@@ -192,6 +192,11 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 _adaptee.WriteExpression(model);
 	        }
 
+	        public void WriteEncodeExpression(IClientModel model)
+	        {
+	            _adaptee.WriteEncodeExpression(model);
+	        }
+
 	        public IClientModel BeginIterate(IClientModel model)
 	        {
 	            return _adaptee.BeginIterate(model);

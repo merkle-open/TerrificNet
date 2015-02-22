@@ -8,8 +8,13 @@ module Tcn {
     }
 
     export interface IView {
-        render(model: Object): string;
+        render(context: IRenderingContext, model: Object): string;
     }
+
+	export interface IRenderingContext {
+		write(val: string): void;
+		writeEscape(val: string): void;
+	}
 
 	class TemplateRepositoryInternal implements ITemplateRepository
 	{
@@ -39,15 +44,65 @@ module Tcn {
 
         public renderAsync(templateId: string, model: Object): JQueryPromise<string> {
             var promise = this.templateRepository.getAsync(templateId);
-            return promise.then(view => view.render(model));
+            return promise.then(view => this.render(view, model));
         }
 
         public loadAndRenderAsync(templateId: string, modelPromise: JQueryPromise<Object>): JQueryPromise<string> {
             var templatePromise = this.templateRepository.getAsync(templateId);
             return jQuery.when(templatePromise, modelPromise)
-				.then((view: IView, model: Object) => view.render(model));
+				.then(this.render);
         }
+
+		private render(view: IView, model: Object): string {
+			var ctx = new StringRenderingContext();
+			view.render(ctx, model);
+
+			return ctx.out;
+		}
     }
+
+	class StringRenderingContext implements IRenderingContext {
+		public out:string = "";
+
+		public write(val: string): void {
+			this.out += val;
+		}
+
+		public writeEscape(val: string): void {
+			this.out += Utils.escapeExpression(val);
+		}
+	}
+
+	class Utils {
+		static escapeMap : { [val:string]: string } = {
+			"&": "&amp;",
+			"<": "&lt;",
+			">": "&gt;",
+			'"': "&quot;",
+			"'": "&#x27;",
+			"`": "&#x60;"
+		};
+
+		static badChars: RegExp = /[&<>"'`]/g;
+		static possible: RegExp = /[&<>"'`]/;
+
+		private static escapeChar(chr:string): string {
+			return Utils.escapeMap[chr];
+		}
+
+		public static escapeExpression(val:string): string {
+			if (val == null) {
+				return "";
+			} else if (!val) {
+				return val + '';
+			}
+
+			val = "" + val;
+
+			if (!this.possible.test(val)) { return val; }
+			return val.replace(this.badChars, this.escapeChar);
+		}
+	}
 
 	export var TemplateRepository: ITemplateRepository = new TemplateRepositoryInternal("/js/{id}?jsRepository=Tcn.TemplateRepository");
 	export var ViewEngine: ViewEngineImplementation = new ViewEngineImplementation(TemplateRepository);

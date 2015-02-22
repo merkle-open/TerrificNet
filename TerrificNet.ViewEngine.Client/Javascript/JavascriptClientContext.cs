@@ -17,19 +17,26 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 
 	    public void WriteLiteral(string content)
 		{
-			_writer.Write("out += \"");
+			_writer.Write("w(\"");
 			_writer.Write(HttpUtility.JavaScriptStringEncode(content));
-			_writer.Write("\";");
+			_writer.Write("\");");
 		}
 
 		public void WriteExpression(IClientModel model)
 		{
-			_writer.Write("out += ");
+            _writer.Write("w(");
 			_writer.Write(model.ToString());
-			_writer.Write(";");
+			_writer.Write(");");
 		}
 
-		public IClientModel BeginIterate(IClientModel model)
+	    public void WriteEncodeExpression(IClientModel model)
+	    {
+            _writer.Write("we(");
+            _writer.Write(model.ToString());
+            _writer.Write(");");
+	    }
+
+	    public IClientModel BeginIterate(IClientModel model)
 		{
 			var itemVariable = new JavascriptClientModel("item");
 			_writer.Write("for (var i = 0; i < {1}.length; i++){{ var {0} = {1}[i]; ", itemVariable, model);
