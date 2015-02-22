@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Client;
@@ -166,8 +168,19 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 					return model;
 
 				_clientTemplateGenerator.Generate(templateInfo, new PartialClientContextAdapter(templateInfo.Id, context), model);
-			}
-			return model;
+			} 
+            else if ("label".Equals(name, StringComparison.OrdinalIgnoreCase))
+            {
+                var key = parameters.Keys.First().Trim('"');
+                var builder = new StringBuilder();
+                using (var writer = new StringWriter(builder))
+                {
+                    _handler.RenderLabel(key, new RenderingContext(writer));
+                }
+                context.WriteLiteral(builder.ToString());
+            }
+
+		    return model;
 		}
 
 	    private class PartialClientContextAdapter : IClientContext
