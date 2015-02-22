@@ -34,7 +34,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
-			clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.test")));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.test")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
 			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
@@ -50,7 +50,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
-			clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.test.prop1")));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.test.prop1")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
 			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
@@ -66,8 +66,8 @@ namespace TerrificNet.ViewEngine.Client.Test
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
-			clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.prop1")));
-			clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.prop2")));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.prop1")));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.prop2")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
 			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
@@ -83,13 +83,13 @@ namespace TerrificNet.ViewEngine.Client.Test
 
 			var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
 			clientContext.Setup(c => c.WriteLiteral("<html>"));
-			clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.anyother")));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.anyother")));
 			clientContext.Setup(c => c.BeginIterate(GetModelExpression("model.test.prop1"))).Returns(new JavascriptClientModel("item"));
 			clientContext.Setup(c => c.WriteLiteral("<li>"));
-			clientContext.Setup(c => c.WriteExpression(GetModelExpression("item.name")));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("item.name")));
 			clientContext.Setup(c => c.WriteLiteral("</li>"));
 			clientContext.Setup(c => c.EndIterate());
-			clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.anyafter")));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.anyafter")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
 			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
@@ -114,6 +114,22 @@ namespace TerrificNet.ViewEngine.Client.Test
 
 			clientContext.VerifyAll();
 		}
+
+        [TestMethod]
+        public void TestClientTemplateWithUnencodeExpression()
+        {
+            string input = "<html>{{{expression}}}</html>";
+            var generator = CreateClientTemplateGenerator();
+
+            var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
+            clientContext.Setup(c => c.WriteLiteral("<html>"));
+            clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.expression")));
+            clientContext.Setup(c => c.WriteLiteral("</html>"));
+
+            generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+
+            clientContext.VerifyAll();
+        }
 
 		private static ClientTemplateGenerator CreateClientTemplateGenerator()
 		{
