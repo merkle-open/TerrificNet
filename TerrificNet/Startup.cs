@@ -35,6 +35,12 @@ namespace TerrificNet
 				defaults: new { controller = "DataEdit", action = "IndexAdvanced", section = "web/" }
 			);
 
+            config.Routes.MapHttpRoute(
+                name: "CoreFiles",
+                routeTemplate: "_/{*path}",
+                defaults: new { controller = "staticfile" }
+            );
+
 			foreach (var application in container.ResolveAll<TerrificNetApplication>())
 			{
 				var section = application.Section;

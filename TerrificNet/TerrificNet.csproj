@@ -203,6 +203,8 @@
     <None Include="Web\views\_layouts\page.html" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Core\js\ViewEngine.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Web\assets\common.ts" />
   </ItemGroup>
   <ItemGroup>

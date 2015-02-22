@@ -1,9 +1,9 @@
-﻿<div>
+﻿<div data-tc-templateid="components/modules/TestModule/testmodule" data-tc-controller="Tc.Sample.TestModule">
     <h1>Submodule test_module</h1>
     {{test}}
 
     {{value}}
-    
+
     {{gugus}}
 
     {{#if items}}
@@ -14,8 +14,10 @@
         {{/each}}
     </ul>
     {{/if}}
-	<p style="font-weight:bold">{{text}}</p>
-	
-	{{partial template="components/modules/TestModule/testmodule-partial"}}
+    <p style="font-weight:bold">{{text}}</p>
+
+    {{partial template="components/modules/TestModule/testmodule-partial"}}
+
+    <button id="btnAction" data-tc-action="reload">Render on client</button>
 
 </div>

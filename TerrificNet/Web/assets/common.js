@@ -1,4 +1,4 @@
-﻿var Common = (function () {
+var Common = (function () {
     function Common() {
     }
     Common.parseQueryString = function (href) {
@@ -12,3 +12,4 @@
     };
     return Common;
 })();
+//# sourceMappingURL=common.js.map

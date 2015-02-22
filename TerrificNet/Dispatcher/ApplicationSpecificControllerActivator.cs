@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.Routing;
 using TerrificNet.UnityModules;
 using Unity.WebApi;
 
@@ -24,7 +25,10 @@ namespace TerrificNet.Dispatcher
 
         public IHttpController Create(HttpRequestMessage request, HttpControllerDescriptor controllerDescriptor, Type controllerType)
         {
-            string section = GetSectionName(request);
+            string section;
+            if (!TryGetSectionName(request, out section))
+                return (IHttpController)_configuration.DependencyResolver.GetService(controllerType);
+
             IDependencyResolver container;
             if (!this._containers.Value.TryGetValue(section, out container))
             {
@@ -40,9 +44,23 @@ namespace TerrificNet.Dispatcher
             return controller;
         }
 
-        private static string GetSectionName(HttpRequestMessage request)
+        private static bool TryGetSectionName(HttpRequestMessage request, out string sectionName)
         {
-            return ((string)request.GetRouteData().Route.Defaults["section"]) ?? string.Empty;
+            sectionName = null;
+            var routeData = request.GetRouteData();
+            if (routeData == null)
+                return false;
+
+            var defaults = routeData.Route.Defaults;
+            if (defaults == null)
+                return false;
+
+            object value;
+            if (!defaults.TryGetValue("section", out value))
+                return false;
+
+            sectionName = value as string ?? string.Empty;
+            return true;
         }
 
         private Dictionary<string, IDependencyResolver> GetContainers()

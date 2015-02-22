@@ -30,6 +30,8 @@ namespace TerrificNet
 
 			new DefaultUnityModule().Configure(container);
 
+		    container.RegisterInstance<IFileSystem>(new FileSystem(path));
+
 			foreach (var item in configuration.Applications.Values)
 			{
 				var childContainer = container.CreateChildContainer();

@@ -21,23 +21,23 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 			var builder = new StringBuilder();
 			using (var writer = new StringWriter(builder))
 			{
-				var ns = GetFunctionQualifier(_templateRepository);
-				var nsBuilder = new StringBuilder();
-				writer.Write("var ");
-				foreach (var part in ns)
-				{
-					nsBuilder.Append(part);
-					writer.WriteLine("{0} = {0} || {{}};", nsBuilder);
-					nsBuilder.Append('.');
-				}
+				//var ns = GetFunctionQualifier(_templateRepository);
+                //var nsBuilder = new StringBuilder();
+                //writer.Write("var ");
+                //foreach (var part in ns)
+                //{
+                //    nsBuilder.Append(part);
+                //    writer.WriteLine("{0} = {0} || {{}};", nsBuilder);
+                //    nsBuilder.Append('.');
+                //}
 
-				nsBuilder.Remove(nsBuilder.Length - 1, 1);
-				writer.Write("{0}[\"{1}\"] = {{ render: function(model) {{ var out = \"\";", nsBuilder, templateInfo.Id);
+                //nsBuilder.Remove(nsBuilder.Length - 1, 1);
+                writer.Write("{0}.register(\"{1}\", {{ render: function(model) {{ var out = \"\";", _templateRepository, templateInfo.Id);
 				var clientContext = new JavascriptClientContext(writer);
 				var model = new JavascriptClientModel("model");
 				_templateGenerator.Generate(templateInfo, clientContext, model);
 
-				writer.Write("return out; }}");	
+				writer.Write("return out; }});");	
 			}
 
 			return builder.ToString();
