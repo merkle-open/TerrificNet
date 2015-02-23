@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>TerrificNet.ConsoleHost</id>
-    <version>1.0.1-alpha4</version>
+    <version>1.0.1-alpha402</version>
     <authors>Namics AG</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>My package description.</description>
