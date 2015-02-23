@@ -141,7 +141,7 @@ namespace TerrificNet.Generator
                     return Syntax.ParseTypeName("string");
                 case JSchemaType.Integer:
                     return Syntax.ParseTypeName("int");
-                case JSchemaType.Float:
+                case JSchemaType.Number:
                     return Syntax.ParseTypeName("double");
                 case JSchemaType.Boolean:
                     return Syntax.ParseTypeName("bool");

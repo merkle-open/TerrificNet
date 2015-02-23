@@ -35,9 +35,9 @@ namespace TerrificNet.Generator
 
         private static void ExecuteInternal(string sourcePath, Action<JsonSchemaCodeGenerator, IEnumerable<JSchema>> executeAction)
         {
-            var config = ConfigurationLoader.LoadTerrificConfiguration(sourcePath, new FileSystem());
+            var fileSystem = new FileSystem(sourcePath);
+            var config = ConfigurationLoader.LoadTerrificConfiguration(string.Empty, fileSystem);
 
-            var fileSystem = new FileSystem();
             var schemaProvider = new SchemaMergeProvider(new HandlebarsViewSchemaProvider(null, null),
                 new PhysicalSchemaProvider(config, fileSystem));
             var repo = new TerrificTemplateRepository(fileSystem);
