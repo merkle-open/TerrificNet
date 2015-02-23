@@ -195,7 +195,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web\assets\common.js" />
     <None Include="Web\assets\jsoneditor.min.js" />
     <None Include="Web\components\modules\DataEditor\DataEditor.html" />
     <None Include="Web\components\modules\AdvancedEditor\AdvancedEditor.html" />
