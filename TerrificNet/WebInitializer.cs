@@ -4,6 +4,7 @@ using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.IO;
 using TerrificNet.ViewEngine.TemplateHandler;
 using TerrificNet.ViewEngine.ViewEngines;
 

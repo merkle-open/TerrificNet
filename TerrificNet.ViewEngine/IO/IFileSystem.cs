@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.IO
 {
     public interface IFileSystem
     {

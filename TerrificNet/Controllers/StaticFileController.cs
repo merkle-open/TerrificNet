@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using TerrificNet.Configuration;
 using TerrificNet.ViewEngine;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.Controllers
 {

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine.ModelProviders
 {

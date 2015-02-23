@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.IO
 {
     public class EmbeddedResourceFileSystem : IFileSystem
     {

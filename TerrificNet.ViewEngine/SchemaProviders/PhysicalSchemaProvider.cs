@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Schema;
 using System.IO;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine.SchemaProviders
 {

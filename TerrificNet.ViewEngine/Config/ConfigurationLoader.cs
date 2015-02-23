@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine.Config
 {

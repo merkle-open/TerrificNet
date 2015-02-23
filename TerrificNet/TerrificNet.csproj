@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ServerConfiguration.cs" />
+    <Compile Include="Controllers\AdministrationTemplateControllerBase.cs" />
     <Compile Include="Controllers\ClientTemplateController.cs" />
     <Compile Include="Controllers\DataEditController.cs" />
     <Compile Include="Controllers\DefaultLayout.cs" />

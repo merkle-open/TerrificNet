@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
-using Microsoft.Practices.Unity;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
@@ -11,25 +10,7 @@ using TerrificNet.ViewEngine.TemplateHandler;
 
 namespace TerrificNet.Controllers
 {
-	public class AdministrationTemplateControllerBase : TemplateControllerBase
-	{
-		private readonly TerrificNetApplication[] _applications;
-
-		protected AdministrationTemplateControllerBase(TerrificNetApplication[] applications)
-		{
-			_applications = applications;
-		}
-
-		protected T ResolveForApp<T>(string applicationName)
-		{
-			applicationName = applicationName ?? string.Empty;
-			var application = _applications.First(a => a.Section == applicationName);
-
-			return application.Container.Resolve<T>();
-		}
-	}
-
-	public class DataEditController : AdministrationTemplateControllerBase
+    public class DataEditController : AdministrationTemplateControllerBase
     {
 		public DataEditController(TerrificNetApplication[] applications) : base(applications)
 		{

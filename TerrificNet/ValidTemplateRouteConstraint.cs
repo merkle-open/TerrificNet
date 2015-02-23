@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Web.Http.Routing;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet
 {

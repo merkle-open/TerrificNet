@@ -7,6 +7,7 @@ using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.Client;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.Globalization;
+using TerrificNet.ViewEngine.IO;
 using TerrificNet.ViewEngine.ModelProviders;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.TemplateHandler;

@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.IO;
 using TerrificNet.ViewEngine.SchemaProviders;
 
 namespace TerrificNet.Generator

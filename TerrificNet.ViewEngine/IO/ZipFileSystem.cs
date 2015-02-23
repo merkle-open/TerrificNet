@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.IO
 {
     public class ZipFileSystem : IFileSystem
     {

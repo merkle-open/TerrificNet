@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.IO
 {
     public class FileSystemProvider
     {

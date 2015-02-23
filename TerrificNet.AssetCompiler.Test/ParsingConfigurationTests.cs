@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.AssetCompiler.Test
 {

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine
 {

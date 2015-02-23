@@ -10,6 +10,7 @@ using TerrificNet.AssetCompiler.Helpers;
 using TerrificNet.AssetCompiler.Processors;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.AssetCompiler.Test
 {

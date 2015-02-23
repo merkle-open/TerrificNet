@@ -5,6 +5,7 @@ using TerrificNet.AssetCompiler;
 using TerrificNet.AssetCompiler.Helpers;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.Controllers
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TerrificNet.ViewEngine
+namespace TerrificNet.ViewEngine.IO
 {
     internal class PathUtility
     {

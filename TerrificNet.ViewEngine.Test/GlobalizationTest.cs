@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.Globalization;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine.Test
 {
