@@ -97,6 +97,29 @@ namespace TerrificNet.ViewEngine.Client.Test
 			clientContext.VerifyAll();
 		}
 
+        [TestMethod]
+        public void TestClientTemplateWithNestedIterationExpression()
+        {
+            string input = "<html>{{#each test.prop1}}<li>{{#each values}}{{name}}{{/each}}</li>{{/each}}</html>";
+            var generator = CreateClientTemplateGenerator();
+
+            var clientContext = new Mock<IClientContext>(MockBehavior.Strict);
+            clientContext.Setup(c => c.WriteLiteral("<html>"));
+            clientContext.Setup(c => c.BeginIterate(GetModelExpression("model.test.prop1"))).Returns(new JavascriptClientModel("item"));
+            clientContext.Setup(c => c.WriteLiteral("<li>"));
+            clientContext.Setup(c => c.BeginIterate(GetModelExpression("item.values"))).Returns(new JavascriptClientModel("item2"));
+            clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("item2.name")));
+            clientContext.Setup(c => c.EndIterate());
+            clientContext.Setup(c => c.WriteLiteral("</li>"));
+            clientContext.Setup(c => c.EndIterate());
+            clientContext.Setup(c => c.WriteLiteral("</html>"));
+
+            generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+
+            clientContext.VerifyAll();
+        }
+
+
 		[TestMethod]
 		public void TestClientTemplateWithConditionalExpression()
 		{

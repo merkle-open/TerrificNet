@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using System.IO;
 using System.Web;
 
@@ -37,9 +39,11 @@ namespace TerrificNet.ViewEngine.Client.Javascript
 	    }
 
 	    public IClientModel BeginIterate(IClientModel model)
-		{
-			var itemVariable = new JavascriptClientModel("item");
-			_writer.Write("for (var i = 0; i < {1}.length; i++){{ var {0} = {1}[i]; ", itemVariable, model);
+	    {
+	        //var itemIdx = model.ToString().Split("item").Length;
+	        var jsModel = model as JavascriptClientModel;
+			var itemVariable = new JavascriptClientModel(model as JavascriptClientModel, "item" + jsModel.Depth);
+            _writer.Write("for (var i{2} = 0; i{2} < {1}.length; i{2}++){{ var {0} = {1}[i{2}]; ", itemVariable, model, jsModel.Depth);
 
 			return itemVariable;
 		}
