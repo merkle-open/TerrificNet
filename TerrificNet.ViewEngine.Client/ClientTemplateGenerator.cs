@@ -5,6 +5,7 @@ using TerrificNet.ViewEngine.Schema;
 using Veil;
 using Veil.Compiler;
 using Veil.Helper;
+using Veil.Parser;
 using Veil.Parser.Nodes;
 
 namespace TerrificNet.ViewEngine.Client
@@ -78,7 +79,21 @@ namespace TerrificNet.ViewEngine.Client
 				return result;
 			}
 
-			protected override IClientModel VisitLateBoundExpression(LateBoundExpressionNode lateboundExpression)
+		    protected override IClientModel VisitExpressionNode(ExpressionNode expression)
+		    {
+		        SelfExpressionNode node = expression as SelfExpressionNode;
+		        if (node != null)
+		            return VisitSelfExpressionNode(node);
+
+		        return base.VisitExpressionNode(expression);
+		    }
+
+		    private IClientModel VisitSelfExpressionNode(SelfExpressionNode node)
+		    {
+		        return _modelStack.Peek();
+		    }
+
+		    protected override IClientModel VisitLateBoundExpression(LateBoundExpressionNode lateboundExpression)
 			{
 				return _modelStack.Peek().Get(lateboundExpression.ItemName);
 			}

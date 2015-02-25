@@ -11,6 +11,11 @@
     <ul>
         {{#each items}}
         <li>{{street}} {{streetNumber}}, {{zipCode}}</li>
+        {{#if inner}}
+        {{#each inner}}
+            {{val}}
+        {{/each}}
+        {{/if}}
         {{/each}}
     </ul>
     {{/if}}

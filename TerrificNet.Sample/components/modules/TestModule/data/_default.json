@@ -3,7 +3,15 @@
     "value": "<i>dfgfdf</i>",
     "gugus": "gugus dada",
     "items": [
-        { "street": "Wassergasse", "zipCode": "8000", "streetNumber": "44" },
+        {
+            "street": "Wassergasse",
+            "zipCode": "8000",
+            "streetNumber": "44",
+            "inner": [
+                { "val": "value1" },
+                { "val": "value2" }
+            ]
+        },
         { "street": "Teufenerstrasse", "zipCode": "9000", "streetNumber": "14" },
         { "street": "Teststrasse", "zipCode": "33", "streetNumber": "12" },
         { "street": "Ekkehardstr.", "zipCode": "9000", "streetNumber": "2" }
