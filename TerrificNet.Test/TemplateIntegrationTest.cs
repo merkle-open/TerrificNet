@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,30 +25,57 @@ namespace TerrificNet.Test
         public TestContext TestContext { get; set; }
 
         [TestMethod]
-        public void TestBasicTemplates()
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
+        public void TestServerSideRendering()
         {
-            foreach (var testCase in Directory.GetDirectories(Path.Combine(this.TestContext.DeploymentDirectory, "Basic")))
+            var dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string) TestContext.DataRow["data"]);
+            var templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
+            var resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
+            var testName = Path.GetFileName(Path.GetDirectoryName(resultFile));
+
+            var result = GetFileContent(resultFile);
+
+            var resultString = ExecuteServerSide(testName, templateFile, dataFile);
+            Assert.AreEqual(result, resultString);
+        }
+
+        [TestMethod]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
+        public void TestServerSideRenderingWithStronglyTypedModel()
+        {
+            var dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["data"]);
+            var templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
+            var resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
+            var testName = Path.GetFileName(Path.GetDirectoryName(resultFile));
+
+            var result = GetFileContent(resultFile);
+
+            var resultString = ExecuteServerSideStrongModel(testName, templateFile, dataFile);
+            Assert.AreEqual(result, resultString);
+        }
+
+        [TestMethod]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
+        public void TestClientSideRenderingWithJavascript()
+        {
+            var dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["data"]);
+            var templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
+            var resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
+            var testName = Path.GetFileName(Path.GetDirectoryName(resultFile));
+
+            var result = GetFileContent(resultFile);
+            var resultString = ExecuteClientSide(testName, templateFile, dataFile);
+            Assert.AreEqual(result, resultString);
+        }
+
+        private static string GetFileContent(string resultFile)
+        {
+            string result;
+            using (var reader = new StreamReader(resultFile))
             {
-                var dataFile = Path.Combine(testCase, "data.json");
-                var templateFile = Path.Combine(testCase, "template.html");
-                var resultFile = Path.Combine(testCase, "result.html");
-                var testName = Path.GetFileName(testCase);
-
-                string result;
-                using (var reader = new StreamReader(resultFile))
-                {
-                    result = reader.ReadToEnd();
-                }
-
-                var resultString = ExecuteServerSide(testName, templateFile, dataFile);
-                Assert.AreEqual(result, resultString);
-
-                resultString = ExecuteServerSideStrongModel(testName, templateFile, dataFile);
-                Assert.AreEqual(result, resultString);
-
-                resultString = ExecuteClientSide(testName, templateFile, dataFile);
-                Assert.AreEqual(result, resultString);
+                result = reader.ReadToEnd();
             }
+            return result;
         }
 
         private static string ExecuteClientSide(string testName, string templateFile, string dataFile)
@@ -119,9 +147,9 @@ namespace TerrificNet.Test
                 Assert.Fail("Could not create view from file'{0}'.", templateFile);
 
             object model;
-            using (var reader = new JsonTextReader(new StreamReader(dataFile)))
+            using (var reader = new StreamReader(dataFile))
             {
-                model = JsonSerializer.Create().Deserialize(reader);
+                model = new JavaScriptSerializer().Deserialize(reader.ReadToEnd(), typeof(Dictionary<string, object>));
             }
 
             var builder = new StringBuilder();

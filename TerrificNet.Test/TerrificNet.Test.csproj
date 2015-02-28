@@ -50,6 +50,7 @@
       <HintPath>..\packages\Newtonsoft.Json.Schema.1.0.7\lib\net45\Newtonsoft.Json.Schema.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -98,9 +99,19 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="TestCases\Basic\ConditionalBinding\data_boolean_false.json" />
+    <None Include="TestCases\Basic\ConditionalBinding\data_boolean_true.json" />
+    <None Include="TestCases\Basic\ConditionalBinding\data_noproperty.json" />
+    <None Include="TestCases\Basic\ConditionalBinding\data_string.json" />
     <None Include="TestCases\Basic\PropertyBinding\data.json" />
+    <None Include="TestCases\test_cases.csv" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestCases\Basic\ConditionalBinding\result_false.html" />
+    <Content Include="TestCases\Basic\ConditionalBinding\result_string.html" />
+    <Content Include="TestCases\Basic\ConditionalBinding\result_true.html" />
+    <Content Include="TestCases\Basic\ConditionalBinding\template_string.html" />
+    <Content Include="TestCases\Basic\ConditionalBinding\template.html" />
     <Content Include="TestCases\Basic\PropertyBinding\result.html" />
     <Content Include="TestCases\Basic\PropertyBinding\template.html" />
   </ItemGroup>

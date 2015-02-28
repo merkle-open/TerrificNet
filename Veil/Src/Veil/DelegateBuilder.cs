@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Linq;
 
 namespace Veil
 {
     internal static class DelegateBuilder
     {
+        private static readonly MethodInfo GetValueFromDictionaryMethod = typeof(DelegateBuilder).GetMethod("GetValueFromDictionary");
+
         public static Func<object, object> FunctionCall(Type modelType, MethodInfo function)
         {
             var model = Expression.Parameter(typeof(object));
@@ -45,13 +46,22 @@ namespace Veil
         {
             var model = Expression.Parameter(typeof(object));
             var castModel = Expression.Convert(model, modelType);
-            var indexProperty = modelType.GetProperties().First(x => x.GetIndexParameters().Length == 1);
-            var call = Expression.MakeIndex(castModel, indexProperty, new[] { Expression.Constant(key) });
+
+            var call = Expression.Call(GetValueFromDictionaryMethod, castModel, Expression.Constant(key));
 
             return Expression.Lambda<Func<object, object>>(
                 Expression.Convert(call, typeof(object)),
                 model
             ).Compile();
         }
+
+        public static object GetValueFromDictionary(IDictionary<string, object> dict, string key)
+        {
+            object value;
+            if (!dict.TryGetValue(key, out value))
+                return null;
+
+            return value;
+        } 
     }
 }
