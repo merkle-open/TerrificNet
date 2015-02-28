@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -8,6 +9,7 @@ namespace Veil
     internal static class DelegateBuilder
     {
         private static readonly MethodInfo GetValueFromDictionaryMethod = typeof(DelegateBuilder).GetMethod("GetValueFromDictionary");
+        private static ConcurrentDictionary<Type, MethodInfo> GetValueFromDictionaryMethodDictionary = new ConcurrentDictionary<Type, MethodInfo>();
 
         public static Func<object, object> FunctionCall(Type modelType, MethodInfo function)
         {
@@ -47,7 +49,11 @@ namespace Veil
             var model = Expression.Parameter(typeof(object));
             var castModel = Expression.Convert(model, modelType);
 
-            var call = Expression.Call(GetValueFromDictionaryMethod, castModel, Expression.Constant(key));
+            var itemType = modelType.GetGenericArguments()[1];
+            var method = GetValueFromDictionaryMethodDictionary
+                .GetOrAdd(itemType, type => GetValueFromDictionaryMethod.MakeGenericMethod(type));
+
+            var call = Expression.Call(method, castModel, Expression.Constant(key));
 
             return Expression.Lambda<Func<object, object>>(
                 Expression.Convert(call, typeof(object)),
@@ -55,11 +61,11 @@ namespace Veil
             ).Compile();
         }
 
-        public static object GetValueFromDictionary(IDictionary<string, object> dict, string key)
+        public static T GetValueFromDictionary<T>(IDictionary<string, T> dict, string key)
         {
-            object value;
+            T value;
             if (!dict.TryGetValue(key, out value))
-                return null;
+                return default(T);
 
             return value;
         } 

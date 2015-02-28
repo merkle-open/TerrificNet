@@ -22,50 +22,47 @@ namespace TerrificNet.Test
     [TestClass]
     public class TemplateIntegrationTest
     {
+        private string _testName;
+        private string _dataFile;
+        private string _templateFile;
+        private string _resultFile;
+        private string _result;
+
         public TestContext TestContext { get; set; }
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            _dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["data"]);
+            _templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
+            _resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
+            _testName = Path.GetFileName(Path.GetDirectoryName(_resultFile));
+
+            _result = GetFileContent(_resultFile);
+        }
 
         [TestMethod]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
         public void TestServerSideRendering()
         {
-            var dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string) TestContext.DataRow["data"]);
-            var templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
-            var resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
-            var testName = Path.GetFileName(Path.GetDirectoryName(resultFile));
-
-            var result = GetFileContent(resultFile);
-
-            var resultString = ExecuteServerSide(testName, templateFile, dataFile);
-            Assert.AreEqual(result, resultString);
+            var resultString = ExecuteServerSide(_testName, _templateFile, _dataFile);
+            Assert.AreEqual(_result, resultString);
         }
 
         [TestMethod]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
         public void TestServerSideRenderingWithStronglyTypedModel()
         {
-            var dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["data"]);
-            var templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
-            var resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
-            var testName = Path.GetFileName(Path.GetDirectoryName(resultFile));
-
-            var result = GetFileContent(resultFile);
-
-            var resultString = ExecuteServerSideStrongModel(testName, templateFile, dataFile);
-            Assert.AreEqual(result, resultString);
+            var resultString = ExecuteServerSideStrongModel(_testName, _templateFile, _dataFile);
+            Assert.AreEqual(_result, resultString);
         }
 
         [TestMethod]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
         public void TestClientSideRenderingWithJavascript()
         {
-            var dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["data"]);
-            var templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
-            var resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
-            var testName = Path.GetFileName(Path.GetDirectoryName(resultFile));
-
-            var result = GetFileContent(resultFile);
-            var resultString = ExecuteClientSide(testName, templateFile, dataFile);
-            Assert.AreEqual(result, resultString);
+            var resultString = ExecuteClientSide(_testName, _templateFile, _dataFile);
+            Assert.AreEqual(_result, resultString);
         }
 
         private static string GetFileContent(string resultFile)
@@ -78,7 +75,7 @@ namespace TerrificNet.Test
             return result;
         }
 
-        private static string ExecuteClientSide(string testName, string templateFile, string dataFile)
+        private string ExecuteClientSide(string testName, string templateFile, string dataFile)
         {
             var namingRule = new NamingRule();
             var handlerFactory = new NullRenderingHelperHandlerFactory();
@@ -95,10 +92,14 @@ namespace TerrificNet.Test
                 model = new JavaScriptSerializer().Deserialize(reader.ReadToEnd(), typeof(Dictionary<string, object>));
             }
 
-            return JavascriptClientTest.ExecuteJavascript(view, model, testName);
+            this.TestContext.BeginTimer("JS Rendering");
+            var result = JavascriptClientTest.ExecuteJavascript(view, model, testName);
+            this.TestContext.EndTimer("JS Rendering");
+
+            return result;
         }
 
-        private static string ExecuteServerSideStrongModel(string testName, string templateFile, string dataFile)
+        private string ExecuteServerSideStrongModel(string testName, string templateFile, string dataFile)
         {
             var cacheProvider = new NullCacheProvider();
             var namingRule = new NamingRule();
@@ -124,16 +125,18 @@ namespace TerrificNet.Test
                 model = JsonSerializer.Create().Deserialize(reader, modelType);
             }
 
+            this.TestContext.BeginTimer("ServerStrong");
             var builder = new StringBuilder();
             using (var writer = new StringWriter(builder))
             {
                 view.Render(model, new RenderingContext(writer));
             }
             var resultString = builder.ToString();
+            this.TestContext.EndTimer("ServerStrong");
             return resultString;
         }
 
-        private static string ExecuteServerSide(string testName, string templateFile, string dataFile)
+        private string ExecuteServerSide(string testName, string templateFile, string dataFile)
         {
             var cacheProvider = new NullCacheProvider();
             var namingRule = new NamingRule();
@@ -152,12 +155,14 @@ namespace TerrificNet.Test
                 model = new JavaScriptSerializer().Deserialize(reader.ReadToEnd(), typeof(Dictionary<string, object>));
             }
 
+            this.TestContext.BeginTimer("Server");
             var builder = new StringBuilder();
             using (var writer = new StringWriter(builder))
             {
                 view.Render(model, new RenderingContext(writer));
             }
             var resultString = builder.ToString();
+            this.TestContext.EndTimer("Server");
             return resultString;
         }
 
