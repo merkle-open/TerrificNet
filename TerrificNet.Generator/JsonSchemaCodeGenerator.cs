@@ -48,8 +48,9 @@ namespace TerrificNet.Generator
                 var result = CompileToInternal(schemas, stream);
                 if (result.Success)
                 {
+                    var typeName = _namingRule.GetClassName(schema, null);
                     var assembly = Assembly.Load(stream.ToReadOnlyArray().ToArray());
-                    return assembly.GetTypes().First();
+                    return assembly.GetTypes().First(t => t.Name == typeName);
                 }
             }
 

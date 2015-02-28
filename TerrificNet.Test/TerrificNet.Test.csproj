@@ -50,6 +50,11 @@
       <HintPath>..\packages\Newtonsoft.Json.Schema.1.0.7\lib\net45\Newtonsoft.Json.Schema.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -66,12 +71,20 @@
   <ItemGroup>
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringTemplateInfo.cs" />
+    <Compile Include="TemplateIntegrationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.Generator\TerrificNet.Generator.csproj">
       <Project>{7A0B68AB-F5EF-4BCE-ACE3-766C9EA06B82}</Project>
       <Name>TerrificNet.Generator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.ViewEngine.Client.Test\TerrificNet.ViewEngine.Client.Test.csproj">
+      <Project>{4AD8A282-93F7-4670-A986-A99AC06698A5}</Project>
+      <Name>TerrificNet.ViewEngine.Client.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TerrificNet.ViewEngine.Client\TerrificNet.ViewEngine.Client.csproj">
+      <Project>{E0262178-CB44-4A24-958A-868B68E96F84}</Project>
+      <Name>TerrificNet.ViewEngine.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
       <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
@@ -85,6 +98,11 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="TestCases\Basic\PropertyBinding\data.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestCases\Basic\PropertyBinding\result.html" />
+    <Content Include="TestCases\Basic\PropertyBinding\template.html" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

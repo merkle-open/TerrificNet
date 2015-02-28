@@ -86,6 +86,7 @@
     <Compile Include="SchemaProviders\SchemaMergeProvider.cs" />
     <Compile Include="SchemaProviders\TypeSchemaProvider.cs" />
     <Compile Include="StaticModelTypeProvider.cs" />
+    <Compile Include="StringTemplateInfo.cs" />
     <Compile Include="TemplateInfo.cs" />
     <Compile Include="ISchemaProvider.cs" />
     <Compile Include="IModelProvider.cs" />

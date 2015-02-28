@@ -61,7 +61,7 @@ module Tcn {
 		}
     }
 
-	class StringRenderingContext implements IRenderingContext {
+	export class StringRenderingContext implements IRenderingContext {
 		public out:string = "";
 
 		public write(val: string): void {

@@ -2,8 +2,9 @@
 <TestSettings name="local" id="c6570f06-e8d3-46c5-9af3-5b24a786054b" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="TerrificNet.ViewEngine.Schema.Test\Mocks\" />
     <DeploymentItem filename="TerrificNet.Generator.Test\Mocks\" />
+    <DeploymentItem filename="TerrificNet.ViewEngine.Schema.Test\Mocks\" />
+    <DeploymentItem filename="TerrificNet.Test\TestCases\" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>

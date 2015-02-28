@@ -1,7 +1,6 @@
 using System.IO;
-using TerrificNet.ViewEngine;
 
-namespace TerrificNet.Test
+namespace TerrificNet.ViewEngine
 {
     public class StringTemplateInfo : TemplateInfo
     {
