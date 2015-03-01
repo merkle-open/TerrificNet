@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Cache;
 using Veil;
 using Veil.Compiler;
+using Veil.Handlebars;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
@@ -48,7 +49,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		private static IView CreateNonGenericView(string templateId, string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine viewEngine)
 		{
-			var render = viewEngine.CompileNonGeneric("handlebars", new StringReader(content), typeof(object));
+            var render = viewEngine.CompileNonGeneric(new HandlebarsParser(), new StringReader(content), typeof(object));
 			var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render, helperHandlers));
 			return view;
 		}
@@ -57,7 +58,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		// ReSharper disable once UnusedMember.Local
 		private static IView CreateView<T>(string templateId, string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine veilEngine)
 		{
-			var render = veilEngine.Compile<T>("handlebars", new StringReader(content));
+			var render = veilEngine.Compile<T>(new HandlebarsParser(), new StringReader(content));
 			return new VeilViewAdapter<T>(templateId, new VeilView<T>(render, helperHandlers));
 		}
 

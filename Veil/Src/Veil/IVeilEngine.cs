@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Veil.Parser;
 
 namespace Veil
 {
@@ -17,6 +18,8 @@ namespace Veil
         /// <returns>A compiled action ready to be executed as needed to render the template</returns>
         Action<TextWriter, T> Compile<T>(string parserKey, TextReader templateContents);
 
+        Action<TextWriter, T> Compile<T>(ITemplateParser parser, TextReader templateContents);
+
         /// <summary>
         /// Parses and compiles the specified template when the model type is not known
         /// </summary>
@@ -25,5 +28,7 @@ namespace Veil
         /// <param name="modelType">The type of the model that will be passed to the template</param>
         /// <returns>A compiled action that will cast the model before execution</returns>
         Action<TextWriter, object> CompileNonGeneric(string parserKey, TextReader templateContents, Type modelType);
+
+        Action<TextWriter, object> CompileNonGeneric(ITemplateParser parser, TextReader templateContents, Type modelType);
     }
 }

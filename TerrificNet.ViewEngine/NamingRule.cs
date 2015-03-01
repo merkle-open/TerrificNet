@@ -6,6 +6,8 @@ namespace TerrificNet.ViewEngine
 {
 	public class NamingRule : INamingRule
 	{
+        private static readonly Regex PascalCaseRegex = new Regex(@"\p{Lu}\p{Ll}+|\p{Lu}+(?!\p{Ll})|\p{Ll}+|\d+", RegexOptions.Compiled);
+
         public string GetClassName(JSchema schema, string propertyName)
 		{
 			var className = GetPropertyName(schema.Title);
@@ -82,10 +84,10 @@ namespace TerrificNet.ViewEngine
 
 		private static string ConvertToPascalCase(string input)
 		{
-			return new Regex(@"\p{Lu}\p{Ll}+|\p{Lu}+(?!\p{Ll})|\p{Ll}+|\d+").Replace(input, (MatchEvaluator)EvaluatePascal);
+		    return PascalCaseRegex.Replace(input, EvaluatePascal);
 		}
 
-		private static string EvaluatePascal(Match match)
+	    private static string EvaluatePascal(Match match)
 		{
 			var value = match.Value;
 			var valueLength = value.Length;

@@ -16,10 +16,7 @@ namespace Veil.Compiler
         {
             return modelType
                 .FindMembers(types, BindingFlags.Instance | BindingFlags.Public, Type.FilterNameIgnoreCase, name)
-                .OrderByDescending(x => x.Name == name)
-                .ThenByDescending(x => x.MemberType == MemberTypes.Property)
-                .FirstOrDefault();
-
+                .FirstOrDefault(x => x.MemberType == MemberTypes.Property && name.Equals(x.Name, StringComparison.OrdinalIgnoreCase));
         }
 
     }

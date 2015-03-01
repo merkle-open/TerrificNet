@@ -41,6 +41,11 @@ namespace TerrificNet.Test
             _result = GetFileContent(_resultFile);
         }
 
+        [TestCleanup]
+        public void TestCleanup()
+        {
+        }
+
         [TestMethod]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
         public void TestServerSideRendering()

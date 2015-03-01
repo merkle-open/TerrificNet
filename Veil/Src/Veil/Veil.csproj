@@ -52,7 +52,6 @@
     <Compile Include="DelegateBuilder.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.Flush.cs" />
-    <Compile Include="Compiler\VeilTemplateCompiler.Include.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.Iterate.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.Override.cs" />
     <Compile Include="Compiler\VeilTemplateCompiler.ParseExpression.cs" />

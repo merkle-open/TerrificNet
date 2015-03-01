@@ -52,11 +52,13 @@ namespace Veil.Handlebars
             var tokens = HandlebarsTokenizer.Tokenize(templateReader);
             state.BlockStack.PushNewBlockWithModel(modelType);
 
+            var helpers = SyntaxHandlers.Union(GetHelperHandlers(helperHandlers ?? Enumerable.Empty<IHelperHandler>())).Union(SyntaxHandlersAfter).ToList();
+
             foreach (var token in tokens)
             {
                 state.SetCurrentToken(token);
 
-				foreach (var handler in SyntaxHandlers.Union(GetHelperHandlers(helperHandlers ?? Enumerable.Empty<IHelperHandler>())).Union(SyntaxHandlersAfter))
+                foreach (var handler in helpers)
                 {
                     if (handler.Key(token))
                     {

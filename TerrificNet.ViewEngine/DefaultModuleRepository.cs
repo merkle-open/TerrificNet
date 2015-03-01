@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine
@@ -66,8 +64,8 @@ namespace TerrificNet.ViewEngine
 
         public bool TryGetModuleDefinitionById(string id, out ModuleDefinition moduleDefinition)
         {
-	        var results = this.GetAll().ToDictionary(k => k.Id);
-	        return results.TryGetValue(id, out moduleDefinition);
+	        moduleDefinition = this.GetAll().FirstOrDefault(k => id.Equals(k.Id, StringComparison.Ordinal));
+	        return moduleDefinition != null;
         }
     }
 }

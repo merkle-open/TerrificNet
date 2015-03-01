@@ -13,23 +13,16 @@ namespace Veil.Compiler
 		private readonly ParameterExpression writer = Expression.Parameter(typeof(TextWriter), "writer");
 		private readonly ParameterExpression model = Expression.Parameter(typeof(T), "model");
 		private LinkedList<Expression> modelStack = new LinkedList<Expression>();
-		private readonly Func<string, Type, SyntaxTreeNode> includeParser;
 		private readonly IDictionary<string, SyntaxTreeNode> overrideSections = new Dictionary<string, Veil.Parser.SyntaxTreeNode>();
 		private readonly IHelperHandler[] _helperHandlers;
 
-		public VeilTemplateCompiler(Func<string, Type, SyntaxTreeNode> includeParser, params IHelperHandler[] helperHandlers)
+		public VeilTemplateCompiler(params IHelperHandler[] helperHandlers)
 		{
-			this.includeParser = includeParser;
 			_helperHandlers = helperHandlers;
 		}
 
 		public Action<TextWriter, T> Compile(SyntaxTreeNode templateSyntaxTree)
 		{
-			while (templateSyntaxTree is ExtendTemplateNode)
-			{
-				templateSyntaxTree = this.Extend((ExtendTemplateNode)templateSyntaxTree);
-			}
-
 			this.PushScope(this.model);
 			return Expression.Lambda<Action<TextWriter, T>>(this.HandleNode(templateSyntaxTree), this.writer, this.model).Compile();
 		}
@@ -42,17 +35,6 @@ namespace Veil.Compiler
 		private void PopScope()
 		{
 			this.modelStack.RemoveFirst();
-		}
-
-		private SyntaxTreeNode Extend(ExtendTemplateNode extendNode)
-		{
-			foreach (var o in extendNode.Overrides)
-			{
-				if (this.overrideSections.ContainsKey(o.Key)) continue;
-
-				this.overrideSections.Add(o.Key, o.Value);
-			}
-			return includeParser(extendNode.TemplateName, typeof(T));
 		}
 	}
 }
