@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet", "TerrificNet\TerrificNet.csproj", "{68B78678-5EB5-4E5B-A181-1A2FFA804B3E}"
 EndProject
@@ -294,8 +294,5 @@ Global
 		{53891204-B74C-4FEF-AF1F-7E3081E83582} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 		{8E0FD9F2-77E0-4D4B-B241-9746B24E86B6} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 		{4AD8A282-93F7-4670-A986-A99AC06698A5} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

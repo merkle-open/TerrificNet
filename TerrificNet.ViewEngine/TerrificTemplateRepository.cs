@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TerrificNet.ViewEngine.IO;
@@ -7,10 +8,17 @@ namespace TerrificNet.ViewEngine
 	public class TerrificTemplateRepository : ITemplateRepository
 	{
 		private readonly IFileSystem _fileSystem;
+		private Lazy<List<FileTemplateInfo>> _getAllCache;
 
-	    public TerrificTemplateRepository(IFileSystem fileSystem)
+		public TerrificTemplateRepository(IFileSystem fileSystem)
 		{
 		    _fileSystem = fileSystem;
+
+			_getAllCache = new Lazy<List<FileTemplateInfo>>(() => _fileSystem.DirectoryGetFiles(null, "html").Select(f =>
+		    {
+			    var relativePath = GetTemplateId(f).TrimStart('/');
+			    return new FileTemplateInfo(relativePath, f, _fileSystem);
+		    }).ToList());
 		}
 
 	    public bool TryGetTemplate(string id, out TemplateInfo templateInfo)
@@ -22,11 +30,7 @@ namespace TerrificNet.ViewEngine
 
 	    private IEnumerable<TemplateInfo> Read()
 	    {
-			return _fileSystem.DirectoryGetFiles(null, "html").Select(f =>
-			{
-			    var relativePath = GetTemplateId(f).TrimStart('/');
-                return new FileTemplateInfo(relativePath, f, _fileSystem); 
-            });
+			return _getAllCache.Value;
 	    }
 
 	    private string GetTemplateId(string info)

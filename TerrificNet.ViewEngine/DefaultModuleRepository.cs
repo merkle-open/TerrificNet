@@ -10,19 +10,23 @@ namespace TerrificNet.ViewEngine
     {
         private readonly ITerrificNetConfig _configuration;
         private readonly ITemplateRepository _templateRepository;
+	    private readonly Lazy<List<ModuleDefinition>> _getAllCache; 
 
         public DefaultModuleRepository(ITerrificNetConfig configuration, ITemplateRepository templateRepository)
         {
             _configuration = configuration;
             _templateRepository = templateRepository;
+
+			_getAllCache = new Lazy<List<ModuleDefinition>>(() => _templateRepository.GetAll()
+				.Where(t => t.Id.StartsWith(_configuration.ModulePath))
+				.GroupBy(t => Path.GetDirectoryName(t.Id))
+				.Select(CreateModuleDefinition)
+				.ToList());
         }
 
         public IEnumerable<ModuleDefinition> GetAll()
         {
-            return _templateRepository.GetAll()
-                .Where(t => t.Id.StartsWith(_configuration.ModulePath))
-                .GroupBy(t => Path.GetDirectoryName(t.Id))
-                .Select(CreateModuleDefinition);
+            return _getAllCache.Value;
         }
 
         private static ModuleDefinition CreateModuleDefinition(IGrouping<string, TemplateInfo> t)
