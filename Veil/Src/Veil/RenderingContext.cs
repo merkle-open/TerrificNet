@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace TerrificNet.ViewEngine
+namespace Veil
 {
     public class RenderingContext
     {

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TerrificNet.Dispatcher;
 using TerrificNet.ViewEngine;
+using Veil;
 
 namespace TerrificNet.Controllers
 {

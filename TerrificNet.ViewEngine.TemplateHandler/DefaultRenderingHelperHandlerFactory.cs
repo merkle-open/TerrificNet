@@ -6,7 +6,7 @@ using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.TemplateHandler
 {
-    public class DefaultRenderingHelperHandlerFactory : IHelperHandlerFactory, IRenderingHelperHandlerFactory
+    public class DefaultRenderingHelperHandlerFactory : IHelperHandlerFactory
     {
         private readonly ITerrificTemplateHandlerFactory _terrificTemplateHandlerFactory;
         private readonly ITemplateRepository _templateRepository;
@@ -25,18 +25,13 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 	        _clientTemplateGeneratorFactory = clientTemplateGeneratorFactory;
         }
 
-        public IEnumerable<IRenderingHelperHandler> Create()
+        public IEnumerable<IHelperHandler> Create()
         {
             yield return new TerrificRenderingHelperHandler(_terrificTemplateHandlerFactory.Create(), _schemaProviderFactory.Create(), _templateRepository, _clientTemplateGeneratorFactory.Create());
             yield return new GridHelperHandler();
             yield return new GridWidthHelperHandler();
 			yield return new GridComponentWidthHelperHandler();
             yield return new TemplateIdHelperHandler();
-        }
-
-        IEnumerable<IHelperHandler> IHelperHandlerFactory.Create()
-        {
-            return Create();
         }
     }
 }

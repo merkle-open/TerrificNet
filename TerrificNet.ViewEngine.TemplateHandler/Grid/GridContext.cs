@@ -1,3 +1,5 @@
+using Veil;
+
 namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 {
 	public class GridContext

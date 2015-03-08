@@ -1,3 +1,5 @@
+using Veil;
+
 namespace TerrificNet.ViewEngine
 {
     public interface IView : IView<object>

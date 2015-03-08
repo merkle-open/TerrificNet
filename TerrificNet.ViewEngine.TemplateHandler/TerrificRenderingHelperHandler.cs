@@ -7,17 +7,17 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Client;
 using TerrificNet.ViewEngine.Schema;
-using TerrificNet.ViewEngine.ViewEngines;
+using Veil;
+using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.TemplateHandler
 {
-	internal class TerrificRenderingHelperHandler : IRenderingHelperHandler, IHelperHandlerWithSchema, IHelperHandlerClient
+	internal class TerrificRenderingHelperHandler : IHelperHandler, IHelperHandlerWithSchema, IHelperHandlerClient
     {
         private readonly ITerrificTemplateHandler _handler;
         private readonly ISchemaProvider _schemaProvider;
         private readonly ITemplateRepository _templateRepository;
 		private readonly IClientTemplateGenerator _clientTemplateGenerator;
-		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
 
 		public TerrificRenderingHelperHandler(ITerrificTemplateHandler handler, ISchemaProvider schemaProvider, ITemplateRepository templateRepository, IClientTemplateGenerator clientTemplateGenerator)
         {
@@ -27,24 +27,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 	        _clientTemplateGenerator = clientTemplateGenerator;
         }
 
-        public void PushContext(RenderingContext context)
-        {
-            _contextStack.Push(context);
-        }
-
-        public void PopContext()
-        {
-            _contextStack.Pop();
-        }
-
         public bool IsSupported(string name)
         {
             return new[] { "module", "placeholder", "label", "partial" }.Any(name.StartsWith);
         }
 
-        private RenderingContext Context { get { return _contextStack.Peek(); } }
-
-        public void Evaluate(object model, string name, IDictionary<string, string> parameters)
+        public void Evaluate(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
         {
             if ("module".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
@@ -54,22 +42,22 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 if (parameters.ContainsKey("skin"))
                     skin = parameters["skin"].Trim('"');
 
-                _handler.RenderModule(templateName, skin, Context);
+                _handler.RenderModule(templateName, skin, context);
             }
             else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 var key = parameters["key"].Trim('"');
-                _handler.RenderPlaceholder(model, key, Context);
+                _handler.RenderPlaceholder(model, key, context);
             }
             else if ("label".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 var key = parameters.Keys.First().Trim('"');
-                _handler.RenderLabel(key, Context);
+                _handler.RenderLabel(key, context);
             }
             else if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 var template = parameters["template"].Trim('"');
-                _handler.RenderPartial(template, model, Context);
+                _handler.RenderPartial(template, model, context);
             }
             else
                 throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));

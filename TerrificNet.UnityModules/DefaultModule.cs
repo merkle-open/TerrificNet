@@ -24,7 +24,6 @@ namespace TerrificNet.UnityModules
             container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
             container.RegisterType<IModuleSchemaProvider, DefaultModuleSchemaProvider>();
-            container.RegisterType<IRenderingHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>();
             container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>();
             container.RegisterType<IMemberLocator, MemberLocatorFromNamingRule>();
         }

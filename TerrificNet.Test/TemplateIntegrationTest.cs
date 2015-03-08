@@ -15,6 +15,7 @@ using TerrificNet.ViewEngine.Client.Test;
 using TerrificNet.ViewEngine.IO;
 using TerrificNet.ViewEngine.SchemaProviders;
 using TerrificNet.ViewEngine.ViewEngines;
+using Veil;
 using Veil.Helper;
 
 namespace TerrificNet.Test
@@ -171,16 +172,11 @@ namespace TerrificNet.Test
             return resultString;
         }
 
-        private class NullRenderingHelperHandlerFactory : IRenderingHelperHandlerFactory, IHelperHandlerFactory
+        private class NullRenderingHelperHandlerFactory : IHelperHandlerFactory
         {
-            public IEnumerable<IRenderingHelperHandler> Create()
+            public IEnumerable<IHelperHandler> Create()
             {
-                return Enumerable.Empty<IRenderingHelperHandler>();
-            }
-
-            IEnumerable<IHelperHandler> IHelperHandlerFactory.Create()
-            {
-                return Create();
+                return Enumerable.Empty<IHelperHandler>();
             }
         }
     }
