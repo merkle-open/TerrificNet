@@ -69,6 +69,11 @@ namespace TerrificNet.ViewEngine.IO
             get { return PathHelper; }
         }
 
+        public string GetETag(string filePath)
+        {
+            return new FileInfo(GetRootPath(filePath)).LastWriteTimeUtc.Ticks.ToString("X8");
+        }
+
         public Stream OpenWrite(string filePath)
         {
             var stream = new FileStream(GetRootPath(filePath), FileMode.OpenOrCreate, FileAccess.Write);

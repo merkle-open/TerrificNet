@@ -16,6 +16,8 @@ namespace TerrificNet.ViewEngine.IO
         void CreateDirectory(string directory);
 	    Stream OpenReadOrCreate(string filePath);
         IPathHelper Path { get; }
+
+        string GetETag(string filePath);
     }
 
     public interface IPathHelper

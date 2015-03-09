@@ -71,5 +71,10 @@ namespace TerrificNet.ViewEngine.IO
         {
             get { return PathHelper; }
         }
+
+        public string GetETag(string filePath)
+        {
+            return _assembly.GetName().Version.ToString(4);
+        }
     }
 }
