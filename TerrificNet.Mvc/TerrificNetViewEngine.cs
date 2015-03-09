@@ -2,6 +2,7 @@
 using System.IO;
 using System.Web.Mvc;
 using TerrificNet.ViewEngine;
+using Veil;
 using IView = System.Web.Mvc.IView;
 using IViewEngine = System.Web.Mvc.IViewEngine;
 using IViewEngineTerrific = TerrificNet.ViewEngine.IViewEngine;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TerrificNet.AssetCompiler.Configuration;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.AssetCompiler.Helpers
 {
@@ -19,15 +20,15 @@ namespace TerrificNet.AssetCompiler.Helpers
 			{
 				if (path.StartsWith("!"))
 				{
-					excludes.AddRange(Glob.Glob.Expand(Path.Combine(basePath, path.Substring(1))).Select(f => f.FullName));
+					excludes.AddRange(Glob.Expand(Path.Combine(basePath, path.Substring(1))).Select(f => f.FullName));
 				}
 				else if (path.StartsWith("+"))
 				{
-					dependencies.AddRange(Glob.Glob.Expand(Path.Combine(basePath, path.Substring(1))).Select(f => f.FullName));
+					dependencies.AddRange(Glob.Expand(Path.Combine(basePath, path.Substring(1))).Select(f => f.FullName));
 				}
 				else
 				{
-					files.AddRange(Glob.Glob.Expand(Path.Combine(basePath, path)).Select(f => f.FullName));
+					files.AddRange(Glob.Expand(Path.Combine(basePath, path)).Select(f => f.FullName));
 				}
 			}
 

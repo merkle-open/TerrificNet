@@ -77,7 +77,6 @@
     <Compile Include="Configuration\AssetComponents.cs" />
     <Compile Include="Configuration\AssetType.cs" />
     <Compile Include="Configuration\CompileConfig.cs" />
-    <Compile Include="Glob.cs" />
     <Compile Include="Helpers\AssetHelper.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="IAssetCompiler.cs" />
@@ -86,6 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
+      <Project>{a2395b2d-f69e-420f-9534-e640dfe86138}</Project>
+      <Name>TerrificNet.ViewEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -13,12 +13,14 @@ namespace TerrificNet.ViewEngine.IO
         private readonly string _rootPath;
         private static readonly IPathHelper PathHelper = new ZipPathHelper();
         private readonly ZipFile _file;
+        private readonly string _etag;
 
         public ZipFileSystem(string filePath, string rootPath)
         {
             _filePath = filePath;
             _rootPath = rootPath;
             _file = new ZipFile(filePath);
+            _etag = new FileInfo(filePath).LastWriteTimeUtc.Ticks.ToString("X8");
         }
 
         public string BasePath { get { return _filePath; } }
@@ -68,9 +70,19 @@ namespace TerrificNet.ViewEngine.IO
             get { return PathHelper; }
         }
 
+        public string GetETag(string filePath)
+        {
+            return _etag;
+        }
+
 	    public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
 	    {
-			return Task.FromResult((IFileSystemSubscription)new NullFileSystemSubscription());
+			throw new NotSupportedException();
+	    }
+
+	    public bool SupportsSubscribe
+	    {
+		    get { return false; }
 	    }
 
 	    public void CreateDirectory(string directory)
@@ -85,13 +97,6 @@ namespace TerrificNet.ViewEngine.IO
 
             return PathUtility.Combine(_rootPath, path);
         }
-
-	    private class NullFileSystemSubscription : IFileSystemSubscription
-	    {
-		    public void Register(Action<string> handler)
-		    {
-		    }
-	    }
 
         private class ZipPathHelper : IPathHelper
         {

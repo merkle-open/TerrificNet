@@ -33,9 +33,20 @@ namespace TerrificNet.Controllers
             if (!_fileSystem.FileExists(filePath))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
+	        var eTag = new EntityTagHeaderValue(string.Concat("\"", _fileSystem.GetETag(filePath), "\""));
+	        if (Request.Headers.IfNoneMatch != null)
+	        {
+	            foreach (var noneMatch in Request.Headers.IfNoneMatch)
+	            {
+	                if (eTag.Equals(noneMatch))
+	                    return new HttpResponseMessage(HttpStatusCode.NotModified);
+	            }
+	        }
+
             var stream = _fileSystem.OpenRead(filePath);
             var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
             message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(_fileSystem.Path.GetExtension(path).ToLower()));
+	        message.Headers.ETag = eTag;
             return message;
 	    }
 

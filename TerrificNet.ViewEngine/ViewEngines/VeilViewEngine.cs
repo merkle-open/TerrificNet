@@ -9,17 +9,18 @@ using TerrificNet.ViewEngine.Cache;
 using Veil;
 using Veil.Compiler;
 using Veil.Handlebars;
+using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
 	public class VeilViewEngine : IViewEngine
 	{
 		private readonly ICacheProvider _cacheProvider;
-        private readonly IRenderingHelperHandlerFactory _helperHandlerFactory;
+        private readonly IHelperHandlerFactory _helperHandlerFactory;
 	    private readonly IMemberLocator _memberLocator;
 
 		public VeilViewEngine(ICacheProvider cacheProvider,
-            IRenderingHelperHandlerFactory helperHandlerFactory,
+            IHelperHandlerFactory helperHandlerFactory,
             INamingRule namingRule)
 		{
 			_cacheProvider = cacheProvider;
@@ -35,11 +36,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			if (!_cacheProvider.TryGet(hash, out view))
 			{
 			    var helperHandlers = _helperHandlerFactory.Create().ToArray();
-			    var viewEngine = new VeilEngine(helperHandlers: helperHandlers, memberLocator: _memberLocator);
+			    var viewEngine = new VeilEngine(helperHandlers, _memberLocator);
 				if (modelType == typeof(object))
-                    view = CreateNonGenericView(templateId, content, helperHandlers, viewEngine);
+                    view = CreateNonGenericView(templateId, content, viewEngine);
 				else
-                    view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { templateId, content, helperHandlers, viewEngine });
+                    view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { templateId, content, viewEngine });
 
 				_cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
 			}
@@ -47,19 +48,19 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			return view;
 		}
 
-		private static IView CreateNonGenericView(string templateId, string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine viewEngine)
+		private static IView CreateNonGenericView(string templateId, string content, IVeilEngine viewEngine)
 		{
             var render = viewEngine.CompileNonGeneric(new HandlebarsParser(), new StringReader(content), typeof(object));
-			var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render, helperHandlers));
+			var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render));
 			return view;
 		}
 
 		// do not remove, invoked dynamicaly
 		// ReSharper disable once UnusedMember.Local
-		private static IView CreateView<T>(string templateId, string content, IRenderingHelperHandler[] helperHandlers, IVeilEngine veilEngine)
+		private static IView CreateView<T>(string templateId, string content, IVeilEngine veilEngine)
 		{
 			var render = veilEngine.Compile<T>(new HandlebarsParser(), new StringReader(content));
-			return new VeilViewAdapter<T>(templateId, new VeilView<T>(render, helperHandlers));
+			return new VeilViewAdapter<T>(templateId, new VeilView<T>(render));
 		}
 
 		private class VeilViewAdapter<T> : IView
@@ -92,24 +93,16 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		private class VeilView<T> : IView<T>
 		{
-			private readonly Action<TextWriter, T> _render;
-			private readonly IRenderingHelperHandler[] _renderingHelpers;
+            private readonly Action<RenderingContext, T> _render;
 
-			public VeilView(Action<TextWriter, T> render, IRenderingHelperHandler[] renderingHelpers)
+		    public VeilView(Action<RenderingContext, T> render)
 			{
 				_render = render;
-				_renderingHelpers = renderingHelpers;
 			}
 
 			public void Render(T model, RenderingContext context)
 			{
-				foreach (var helper in _renderingHelpers)
-					helper.PushContext(context);
-
-				_render(context.Writer, model);
-
-				foreach (var helper in _renderingHelpers)
-					helper.PopContext();
+				_render(context, model);
 			}
 		}
 

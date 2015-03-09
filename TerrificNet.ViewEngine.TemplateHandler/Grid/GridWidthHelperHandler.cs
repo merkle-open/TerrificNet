@@ -1,17 +1,16 @@
 using System.Collections.Generic;
-using TerrificNet.ViewEngine.ViewEngines;
+using Veil;
+using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 {
-	internal abstract class BaseGridWidthHelperHandler : IRenderingHelperHandler
+	internal abstract class BaseGridWidthHelperHandler : IHelperHandler
 	{
-		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
-
-		public abstract bool IsSupported(string name);
+	    public abstract bool IsSupported(string name);
 
 		internal abstract double GetWidth(GridStack gridStack);
 
-		public void Evaluate(object model, string name, IDictionary<string, string> parameters)
+		public void Evaluate(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
 		{
 			double ratio = 1.0;
 			string ratioValue;
@@ -21,20 +20,8 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 					ratio = 1.0;
 			}
 
-			var gridStack = GridStack.FromContext(Context);
-			Context.Writer.Write((int)(GetWidth(gridStack) * ratio));
-		}
-
-		private RenderingContext Context { get { return _contextStack.Peek(); } }
-
-		public void PushContext(RenderingContext context)
-		{
-			_contextStack.Push(context);
-		}
-
-		public void PopContext()
-		{
-			_contextStack.Pop();
+			var gridStack = GridStack.FromContext(context);
+			context.Writer.Write((int)(GetWidth(gridStack) * ratio));
 		}
 	}
 

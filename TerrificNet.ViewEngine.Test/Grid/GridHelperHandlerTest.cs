@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TerrificNet.ViewEngine.TemplateHandler.Grid;
+using Veil;
 
 namespace TerrificNet.ViewEngine.Test.Grid
 {
@@ -14,13 +15,12 @@ namespace TerrificNet.ViewEngine.Test.Grid
 			var underTest = new GridHelperHandler();
 
 			var renderingContext = new RenderingContext(null);
-			underTest.PushContext(renderingContext);
 			var gridStack = GridStack.FromContext(renderingContext);
 			gridStack.Push(960);
 
-			underTest.Evaluate(null, "", new Dictionary<string, string>
+			underTest.Evaluate(null, renderingContext, "", new Dictionary<string, string>
 			{
-				{"ratio", "1/3"}
+			    {"ratio", "1/3"}
 			});
 
 			var result = gridStack.Current;

@@ -17,7 +17,8 @@ namespace TerrificNet.ViewEngine.IO
         void CreateDirectory(string directory);
 	    Stream OpenReadOrCreate(string filePath);
         IPathHelper Path { get; }
-
-	    Task<IFileSystemSubscription> SubscribeAsync(string pattern);
+        string GetETag(string filePath);
+		Task<IFileSystemSubscription> SubscribeAsync(string pattern);
+		bool SupportsSubscribe { get; }
     }
 }

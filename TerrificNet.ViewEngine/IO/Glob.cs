@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 using System.Text.RegularExpressions;
-using System.Collections.Concurrent;
 
-namespace Glob
+namespace TerrificNet.ViewEngine.IO
 {
     /// <summary>
     /// Finds files and directories by matching their path names against a pattern.
     /// </summary>
-    class Glob
+    public class Glob
     {
         /// <summary>
         /// Gets or sets a value indicating the pattern to match file and directory names against.

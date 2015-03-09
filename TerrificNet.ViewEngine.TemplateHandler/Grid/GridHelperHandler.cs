@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using TerrificNet.ViewEngine.ViewEngines;
+using Veil;
 using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 {
-	internal class GridHelperHandler : IBlockHelperHandler, IRenderingHelperHandler
+	internal class GridHelperHandler : IBlockHelperHandler
 	{
-		private readonly Stack<RenderingContext> _contextStack = new Stack<RenderingContext>();
-
 		private static readonly Dictionary<string, double> DefaultRatioTable = new Dictionary<string, double>
 		{
 			{"1/4", 0.25},
@@ -23,9 +22,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			return name.StartsWith("grid-cell");
 		}
 
-		public void Evaluate(object model, string name, IDictionary<string, string> parameters)
+		public void Evaluate(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
 		{
-			var gridStack = GridStack.FromContext(Context);
+			var gridStack = GridStack.FromContext(context);
 			double ratio = GetValue(parameters, "ratio", 1);
 			double margin = GetValue(parameters, "margin", 0);
 			double padding = GetValue(parameters, "padding", 0);
@@ -59,22 +58,10 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			return null;
 		}
 
-		public void Leave(object model, string name, IDictionary<string, string> parameters)
+		public void Leave(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
 		{
-			var gridStack = GridStack.FromContext(Context);
+			var gridStack = GridStack.FromContext(context);
 			gridStack.Pop();
-		}
-
-		private RenderingContext Context { get { return _contextStack.Peek(); } }
-
-		public void PushContext(RenderingContext context)
-		{
-			_contextStack.Push(context);
-		}
-
-		public void PopContext()
-		{
-			_contextStack.Pop();
 		}
 	}
 }

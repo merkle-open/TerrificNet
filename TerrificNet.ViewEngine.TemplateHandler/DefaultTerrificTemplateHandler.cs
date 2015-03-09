@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Globalization;
+using Veil;
 
 namespace TerrificNet.ViewEngine.TemplateHandler
 {
