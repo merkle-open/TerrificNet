@@ -80,7 +80,7 @@ namespace TerrificNet.ViewEngine.IO
 
 		public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
 		{
-			var subscription = new LookupFileSystemSubscription();
+			var subscription = new LookupFileSystemSubscription(this);
 			_subscriptions.Add(subscription);
 			return Task.FromResult((IFileSystemSubscription)subscription);
 		}
@@ -97,7 +97,14 @@ namespace TerrificNet.ViewEngine.IO
 
 		private class LookupFileSystemSubscription : IFileSystemSubscription
 		{
+			private readonly LookupFileSystem _parent;
 			private readonly List<Action<string>> _handlers = new List<Action<string>>();
+
+			public LookupFileSystemSubscription(LookupFileSystem parent)
+			{
+				_parent = parent;
+			}
+
 			public void Register(Action<string> handler)
 			{
 				_handlers.Add(handler);
@@ -109,6 +116,11 @@ namespace TerrificNet.ViewEngine.IO
 				{
 					handler(file);
 				}
+			}
+
+			public void Dispose()
+			{
+				_parent.Unsubscribe(this);
 			}
 		}
 	}
