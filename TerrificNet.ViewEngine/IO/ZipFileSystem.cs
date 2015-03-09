@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace TerrificNet.ViewEngine.IO
@@ -67,7 +68,12 @@ namespace TerrificNet.ViewEngine.IO
             get { return PathHelper; }
         }
 
-        public void CreateDirectory(string directory)
+	    public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
+	    {
+			return Task.FromResult((IFileSystemSubscription)new NullFileSystemSubscription());
+	    }
+
+	    public void CreateDirectory(string directory)
         {
             throw new NotSupportedException();
         }
@@ -79,6 +85,13 @@ namespace TerrificNet.ViewEngine.IO
 
             return PathUtility.Combine(_rootPath, path);
         }
+
+	    private class NullFileSystemSubscription : IFileSystemSubscription
+	    {
+		    public void Register(Action<string> handler)
+		    {
+		    }
+	    }
 
         private class ZipPathHelper : IPathHelper
         {

@@ -9,6 +9,7 @@ namespace TerrificNet.ViewEngine.Test
 	public class FileSystemTest
 	{
 		protected const string TestFileName = "test.txt";
+		protected const string TestFilePattern = "*.txt";
 		protected IFileSystem FileSystem;
 
 		[TestInitialize]

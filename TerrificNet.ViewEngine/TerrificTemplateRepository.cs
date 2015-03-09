@@ -8,7 +8,7 @@ namespace TerrificNet.ViewEngine
 	public class TerrificTemplateRepository : ITemplateRepository
 	{
 		private readonly IFileSystem _fileSystem;
-		private Lazy<List<FileTemplateInfo>> _getAllCache;
+		private readonly Lazy<List<FileTemplateInfo>> _getAllCache;
 
 		public TerrificTemplateRepository(IFileSystem fileSystem)
 		{
@@ -28,11 +28,6 @@ namespace TerrificNet.ViewEngine
 		    return templates.TryGetValue(fileName, out templateInfo);
 		}
 
-	    private IEnumerable<TemplateInfo> Read()
-	    {
-			return _getAllCache.Value;
-	    }
-
 	    private string GetTemplateId(string info)
 	    {
 	        return _fileSystem.Path.Combine(_fileSystem.Path.GetDirectoryName(info), _fileSystem.Path.GetFileNameWithoutExtension(info));
@@ -40,7 +35,7 @@ namespace TerrificNet.ViewEngine
 
 	    public IEnumerable<TemplateInfo> GetAll()
 	    {
-	        return Read();
+			return _getAllCache.Value;
 	    }
 	}
 }

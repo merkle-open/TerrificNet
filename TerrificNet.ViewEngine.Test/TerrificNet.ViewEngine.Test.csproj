@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CachedFileSystemTest.cs" />
+    <Compile Include="FileSystemSubscriptionTest.cs" />
     <Compile Include="FileSystemTest.cs" />
     <Compile Include="GlobalizationTest.cs" />
     <Compile Include="Grid\GridHelperHandlerTest.cs" />

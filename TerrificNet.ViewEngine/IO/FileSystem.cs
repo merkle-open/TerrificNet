@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TerrificNet.ViewEngine.IO
 {
     public class FileSystem : IFileSystem
     {
-        private readonly string _basePath;
-        private static readonly IPathHelper PathHelper = new FilePathHelper();
+		private static readonly IPathHelper PathHelper = new FilePathHelper();
+		
+		private readonly string _basePath;
         private readonly Func<string, bool> _directoryExistsAction;
         private readonly Func<string, string, IEnumerable<string>> _directoryGetFilesAction;
         private readonly Func<string, bool> _fileExistsAction;
@@ -69,7 +71,12 @@ namespace TerrificNet.ViewEngine.IO
             get { return PathHelper; }
         }
 
-        public Stream OpenWrite(string filePath)
+	    public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
+	    {
+		    return _lookupSystem.SubscribeAsync(pattern);
+	    }
+
+	    public Stream OpenWrite(string filePath)
         {
             var stream = new FileStream(GetRootPath(filePath), FileMode.OpenOrCreate, FileAccess.Write);
             stream.SetLength(0);

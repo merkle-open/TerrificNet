@@ -73,6 +73,8 @@
     <Compile Include="IModuleRepository.cs" />
     <Compile Include="IModuleSchemaProvider.cs" />
     <Compile Include="INamingRule.cs" />
+    <Compile Include="IO\IFileSystemSubscription.cs" />
+    <Compile Include="IO\IPathHelper.cs" />
     <Compile Include="IO\LookupFileSystem.cs" />
     <Compile Include="ITemplateRepository.cs" />
     <Compile Include="ModuleDefinition.cs" />
