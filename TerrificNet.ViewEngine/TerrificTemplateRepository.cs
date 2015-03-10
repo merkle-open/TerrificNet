@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TerrificNet.ViewEngine.IO;
-using Veil;
 
 namespace TerrificNet.ViewEngine
 {
@@ -10,7 +9,7 @@ namespace TerrificNet.ViewEngine
 	{
 		private readonly IFileSystem _fileSystem;
 		private readonly Func<List<FileTemplateInfo>> _getAll;
-		private readonly IFileSystemSubscription _subscription;
+		private readonly IDisposable _subscription;
 
 		public TerrificTemplateRepository(IFileSystem fileSystem)
 		{
@@ -25,9 +24,9 @@ namespace TerrificNet.ViewEngine
 			if (!_fileSystem.SupportsSubscribe) 
 				return;
 
-			_subscription = _fileSystem.SubscribeAsync("*.html").Result;
 			var cache = _getAll();
-			_subscription.Register(s => { cache = _getAll(); });
+			_subscription = _fileSystem.SubscribeAsync("*.html", s => { cache = _getAll(); }).Result;
+			
 			_getAll = () => cache;
 		}
 
@@ -48,9 +47,21 @@ namespace TerrificNet.ViewEngine
 			return _getAll();
 		}
 
+		~TerrificTemplateRepository()
+		{
+			Dispose(false);
+		}
+
 		public void Dispose()
 		{
-			_subscription.Dispose();
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (disposing)
+				_subscription.Dispose();
 		}
 	}
 }

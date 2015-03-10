@@ -73,10 +73,10 @@ namespace TerrificNet.ViewEngine.IO
             get { return PathHelper; }
         }
 
-		public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
-		{
+	    public Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler)
+	    {
 			throw new NotSupportedException();
-		}
+	    }
 
 	    public bool SupportsSubscribe
 	    {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace TerrificNet.ViewEngine.IO
 	    Stream OpenReadOrCreate(string filePath);
         IPathHelper Path { get; }
         string GetETag(string filePath);
-		Task<IFileSystemSubscription> SubscribeAsync(string pattern);
+		Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler);
 		bool SupportsSubscribe { get; }
     }
 }

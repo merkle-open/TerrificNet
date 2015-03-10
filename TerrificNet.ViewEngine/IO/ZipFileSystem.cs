@@ -75,7 +75,7 @@ namespace TerrificNet.ViewEngine.IO
             return _etag;
         }
 
-	    public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
+	    public Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler)
 	    {
 			throw new NotSupportedException();
 	    }

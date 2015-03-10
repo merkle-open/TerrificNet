@@ -22,17 +22,17 @@ namespace TerrificNet.ViewEngine.Test
 			Assert.AreEqual(false, fileSystem.FileExists(TestFileName));
 
 			var c = new TaskCompletionSource<string>();
-			var subscription = await fileSystem.SubscribeAsync(TestFilePattern).ConfigureAwait(false);
-			subscription.Register(s => c.TrySetResult(s));
-
-			using (var writer = new StreamWriter(fileSystem.OpenWrite(TestFileName)))
+			using (await fileSystem.SubscribeAsync(TestFilePattern, s => c.TrySetResult(s)).ConfigureAwait(false))
 			{
-				writer.BaseStream.SetLength(0);
-				writer.Write("123456789");
-			}
+				using (var writer = new StreamWriter(fileSystem.OpenWrite(TestFileName)))
+				{
+					writer.BaseStream.SetLength(0);
+					writer.Write("123456789");
+				}
 
-			var result = await c.Task.ConfigureAwait(false);
-			Assert.AreEqual(TestFileName, new FileInfo(result).Name);
+				var result = await c.Task.ConfigureAwait(false);
+				Assert.AreEqual(TestFileName, new FileInfo(result).Name);
+			}
 		}
 	}
 }

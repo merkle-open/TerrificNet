@@ -72,12 +72,12 @@ namespace TerrificNet.ViewEngine.IO
 			get { return PathHelper; }
 		}
 
-		public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
+		public Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler)
 		{
 			if (_lookupSystem == null)
 				throw new NotSupportedException();
 
-			return _lookupSystem.SubscribeAsync(pattern);
+			return _lookupSystem.SubscribeAsync(pattern, handler);
 		}
 
 		public bool SupportsSubscribe

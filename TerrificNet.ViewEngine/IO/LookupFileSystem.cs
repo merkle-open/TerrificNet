@@ -78,16 +78,17 @@ namespace TerrificNet.ViewEngine.IO
 			}
 		}
 
-		public Task<IFileSystemSubscription> SubscribeAsync(string pattern)
+		public Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler)
 		{
-			var subscription = new LookupFileSystemSubscription(this);
+			var subscription = new LookupFileSystemSubscription(this, handler);
 			_subscriptions.Add(subscription);
-			return Task.FromResult((IFileSystemSubscription)subscription);
+
+			return Task.FromResult<IDisposable>(subscription);
 		}
 
-		internal void Unsubscribe(IFileSystemSubscription subscription)
+		private void Unsubscribe(LookupFileSystemSubscription subscription)
 		{
-			_subscriptions.Remove((LookupFileSystemSubscription)subscription);
+			_subscriptions.Remove(subscription);
 		}
 
 		public void Dispose()
@@ -95,32 +96,27 @@ namespace TerrificNet.ViewEngine.IO
 			_watcher.Dispose();
 		}
 
-		private class LookupFileSystemSubscription : IFileSystemSubscription
+		private class LookupFileSystemSubscription : IDisposable
 		{
-			private readonly LookupFileSystem _parent;
-			private readonly List<Action<string>> _handlers = new List<Action<string>>();
+			private LookupFileSystem _parent;
+			private Action<string> _handler;
 
-			public LookupFileSystemSubscription(LookupFileSystem parent)
+			public LookupFileSystemSubscription(LookupFileSystem parent, Action<string> handler)
 			{
 				_parent = parent;
-			}
-
-			public void Register(Action<string> handler)
-			{
-				_handlers.Add(handler);
+				_handler = handler;
 			}
 
 			internal void Notify(string file)
 			{
-				foreach (var handler in _handlers)
-				{
-					handler(file);
-				}
+				_handler(file);
 			}
 
 			public void Dispose()
 			{
 				_parent.Unsubscribe(this);
+				_handler = null;
+				_parent = null;
 			}
 		}
 	}
