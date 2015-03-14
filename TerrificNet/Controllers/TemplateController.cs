@@ -31,10 +31,12 @@ namespace TerrificNet.Controllers
         [HttpGet]
         public async Task<HttpResponseMessage> Get(string path, string data = null)
         {
-            IView view;
+            IView view = null;
             var templateInfo = await _templateRepository.GetTemplateAsync(path).ConfigureAwait(false);
-            if (templateInfo == null ||
-                !_viewEngine.TryCreateView(templateInfo, out view))
+            if (templateInfo != null)
+                view = await _viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
+
+            if (view == null)
             {
                 PageViewDefinition viewDefinition;
                 if (_viewRepository.TryGetFromView(path, out viewDefinition))
@@ -54,10 +56,12 @@ namespace TerrificNet.Controllers
 
         private async Task<HttpResponseMessage> Get(string path, object data)
         {
-            IView view;
-            TemplateInfo templateInfo = await _templateRepository.GetTemplateAsync(path);
-            if (templateInfo == null ||
-                !_viewEngine.TryCreateView(templateInfo, out view))
+            IView view = null;
+            var templateInfo = await _templateRepository.GetTemplateAsync(path).ConfigureAwait(false);
+            if (templateInfo != null)
+                view = await _viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
+
+            if (view == null)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
             return View(view, data);

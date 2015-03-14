@@ -31,12 +31,11 @@ namespace TerrificNet.Controllers
             var templateRepository = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));
             var viewEngine = (IViewEngine)dependencyResolver.GetService(typeof(IViewEngine));
 
-            IView view;
             var templateInfo = await templateRepository.GetTemplateAsync(viewName).ConfigureAwait(false);
-            if (templateInfo == null ||
-                !viewEngine.TryCreateView(templateInfo, out view))
+            if (templateInfo == null)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
+            var view = await viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
             return View(view, model);
         }
 

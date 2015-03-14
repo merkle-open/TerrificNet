@@ -50,9 +50,9 @@ namespace TerrificNet.Test
 
         [TestMethod]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
-        public void TestServerSideRendering()
+        public async Task TestServerSideRendering()
         {
-            var resultString = ExecuteServerSide(_testName, _templateFile, _dataFile);
+            var resultString = await ExecuteServerSide(_testName, _templateFile, _dataFile);
             Assert.AreEqual(_result, resultString);
         }
 
@@ -122,8 +122,8 @@ namespace TerrificNet.Test
             var modelType = generator.Compile(schema);
 
             var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory, namingRule);
-            IView view;
-            if (!viewEngine.TryCreateView(templateInfo, modelType, out view))
+            var view = await viewEngine.CreateViewAsync(templateInfo, modelType).ConfigureAwait(false);
+            if (view == null)
                 Assert.Fail("Could not create view from file '{0}'.", templateFile);
 
             object model;
@@ -143,7 +143,7 @@ namespace TerrificNet.Test
             return resultString;
         }
 
-        private string ExecuteServerSide(string testName, string templateFile, string dataFile)
+        private async Task<string> ExecuteServerSide(string testName, string templateFile, string dataFile)
         {
             var cacheProvider = new NullCacheProvider();
             var namingRule = new NamingRule();
@@ -152,8 +152,8 @@ namespace TerrificNet.Test
             var templateInfo = new FileTemplateInfo(testName, templateFile, new FileSystem());
 
             var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory, namingRule);
-            IView view;
-            if (!viewEngine.TryCreateView(templateInfo, out view))
+            IView view = await viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
+            if (view == null)
                 Assert.Fail("Could not create view from file'{0}'.", templateFile);
 
             object model;

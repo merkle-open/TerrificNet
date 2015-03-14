@@ -2,8 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Cache;
 using Veil;
@@ -13,135 +12,111 @@ using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.ViewEngines
 {
-	public class VeilViewEngine : IViewEngine
-	{
-		private readonly ICacheProvider _cacheProvider;
+    public class VeilViewEngine : IViewEngine
+    {
+        private readonly ICacheProvider _cacheProvider;
         private readonly IHelperHandlerFactory _helperHandlerFactory;
-	    private readonly IMemberLocator _memberLocator;
+        private readonly IMemberLocator _memberLocator;
 
-		public VeilViewEngine(ICacheProvider cacheProvider,
+        public VeilViewEngine(ICacheProvider cacheProvider,
             IHelperHandlerFactory helperHandlerFactory,
             INamingRule namingRule)
-		{
-			_cacheProvider = cacheProvider;
-		    _helperHandlerFactory = helperHandlerFactory;
-		    _memberLocator = new MemberLocatorFromNamingRule(namingRule);
-		}
+        {
+            _cacheProvider = cacheProvider;
+            _helperHandlerFactory = helperHandlerFactory;
+            _memberLocator = new MemberLocatorFromNamingRule(namingRule);
+        }
 
-		private IView CreateView(string templateId, string content, Type modelType)
-		{
-			var hash = string.Concat("template_", GetHash(new MD5CryptoServiceProvider(), content), modelType.FullName);
+        private async Task<IView> CreateView(TemplateInfo templateInfo, Type modelType)
+        {
+            var hash = string.Concat("template_", templateInfo.Id, templateInfo.ETag, modelType.FullName);
 
-			IView view;
-			if (!_cacheProvider.TryGet(hash, out view))
-			{
-			    var helperHandlers = _helperHandlerFactory.Create().ToArray();
-			    var viewEngine = new VeilEngine(helperHandlers, _memberLocator);
-				if (modelType == typeof(object))
-                    view = CreateNonGenericView(templateId, content, viewEngine);
-				else
-                    view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { templateId, content, viewEngine });
+            IView view;
+            if (!_cacheProvider.TryGet(hash, out view))
+            {
+                string content;
+                using (var reader = new StreamReader(templateInfo.Open()))
+                {
+                    content = await reader.ReadToEndAsync().ConfigureAwait(false);
+                }
 
-				_cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
-			}
+                var helperHandlers = _helperHandlerFactory.Create().ToArray();
+                var viewEngine = new VeilEngine(helperHandlers, _memberLocator);
+                if (modelType == typeof(object))
+                    view = CreateNonGenericView(templateInfo.Id, content, viewEngine);
+                else
+                    view = (IView)typeof(VeilViewEngine).GetMethod("CreateView", BindingFlags.NonPublic | BindingFlags.Static).MakeGenericMethod(modelType).Invoke(null, new object[] { templateInfo.Id, content, viewEngine });
 
-			return view;
-		}
+                _cacheProvider.Set(hash, view, DateTimeOffset.Now.AddHours(24));
+            }
 
-		private static IView CreateNonGenericView(string templateId, string content, IVeilEngine viewEngine)
-		{
+            return view;
+        }
+
+        private static IView CreateNonGenericView(string templateId, string content, IVeilEngine viewEngine)
+        {
             var render = viewEngine.CompileNonGeneric(new HandlebarsParser(), new StringReader(content), typeof(object));
-			var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render));
-			return view;
-		}
+            var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render));
+            return view;
+        }
 
-		// do not remove, invoked dynamicaly
-		// ReSharper disable once UnusedMember.Local
-		private static IView CreateView<T>(string templateId, string content, IVeilEngine veilEngine)
-		{
-			var render = veilEngine.Compile<T>(new HandlebarsParser(), new StringReader(content));
-			return new VeilViewAdapter<T>(templateId, new VeilView<T>(render));
-		}
+        // do not remove, invoked dynamicaly
+        // ReSharper disable once UnusedMember.Local
+        private static IView CreateView<T>(string templateId, string content, IVeilEngine veilEngine)
+        {
+            var render = veilEngine.Compile<T>(new HandlebarsParser(), new StringReader(content));
+            return new VeilViewAdapter<T>(templateId, new VeilView<T>(render));
+        }
 
-		private class VeilViewAdapter<T> : IView
-		{
-		    private readonly string _templateId;
-		    private readonly IView<T> _adaptee;
+        private class VeilViewAdapter<T> : IView
+        {
+            private readonly string _templateId;
+            private readonly IView<T> _adaptee;
 
-			public VeilViewAdapter(string templateId, IView<T> adaptee)
-			{
-			    _templateId = templateId;
-			    _adaptee = adaptee;
-			}
+            public VeilViewAdapter(string templateId, IView<T> adaptee)
+            {
+                _templateId = templateId;
+                _adaptee = adaptee;
+            }
 
-		    public void Render(object model, RenderingContext context)
-		    {
-		        context.Data["templateId"] = _templateId;
+            public void Render(object model, RenderingContext context)
+            {
+                context.Data["templateId"] = _templateId;
 
-				if (model != null)
-					_adaptee.Render((T)model, context);
-				else
-				{
-					// TODO: Verify what is to be done with null model values
-					if (typeof(T) == typeof(object))
-						_adaptee.Render((T)(object)new JObject(), context);
-					else
-						_adaptee.Render(Activator.CreateInstance<T>(), context);
-				}
-			}
-		}
+                if (model != null)
+                    _adaptee.Render((T)model, context);
+                else
+                {
+                    // TODO: Verify what is to be done with null model values
+                    if (typeof(T) == typeof(object))
+                        _adaptee.Render((T)(object)new JObject(), context);
+                    else
+                        _adaptee.Render(Activator.CreateInstance<T>(), context);
+                }
+            }
+        }
 
-		private class VeilView<T> : IView<T>
-		{
+        private class VeilView<T> : IView<T>
+        {
             private readonly Action<RenderingContext, T> _render;
 
-		    public VeilView(Action<RenderingContext, T> render)
-			{
-				_render = render;
-			}
+            public VeilView(Action<RenderingContext, T> render)
+            {
+                _render = render;
+            }
 
-			public void Render(T model, RenderingContext context)
-			{
-				_render(context, model);
-			}
-		}
+            public void Render(T model, RenderingContext context)
+            {
+                _render(context, model);
+            }
+        }
 
-		public bool TryCreateView(TemplateInfo templateInfo, Type modelType, out IView view)
-		{
-			view = null;
-			if (templateInfo == null)
-				return false;
+        public Task<IView> CreateViewAsync(TemplateInfo templateInfo, Type modelType)
+        {
+            if (templateInfo == null)
+                return null;
 
-			using (var reader = new StreamReader(templateInfo.Open()))
-			{
-				var content = reader.ReadToEnd();
-
-				view = CreateView(templateInfo.Id, content, modelType);
-				return true;
-			}
-		}
-
-		private static string GetHash(HashAlgorithm md5Hash, string input)
-		{
-
-			// Convert the input string to a byte array and compute the hash. 
-			var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-			// Create a new Stringbuilder to collect the bytes 
-			// and create a string.
-			var sBuilder = new StringBuilder();
-
-			// Loop through each byte of the hashed data  
-			// and format each one as a hexadecimal string. 
-			for (var i = 0; i < data.Length; i++)
-			{
-				sBuilder.Append(data[i].ToString("x2"));
-			}
-
-			// Return the hexadecimal string. 
-			return sBuilder.ToString();
-		}
-
-		
-	}
+            return CreateView(templateInfo, modelType);
+        }
+    }
 }

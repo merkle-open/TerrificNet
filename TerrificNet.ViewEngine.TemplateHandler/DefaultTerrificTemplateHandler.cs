@@ -66,8 +66,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null || !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
                     templateInfo = moduleDefinition.DefaultTemplate;
 
-                IView view;
-                if (_viewEngine.TryCreateView(templateInfo, out view))
+                // TODO: make async
+                var view = _viewEngine.CreateViewAsync(templateInfo).Result;
+                if (view != null)
                 {
                     // TODO: make async
                     var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).Result;
@@ -90,8 +91,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             var templateInfo = _templateRepository.GetTemplateAsync(template).Result;
             if (templateInfo != null)
             {
-                IView view;
-                if (_viewEngine.TryCreateView(templateInfo, out view))
+                // TODO: Use async
+                var view = _viewEngine.CreateViewAsync(templateInfo).Result;
+                if (view != null)
                 {
                     view.Render(model, new RenderingContext(context.Writer, context));
                     return;

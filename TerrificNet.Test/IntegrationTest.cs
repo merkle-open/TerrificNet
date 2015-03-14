@@ -36,8 +36,7 @@ namespace TerrificNet.Test
 
             var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object,  namingRule);
 
-            IView view;
-            viewEngine.TryCreateView(templateInfo, modelType, out view);
+            var view = await viewEngine.CreateViewAsync(templateInfo, modelType).ConfigureAwait(false);
 
             var model = Activator.CreateInstance(modelType);
 

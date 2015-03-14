@@ -18,5 +18,10 @@ namespace TerrificNet.ViewEngine
         {
             return _fileSystem.OpenRead(_filePath);
         }
+
+        public override string ETag
+        {
+            get { return _fileSystem.GetETag(_filePath); }
+        }
     }
 }

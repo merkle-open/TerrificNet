@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace TerrificNet.ViewEngine
 {
     public interface IViewEngine
     {
-        bool TryCreateView(TemplateInfo templateInfo, Type modelType, out IView view);
+        Task<IView> CreateViewAsync(TemplateInfo templateInfo, Type modelType);
     }
 
     public static class ViewEngineExtension
     {
-        public static bool TryCreateView(this IViewEngine viewEngine, TemplateInfo templateInfo, out IView view)
+        public static Task<IView> CreateViewAsync(this IViewEngine viewEngine, TemplateInfo templateInfo)
         {
-            return viewEngine.TryCreateView(templateInfo, typeof (object), out view);
+            return viewEngine.CreateViewAsync(templateInfo, typeof (object));
         }
     }
 }

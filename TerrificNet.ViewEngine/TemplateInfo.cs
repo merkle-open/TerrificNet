@@ -12,5 +12,7 @@ namespace TerrificNet.ViewEngine
         }
 
         public abstract Stream Open();
+
+        public abstract string ETag { get; }
     }
 }
