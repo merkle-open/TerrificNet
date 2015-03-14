@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
@@ -17,7 +18,7 @@ namespace TerrificNet.Controllers
 		}
 
         [HttpGet]
-        public HttpResponseMessage Index(string schema, string data, string app)
+        public Task<HttpResponseMessage> Index(string schema, string data, string app)
         {
             var model = GetModel(schema, data);
             model.TemplatePartials = string.Join(",", this.ResolveForApp<ITemplateRepository>(app).GetAll().Select(a => string.Concat("\"", a.Id, "\"")).ToArray());
@@ -30,7 +31,7 @@ namespace TerrificNet.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage IndexAdvanced()
+        public Task<HttpResponseMessage> IndexAdvanced()
         {
 			var model = GetModel(null, null);
             var viewDefinition = IncludeResources(DefaultLayout.WithDefaultLayout(new PartialViewDefinition

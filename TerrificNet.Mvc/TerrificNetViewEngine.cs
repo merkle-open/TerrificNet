@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TerrificNet.ViewEngine;
 using Veil;
@@ -28,32 +29,40 @@ namespace TerrificNet.Mvc
 
         public ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
         {
-            return GetViewResult(controllerContext.RouteData.Values["controller"].ToString(), partialViewName);
+            // TODO: check if async possible
+            return GetViewResult(controllerContext.RouteData.Values["controller"].ToString(), partialViewName).Result;
         }
 
         public ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {
-            return GetViewResult(controllerContext.RouteData.Values["controller"].ToString(), viewName);
+            // TODO: check if async possible
+            return GetViewResult(controllerContext.RouteData.Values["controller"].ToString(), viewName).Result;
         }
 
         public void ReleaseView(ControllerContext controllerContext, IView view)
         {
         }
 
-        private ViewEngineResult GetViewResult(string controllerName, string viewName)
+        private async Task<ViewEngineResult> GetViewResult(string controllerName, string viewName)
         {
 			TemplateInfo templateInfo = null;
-	        ModuleDefinition moduleDefinition;
-			if ((_moduleRepository.TryGetModuleDefinitionById(viewName, out moduleDefinition) ||
-				 _moduleRepository.TryGetModuleDefinitionById(controllerName, out moduleDefinition)))
-			{
-				templateInfo = moduleDefinition.DefaultTemplate;
-			}
+            var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(viewName).ConfigureAwait(false);
+            if (moduleDefinition == null)
+                moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(controllerName).ConfigureAwait(false);
 
-            if (templateInfo != null || (_templateRepository.TryGetTemplate(viewName, out templateInfo) || _templateRepository.TryGetTemplate(controllerName, out templateInfo)))
+			if (moduleDefinition != null)
+				templateInfo = moduleDefinition.DefaultTemplate;
+
+            if (templateInfo == null)
+                templateInfo = await _templateRepository.GetTemplateAsync(viewName).ConfigureAwait(false);
+
+            if (templateInfo == null)
+                templateInfo = await _templateRepository.GetTemplateAsync(controllerName).ConfigureAwait(false);
+
+            if (templateInfo != null)
             {
-                Type modelType;
-                if (!_modelTypeProvider.TryGetModelTypeFromTemplate(templateInfo, out modelType))
+                var modelType = await _modelTypeProvider.GetModelTypeFromTemplateAsync(templateInfo).ConfigureAwait(false);
+                if (modelType == null)
                     modelType = typeof (object);
 
                 IViewTerrific view;

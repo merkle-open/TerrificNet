@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Practices.Unity;
 using TerrificNet.Models;
@@ -20,7 +21,7 @@ namespace TerrificNet.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage Index()
+        public Task<HttpResponseMessage> Index()
         {
             var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
             {

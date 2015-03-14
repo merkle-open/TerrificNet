@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Schema;
 using Veil.Compiler;
@@ -19,16 +20,17 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _memberLocator = memberLocator;
         }
 
-        public JSchema GetSchemaFromTemplate(TemplateInfo template)
+        public Task<JSchema> GetSchemaFromTemplateAsync(TemplateInfo template)
         {
             var extractor = new SchemaExtractor(new HandlebarsParser());
             var helperHandlers = _helperHandlerFactory != null ? _helperHandlerFactory.Create().ToArray() : null;
 
+            // TODO: Use async
             var schema = extractor.Run(new StreamReader(template.Open()), _memberLocator, helperHandlers);
             if (schema != null && string.IsNullOrEmpty(schema.Title))
                 schema.Title = string.Concat(template.Id, "Model");
 
-            return schema;
+            return Task.FromResult(schema);
         }
     }
 }

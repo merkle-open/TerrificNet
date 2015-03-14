@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TerrificNet.Generator;
@@ -17,7 +18,7 @@ namespace TerrificNet.Test
     public class IntegrationTest
     {
         [TestMethod]
-        public void TemplateEngineShouldUseSameNamingConventionForBinding()
+        public async Task TemplateEngineShouldUseSameNamingConventionForBinding()
         {
             var cacheProvider = new MemoryCacheProvider();
             var handlerFactory = new Mock<IHelperHandlerFactory>();
@@ -30,7 +31,7 @@ namespace TerrificNet.Test
             const string input = "<p>{{name}}</p><p>{{first_name}}</p>";
             var templateInfo = new StringTemplateInfo("views/test", input);
 
-            var schema = schemaProvider.GetSchemaFromTemplate(templateInfo);            
+            var schema = await schemaProvider.GetSchemaFromTemplateAsync(templateInfo);            
             var modelType = codeGenerator.Compile(schema);
 
             var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object,  namingRule);

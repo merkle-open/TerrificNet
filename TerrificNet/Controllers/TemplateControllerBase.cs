@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
 using Newtonsoft.Json;
@@ -18,7 +19,7 @@ namespace TerrificNet.Controllers
         {
         }
 
-        protected HttpResponseMessage View(string viewName, object model)
+        protected async Task<HttpResponseMessage> View(string viewName, object model)
         {
             var serializer = new JsonSerializer
             {
@@ -31,8 +32,8 @@ namespace TerrificNet.Controllers
             var viewEngine = (IViewEngine)dependencyResolver.GetService(typeof(IViewEngine));
 
             IView view;
-            TemplateInfo templateInfo;
-            if (!templateRepository.TryGetTemplate(viewName, out templateInfo) ||
+            var templateInfo = await templateRepository.GetTemplateAsync(viewName).ConfigureAwait(false);
+            if (templateInfo == null ||
                 !viewEngine.TryCreateView(templateInfo, out view))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 

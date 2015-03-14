@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Client;
@@ -20,10 +21,10 @@ namespace TerrificNet.Controllers
 		}
 
 		[HttpGet]
-		public HttpResponseMessage Get(string path)
+		public async Task<HttpResponseMessage> Get(string path)
 		{
-			TemplateInfo templateInfo;
-			if (!_templateRepository.TryGetTemplate(path, out templateInfo))
+		    var templateInfo = await _templateRepository.GetTemplateAsync(path).ConfigureAwait(false);
+			if (templateInfo == null)
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
 			var generator = new JavascriptClientTemplateGenerator("Tcn.TemplateRepository", _clientFactory.Create());

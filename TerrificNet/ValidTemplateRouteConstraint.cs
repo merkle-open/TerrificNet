@@ -31,8 +31,9 @@ namespace TerrificNet
 				var path = pathObj as string;
 				if (!string.IsNullOrEmpty(path))
 				{
-					TemplateInfo templateInfo;
-					if (_templateRepository.TryGetTemplate(path, out templateInfo))
+                    // TODO Find async way
+				    var templateInfo = _templateRepository.GetTemplateAsync(path).Result;
+					if (templateInfo != null)
 						return true;
 
 					var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_configuration.ViewPath, path),

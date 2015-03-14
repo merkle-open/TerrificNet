@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
 using TerrificNet.Generator;
 using TerrificNet.ViewEngine;
@@ -22,13 +23,13 @@ namespace TerrificNet.Controllers
 
 		[Route("generate/{*path}")]
 		[HttpGet]
-		public HttpResponseMessage Get(string path)
+		public async Task<HttpResponseMessage> Get(string path)
 		{
-            TemplateInfo templateInfo;
-            if (!_templateRepository.TryGetTemplate(path, out templateInfo))
+		    var templateInfo = await _templateRepository.GetTemplateAsync(path).ConfigureAwait(false);
+            if (templateInfo == null)
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Template not found");
 
-			var schema = _schemaProvider.GetSchemaFromTemplate(templateInfo);
+			var schema = await _schemaProvider.GetSchemaFromTemplateAsync(templateInfo).ConfigureAwait(false);
 
             var type = _generator.Compile(schema);
 			var code = _generator.Generate(schema);

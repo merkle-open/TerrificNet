@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TerrificNet.ViewEngine
 {
@@ -6,6 +7,6 @@ namespace TerrificNet.ViewEngine
     {
         IEnumerable<ModuleDefinition> GetAll();
 
-        bool TryGetModuleDefinitionById(string id, out ModuleDefinition moduleDefinition);
+        Task<ModuleDefinition> GetModuleDefinitionByIdAsync(string id);
     }
 }

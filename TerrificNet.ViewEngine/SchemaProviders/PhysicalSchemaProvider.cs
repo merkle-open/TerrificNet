@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using System.IO;
+using System.Threading.Tasks;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.IO;
 
@@ -17,7 +18,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _fileSystem = fileSystem;
         }
 
-        public JSchema GetSchemaFromTemplate(TemplateInfo template)
+        public Task<JSchema> GetSchemaFromTemplateAsync(TemplateInfo template)
         {
             var file = Path.Combine(_config.ViewPath, "schemas", Path.ChangeExtension(template.Id, "json"));
             if (!_fileSystem.FileExists(file))
@@ -26,12 +27,12 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             return GetSchema(file);
         }
 
-        private JSchema GetSchema(string path)
+        private async Task<JSchema> GetSchema(string path)
         {
             string content = null;
             using (var reader = new StreamReader(_fileSystem.OpenRead(path)))
             {
-                content = reader.ReadToEnd();
+                content = await reader.ReadToEndAsync().ConfigureAwait(false);
             }
 
             return JsonConvert.DeserializeObject<JSchema>(content);

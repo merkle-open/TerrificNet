@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine
@@ -30,11 +31,16 @@ namespace TerrificNet.ViewEngine
 			_getAll = () => cache;
 		}
 
-		public bool TryGetTemplate(string id, out TemplateInfo templateInfo)
+		public Task<TemplateInfo> GetTemplateAsync(string id)
 		{
 			var fileName = id;
+            // TODO: use async
 			var templates = GetAll().ToDictionary(f => f.Id, f => f);
-			return templates.TryGetValue(fileName, out templateInfo);
+		    TemplateInfo templateInfo;
+		    if (templates.TryGetValue(fileName, out templateInfo))
+		        return Task.FromResult(templateInfo);
+
+		    return Task.FromResult<TemplateInfo>(null);
 		}
 
 		private string GetTemplateId(string info)

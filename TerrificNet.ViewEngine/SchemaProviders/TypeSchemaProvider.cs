@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Schema;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json.Schema;
 
 namespace TerrificNet.ViewEngine.SchemaProviders
 {
@@ -11,11 +12,12 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _modelTypeRepository = modelTypeRepository;
         }
 
-        public JSchema GetSchemaFromTemplate(TemplateInfo template)
+        public Task<JSchema> GetSchemaFromTemplateAsync(TemplateInfo template)
         {
+            // TODO: use async
             var type = _modelTypeRepository.GetModelTypeFromTemplate(template);
             var schemaGenerator = new JSchemaGenerator();
-            return schemaGenerator.Generate(type);
+            return Task.FromResult(schemaGenerator.Generate(type));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TerrificNet.ViewEngine.IO;
 
@@ -18,39 +19,39 @@ namespace TerrificNet.ViewEngine.ModelProviders
             _fileSystem = fileSystem;
         }
 
-        public object GetDefaultModelForTemplate(TemplateInfo template)
+        public Task<object> GetDefaultModelForTemplateAsync(TemplateInfo template)
         {
-            return GetModelForTemplate(template, DefaultFilename);
+            return GetModelForTemplateAsync(template, DefaultFilename);
         }
 
-        public void UpdateDefaultModelForTemplate(TemplateInfo template, object content)
+        public Task UpdateDefaultModelForTemplateAsync(TemplateInfo template, object content)
         {
             var filePath = GetPath(template, DefaultFilename);
             if (!_fileSystem.DirectoryExists(_fileSystem.Path.GetDirectoryName(filePath)))
                 _fileSystem.CreateDirectory(_fileSystem.Path.GetDirectoryName(filePath));
 
-            Update(content, filePath);
+            return Update(content, filePath);
         }
 
-	    public object GetModelForTemplate(TemplateInfo template, string dataId)
+	    public Task<object> GetModelForTemplateAsync(TemplateInfo template, string dataId)
         {
             var filePath = GetPath(template, dataId);
-            return GetModelFromPath(filePath);
+            return GetModelFromPathAsync(filePath);
         }
 
-        public object GetModelForModule(ModuleDefinition moduleDefinition, string dataId)
+        public Task<object> GetModelForModuleAsync(ModuleDefinition moduleDefinition, string dataId)
         {
             var filePath = GetPath(moduleDefinition, dataId ?? DefaultFilename);
-            return GetModelFromPath(filePath);
+            return GetModelFromPathAsync(filePath);
         }
 
-	    public void UpdateModelForModule(ModuleDefinition moduleDefinition, string dataId, object content)
+	    public Task UpdateModelForModuleAsync(ModuleDefinition moduleDefinition, string dataId, object content)
 	    {
 			var filePath = GetPath(moduleDefinition, dataId ?? DefaultFilename);
 			if (!_fileSystem.DirectoryExists(_fileSystem.Path.GetDirectoryName(filePath)))
 				_fileSystem.CreateDirectory(_fileSystem.Path.GetDirectoryName(filePath));
 
-		    Update(content, filePath);
+		    return Update(content, filePath);
 	    }
 
 	    public IEnumerable<string> GetDataVariations(ModuleDefinition moduleDefinition)
@@ -63,24 +64,24 @@ namespace TerrificNet.ViewEngine.ModelProviders
 				.Select(f => _fileSystem.Path.GetFileNameWithoutExtension(f));
 	    }
 
-	    private object GetModelFromPath(string filePath)
+	    private async Task<object> GetModelFromPathAsync(string filePath)
         {
             if (!_fileSystem.FileExists(filePath))
                 return null;
 
             using (var stream = new StreamReader(_fileSystem.OpenRead(filePath)))
             {
-                var content = stream.ReadToEnd();
+                var content = await stream.ReadToEndAsync().ConfigureAwait(false);
                 return JsonConvert.DeserializeObject(content);
             }
         }
 
-		private void Update(object content, string filePath)
+		private Task Update(object content, string filePath)
 		{
 			using (var stream = new StreamWriter(_fileSystem.OpenWrite(filePath)))
 			{
 				var value = JsonConvert.SerializeObject(content);
-				stream.Write(value);
+				return stream.WriteAsync(value);
 			}
 		}
 

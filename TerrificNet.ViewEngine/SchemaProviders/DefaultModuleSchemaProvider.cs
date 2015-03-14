@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Schema;
 
@@ -20,7 +21,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             _schemaProvider = schemaProvider;
         }
 
-        public JSchema GetSchemaFromModule(ModuleDefinition module)
+        public async Task<JSchema> GetSchemaFromModuleAsync(ModuleDefinition module)
         {
             IEnumerable<TemplateInfo> templates;
             if (module.Skins != null)
@@ -35,11 +36,12 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             if (!enumerator.MoveNext())
                 return null;
 
-            var result = _schemaProvider.GetSchemaFromTemplate(enumerator.Current);
+            var result = await _schemaProvider.GetSchemaFromTemplateAsync(enumerator.Current).ConfigureAwait(false);
+            var schema = await _schemaProvider.GetSchemaFromTemplateAsync(enumerator.Current).ConfigureAwait(false);
 
             var report = new SchemaComparisionReport();
             while (enumerator.MoveNext())
-                result = _schemaCombiner.Apply(result, _schemaProvider.GetSchemaFromTemplate(enumerator.Current), report);
+                result = _schemaCombiner.Apply(result, schema, report);
 
             return result;
         }

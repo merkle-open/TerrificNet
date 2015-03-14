@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
@@ -12,29 +13,29 @@ namespace TerrificNet.Generator
 {
     public class GeneratorUtility
     {
-        public static void Execute(string sourcePath, string outputAssembly, string rootNamespace = null)
+        public static Task Execute(string sourcePath, string outputAssembly, string rootNamespace = null)
         {
-            ExecuteInternal(sourcePath, (c, s) => CompileToAssembly(c, s, outputAssembly, rootNamespace));
+            return ExecuteInternal(sourcePath, (c, s) => CompileToAssembly(c, s, outputAssembly, rootNamespace));
         }
 
-        public static void ExecuteFile(string sourcePath, string fileName, string rootNamespace = null)
+        public static Task ExecuteFile(string sourcePath, string fileName, string rootNamespace = null)
         {
-            ExecuteInternal(sourcePath, (c, s) => WriteToFile(c, s, fileName, rootNamespace));
+            return ExecuteInternal(sourcePath, (c, s) => WriteToFile(c, s, fileName, rootNamespace));
         }
 
-        public static string ExecuteString(string sourcePath, string rootNamespace = null)
+        public async static Task<string> ExecuteString(string sourcePath, string rootNamespace = null)
         {
             using (var stream = new MemoryStream())
             {
-                ExecuteInternal(sourcePath, (c, s) => c.WriteTo(s, stream, rootNamespace));
+                await ExecuteInternal(sourcePath, (c, s) => c.WriteTo(s, stream, rootNamespace)).ConfigureAwait(false);
 
                 stream.Seek(0, SeekOrigin.Begin);
 
-                return new StreamReader(stream).ReadToEnd();
+                return await new StreamReader(stream).ReadToEndAsync().ConfigureAwait(false);
             }
         }
 
-        private static void ExecuteInternal(string sourcePath, Action<JsonSchemaCodeGenerator, IEnumerable<JSchema>> executeAction)
+        private static async Task ExecuteInternal(string sourcePath, Action<JsonSchemaCodeGenerator, IEnumerable<JSchema>> executeAction)
         {
             var fileSystem = new FileSystem(sourcePath);
             var config = ConfigurationLoader.LoadTerrificConfiguration(string.Empty, fileSystem);
@@ -44,9 +45,10 @@ namespace TerrificNet.Generator
             var repo = new TerrificTemplateRepository(fileSystem);
             var codeGenerator = new JsonSchemaCodeGenerator();
 
-            var schemas = repo.GetAll().Select(schemaProvider.GetSchemaFromTemplate).ToList();
+            var schemas = repo.GetAll().Select(schemaProvider.GetSchemaFromTemplateAsync).ToList();
+            var res = await Task.WhenAll(schemas).ConfigureAwait(false);
 
-            executeAction(codeGenerator, schemas);
+            executeAction(codeGenerator, res);
         }
 
         private static void WriteToFile(JsonSchemaCodeGenerator codeGenerator, IEnumerable<JSchema> schemas,

@@ -58,8 +58,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 	        if (context.Data.TryGetValue("data_variation", out dataVariationObj))
 				dataVariation = dataVariationObj as string;
 
-            ModuleDefinition moduleDefinition;
-            if (_moduleRepository.TryGetModuleDefinitionById(moduleId, out moduleDefinition))
+            // TODO: Use async
+            var moduleDefinition = _moduleRepository.GetModuleDefinitionByIdAsync(moduleId).Result;
+            if (moduleDefinition != null)
             {
                 TemplateInfo templateInfo;
                 if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null || !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
@@ -68,7 +69,8 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 IView view;
                 if (_viewEngine.TryCreateView(templateInfo, out view))
                 {
-                    var moduleModel = _modelProvider.GetModelForModule(moduleDefinition, dataVariation);
+                    // TODO: make async
+                    var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).Result;
                     view.Render(moduleModel, new RenderingContext(context.Writer, context));
                     return;
                 }
@@ -84,8 +86,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
         public void RenderPartial(string template, object model, RenderingContext context)
         {
-            TemplateInfo templateInfo;
-            if (_templateRepository.TryGetTemplate(template, out templateInfo))
+            // TODO: Use async
+            var templateInfo = _templateRepository.GetTemplateAsync(template).Result;
+            if (templateInfo != null)
             {
                 IView view;
                 if (_viewEngine.TryCreateView(templateInfo, out view))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
@@ -18,11 +19,11 @@ namespace TerrificNet.Controllers
 		}
 
 		[HttpGet]
-		public HttpResponseMessage Index(string id, string app)
+		public async Task<HttpResponseMessage> Index(string id, string app)
 		{
 			var moduleRepository = this.ResolveForApp<IModuleRepository>(app);
-			ModuleDefinition moduleDefinition;
-			if (!moduleRepository.TryGetModuleDefinitionById(id, out moduleDefinition))
+		    var moduleDefinition = await moduleRepository.GetModuleDefinitionByIdAsync(id).ConfigureAwait(false);
+			if (moduleDefinition == null)
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
 			var modelProvider = this.ResolveForApp<IModelProvider>(app);
@@ -45,19 +46,19 @@ namespace TerrificNet.Controllers
 				Link = "#"
 			});
 
-			return View(viewDefinition.Template, viewDefinition);
+			return await View(viewDefinition.Template, viewDefinition);
 		}
 
 		[HttpGet]
-		public HttpResponseMessage CreateData(string id, string app)
+		public async Task<HttpResponseMessage> CreateData(string id, string app)
 		{
 			var moduleRepository = this.ResolveForApp<IModuleRepository>(app);
-			ModuleDefinition moduleDefinition;
-			if (!moduleRepository.TryGetModuleDefinitionById(id, out moduleDefinition))
+		    ModuleDefinition moduleDefinition = await moduleRepository.GetModuleDefinitionByIdAsync(id).ConfigureAwait(false);
+			if (moduleDefinition == null)
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
 			var dataRepository = this.ResolveForApp<IModelProvider>(app);
-			dataRepository.UpdateModelForModule(moduleDefinition, Guid.NewGuid().ToString("N"), null);
+			await dataRepository.UpdateModelForModuleAsync(moduleDefinition, Guid.NewGuid().ToString("N"), null);
 
 			var response = new HttpResponseMessage(HttpStatusCode.Redirect);
 			response.Headers.Location = new Uri(string.Format("/web/module?id={0}&app={1}", id, app), UriKind.Relative);

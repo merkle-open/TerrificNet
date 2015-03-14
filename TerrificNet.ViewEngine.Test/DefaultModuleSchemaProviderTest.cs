@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json.Schema;
@@ -12,19 +13,19 @@ namespace TerrificNet.ViewEngine.Test
 	public class DefaultModuleSchemaProviderTest
 	{
 		[TestMethod]
-		public void TestUseSchemaFromDefaultTemplateIfNoSkins()
+		public async Task TestUseSchemaFromDefaultTemplateIfNoSkins()
 		{
 			var templateInfo = new StringTemplateInfo("test", "");
             var schema = new JSchema();
 
 			var templateSchemaProvider = new Mock<ISchemaProvider>();
-			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplate(templateInfo)).Returns(schema);
+			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplateAsync(templateInfo)).Returns(Task.FromResult(schema));
 
 			var moduleDefintion = new ModuleDefinition("testmod", templateInfo, null);
 
 			var underTest = new DefaultModuleSchemaProvider(templateSchemaProvider.Object);
 
-			var result = underTest.GetSchemaFromModule(moduleDefintion);
+			var result = await underTest.GetSchemaFromModuleAsync(moduleDefintion);
 			Assert.AreEqual(schema, result);
 		}
 
@@ -37,8 +38,8 @@ namespace TerrificNet.ViewEngine.Test
             var schema2 = new JSchema();
 
 			var templateSchemaProvider = new Mock<ISchemaProvider>();
-			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplate(templateInfo)).Returns(schema1);
-			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplate(templateInfo2)).Returns(schema2);
+			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplateAsync(templateInfo)).Returns(Task.FromResult(schema1));
+			templateSchemaProvider.Setup(f => f.GetSchemaFromTemplateAsync(templateInfo2)).Returns(Task.FromResult(schema2));
 
 			var combiner = new Mock<SchemaCombiner>();
 			combiner.Setup(c =>
@@ -53,7 +54,7 @@ namespace TerrificNet.ViewEngine.Test
 
 			var underTest = new DefaultModuleSchemaProvider(combiner.Object, templateSchemaProvider.Object);
 
-			var result = underTest.GetSchemaFromModule(moduleDefintion);
+			var result = underTest.GetSchemaFromModuleAsync(moduleDefintion);
 
 			Assert.IsNotNull(result);
 

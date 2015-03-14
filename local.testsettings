@@ -27,5 +27,7 @@
     <AgentRule name="LocalMachineDefaultRole">
     </AgentRule>
   </Execution>
-  <Properties />
+  <Properties>
+    <Property name="TestSettingsUIType" value="UnitTest" />
+  </Properties>
 </TestSettings>

@@ -3,6 +3,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -57,9 +58,9 @@ namespace TerrificNet.Test
 
         [TestMethod]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
-        public void TestServerSideRenderingWithStronglyTypedModel()
+        public async Task TestServerSideRenderingWithStronglyTypedModel()
         {
-            var resultString = ExecuteServerSideStrongModel(_testName, _templateFile, _dataFile);
+            var resultString = await ExecuteServerSideStrongModel(_testName, _templateFile, _dataFile);
             Assert.AreEqual(_result, resultString);
         }
 
@@ -105,7 +106,7 @@ namespace TerrificNet.Test
             return result;
         }
 
-        private string ExecuteServerSideStrongModel(string testName, string templateFile, string dataFile)
+        private async Task<string> ExecuteServerSideStrongModel(string testName, string templateFile, string dataFile)
         {
             var cacheProvider = new NullCacheProvider();
             var namingRule = new NamingRule();
@@ -116,7 +117,7 @@ namespace TerrificNet.Test
             var schemaProvider = new HandlebarsViewSchemaProvider(handlerFactory, new MemberLocatorFromNamingRule(namingRule));
 
             var generator = new JsonSchemaCodeGenerator(namingRule);
-            var schema = schemaProvider.GetSchemaFromTemplate(templateInfo);
+            var schema = await schemaProvider.GetSchemaFromTemplateAsync(templateInfo).ConfigureAwait(false);
             schema.Title = "Model";
             var modelType = generator.Compile(schema);
 

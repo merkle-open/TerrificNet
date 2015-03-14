@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controllers
@@ -25,25 +27,27 @@ namespace TerrificNet.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage Get(string path)
+        public async Task<HttpResponseMessage> Get(string path)
         {
-            TemplateInfo templateInfo;
-            if (_templateRepository.TryGetTemplate(path, out templateInfo))
+            var templateInfo = await _templateRepository.GetTemplateAsync(path).ConfigureAwait(false);
+            if (templateInfo != null)
             {
+                var schema = await _schemaProvider.GetSchemaFromTemplateAsync(templateInfo).ConfigureAwait(false);
                 var message = new HttpResponseMessage
                 {
-                    Content = new StringContent(_schemaProvider.GetSchemaFromTemplate(templateInfo).ToString())
+                    Content = new StringContent(schema.ToString())
                 };
                 message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 return message;
             }
 
-            ModuleDefinition moduleDefinition;
-            if (_moduleRepository.TryGetModuleDefinitionById(path, out moduleDefinition))
+            var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(path).ConfigureAwait(false);
+            if (moduleDefinition != null)
             {
+                var schema = await _moduleSchemaProvider.GetSchemaFromModuleAsync(moduleDefinition).ConfigureAwait(false);
                 var message = new HttpResponseMessage
                 {
-                    Content = new StringContent(_moduleSchemaProvider.GetSchemaFromModule(moduleDefinition).ToString())
+                    Content = new StringContent(schema.ToString())
                 };
                 message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 return message;

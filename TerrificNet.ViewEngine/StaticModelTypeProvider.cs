@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace TerrificNet.ViewEngine
 {
@@ -17,22 +18,19 @@ namespace TerrificNet.ViewEngine
             _schemaProvider = schemaProvider;
         }
 
-        public bool TryGetModelTypeFromTemplate(TemplateInfo templateInfo, out Type type)
+        public async Task<Type> GetModelTypeFromTemplateAsync(TemplateInfo templateInfo)
         {
-            var schema = _schemaProvider.GetSchemaFromTemplate(templateInfo);
+            var schema = await _schemaProvider.GetSchemaFromTemplateAsync(templateInfo).ConfigureAwait(false);
             var typeName = string.Format("{0}.{1}.{2},{3}", _rootNamespace, _namingRule.GetNamespaceName(schema), _namingRule.GetClassName(schema, string.Empty), _assemblyName);
 
             try
             {
-                type = Type.GetType(typeName, true);
+                return Type.GetType(typeName, true);
             }
             catch (TypeLoadException)
             {
-                type = null;
-                return false;
+                return null;
             }
-
-            return true;
         }
     }
 }

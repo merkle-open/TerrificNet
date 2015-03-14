@@ -67,11 +67,13 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         {
             if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
-                TemplateInfo templateInfo;
-                if (!_templateRepository.TryGetTemplate(parameters["template"].Trim('"'), out templateInfo))
+                // TODO: Use async
+                var templateInfo = _templateRepository.GetTemplateAsync(parameters["template"].Trim('"')).Result;
+                if (templateInfo == null)
                     return null;
 
-                return _schemaProvider.GetSchemaFromTemplate(templateInfo);
+                // TODO: Use async
+                return _schemaProvider.GetSchemaFromTemplateAsync(templateInfo).Result;
             }
             else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
@@ -151,8 +153,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 		{
 			if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
 			{
-				TemplateInfo templateInfo;
-				if (!_templateRepository.TryGetTemplate(parameters["template"].Trim('"'), out templateInfo))
+                // TODO: Use async
+			    var templateInfo = _templateRepository.GetTemplateAsync(parameters["template"].Trim('"')).Result;
+				if (templateInfo == null)
 					return model;
 
 				_clientTemplateGenerator.Generate(templateInfo, new PartialClientContextAdapter(templateInfo.Id, context), model);

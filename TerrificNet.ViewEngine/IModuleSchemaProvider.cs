@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json.Schema;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json.Schema;
 
 namespace TerrificNet.ViewEngine
 {
     public interface IModuleSchemaProvider
     {
-        JSchema GetSchemaFromModule(ModuleDefinition module);
+        Task<JSchema> GetSchemaFromModuleAsync(ModuleDefinition module);
     }
 }

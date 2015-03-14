@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using TerrificNet.ViewEngine.Config;
 
 namespace TerrificNet.ViewEngine
@@ -75,10 +76,11 @@ namespace TerrificNet.ViewEngine
 			return string.Empty;
 		}
 
-		public bool TryGetModuleDefinitionById(string id, out ModuleDefinition moduleDefinition)
+		public Task<ModuleDefinition> GetModuleDefinitionByIdAsync(string id)
 		{
-			moduleDefinition = this.GetAll().FirstOrDefault(k => id.Equals(k.Id, StringComparison.Ordinal));
-			return moduleDefinition != null;
+            // TODO use async
+			var moduleDefinition = this.GetAll().FirstOrDefault(k => id.Equals(k.Id, StringComparison.Ordinal));
+			return Task.FromResult(moduleDefinition);
 		}
 	}
 }

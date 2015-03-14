@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TerrificNet.ViewEngine
 {
     public interface IModelProvider
     {
-        object GetDefaultModelForTemplate(TemplateInfo template);
-        void UpdateDefaultModelForTemplate(TemplateInfo template, object content);
+        Task<object> GetDefaultModelForTemplateAsync(TemplateInfo template);
+        Task UpdateDefaultModelForTemplateAsync(TemplateInfo template, object content);
 
-        object GetModelForTemplate(TemplateInfo template, string dataId);
-        object GetModelForModule(ModuleDefinition moduleDefinition, string dataId);
-	    void UpdateModelForModule(ModuleDefinition moduleDefinition, string dataId, object content);
+        Task<object> GetModelForTemplateAsync(TemplateInfo template, string dataId);
+        Task<object> GetModelForModuleAsync(ModuleDefinition moduleDefinition, string dataId);
+	    Task UpdateModelForModuleAsync(ModuleDefinition moduleDefinition, string dataId, object content);
 	    IEnumerable<string> GetDataVariations(ModuleDefinition moduleDefinition);
     }
 }

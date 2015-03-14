@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
 using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controllers
@@ -15,21 +16,21 @@ namespace TerrificNet.Controllers
         }
 
 	    [HttpGet]
-		public object Get(string path, string dataId = null)
+		public async Task<object> Get(string path, string dataId = null)
 	    {
-	        ModuleDefinition moduleDefinition;
-	        if (!_moduleRepository.TryGetModuleDefinitionById(path, out moduleDefinition))
+	        var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(path).ConfigureAwait(false);
+	        if (moduleDefinition == null)
 	            return this.NotFound();
 
-	        return Json(_modelProvider.GetModelForModule(moduleDefinition, dataId));
+	        return Json(await _modelProvider.GetModelForModuleAsync(moduleDefinition, dataId).ConfigureAwait(false));
 	    }
 
         [HttpPut]
-		public void Put(string path, [FromBody] object content, string dataId = null)
+		public async Task Put(string path, [FromBody] object content, string dataId = null)
         {
-            ModuleDefinition moduleDefinition;
-            if (_moduleRepository.TryGetModuleDefinitionById(path, out moduleDefinition))
-                _modelProvider.UpdateModelForModule(moduleDefinition, dataId, content);
+            var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(path);
+            if (moduleDefinition != null)
+                await _modelProvider.UpdateModelForModuleAsync(moduleDefinition, dataId, content);
         }
 	}
 }

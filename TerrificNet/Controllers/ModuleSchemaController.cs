@@ -1,7 +1,9 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine;
 
 namespace TerrificNet.Controllers
@@ -18,15 +20,16 @@ namespace TerrificNet.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage Get(string path)
+        public async Task<HttpResponseMessage> Get(string path)
         {
-            ModuleDefinition moduleDefinition;
-            if (!_moduleRepository.TryGetModuleDefinitionById(path, out moduleDefinition))
+            var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(path).ConfigureAwait(false);
+            if (moduleDefinition == null)
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Template not found");
 
+            var schema = await _schemaProvider.GetSchemaFromModuleAsync(moduleDefinition).ConfigureAwait(false);
             var message = new HttpResponseMessage
             {
-                Content = new StringContent(_schemaProvider.GetSchemaFromModule(moduleDefinition).ToString())
+                Content = new StringContent(schema.ToString())
             };
             message.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return message;            

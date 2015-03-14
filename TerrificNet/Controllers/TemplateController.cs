@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -29,34 +29,34 @@ namespace TerrificNet.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage Get(string path, string data = null)
+        public async Task<HttpResponseMessage> Get(string path, string data = null)
         {
             IView view;
-            TemplateInfo templateInfo;
-            if (!_templateRepository.TryGetTemplate(path, out templateInfo) ||
+            var templateInfo = await _templateRepository.GetTemplateAsync(path).ConfigureAwait(false);
+            if (templateInfo == null ||
                 !_viewEngine.TryCreateView(templateInfo, out view))
             {
                 PageViewDefinition viewDefinition;
                 if (_viewRepository.TryGetFromView(path, out viewDefinition))
-                    return Get(viewDefinition.Template, JObject.FromObject(viewDefinition));
+                    return await Get(viewDefinition.Template, JObject.FromObject(viewDefinition));
 
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
             object model;
             if (!string.IsNullOrEmpty(data))
-                model = _modelProvider.GetModelForTemplate(templateInfo, data);
+                model = await _modelProvider.GetModelForTemplateAsync(templateInfo, data);
             else
-                model = _modelProvider.GetDefaultModelForTemplate(templateInfo);
+                model = await _modelProvider.GetDefaultModelForTemplateAsync(templateInfo);
 
             return View(view, model);
         }
 
-        private HttpResponseMessage Get(string path, object data)
+        private async Task<HttpResponseMessage> Get(string path, object data)
         {
             IView view;
-            TemplateInfo templateInfo;
-            if (!_templateRepository.TryGetTemplate(path, out templateInfo) ||
+            TemplateInfo templateInfo = await _templateRepository.GetTemplateAsync(path);
+            if (templateInfo == null ||
                 !_viewEngine.TryCreateView(templateInfo, out view))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace TerrificNet.ViewEngine
 {
     public interface IModelTypeProvider
     {
-        bool TryGetModelTypeFromTemplate(TemplateInfo templateInfo, out Type type);
+        Task<Type> GetModelTypeFromTemplateAsync(TemplateInfo templateInfo);
     }
 }
