@@ -69,6 +69,7 @@ namespace TerrificNet.Controllers
                 Text = pageViewDefinition.Id,
                 Url = string.Format("/web/module?id={0}&app={1}", pageViewDefinition.Id, section),
                 EditUrl = string.Format("/web/edit?schema={0}&data={1}&template={2}&id={4}&app={3}", schemaUrl, dataUrl, templateUrl, section, pageViewDefinition.Id),
+                PageEditUrl = string.Format("/web/page_edit?id={0}", pageViewDefinition.Id)
             };
         }
 

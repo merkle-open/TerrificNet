@@ -118,6 +118,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleDetailController.cs" />
     <Compile Include="Controllers\ModuleSchemaController.cs" />
+    <Compile Include="Controllers\PageEditController.cs" />
     <Compile Include="Dispatcher\IDependencyResolverAware.cs" />
     <Compile Include="Dispatcher\ApplicationSpecificControllerActivator.cs" />
     <Compile Include="Controllers\BundleController.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Models\DataVariationModel.cs" />
     <Compile Include="Models\ModuleDetailModel.cs" />
     <Compile Include="Models\NavigationGroupModel.cs" />
+    <Compile Include="Models\PageEditModel.cs" />
     <Compile Include="Models\TemplateItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -227,8 +229,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Web\components\modules\ApplicationOverview\css\" />
-    <Folder Include="Web\components\modules\ApplicationOverview\js\" />
     <Folder Include="Web\project\data\" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +236,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Web\components\modules\ApplicationOverview\partials\row.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web\components\modules\PageEditor\PageEditor.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)\_build\build.targets" />
