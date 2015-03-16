@@ -92,6 +92,18 @@ namespace TerrificNet.Controllers
             return false;
         }
 
+        public bool TryGetFromViewId(string id, out PageViewDefinition viewDefinition)
+        {
+            if (_fileSystem.FileExists(id))
+            {
+                if (TryReadPageDefinition(out viewDefinition, id))
+                    return true;
+            }
+
+            viewDefinition = null;
+            return false;
+        }
+
         public IEnumerable<PageViewDefinition> GetAll()
         {
             foreach (var viewPath in _fileSystem.DirectoryGetFiles(_configuration.ViewPath, "html.json"))

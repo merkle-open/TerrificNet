@@ -238,6 +238,7 @@
     <None Include="Web\components\modules\ApplicationOverview\partials\row.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Web\assets\pageEditor.js" />
     <Content Include="Web\components\modules\PageEditor\PageEditor.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

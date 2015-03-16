@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using TerrificNet.ViewEngine.TemplateHandler;
 
 namespace TerrificNet.Models
 {
