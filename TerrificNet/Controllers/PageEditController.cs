@@ -1,9 +1,11 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
@@ -33,25 +35,33 @@ namespace TerrificNet.Controllers
 
             var aa = await appViewEnging.CreateViewAsync(tplInfo);
 
-            
 
-            using (var fudi = new StreamWriter(new MemoryStream()))
+	        var builder = new StringBuilder();
+            using (var fudi = new StringWriter(builder))
             {
                 var blub = new RenderingContext(fudi);
                 blub.Data.Add("something", "futz");
 
-                aa.Render(siteDefinition, blub);
-
+                aa.Render(JObject.FromObject(siteDefinition), blub);
             }
 
+	        var moduleList = ResolveForApp<IModuleRepository>(app).GetAll();
+	        var modelProvider = ResolveForApp<IModelProvider>(app);
 
+	        foreach (var mod in moduleList)
+	        {
+		        var model = await modelProvider.GetModelForModuleAsync(mod, null);
+		        var view = await appViewEnging.CreateViewAsync(mod.DefaultTemplate);
+				//view.Render(model, )
+	        }
             
             var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
             {
                 Template = "components/modules/PageEditor/PageEditor",
                 Data = new PageEditModel
                 {
-                    PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null
+                    PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null,
+					Html = builder.ToString()
                 }
             });
             viewDefinition.IncludeScript("assets/pageEditor.js");

@@ -7,5 +7,8 @@ namespace TerrificNet.Models
     {
         [JsonProperty("pageJson")]
         public string PageJson { get; set; }
+
+		[JsonProperty("html")]
+	    public string Html { get; set; }
     }
 }
