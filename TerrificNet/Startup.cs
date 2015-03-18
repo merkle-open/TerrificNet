@@ -42,6 +42,12 @@ namespace TerrificNet
             );
 
             config.Routes.MapHttpRoute(
+                name: "PageEditorSiteBundles",
+                routeTemplate: "web/page_edit/bundle_{name}",
+                defaults: new { controller = "PageEdit", action = "GetEditorAsset", section = "web/" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "CoreFiles",
                 routeTemplate: "$tcn/{*path}",
                 defaults: new { controller = "staticfile" }
