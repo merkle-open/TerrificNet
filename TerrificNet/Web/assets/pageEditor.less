@@ -10,12 +10,20 @@
             width: 100%;
             height: @size;
             background-color: #bbb;
-            line-height: @size;
+            line-height: @size - 4px;
             text-align: center;
             border: 2px dashed #999;
 
+            &.drag-over {
+                background-color: darken(#bbb, 20%);
+            }
+
             &.module {
                 background-color: #ddd;
+
+                &.drag-over {
+                    background-color: darken(#ddd, 20%);
+                }
 
                 .btn-delete {
                     position: absolute;
