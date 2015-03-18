@@ -24,14 +24,15 @@
             {
                 "template": "views/_layouts/nestedplaceholder",
                 "data": {
-                    "text": "this is a nested placeholder"
+                    "text": "this is nested data"
                 },
                 "_placeholder": {
                     "nested": [
                         {
                             "module": "components/modules/Teaser"
                         }
-                    ]
+                    ],
+                    "startempty":  []
                 }
             }
         ]

@@ -110,7 +110,8 @@ namespace TerrificNet.Controllers
             {
                 var model = await modelProvider.GetModelForModuleAsync(mod, null);
                 var view = await appViewEnging.CreateViewAsync(mod.DefaultTemplate);
-                
+                var scriptRx = new Regex("<script( src[=]\".*\")?>(.*)</script>", RegexOptions.Singleline);
+
                 var htmlBuilder = new StringBuilder();
                 using (var writer = new StringWriter(htmlBuilder))
                 {
@@ -129,7 +130,7 @@ namespace TerrificNet.Controllers
                     skins.Add(new SkinInfoModel
                     {
                         Name = skin.Key,
-                        Html = skinBuilder.ToString()
+                        Html = scriptRx.Replace(skinBuilder.ToString(), "")
                     });
                 }
 
@@ -137,7 +138,7 @@ namespace TerrificNet.Controllers
                 {
                     Id = mod.Id,
                     Name = mod.Id.Replace(replacePath, ""),
-                    Html = htmlBuilder.ToString(),
+                    Html = scriptRx.Replace(htmlBuilder.ToString(), ""),
                     Skins = skins
                 });
             }

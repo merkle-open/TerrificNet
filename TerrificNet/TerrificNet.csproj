@@ -155,6 +155,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="server.json" />
+    <None Include="Web\assets\pageEditor.less" />
     <None Include="Web\components\modules\ApplicationOverview\ApplicationOverview.html" />
     <None Include="Web\config.json" />
     <None Include="Properties\app.manifest" />

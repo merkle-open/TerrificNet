@@ -9,21 +9,22 @@
         </div>
     </div>
     <div class="col-md-2 sidebar">
+        <h3 class="title">Modules</h3>
         {{#each modules}}
-        <div class="module" data-id="{{id}}">
+        <div class="module" draggable="true" data-id="{{id}}">
             <script type="text/template" class="js-module-definition">
                 {{{html}}}
             </script>
             <div class="name">{{name}}</div>
         </div>
-            {{#each skins}}
-            <div class="module" data-id="{{../id}}">
-                <script type="text/template" class="js-module-definition">
-                    {{{html}}}
-                </script>
-                <div class="name">{{../name}} - {{name}}</div>
-            </div>
-            {{/each}}
+        {{#each skins}}
+        <div class="module" draggable="true" data-id="{{../id}}">
+            <script type="text/template" class="js-module-definition">
+                {{{html}}}
+            </script>
+            <div class="name">{{../name}} - {{name}}</div>
+        </div>
+        {{/each}}
         {{/each}}
     </div>
 </div>
