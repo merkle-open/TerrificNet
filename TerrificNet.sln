@@ -84,6 +84,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Local.testsettings = Local.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrificNet.Sample.IIS", "TerrificNet.Sample.IIS\TerrificNet.Sample.IIS.csproj", "{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -392,6 +394,16 @@ Global
 		{68C324EB-A222-46B5-95E6-F82540445A28}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{68C324EB-A222-46B5-95E6-F82540445A28}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{68C324EB-A222-46B5-95E6-F82540445A28}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -411,5 +423,6 @@ Global
 		{4AD8A282-93F7-4670-A986-A99AC06698A5} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 		{68C324EB-A222-46B5-95E6-F82540445A28} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
 		{83417BE5-6A9D-4DD0-AD88-43537E4031EA} = {41AFD36B-5AC0-4CA0-BEBC-9A7179CF644F}
+		{0E2ABCE3-3CC2-443F-87A1-37CBBE970736} = {E2D9B7EC-FEAE-488D-83A4-3B1C157C6C77}
 	EndGlobalSection
 EndGlobal

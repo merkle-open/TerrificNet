@@ -1,0 +1,20 @@
+{
+    "links": [
+        {
+            "name": "Home",
+            "url": "/"
+        },
+        {
+            "name": "Detail",
+            "url": "/detail"
+        },
+        {
+            "name": "Nomol",
+            "url": "/"
+        },
+        {
+            "name": "Eine",
+            "url":  "/"
+        }
+    ]
+}

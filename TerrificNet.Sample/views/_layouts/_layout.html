@@ -1,12 +1,37 @@
 ﻿<!DOCTYPE html>
-<html>
-<head>
-    {{partial template="components/modules/Head/head"}}
-</head>
-	<body class="mod mod-layout" data-culture="de-CH">
-		{{#grid-cell width=1024 margin=2 padding=4}}
-	{{placeholder key="content"}}
-        {{placeholder key="content2"}}
-		{{/grid-cell}}
-	</body>
+
+<!-- MetaHead -->
+{{ partial template="components/modules/MetaHead/metahead" }}
+
+<!--  Body -->
+<body>
+    <!-- Page -->
+    <div class="l-page js-l-page">
+
+        <!-- Header -->
+        <header class="l-head l-wrap" role="banner">
+
+            <div class="l-logo">
+                {{ module template="components/modules/Logo"}}
+            </div>
+            
+        </header>
+
+        <!-- Content -->
+        <div class="l-content-wrapper">
+
+            <div class="l-main-wrapper l-wrap" role="main">
+                <div class="l-main">
+                    {{ placeholder key="main" }}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MetaFoot -->
+    {{ partial template="components/modules/MetaFoot/metafoot" }}
+</body>
+
 </html>
