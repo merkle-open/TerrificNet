@@ -144,36 +144,13 @@
             }
         });
 
-        this.render = function(plhId){
-            var el = $('<div/>');
-            if(type === 'module'){
-                el.append($('<div/>', {
-                    class: 'plh module start',
-                    'data-module-id': id,
-                    'data-plh-id': plhId,
-                    'data-index': guid()
-                }).text('Module "'+id+'" before')
-                    .append($('<span/>', {
-                        class: 'btn-delete',
-                        'data-toggle': 'tooltip',
-                        'data-placement': 'top',
-                        'title': 'Delete module.'
-                    }).append($('<i/>', {
-                        class: 'glyphicon glyphicon-remove'
-                    }))));
+        this.render = function(plhId, renderFunction, callback){
+            if(!html){
+                
             } else {
-
+                renderFunction(html);
+                callback();
             }
-            el.append(html);
-            if(type === 'module'){
-                el.append($('<div/>', {
-                    class: 'plh module end',
-                    'data-plh-id': plhId
-                }).text('Module '+id+' after'));
-            } else {
-
-            }
-            return el.html();
         };
     }
 
@@ -193,6 +170,12 @@
 
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
+    }
+
+    function reloadTooltips(){
+        $('[data-toggle="tooltip"]', $editor).tooltip({
+            container: '.page-editor'
+        });
     }
 
     //event binders
@@ -225,6 +208,8 @@
             });
             if (!element) throw new Error("Element not found");
 
+            console.log("ueli");
+
             var before = $this.hasClass('start');
 
             var plhId = '';
@@ -233,10 +218,14 @@
                 plhId = $this.attr('id').replace('plh_', '');
                 if(before){
                     jsonDom.addElementToPlaceholderStart(plhId, element);
-                    $this.after(element.render(plhId));
+                    element.render(plhId, $this.after, function(){
+                        reloadTooltips();
+                    });
                 } else {
                     jsonDom.addElementToPlaceholderEnd(plhId, element);
-                    $this.before(element.render(plhId));
+                    element.render(plhId, $this.before, function(){
+                        reloadTooltips();
+                    });
                 }
             } else {
                 plhId = $this.data('plh-id');
@@ -257,10 +246,6 @@
                     $modEnd.after(element.render(plhId));
                 }
             }
-
-            $('[data-toggle="tooltip"]', $editor).tooltip({
-                container: '.page-editor'
-            });
         });
 
     $editor.on('click', '.plh .btn-delete', function () {

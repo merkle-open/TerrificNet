@@ -39,7 +39,8 @@ namespace TerrificNet.Controllers
             {
                 PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null,
                 PageHtml = CreateSiteHtml(await appViewEnging.CreateViewAsync(tplInfo), siteDefinition),
-                Modules = CreateModules(app)
+                Modules = CreateModules(app),
+                App = app
             };
 
             var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
@@ -77,10 +78,28 @@ namespace TerrificNet.Controllers
         }
 
         [HttpGet]
-        public async Task<ModuleEditorDefinition> GetModuleDefinition(string id, string app = "")
+        public async Task<ModuleEditorDefinition> GetModuleDefinition(string id, string parent, string skin = null, string dataVariation = null, string app = "")
         {
+            var renderer = ResolveForApp<ITerrificTemplateHandlerFactory>(app).Create();
 
-            return new ModuleEditorDefinition();
+            var htmlBuilder = new StringBuilder();
+            using (var writer = new StringWriter(htmlBuilder))
+            {
+                var context = new RenderingContext(writer);
+                context.Data.Add("pageEditor", true);
+                context.Data.Add("data_variation", dataVariation);
+                context.Data.Add("renderPath", new List<string> { parent });
+                context.Data.Add("siteDefinition", new ModuleViewDefinition());
+                context.Data.Add("short_module", true);
+                renderer.RenderModule(id, skin, context);
+
+                var moduleViewDefinition = context.Data["siteDefinition"] as ModuleViewDefinition;
+                return new ModuleEditorDefinition
+                {
+                    Html = htmlBuilder.ToString(),
+                    Placeholder = moduleViewDefinition != null ? moduleViewDefinition.Placeholder : null
+                };                    
+            }
         }
 
         private static string CreateSiteHtml(IView view, PageViewDefinition siteDefinition)

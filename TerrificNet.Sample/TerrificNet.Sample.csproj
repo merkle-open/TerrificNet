@@ -128,6 +128,9 @@
   <ItemGroup>
     <Content Include="components\modules\Breadcrumb\data\extended.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\SubPlaceholder\data\_default.json" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

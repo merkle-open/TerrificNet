@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using TerrificNet.ViewEngine.TemplateHandler;
 
 namespace TerrificNet.Models
 {
@@ -13,21 +14,28 @@ namespace TerrificNet.Models
 
         [JsonProperty("modules")]
         public IEnumerable<PageEditModuleModel> Modules { get; set; }
+
+        [JsonProperty("app")]
+        public string App { get; set; }
     }
 
     public class PageEditModuleModel
     {
         [JsonProperty("id")]
         public string Id { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
+
         [JsonProperty("skins")]
         public IEnumerable<string> Skins { get; set; }
     }
 
     public class ModuleEditorDefinition
     {
+        [JsonProperty("html")]
         public string Html { get; set; }
-        public List<string> Placeholders { get; set; } 
+        [JsonProperty("_placeholder")]
+        public PlaceholderDefinitionCollection Placeholder { get; set; }
     }
 }

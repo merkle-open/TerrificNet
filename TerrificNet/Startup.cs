@@ -48,6 +48,18 @@ namespace TerrificNet
             );
 
             config.Routes.MapHttpRoute(
+                name: "PageEditorModuleInfo",
+                routeTemplate: "web/page_edit/element_info/module",
+                defaults: new { controller = "PageEdit", action = "GetModuleDefinition", section = "web/" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "PageEditorLayoutInfo",
+                routeTemplate: "web/page_edit/element_info/layout",
+                defaults: new { controller = "PageEdit", action = "GetModuleDefinition", section = "web/" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "CoreFiles",
                 routeTemplate: "$tcn/{*path}",
                 defaults: new { controller = "staticfile" }

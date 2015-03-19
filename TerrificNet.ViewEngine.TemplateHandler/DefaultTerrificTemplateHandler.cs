@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Globalization;
 using Veil;
@@ -115,8 +116,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 if (view != null)
                 {
                     var renderEditDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
-                                         context.Data.ContainsKey("renderPath") &&
-                                         (context.Data["renderPath"] as List<string>).Any();
+                                         context.Data.ContainsKey("renderPath");
                     var modId = new Regex("/[^/]+$").Match(moduleId).Value.Substring(1);
                     var path = "";
                     if (renderEditDivs)
@@ -136,6 +136,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
                     // TODO: make async
                     var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).Result;
+                    if (context.Data.ContainsKey("siteDefinition") && context.Data.ContainsKey("short_module")) context.Data["siteDefinition"] = JsonConvert.DeserializeObject<ModuleViewDefinition>(JsonConvert.SerializeObject(moduleModel));
                     view.Render(moduleModel, new RenderingContext(context.Writer, context));
 
                     if (renderEditDivs)
