@@ -8,11 +8,11 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 {
     public class DefaultTerrificTemplateHandler : ITerrificTemplateHandler
     {
-        private readonly IViewEngine _viewEngine;
+        private readonly ILabelService _labelService;
         private readonly IModelProvider _modelProvider;
-        private readonly ITemplateRepository _templateRepository;
-	    private readonly ILabelService _labelService;
         private readonly IModuleRepository _moduleRepository;
+        private readonly ITemplateRepository _templateRepository;
+        private readonly IViewEngine _viewEngine;
 
         public DefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider,
             ITemplateRepository templateRepository, ILabelService labelService, IModuleRepository moduleRepository)
@@ -20,7 +20,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             _viewEngine = viewEngine;
             _modelProvider = modelProvider;
             _templateRepository = templateRepository;
-		    _labelService = labelService;
+            _labelService = labelService;
             _moduleRepository = moduleRepository;
         }
 
@@ -50,11 +50,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 return;
 
             if (isPageEditor)
-                context.Writer.Write("<div class='plh' id='plh_"+key+"_start'>Placeholder \"" + key + "\" before</div>");
+                context.Writer.Write("<div class='plh' id='plh_" + key + "'>Placeholder \"" + key +
+                                     "\" before</div>");
 
             if (!context.Data.ContainsKey("placeholders"))
             {
-                context.Data.Add("placeholders", new List<string>{key});
+                context.Data.Add("placeholders", new List<string> {key});
             }
             else
             {
@@ -69,50 +70,58 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             (context.Data["placeholders"] as List<string>).Remove(key);
 
             if (isPageEditor)
-                context.Writer.Write("<div class='plh' id='plh_" + key + "_end'>Placeholder \"" + key + "\" after</div>");
+                context.Writer.Write("<div class='plh' id='plh_" + key + "'>Placeholder \"" + key +
+                                     "\" after</div>");
         }
 
         public void RenderModule(string moduleId, string skin, RenderingContext context)
         {
-	        string dataVariation = null;
-	        object dataVariationObj;
-	        if (context.Data.TryGetValue("data_variation", out dataVariationObj))
-				dataVariation = dataVariationObj as string;
+            string dataVariation = null;
+            object dataVariationObj;
+            if (context.Data.TryGetValue("data_variation", out dataVariationObj))
+                dataVariation = dataVariationObj as string;
 
             // TODO: Use async
             var moduleDefinition = _moduleRepository.GetModuleDefinitionByIdAsync(moduleId).Result;
             if (moduleDefinition != null)
             {
                 TemplateInfo templateInfo;
-                if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null || !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
+                if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null ||
+                    !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
                     templateInfo = moduleDefinition.DefaultTemplate;
 
                 // TODO: make async
                 var view = _viewEngine.CreateViewAsync(templateInfo).Result;
                 if (view != null)
                 {
-                    var renderEditDivs = context.Data.ContainsKey("pageEditor") && (bool)context.Data["pageEditor"] && context.Data.ContainsKey("placeholders") && (context.Data["placeholders"] as List<string>).Any(); ;
+                    var renderEditDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
+                                         context.Data.ContainsKey("placeholders") &&
+                                         (context.Data["placeholders"] as List<string>).Any();
                     
                     if (renderEditDivs)
-                        context.Writer.Write("<div class='plh module'>Module \"" + moduleId + "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete module.'><i class='glyphicon glyphicon-remove'></i></span></div>");
+                        context.Writer.Write("<div class='plh module' data-module-id='" + moduleId + "' data-plh-id='" +
+                                             (context.Data["placeholders"] as List<string>).Last() + "'>Module \"" +
+                                             moduleId +
+                                             "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete module.'><i class='glyphicon glyphicon-remove'></i></span></div>");
 
                     // TODO: make async
                     var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).Result;
                     view.Render(moduleModel, new RenderingContext(context.Writer, context));
-                    
+
                     if (renderEditDivs)
                         context.Writer.Write("<div class='plh module'>Module \"" + moduleId + "\" after</div>");
                     return;
                 }
             }
 
-            context.Writer.Write("Problem loading template " + moduleId + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
+            context.Writer.Write("Problem loading template " + moduleId +
+                                 (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
         }
 
-		public void RenderLabel(string key, RenderingContext context)
-	    {
-		    context.Writer.Write(_labelService.Get(key));
-	    }
+        public void RenderLabel(string key, RenderingContext context)
+        {
+            context.Writer.Write(_labelService.Get(key));
+        }
 
         public void RenderPartial(string template, object model, RenderingContext context)
         {

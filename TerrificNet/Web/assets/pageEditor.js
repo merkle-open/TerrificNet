@@ -57,14 +57,13 @@
         })
         .on('drop', '.plh', function (e) {
             console.log(e.originalEvent.dataTransfer.getData('id'))
+            $(this).removeClass('drag-over');
         });
 
     $('.plh.module .btn-delete', $editor).click(function () {
         var $this = $(this),
-            $plh = $this.parent().prevAll('.plh:not(.module)'),
-            plhId = /plh_(.*)_start/g.exec($plh.attr('id'))[1];
-
-        var $modStart = $this.parent();
+            $modStart = $this.parent(),
+            plhId = $modStart.data('plh-id');
 
         if (!$modStart.nextAll('.plh.module').length) {
             throw new Error("no module end found.");
