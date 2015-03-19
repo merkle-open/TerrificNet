@@ -21,6 +21,12 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             var schema1Task = _schemaProvider.GetSchemaFromTemplateAsync(template);
             var schema2Task = _schemaBaseProvider.GetSchemaFromTemplateAsync(template);
 
+	        if (schema1Task == null)
+		        return await schema2Task;
+
+	        if (schema2Task == null)
+		        return await schema1Task;
+
             await Task.WhenAll(schema1Task, schema2Task).ConfigureAwait(false);
 
             return comparer.Apply(schema1Task.Result, schema2Task.Result, new SchemaComparisionReport());
