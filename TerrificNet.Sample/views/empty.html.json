@@ -1,0 +1,7 @@
+{
+    "template": "views/_layouts/_layout",
+    "pageTitle": "Terrific Net Sample",
+    "_placeholder": {
+        "main": []
+    }
+}

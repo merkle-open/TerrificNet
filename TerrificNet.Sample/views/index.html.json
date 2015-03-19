@@ -8,17 +8,6 @@
 			},
 			{
 				"module": "components/modules/Example"
-			},
-			{
-				"module": "components/modules/Example",
-				"skin": "blue",
-				"_placeholder": {
-					"soso": [
-						{
-							"module": "components/modules/Example"
-						}
-					]
-				}
 			}
 		]
 	}

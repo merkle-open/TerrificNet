@@ -61,18 +61,17 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
             if (isPageEditor)
             {
-                if (!context.Data.ContainsKey("placeholders"))
+                if (!context.Data.ContainsKey("renderPath"))
                 {
-                    context.Data.Add("placeholders", new List<string> {key});
+                    context.Data.Add("renderPath", new List<string> {key});
                 }
                 else
                 {
-                    (context.Data["placeholders"] as List<string>).Add(key);
+                    (context.Data["renderPath"] as List<string>).Add(key);
                 }
 
                 context.Writer.Write("<div class='plh start' id='plh_" +
-                                     (context.Data["placeholders"] as List<string>).Aggregate("",
-                                         (s, s1) => s += s1 + "/", s => s.Substring(0, s.Length - 1)) +
+                                     GetRenderPath(context) +
                                      "'>Placeholder \"" + key +
                                      "\" before</div>");
             }
@@ -88,12 +87,17 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             if (isPageEditor)
             {
                 context.Writer.Write("<div class='plh end' id='plh_" +
-                                     (context.Data["placeholders"] as List<string>).Aggregate("",
-                                         (s, s1) => s += s1 + "/", s => s.Substring(0, s.Length - 1)) +
+                                     GetRenderPath(context) +
                                      "'>Placeholder \"" + key +
                                      "\" after</div>");
-                (context.Data["placeholders"] as List<string>).Remove(key);
+                (context.Data["renderPath"] as List<string>).Remove(key);
             }
+        }
+
+        private static string GetRenderPath(RenderingContext context)
+        {
+            var list = context.Data["renderPath"] as List<string>;
+            return list != null ? list.Aggregate("", (s, s1) => s += s1 + "/", s => s.Substring(0, s.Length - 1)) : "";
         }
 
         public void RenderModule(string moduleId, string skin, RenderingContext context)
@@ -117,13 +121,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 if (view != null)
                 {
                     var renderEditDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
-                                         context.Data.ContainsKey("placeholders") &&
-                                         (context.Data["placeholders"] as List<string>).Any();
+                                         context.Data.ContainsKey("renderPath") &&
+                                         (context.Data["renderPath"] as List<string>).Any();
                     var plhId = "";
                     if (renderEditDivs)
                     {
-                        plhId = (context.Data["placeholders"] as List<string>).Aggregate("", (s, s1) => s += s1 + "/",
-                            s => s.Substring(0, s.Length - 1));
+                        plhId = GetRenderPath(context);
                         context.Writer.Write("<div class='plh module start' data-module-id='" + moduleId +
                                              "' data-plh-id='" +
                                              plhId +
@@ -164,14 +167,13 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 if (view != null)
                 {
                     var renderDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
-                                     context.Data.ContainsKey("placeholders") &&
-                                     (context.Data["placeholders"] as List<string>).Any();
+                                     context.Data.ContainsKey("renderPath") &&
+                                     (context.Data["renderPath"] as List<string>).Any();
                     var plhId = "";
 
                     if (renderDivs)
                     {
-                        plhId = (context.Data["placeholders"] as List<string>).Aggregate("", (s, s1) => s += s1 + "/",
-                            s => s.Substring(0, s.Length - 1));
+                        plhId = GetRenderPath(context);
 
                         context.Writer.Write("<div class='plh template start' data-template-id='" + template +
                                              "' data-plh-id='" +
