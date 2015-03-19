@@ -180,9 +180,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                         context.Writer.Write("<div class='plh template start' data-template-id='" + template +
                                              "' data-path='" +
                                              path + "' data-index='" +
-                                             "' data-self='" +
-                                             templateId +
-                                             Guid.NewGuid() + "'>Partial Template \"" +
+                                             Guid.NewGuid() + "' data-self='"+templateId+"'>Partial Template \"" +
                                              template +
                                              "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete template.'><i class='glyphicon glyphicon-remove'></i></span></div>");
                     }

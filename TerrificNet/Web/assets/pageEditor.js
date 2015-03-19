@@ -30,8 +30,6 @@
             });
             if (plh === null || index === -1 || !plh.elementExists(elementId, index)) throw new Error("Element with id " + elementId + " @ index " + index + " does not exist!");
             plh.removeElement(index);
-
-            console.log(domObject);
         };
 
         this.addElementToPlaceholder = function(plhId, element, index, before){
