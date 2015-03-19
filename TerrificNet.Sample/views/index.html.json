@@ -1,18 +1,25 @@
 {
-    "template": "views/_layouts/_layout",
-    "pageTitle": "Terrific Net Sample",
-    "_placeholder": {
-        "main": [
-            {
-                "module": "components/modules/Breadcrumb"
-            },
-            {
-                "module": "components/modules/Example"
-            },
-            {
-                "module": "components/modules/Example",
-                "skin": "blue"
-            }
-        ]
-    }
+	"template": "views/_layouts/_layout",
+	"pageTitle": "Terrific Net Sample",
+	"_placeholder": {
+		"main": [
+			{
+				"module": "components/modules/Breadcrumb"
+			},
+			{
+				"module": "components/modules/Example"
+			},
+			{
+				"module": "components/modules/Example",
+				"skin": "blue",
+				"_placeholder": {
+					"soso": [
+						{
+							"module": "components/modules/Example"
+						}
+					]
+				}
+			}
+		]
+	}
 }

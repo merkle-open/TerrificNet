@@ -29,16 +29,25 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         {
             ViewDefinition definition;
             var tmp = model as JObject;
-            if (tmp != null)
-            {
-                definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
-            }
-            else
-            {
-                definition = model as ViewDefinition;
-            }
 
-            if (definition == null || definition.Placeholder == null)
+	        if (context.Data.ContainsKey("siteDefinition"))
+	        {
+		        definition = context.Data["siteDefinition"] as ViewDefinition;
+	        }
+	        else
+	        {
+
+		        if (tmp != null)
+		        {
+			        definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
+		        }
+		        else
+		        {
+			        definition = model as ViewDefinition;
+		        }
+	        }
+
+	        if (definition == null || definition.Placeholder == null)
                 return;
 
             var placeholder = definition.Placeholder;
@@ -70,7 +79,10 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
             foreach (var placeholderConfig in definitions)
             {
-                placeholderConfig.Render(this, model, new RenderingContext(context.Writer, context));
+	            var ctx = new RenderingContext(context.Writer, context);
+	            ctx.Data["siteDefinition"] = placeholderConfig;
+
+                placeholderConfig.Render(this, model, ctx);
             }
 
             if (isPageEditor)
