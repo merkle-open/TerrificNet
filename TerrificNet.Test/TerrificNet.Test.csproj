@@ -104,7 +104,10 @@
     <None Include="TestCases\Basic\ConditionalBinding\data_boolean_true.json" />
     <None Include="TestCases\Basic\ConditionalBinding\data_noproperty.json" />
     <None Include="TestCases\Basic\ConditionalBinding\data_string.json" />
+    <None Include="TestCases\Basic\Loop\data_empty.json" />
+    <None Include="TestCases\Basic\Loop\data_nested.json" />
     <None Include="TestCases\Basic\Loop\data.json" />
+    <None Include="TestCases\Basic\Plain\data.json" />
     <None Include="TestCases\Basic\PropertyBinding\data.json" />
     <None Include="TestCases\test_cases.csv" />
   </ItemGroup>
@@ -114,8 +117,13 @@
     <Content Include="TestCases\Basic\ConditionalBinding\result_true.html" />
     <Content Include="TestCases\Basic\ConditionalBinding\template_string.html" />
     <Content Include="TestCases\Basic\ConditionalBinding\template.html" />
+    <Content Include="TestCases\Basic\Loop\result_empty.html" />
+    <Content Include="TestCases\Basic\Loop\result_nested.html" />
     <Content Include="TestCases\Basic\Loop\result.html" />
+    <Content Include="TestCases\Basic\Loop\template_nested.html" />
     <Content Include="TestCases\Basic\Loop\template.html" />
+    <Content Include="TestCases\Basic\Plain\result.html" />
+    <Content Include="TestCases\Basic\Plain\template.html" />
     <Content Include="TestCases\Basic\PropertyBinding\result.html" />
     <Content Include="TestCases\Basic\PropertyBinding\template.html" />
   </ItemGroup>

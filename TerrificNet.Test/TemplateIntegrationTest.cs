@@ -110,6 +110,26 @@ namespace TerrificNet.Test
             return result;
         }
 
+        private class StringWriterDelayed : StringWriter
+        {
+            public StringWriterDelayed(StringBuilder sb) : base(sb)
+            {
+            }
+
+            public override async Task WriteAsync(string value)
+            {
+                await Task.Yield();
+                await base.WriteAsync(value);
+            }
+
+            public override async Task WriteAsync(char value)
+            {
+                await Task.Yield();
+                //await Task.Delay(100);
+                await base.WriteAsync(value);
+            }
+        }
+
         private void CleanupModel(Dictionary<string, object> model)
         {
             foreach (var entry in model.ToList())
@@ -187,7 +207,7 @@ namespace TerrificNet.Test
 
             this.TestContext.BeginTimer("ServerStrong");
             var builder = new StringBuilder();
-            using (var writer = new StringWriter(builder))
+            using (var writer = new StringWriterDelayed(builder))
             {
                 await view.RenderAsync(model, new RenderingContext(writer));
             }
@@ -217,7 +237,7 @@ namespace TerrificNet.Test
 
             this.TestContext.BeginTimer("Server");
             var builder = new StringBuilder();
-            using (var writer = new StringWriter(builder))
+            using (var writer = new StringWriterDelayed(builder))
             {
                 await view.RenderAsync(model, new RenderingContext(writer));
             }

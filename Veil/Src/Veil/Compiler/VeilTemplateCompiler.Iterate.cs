@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Veil.Parser.Nodes;
 
 namespace Veil.Compiler
@@ -26,7 +27,10 @@ namespace Veil.Compiler
             var didMoveNext = Expression.Variable(typeof(bool), "didMoveNext");
             var hasElements = Expression.Variable(typeof(bool), "hasElements");
             var enumerator = Expression.Variable(getEnumeratorMethod.ReturnType, "enumerator");
+
+            var task = Expression.Variable(typeof (Task));
             var exitLabel = Expression.Label();
+            var returnLabel = Expression.Label(typeof (Task));
 
             var collection = ParseExpression(node.Collection);
             if (collection.Type == typeof(object))
@@ -35,13 +39,14 @@ namespace Veil.Compiler
             }
 
             this.PushScope(currentElement);
-            var loopBody = HandleNode(node.Body);
+            var loopBody = Expression.Assign(task, HandleAsync(task, HandleNode(node.Body)));
             this.PopScope();
 
             return Expression.Block(
-                new[] { enumerator, hasElements },
+                new[] { enumerator, hasElements, task },
                 Expression.Assign(hasElements, Expression.Constant(false)),
                 Expression.Assign(enumerator, Expression.Call(collection, getEnumeratorMethod)),
+                Expression.Assign(task, Expression.Constant(null, typeof (Task))),
                 Expression.Loop(Expression.Block(
                     new[] { didMoveNext },
                     Expression.Assign(didMoveNext, Expression.Call(enumerator, moveNextMethod)),
@@ -56,7 +61,9 @@ namespace Veil.Compiler
                     )
                 ), exitLabel),
                 DisposeIfNeeded(enumerator),
-                Expression.IfThen(Expression.IsFalse(hasElements), HandleNode(node.EmptyBody))
+                Expression.IfThen(Expression.IsFalse(hasElements), HandleNode(node.EmptyBody)),
+                Expression.Return(returnLabel, task),
+                Expression.Label(returnLabel, Expression.Constant(null, typeof(Task)))
             );
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Veil.Parser.Nodes;
 
 namespace Veil.Compiler
@@ -28,7 +29,14 @@ namespace Veil.Compiler
             {
                 return Expression.IfThen(Expression.IsFalse(booleanCheck), HandleNode(node.FalseBlock));
             }
-            return Expression.IfThenElse(booleanCheck, HandleNode(node.TrueBlock), HandleNode(node.FalseBlock));
+
+            var returnTarget = Expression.Label(typeof(Task));
+
+            return Expression.Block(
+                Expression.IfThenElse(booleanCheck, 
+                    Expression.Return(returnTarget, HandleNode(node.TrueBlock)), 
+                    Expression.Return(returnTarget, HandleNode(node.FalseBlock))),
+                Expression.Label(returnTarget, Expression.Constant(null, typeof(Task))));
         }
 
         private static readonly MethodInfo boolify = typeof(Helpers).GetMethod("Boolify");

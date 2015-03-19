@@ -27,19 +27,26 @@ namespace Veil.Compiler
         {
             if (before == null)
             {
-                await after();
+                await Handle(after);
                 return;
             }
                 //before = Task.FromResult(false);
 
             await before.ConfigureAwait(false);
-            await after().ConfigureAwait(false);
+            await Handle(after);
 
             //return before.ContinueWith(t =>
             //{
             //    Console.WriteLine("continue");
             //    after();
             //});
+        }
+
+        private static async Task Handle(Func<Task> after)
+        {
+            var afterTask = after();
+            if (afterTask != null)
+                await afterTask.ConfigureAwait(false);
         }
     }
 

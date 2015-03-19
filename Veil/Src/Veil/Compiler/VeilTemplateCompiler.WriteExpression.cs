@@ -11,8 +11,8 @@ namespace Veil.Compiler
     {
         private static readonly MethodInfo writeMethod = typeof(TextWriter).GetMethod("WriteAsync", new[] { typeof(string) });
         private static readonly MethodInfo writeMethodObject = typeof(TextWriter).GetMethod("WriteAsync", new[] { typeof(object) });
-        private static readonly MethodInfo encodeMethod = typeof(Helpers).GetMethod("HtmlEncode", new[] { typeof(TextWriter), typeof(string) });
-        private static readonly MethodInfo encodeMethodObject = typeof(Helpers).GetMethod("HtmlEncode", new[] { typeof(TextWriter), typeof(object) });
+        private static readonly MethodInfo encodeMethod = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(TextWriter), typeof(string) });
+        private static readonly MethodInfo encodeMethodObject = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(TextWriter), typeof(object) });
         private static readonly MethodInfo chainMethod = typeof(TaskHelper).GetMethod("Chain", new[] { typeof(Task), typeof(Action) });
         private static readonly MethodInfo chainTaskMethod = typeof(TaskHelper).GetMethod("ChainTask", new[] { typeof(Task), typeof(Func<Task>) });
 

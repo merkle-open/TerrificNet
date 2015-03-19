@@ -2,23 +2,26 @@
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Veil.Compiler;
 
 namespace Veil
 {
     internal static class Helpers
     {
-        public static void HtmlEncode(TextWriter writer, object value)
+        public static Task HtmlEncodeAsync(TextWriter writer, object value)
         {
             if (value != null)
-                HtmlEncode(writer, value.ToString());
+                return HtmlEncodeAsync(writer, value.ToString());
 
-            HtmlEncode(writer, string.Empty);
+            return HtmlEncodeAsync(writer, string.Empty);
         }
 
-        public static void HtmlEncode(TextWriter writer, string value)
+        public static Task HtmlEncodeAsync(TextWriter writer, string value)
         {
-            if (value == null || value.Length == 0) return;
+            if (string.IsNullOrEmpty(value)) 
+                return Task.FromResult(false);
+
             var startIndex = 0;
             var currentIndex = 0;
             var valueLength = value.Length;
@@ -71,21 +74,26 @@ namespace Veil
                     }
                 }
 
-                if (startIndex == 0) writer.Write(value);
-                else if (currentIndex != startIndex) writer.Write(chars, startIndex, currentIndex - startIndex);
+                if (startIndex == 0) 
+                    return writer.WriteAsync(value);
+
+                if (currentIndex != startIndex) 
+                    return writer.WriteAsync(chars, startIndex, currentIndex - startIndex);
             }
+            return Task.FromResult(false);
         }
 
-        public static void HtmlEncodeLateBound(TextWriter writer, object value)
+        public static Task HtmlEncodeLateBoundAsync(TextWriter writer, object value)
         {
             if (value is string)
             {
-                HtmlEncode(writer, (string)value);
+                return HtmlEncodeAsync(writer, (string)value);
             }
-            else
-            {
-                writer.Write(value);
-            }
+            
+            if (value != null)
+                return writer.WriteAsync(value.ToString());
+
+            return Task.FromResult(false);
         }
 
         public static bool Boolify(object o)
