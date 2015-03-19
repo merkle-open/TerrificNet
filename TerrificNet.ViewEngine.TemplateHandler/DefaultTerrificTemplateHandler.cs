@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Globalization;
 using Veil;
@@ -30,24 +31,23 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             ViewDefinition definition;
             var tmp = model as JObject;
 
-	        if (context.Data.ContainsKey("siteDefinition"))
-	        {
-		        definition = context.Data["siteDefinition"] as ViewDefinition;
-	        }
-	        else
-	        {
+            if (context.Data.ContainsKey("siteDefinition"))
+            {
+                definition = context.Data["siteDefinition"] as ViewDefinition;
+            }
+            else
+            {
+                if (tmp != null)
+                {
+                    definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
+                }
+                else
+                {
+                    definition = model as ViewDefinition;
+                }
+            }
 
-		        if (tmp != null)
-		        {
-			        definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
-		        }
-		        else
-		        {
-			        definition = model as ViewDefinition;
-		        }
-	        }
-
-	        if (definition == null || definition.Placeholder == null)
+            if (definition == null || definition.Placeholder == null)
                 return;
 
             var placeholder = definition.Placeholder;
@@ -78,8 +78,8 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
             foreach (var placeholderConfig in definitions)
             {
-	            var ctx = new RenderingContext(context.Writer, context);
-	            ctx.Data["siteDefinition"] = placeholderConfig;
+                var ctx = new RenderingContext(context.Writer, context);
+                ctx.Data["siteDefinition"] = placeholderConfig;
 
                 placeholderConfig.Render(this, model, ctx);
             }
@@ -92,12 +92,6 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                                      "\" after</div>");
                 (context.Data["renderPath"] as List<string>).Remove(key);
             }
-        }
-
-        private static string GetRenderPath(RenderingContext context)
-        {
-            var list = context.Data["renderPath"] as List<string>;
-            return list != null ? list.Aggregate("", (s, s1) => s += s1 + "/", s => s.Substring(0, s.Length - 1)) : "";
         }
 
         public void RenderModule(string moduleId, string skin, RenderingContext context)
@@ -123,13 +117,17 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                     var renderEditDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
                                          context.Data.ContainsKey("renderPath") &&
                                          (context.Data["renderPath"] as List<string>).Any();
-                    var plhId = "";
+                    var modId = new Regex("/[^/]+$").Match(moduleId).Value.Substring(1);
+                    var path = "";
                     if (renderEditDivs)
                     {
-                        plhId = GetRenderPath(context);
+                        (context.Data["renderPath"] as List<string>).Add(modId);
+                        path = GetRenderPath(context);
                         context.Writer.Write("<div class='plh module start' data-module-id='" + moduleId +
-                                             "' data-plh-id='" +
-                                             plhId +
+                                             "' data-path='" +
+                                             path +
+                                             "' data-self='" +
+                                             modId +
                                              "' data-index='" +
                                              Guid.NewGuid() + "'>Module \"" +
                                              moduleId +
@@ -141,8 +139,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                     view.Render(moduleModel, new RenderingContext(context.Writer, context));
 
                     if (renderEditDivs)
-                        context.Writer.Write("<div class='plh module end' data-plh-id='" + plhId + "'>Module \"" +
+                    {
+                        context.Writer.Write("<div class='plh module end' data-path='" + path + "' data-self='" + modId +
+                                             "'>Module \"" +
                                              moduleId + "\" after</div>");
+                        (context.Data["renderPath"] as List<string>).Remove(modId);
+                    }
                     return;
                 }
             }
@@ -169,15 +171,17 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                     var renderDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
                                      context.Data.ContainsKey("renderPath") &&
                                      (context.Data["renderPath"] as List<string>).Any();
-                    var plhId = "";
-
+                    var path = "";
+                    var templateId = new Regex("/[^/]+$").Match(template).Value.Substring(1);
                     if (renderDivs)
                     {
-                        plhId = GetRenderPath(context);
-
+                        (context.Data["renderPath"] as List<string>).Add(templateId);
+                        path = GetRenderPath(context);
                         context.Writer.Write("<div class='plh template start' data-template-id='" + template +
-                                             "' data-plh-id='" +
-                                             plhId + "' data-index='" +
+                                             "' data-path='" +
+                                             path + "' data-index='" +
+                                             "' data-self='" +
+                                             templateId +
                                              Guid.NewGuid() + "'>Partial Template \"" +
                                              template +
                                              "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete template.'><i class='glyphicon glyphicon-remove'></i></span></div>");
@@ -186,12 +190,22 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                     view.Render(model, new RenderingContext(context.Writer, context));
 
                     if (renderDivs)
-                        context.Writer.Write("<div class='plh template end' data-plh-id='" + plhId +
-                                             "'>Partial Template \"" + template + "\" after</div>");
+                    {
+                        context.Writer.Write("<div class='plh template end' data-path='" + path +
+                                             "' data-self='" + templateId + "'>Partial Template \"" + template +
+                                             "\" after</div>");
+                        (context.Data["renderPath"] as List<string>).Remove(templateId);
+                    }
                     return;
                 }
             }
             context.Writer.Write("Problem loading template " + template);
+        }
+
+        private static string GetRenderPath(RenderingContext context)
+        {
+            var list = context.Data["renderPath"] as List<string>;
+            return list != null ? list.Aggregate("", (s, s1) => s += s1 + "/", s => s.Substring(0, s.Length - 1)) : "";
         }
     }
 }

@@ -21,17 +21,13 @@ namespace TerrificNet.Models
         public string Id { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
-        [JsonProperty("html")]
-        public string Html { get; set; }
         [JsonProperty("skins")]
-        public IEnumerable<SkinInfoModel> Skins { get; set; }
+        public IEnumerable<string> Skins { get; set; }
     }
 
-    public class SkinInfoModel
+    public class ModuleEditorDefinition
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("html")]
         public string Html { get; set; }
+        public List<string> Placeholders { get; set; } 
     }
 }

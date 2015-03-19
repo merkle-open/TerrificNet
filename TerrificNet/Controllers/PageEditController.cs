@@ -39,8 +39,7 @@ namespace TerrificNet.Controllers
             {
                 PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null,
                 PageHtml = CreateSiteHtml(await appViewEnging.CreateViewAsync(tplInfo), siteDefinition),
-				//Modules = new List<PageEditModuleModel>()
-                Modules = await CreateModules(app)
+                Modules = CreateModules(app)
             };
 
             var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
@@ -77,6 +76,13 @@ namespace TerrificNet.Controllers
             return response;
         }
 
+        [HttpGet]
+        public async Task<ModuleEditorDefinition> GetModuleDefinition(string id, string app = "")
+        {
+
+            return new ModuleEditorDefinition();
+        }
+
         private static string CreateSiteHtml(IView view, PageViewDefinition siteDefinition)
         {
             var pageHtmlBuilder = new StringBuilder();
@@ -98,59 +104,18 @@ namespace TerrificNet.Controllers
             return html;
         }
 
-        private async Task<IEnumerable<PageEditModuleModel>> CreateModules(string app)
+        private IEnumerable<PageEditModuleModel> CreateModules(string app)
         {
-            var siteModules = new List<PageEditModuleModel>();
-            var appViewEnging = ResolveForApp<IViewEngine>(app);
             var modelRepository = ResolveForApp<IModuleRepository>(app);
-            var modelProvider = ResolveForApp<IModelProvider>(app);
-            
             var replacePath = ResolveForApp<ITerrificNetConfig>(app).ModulePath;
             if (!replacePath.EndsWith("/")) replacePath += "/";
 
-            foreach (var mod in modelRepository.GetAll())
-            {
-                var model = await modelProvider.GetModelForModuleAsync(mod, null);
-                var view = await appViewEnging.CreateViewAsync(mod.DefaultTemplate);
-                var scriptRx = new Regex("<script( src[=]\".*\")?>(.*)</script>", RegexOptions.Singleline);
-
-                var htmlBuilder = new StringBuilder();
-                using (var writer = new StringWriter(htmlBuilder))
+            return (from mod in modelRepository.GetAll()
+                let skins = mod.Skins.Select(s => s.Key).ToList()
+                select new PageEditModuleModel
                 {
-                    var context = new RenderingContext(writer);
-                    context.Data.Add("pageEditor", true);
-					context.Data.Add("siteDefinition", new ModuleViewDefinition());
-                    view.Render(model, context);
-                }
-
-                var skins = new List<SkinInfoModel>();
-                foreach (var skin in mod.Skins)
-                {
-                    var skinView = await appViewEnging.CreateViewAsync(skin.Value);
-                    var skinBuilder = new StringBuilder();
-                    using (var writer = new StringWriter(skinBuilder))
-                    {
-                        var context = new RenderingContext(writer);
-                        context.Data.Add("pageEditor", true);
-	                    context.Data.Add("siteDefinition", new ModuleViewDefinition());
-                        skinView.Render(model, context);
-                    }
-                    skins.Add(new SkinInfoModel
-                    {
-                        Name = skin.Key,
-                        Html = scriptRx.Replace(skinBuilder.ToString(), "")
-                    });
-                }
-
-                siteModules.Add(new PageEditModuleModel
-                {
-                    Id = mod.Id,
-                    Name = mod.Id.Replace(replacePath, ""),
-                    Html = scriptRx.Replace(htmlBuilder.ToString(), ""),
-                    Skins = skins
-                });
-            }
-            return siteModules;
+                    Id = mod.Id, Name = mod.Id.Replace(replacePath, ""), Skins = skins
+                }).ToList();
         }
     }
 }

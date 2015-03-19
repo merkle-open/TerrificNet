@@ -59,12 +59,17 @@
         };
 
         function readPlaceholders(parent, parentPlh) {
+            console.log("init");
             if (parent._placeholder) {
                 for (var plh in parent._placeholder) {
                     if (parent._placeholder.hasOwnProperty(plh)) {
-                        placeholders.push(new Placeholder(parentPlh + plh, parent._placeholder[plh]));
+                        var plhId = parentPlh;
+                        if(parent.module) plhId += (/\/[^\/]+$/g).exec(parent.module)[0].substring(1) + '/';
+                        if(parent.template && !parent.root) plhId += (/\/[^\/]+$/g).exec(parent.template)[0].substring(1) + '/';
+                        plhId += plh;
+                        placeholders.push(new Placeholder(plhId, parent._placeholder[plh]));
                         parent._placeholder[plh].forEach(function (e) {
-                            readPlaceholders(e, parentPlh + plh + '/');
+                            readPlaceholders(e, plhId + '/');
                         });
                     }
                 }
@@ -72,6 +77,7 @@
         }
 
         function init() {
+            domObject.root = true;
             readPlaceholders(domObject, '');
             console.log(placeholders);
         }
@@ -113,7 +119,7 @@
     }
 
     function Element($el, elType) {
-        var html = $el.find('.js-module-definition').html(),
+        var html = null,
             id = $el.data('id'),
             skin = $el.data('skin'),
             type = elType;
@@ -262,38 +268,41 @@
 
     $editor.on('click', '.plh .btn-delete', function () {
         var $this = $(this),
-            $modStart = $this.parent(),
-            plhId = $modStart.data('plh-id'),
-            guid = $modStart.data('index'),
+            $elementStart = $this.parent(),
+            path = $elementStart.data('path'),
+            self = $elementStart.data('self'),
+            placeholder = path.substring(0, path.lastIndexOf('/' + self)),
+            guid = $elementStart.data('index'),
             endFinder = '',
             elementId = '';
+console.log("asf");
 
-        if ($modStart.hasClass('module')) {
+        if ($elementStart.hasClass('module')) {
             endFinder = '.plh.module.end';
-            elementId = $modStart.data('module-id');
+            elementId = $elementStart.data('module-id');
         } else {
             endFinder = '.plh.template.end';
-            elementId = $modStart.data('template-id');
+            elementId = $elementStart.data('template-id');
         }
 
-        if (!$modStart.nextAll(endFinder).length) {
+        if (!$elementStart.nextAll(endFinder).length) {
             throw new Error("no module / template end found.");
         }
-        var $modEnd = $modStart.nextAll(endFinder).first();
-        var $between = $modStart.nextUntil($modEnd);
+        var $modEnd = $elementStart.nextAll(endFinder).first();
+        var $between = $elementStart.nextUntil($modEnd);
 
         var idx = -1;
-        $('.plh.start[id="plh_' + plhId + '"]').nextUntil('.plh.end[id="plh_' + plhId + '"]', '.plh.start[data-plh-id="' + plhId + '"]').each(function (k, v) {
+        $('.plh.start[id="plh_' + placeholder + '"]').nextUntil('.plh.end[id="plh_' + placeholder + '"]', '.plh.start[data-path="' + path + '"]').each(function (k, v) {
             if ($(v).data('index') === guid) {
                 idx = k;
             }
         });
         if (idx === -1) throw new Error("Element / Template index could not be found!");
 
-        jsonDom.removeElementFromPlaceholder(plhId, elementId, idx);
+        jsonDom.removeElementFromPlaceholder(path, elementId, idx);
 
         $this.tooltip('hide');
-        [$modStart, $between, $modEnd].forEach(function (e) {
+        [$elementStart, $between, $modEnd].forEach(function (e) {
             e.remove();
         });
     });

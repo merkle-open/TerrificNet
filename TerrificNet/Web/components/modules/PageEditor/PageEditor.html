@@ -12,17 +12,11 @@
         <h3 class="title">Modules</h3>
         {{#each modules}}
         <div class="module" draggable="true" data-id="{{id}}">
-            <script type="text/template" class="js-module-definition">
-                {{{html}}}
-            </script>
             <div class="name">{{name}}</div>
         </div>
         {{#each skins}}
-        <div class="module" draggable="true" data-id="{{../id}}" data-skin="{{name}}">
-            <script type="text/template" class="js-module-definition">
-                {{{html}}}
-            </script>
-            <div class="name">{{../name}} - {{name}}</div>
+        <div class="module" draggable="true" data-id="{{../id}}" data-skin="{{this}}">
+            <div class="name">{{../name}} - {{this}}</div>
         </div>
         {{/each}}
         {{/each}}
