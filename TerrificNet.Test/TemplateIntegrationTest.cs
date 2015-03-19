@@ -119,6 +119,7 @@ namespace TerrificNet.Test
             public override async Task WriteAsync(string value)
             {
                 await Task.Yield();
+                //await Task.Delay(100);
                 await base.WriteAsync(value);
             }
 

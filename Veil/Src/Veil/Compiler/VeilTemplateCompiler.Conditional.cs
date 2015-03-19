@@ -21,22 +21,31 @@ namespace Veil.Compiler
             var valueToCheck = ParseExpression(node.Expression);
             var booleanCheck = BoolifyExpression(valueToCheck);
 
+            var returnTarget = Expression.Label(typeof(Task));
+            var labelExpression = Expression.Label(returnTarget, Expression.Constant(null, typeof(Task)));
+
             if (!hasFalseBlock)
             {
-                return Expression.IfThen(booleanCheck, HandleNode(node.TrueBlock));
+                return Expression.Block(
+                    Expression.IfThen(
+                        booleanCheck, 
+                        Expression.Return(returnTarget, HandleNode(node.TrueBlock))),
+                    labelExpression);
             }
             else if (!hasTrueBlock)
             {
-                return Expression.IfThen(Expression.IsFalse(booleanCheck), HandleNode(node.FalseBlock));
+                return Expression.Block(
+                    Expression.IfThen(
+                        Expression.IsFalse(booleanCheck), 
+                        Expression.Return(returnTarget, HandleNode(node.FalseBlock))),
+                    labelExpression);
             }
-
-            var returnTarget = Expression.Label(typeof(Task));
 
             return Expression.Block(
                 Expression.IfThenElse(booleanCheck, 
                     Expression.Return(returnTarget, HandleNode(node.TrueBlock)), 
                     Expression.Return(returnTarget, HandleNode(node.FalseBlock))),
-                Expression.Label(returnTarget, Expression.Constant(null, typeof(Task))));
+                labelExpression);
         }
 
         private static readonly MethodInfo boolify = typeof(Helpers).GetMethod("Boolify");
