@@ -38,6 +38,7 @@
             });
             if (!plh || !element) throw new Error("Placeholder or Element not found!");
             plh.insertAt(element, before ? index : index + 1);
+            init();
         };
 
         this.addElementToPlaceholderStart = function(plhId, element){
@@ -46,6 +47,7 @@
             });
             if (!plh || !element) throw new Error("Placeholder or Element not found!");
             plh.insertFirst(element);
+            init();
         };
 
         this.addElementToPlaceholderEnd = function(plhId, element){
@@ -54,6 +56,7 @@
             });
             if (!plh || !element) throw new Error("Placeholder or Element not found!");
             plh.insertLast(element);
+            init();
         };
 
         function readPlaceholders(parent, parentPlh) {
@@ -75,8 +78,8 @@
 
         function init() {
             domObject.root = true;
+            placeholders = [];
             readPlaceholders(domObject, '');
-            console.log(placeholders);
         }
 
         init();
@@ -116,7 +119,7 @@
     }
 
     function Element($el, elType) {
-        var html = null,
+        var placeholder = null,
             id = $el.data('id'),
             skin = $el.data('skin'),
             type = elType;
@@ -136,7 +139,7 @@
         Object.defineProperty(this, 'elementJson', {
             get: function(){
                 return {
-                    _placeholder: null,
+                    _placeholder: placeholder,
                     data_variation: null,
                     module: id,
                     skin: skin
@@ -145,12 +148,15 @@
         });
 
         this.render = function(plhId, renderFunction, callback){
-            if(!html){
-                
-            } else {
-                renderFunction(html);
+            var url = '/web/page_edit/element_info/'+type+'?id=' + id + '&parent=' + plhId;
+            if(skin) url += '&skin=' + skin;
+            $.get(url).then(function(response){
+                placeholder = response._placeholder;
+                renderFunction(response.html);
                 callback();
-            }
+            }, function(err){
+                console.error(err);
+            });
         };
     }
 
@@ -217,13 +223,17 @@
                 //if element is a placeholder start or placeholder end DIV, adding is pretty easy.
                 plhId = $this.attr('id').replace('plh_', '');
                 if(before){
-                    jsonDom.addElementToPlaceholderStart(plhId, element);
-                    element.render(plhId, $this.after, function(){
+                    element.render(plhId, function(html){
+                        $this.after(html);
+                    }, function(){
+                        jsonDom.addElementToPlaceholderStart(plhId, element);
                         reloadTooltips();
                     });
                 } else {
-                    jsonDom.addElementToPlaceholderEnd(plhId, element);
-                    element.render(plhId, $this.before, function(){
+                    element.render(plhId, function(html){
+                        $this.before(html);
+                    }, function(){
+                        jsonDom.addElementToPlaceholderEnd(plhId, element);
                         reloadTooltips();
                     });
                 }
