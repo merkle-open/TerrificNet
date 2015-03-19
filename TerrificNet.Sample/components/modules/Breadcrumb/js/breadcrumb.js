@@ -1,14 +1,14 @@
 (function($) {
 	'use strict';
 	/**
-	 * Teaser module implementation.
+	 * Breadcrumb module implementation.
 	 *
 	 * @author Christoph Buehler <christoph.buehler@namics.com>
 	 * @namespace Tc.Module
-	 * @class Teaser
+	 * @class Breadcrumb
 	 * @extends Tc.Module
 	 */
-	Tc.Module.Teaser = Tc.Module.extend({
+	Tc.Module.Breadcrumb = Tc.Module.extend({
 
 		init: function($ctx, sandbox, modId) {
 			this._super($ctx, sandbox, modId);

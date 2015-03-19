@@ -1,0 +1,70 @@
+﻿.page-editor{
+
+    .page {
+        padding: 32px;
+        border: 1px solid #ccc;
+
+        .plh {
+            position: relative;
+            @size: 32px;
+            width: 100%;
+            height: @size;
+            background-color: #bbb;
+            line-height: @size - 4px;
+            text-align: center;
+            border: 2px dashed #999;
+
+            &.drag-over {
+                background-color: darken(#bbb, 20%);
+            }
+
+            &.module {
+                background-color: #ddd;
+                &.drag-over {
+                    background-color: darken(#ddd, 20%);
+                }
+            }
+
+            &.template {
+                background-color: #fff;
+                &.drag-over {
+                    background-color: darken(#fff, 20%);
+                }
+            }
+
+            .btn-delete {
+                position: absolute;
+                right: 16px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .sidebar {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        top: 50px;
+        padding: 8px;
+        overflow: auto;
+        border-left: 1px solid #ccc;
+
+        .module {
+            background-color: #0b82bE;
+            color: white;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: all-scroll;
+        }
+
+        .title {
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.1;
+            color: inherit;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+    }
+}

@@ -1,0 +1,54 @@
+{
+    "template": "views/_layouts/_layout",
+    "pageTitle": "Terrific Net Sample",
+    "_placeholder": {
+        "main": [
+            {
+                "module": "components/modules/Breadcrumb",
+                "data_variation": "extended"
+            },
+            {
+                "module": "components/modules/Example"
+            },
+            {
+                "module": "components/modules/Example",
+                "skin": "blue"
+            },
+            {
+                "module": "components/modules/Example"
+            },
+            {
+                "module": "components/modules/SubPlaceholder",
+                "_placeholder": {
+                    "sub": [
+                        {
+                            "module": "components/modules/Teaser"
+                        }
+                    ]
+                }
+            },
+            {
+                "module": "components/modules/Example",
+                "skin": "blue"
+            },
+            {
+                "template": "views/_layouts/nestedplaceholder",
+                "data": {
+                    "text": "this is nested data"
+                },
+                "_placeholder": {
+                    "nested": [
+                        {
+                            "module": "components/modules/Teaser"
+                        }
+                    ],
+                    "startempty": [ ]
+                }
+            },
+            {
+                "module": "components/modules/Breadcrumb",
+                "data_variation": "extended"
+            }
+        ]
+    }
+}

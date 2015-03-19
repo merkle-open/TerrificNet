@@ -61,239 +61,75 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="components\modules\Accordion\accordion-glossar-a.html" />
-    <Content Include="components\modules\Accordion\accordion-glossar-b.html" />
-    <Content Include="components\modules\Accordion\accordion-glossar-c.html" />
-    <Content Include="components\modules\Accordion\accordion.html" />
-    <Content Include="components\modules\Accordion\js\accordion.js" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-content.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-download-center.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-faq.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-myfinma1.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-news-detail.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-news-service.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-news.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-one.html" />
-    <Content Include="components\modules\Breadcrumb\breadcrumb-watchlist.html" />
+    <Content Include="assets\css\cssreset.css" />
+    <Content Include="assets\img\icon\terrific-micro.png" />
+    <Content Include="assets\img\icon\tile-icon.png" />
+    <Content Include="assets\js\jquery-1.11.1.min.js" />
+    <Content Include="assets\js\terrific-2.1.0.js" />
     <Content Include="components\modules\Breadcrumb\breadcrumb.html" />
-    <Content Include="components\modules\DocumentTeaser\documentteaser-communication.html" />
-    <Content Include="components\modules\DocumentTeaser\documentteaser-downloadcenter.html" />
-    <Content Include="components\modules\DocumentTeaser\documentteaser-news-myfinma.html" />
-    <Content Include="components\modules\DocumentTeaser\documentteaser-watchlist.html" />
-    <Content Include="components\modules\DocumentTeaser\documentteaser.html" />
-    <Content Include="components\modules\DocumentTeaser\js\documentteaser.js" />
-    <Content Include="components\modules\Filter\filter.html" />
-    <Content Include="components\modules\Filter\js\filter.js" />
-    <Content Include="components\modules\Footer\footer-address.html" />
-    <Content Include="components\modules\Footer\footer-language.html" />
-    <Content Include="components\modules\Footer\footer-linklist.html" />
-    <Content Include="components\modules\Footer\footer-meta.html" />
-    <Content Include="components\modules\Footer\footer-search.html" />
-    <Content Include="components\modules\Footer\footer-service.html" />
-    <Content Include="components\modules\Layout\js\layout.js" />
-    <Content Include="components\modules\Layout\layout.html" />
-    <Content Include="components\modules\Login\login-edit.html" />
-    <Content Include="components\modules\Login\login-logged.html" />
-    <Content Include="components\modules\Login\login.html" />
-    <Content Include="components\modules\Logo\img\logo-finma.png" />
-    <Content Include="components\modules\NavFinmapublic\js\navfinmapublic.js" />
-    <Content Include="components\modules\NavFinmapublic\navfinmapublic.html" />
-    <Content Include="components\modules\NavMain\img\nav-main-placeholder.png" />
-    <Content Include="components\modules\NavMain\js\navmain.js" />
-    <Content Include="components\modules\NavMain\navmain-finmapublic.html" />
-    <Content Include="components\modules\NavMain\navmain-fr.html" />
-    <Content Include="components\modules\NavMain\navmain-it.html" />
-    <Content Include="components\modules\NavService\js\navservice.js" />
-    <Content Include="components\modules\NavService\navservice-myfinma-off.html" />
-    <Content Include="components\modules\NavService\navservice-myfinma-on.html" />
-    <Content Include="components\modules\NavSidebar\js\navsidebar.js" />
-    <Content Include="components\modules\NavSidebar\navsidebar-level1.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar-level2.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar-level3.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar-level4.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar-level5.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar-myfinma1.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar-myfinma2.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar-myfinma3.html" />
-    <Content Include="components\modules\NavSidebar\navsidebar.html" />
-    <Content Include="components\modules\Search\js\search.js" />
-    <Content Include="components\modules\Search\search-footer.html" />
-    <Content Include="components\modules\Search\search.html" />
-    <Content Include="components\modules\SidebarTeaser\js\sidebarteaser.js" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-contact.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-faq.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-img-text1.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-link-list.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-link-list2.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-link-list3.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-news.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-search.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-teaser.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser-watchlist.html" />
-    <Content Include="components\modules\SidebarTeaser\sidebarteaser.html" />
-    <Content Include="components\modules\Sitemap\sitemap.html" />
-    <Content Include="components\modules\Slider\img\slider-bg.png" />
-    <Content Include="components\modules\Slider\img\slider-content-1.jpg" />
-    <Content Include="components\modules\Slider\img\slider-content-sml.jpg" />
-    <Content Include="components\modules\Slider\img\slider.png" />
-    <Content Include="components\modules\Slider\js\slider.js" />
-    <Content Include="components\modules\Slider\slider-finmapublic.html" />
-    <Content Include="components\modules\Stage\img\stage-1.jpg" />
-    <Content Include="components\modules\Stage\img\stage-2.jpg" />
-    <Content Include="components\modules\Stage\img\stage-3.jpg" />
-    <Content Include="components\modules\Stage\img\stage-4.jpg" />
-    <Content Include="components\modules\Stage\img\stage-5.jpg" />
-    <Content Include="components\modules\Stage\img\stage-6.jpg" />
-    <Content Include="components\modules\Stage\img\stage-7.jpg" />
-    <Content Include="components\modules\Stage\js\stage.js" />
-    <Content Include="components\modules\Stage\stage-finmapublic.html" />
-    <Content Include="components\modules\Teaser\js\skins\teaser-news.js" />
-    <Content Include="components\modules\Teaser\js\teaser.js" />
-    <Content Include="components\modules\Teaser\teaser-communication.html" />
-    <Content Include="components\modules\Teaser\teaser-home.html" />
-    <Content Include="components\modules\Teaser\teaser-mediaevent.html" />
-    <Content Include="components\modules\Teaser\teaser-news-detail.html" />
-    <Content Include="components\modules\Teaser\teaser-news-myfinma.html" />
-    <Content Include="components\modules\Teaser\teaser-news.html" />
-    <Content Include="components\modules\TestModule\testmodule-partial.html" />
-    <Content Include="project\data\home.json" />
-    <Content Include="components\modules\TestModule\data\_default.json" />
-    <Content Include="views\content_client.html" />
-    <Content Include="views\translation.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="views\_layouts\page.html" />
-    <Content Include="views\_layouts\_layout.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="views\content_home.html" />
-    <Content Include="components\modules\Stage\stage.html" />
-    <Content Include="views\footer_language.html" />
-    <Content Include="views\footer_linklist.html" />
-    <Content Include="views\footer_search.html" />
-    <Content Include="views\footer_address.html" />
-    <Content Include="views\placeholder.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="components\modules\Teaser\teaser.html" />
-    <Content Include="components\modules\Slider\slider.html" />
-    <Content Include="components\modules\Foot\foot.html" />
-    <Content Include="components\modules\Footer\footer.html" />
+    <Content Include="components\modules\Breadcrumb\js\breadcrumb.js" />
+    <Content Include="components\modules\Example\example-blue.html" />
+    <Content Include="components\modules\Example\example.html" />
+    <Content Include="components\modules\Example\js\example.js" />
+    <Content Include="components\modules\Example\js\skins\example-blue.js" />
     <Content Include="components\modules\Logo\logo.html" />
-    <Content Include="views\header.html" />
-    <Content Include="components\modules\Head\head.html" />
-    <Content Include="components\modules\NavService\navservice.html" />
-    <Content Include="components\modules\NavMeta\navmeta.html" />
-    <Content Include="views\simple.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="components\modules\NavMain\navmain.html" />
-    <Content Include="components\modules\TestModule\testmodule.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="components\modules\MetaFoot\metafoot.html" />
+    <Content Include="components\modules\MetaHead\metahead.html" />
+    <Content Include="components\modules\SubPlaceholder\subplaceholder.html" />
+    <Content Include="components\modules\Teaser\js\teaser.js" />
+    <Content Include="components\modules\Teaser\teaser.html" />
+    <Content Include="views\_layouts\nestedplaceholder.html" />
+    <Content Include="views\_layouts\_layout.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\" />
-    <Folder Include="components\modules\Foot\data\" />
-    <Folder Include="project\templates\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="views\schemas\home.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="views\schemas\test_module.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\NavMain\data\_default.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="views\schemas\service.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="project\data\service.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="views\schemas\simple.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\Accordion\css\accordion.less" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\Breadcrumb\css\breadcrumb.less" />
-    <Content Include="components\modules\DocumentTeaser\css\documentteaser.less" />
-    <Content Include="components\modules\DocumentTeaser\css\skins\documentteaser-watchlist.less" />
-    <Content Include="components\modules\Filter\css\filter.less" />
-    <Content Include="components\modules\Footer\css\footer.less" />
-    <Content Include="components\modules\Layout\css\layout.less" />
-    <Content Include="components\modules\Layout\layout.md" />
-    <Content Include="components\modules\Login\css\login.less" />
-    <Content Include="components\modules\Logo\css\logo.less" />
-    <Content Include="components\modules\NavFinmapublic\css\navfinmapublic.less" />
-    <Content Include="components\modules\NavFinmapublic\NavFinmaPublic.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\NavMain\css\navmain.less" />
-    <Content Include="components\modules\NavMeta\css\navmeta.less" />
-    <Content Include="components\modules\NavService\css\navservice.less" />
-    <Content Include="components\modules\NavSidebar\css\navsidebar.less" />
-    <Content Include="components\modules\NavSidebar\NavSidebar.cshtml" />
-    <Content Include="components\modules\Search\css\search.less" />
-    <Content Include="components\modules\Search\css\skins\search-footer.less" />
-    <Content Include="components\modules\SidebarTeaser\css\sidebarteaser.less" />
-    <Content Include="components\modules\Sitemap\css\sitemap.less" />
-    <Content Include="components\modules\Slider\css\slider.less" />
-    <Content Include="components\modules\Stage\css\stage.less" />
-    <Content Include="components\modules\Teaser\css\skins\teaser-news.less" />
-    <Content Include="components\modules\Teaser\css\teaser.less" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="views\schemas\teaser_entry.json" />
+    <Content Include="views\empty.html.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="components\modules\TestModule\data\variation1.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="views\home.html.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\Logo\data\_default.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\NavMeta\data\_default.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\Head\data\_default.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\Footer\data\_default.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\NavSidebar\data\_default.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="components\modules\SidebarTeaser\data\_default.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="labels.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="components\modules\SidebarTeaser\data\teaser1.json" />
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Breadcrumb\css\breadcrumb.less" />
+    <Content Include="components\modules\Example\css\example.less" />
+    <Content Include="components\modules\Example\css\skins\example-blue.less" />
+    <Content Include="components\modules\Teaser\css\teaser.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\MetaHead\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Logo\css\logo.less" />
+    <Content Include="components\modules\Logo\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\MetaFoot\data\_default.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="views\index.html.json" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="components\modules\TestModule\js\TestModule.ts" />
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <Content Include="views\detail.html.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="components\modules\Breadcrumb\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\css\import\mixins.less" />
+    <Content Include="assets\css\import\variables.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Breadcrumb\data\extended.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="components\modules\Example\data\_default.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

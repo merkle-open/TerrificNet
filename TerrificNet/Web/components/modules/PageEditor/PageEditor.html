@@ -1,15 +1,30 @@
-﻿<div class="row">
+﻿<div class="row page-editor">
     <script type="text/json" id="siteDefinition">
         {{{pageJson}}}
     </script>
-    <script type="text/template">
-        {{placeholder key="renderedPage"}}
-    </script>
     <div class="col-md-10">
         <h3>PageEditor</h3>
-        UELI
+        <div class="page">
+            {{{pageHtml}}}
+        </div>
     </div>
-    <div class="col-md-2">
-        sidebar
+    <div class="col-md-2 sidebar">
+        <h3 class="title">Modules</h3>
+        {{#each modules}}
+        <div class="module" draggable="true" data-id="{{id}}">
+            <script type="text/template" class="js-module-definition">
+                {{{html}}}
+            </script>
+            <div class="name">{{name}}</div>
+        </div>
+        {{#each skins}}
+        <div class="module" draggable="true" data-id="{{../id}}" data-skin="{{name}}">
+            <script type="text/template" class="js-module-definition">
+                {{{html}}}
+            </script>
+            <div class="name">{{../name}} - {{name}}</div>
+        </div>
+        {{/each}}
+        {{/each}}
     </div>
 </div>

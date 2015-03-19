@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -8,11 +10,11 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 {
     public class DefaultTerrificTemplateHandler : ITerrificTemplateHandler
     {
-        private readonly IViewEngine _viewEngine;
-        private readonly IModelProvider _modelProvider;
-        private readonly ITemplateRepository _templateRepository;
 	    private readonly ILabelService _labelService;
+        private readonly IModelProvider _modelProvider;
         private readonly IModuleRepository _moduleRepository;
+        private readonly ITemplateRepository _templateRepository;
+        private readonly IViewEngine _viewEngine;
 
         public DefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider,
             ITemplateRepository templateRepository, ILabelService labelService, IModuleRepository moduleRepository)
@@ -24,32 +26,75 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             _moduleRepository = moduleRepository;
         }
 
-        public Task RenderPlaceholderAsync(object model, string key, RenderingContext context)
+        public async Task RenderPlaceholderAsync(object model, string key, RenderingContext context)
         {
             ViewDefinition definition;
             var tmp = model as JObject;
-            if (tmp != null)
+
+            if (context.Data.ContainsKey("siteDefinition"))
             {
-                definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
+                definition = context.Data["siteDefinition"] as ViewDefinition;
             }
             else
             {
-                definition = model as ViewDefinition;
+
+                if (tmp != null)
+                {
+                    definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
+                }
+                else
+                {
+                    definition = model as ViewDefinition;
+                }
             }
 
             if (definition == null || definition.Placeholder == null)
-                return Task.FromResult(false);
+                return;
 
             var placeholder = definition.Placeholder;
+
+            var isPageEditor = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"];
 
             ViewDefinition[] definitions;
 
             if (!placeholder.TryGetValue(key, out definitions))
-                return Task.FromResult(false);
+                return;
 
-            return
-                Task.WhenAll(
-                    definitions.Select(c => c.RenderAsync(this, model, new RenderingContext(context.Writer, context))));
+            if (isPageEditor)
+            {
+                if (!context.Data.ContainsKey("placeholders"))
+                {
+                    context.Data.Add("placeholders", new List<string> {key});
+                }
+                else
+                {
+                    (context.Data["placeholders"] as List<string>).Add(key);
+                }
+
+                context.Writer.Write("<div class='plh start' id='plh_" +
+                                     (context.Data["placeholders"] as List<string>).Aggregate("",
+                                         (s, s1) => s += s1 + "/", s => s.Substring(0, s.Length - 1)) +
+                                     "'>Placeholder \"" + key +
+                                     "\" before</div>");
+            }
+
+            foreach (var placeholderConfig in definitions)
+            {
+                var ctx = new RenderingContext(context.Writer, context);
+                ctx.Data["siteDefinition"] = placeholderConfig;
+
+                await placeholderConfig.RenderAsync(this, model, ctx).ConfigureAwait(false);
+            }
+
+            if (isPageEditor)
+            {
+                context.Writer.Write("<div class='plh end' id='plh_" +
+                                     (context.Data["placeholders"] as List<string>).Aggregate("",
+                                         (s, s1) => s += s1 + "/", s => s.Substring(0, s.Length - 1)) +
+                                     "'>Placeholder \"" + key +
+                                     "\" after</div>");
+                (context.Data["placeholders"] as List<string>).Remove(key);
+            }
         }
 
         public async Task RenderModuleAsync(string moduleId, string skin, RenderingContext context)
@@ -63,19 +108,43 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             if (moduleDefinition != null)
             {
                 TemplateInfo templateInfo;
-                if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null || !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
+                if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null ||
+                    !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
                     templateInfo = moduleDefinition.DefaultTemplate;
 
                 var view = await _viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
                 if (view != null)
                 {
-                    var moduleModel = await _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).ConfigureAwait(false);
+                    var renderEditDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
+                                         context.Data.ContainsKey("placeholders") &&
+                                         (context.Data["placeholders"] as List<string>).Any();
+                    var plhId = "";
+                    if (renderEditDivs)
+                    {
+                        plhId = (context.Data["placeholders"] as List<string>).Aggregate("", (s, s1) => s += s1 + "/",
+                            s => s.Substring(0, s.Length - 1));
+                        context.Writer.Write("<div class='plh module start' data-module-id='" + moduleId +
+                                             "' data-plh-id='" +
+                                             plhId +
+                                             "' data-index='" +
+                                             Guid.NewGuid() + "'>Module \"" +
+                                             moduleId +
+                                             "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete module.'><i class='glyphicon glyphicon-remove'></i></span></div>");
+                    }
+
+                    // TODO: make async
+                    var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).Result;
                     await view.RenderAsync(moduleModel, new RenderingContext(context.Writer, context));
+
+                    if (renderEditDivs)
+                        context.Writer.Write("<div class='plh module end' data-plh-id='" + plhId + "'>Module \"" +
+                                             moduleId + "\" after</div>");
                     return;
                 }
             }
 
-            await context.Writer.WriteAsync("Problem loading template " + moduleId + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
+            context.Writer.Write("Problem loading template " + moduleId +
+                                 (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
         }
 
 		public Task RenderLabelAsync(string key, RenderingContext context)
@@ -91,7 +160,29 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 var view = await _viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
                 if (view != null)
                 {
+                    var renderDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
+                                     context.Data.ContainsKey("placeholders") &&
+                                     (context.Data["placeholders"] as List<string>).Any();
+                    var plhId = "";
+
+                    if (renderDivs)
+                    {
+                        plhId = (context.Data["placeholders"] as List<string>).Aggregate("", (s, s1) => s += s1 + "/",
+                            s => s.Substring(0, s.Length - 1));
+
+                        context.Writer.Write("<div class='plh template start' data-template-id='" + template +
+                                             "' data-plh-id='" +
+                                             plhId + "' data-index='" +
+                                             Guid.NewGuid() + "'>Partial Template \"" +
+                                             template +
+                                             "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete template.'><i class='glyphicon glyphicon-remove'></i></span></div>");
+                    }
+
                     await view.RenderAsync(model, new RenderingContext(context.Writer, context));
+
+                    if (renderDivs)
+                        context.Writer.Write("<div class='plh template end' data-plh-id='" + plhId +
+                                             "'>Partial Template \"" + template + "\" after</div>");
                     return;
                 }
             }
