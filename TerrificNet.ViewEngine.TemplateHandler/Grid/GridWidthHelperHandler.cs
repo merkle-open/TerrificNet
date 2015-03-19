@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Veil;
 using Veil.Helper;
 
@@ -10,7 +11,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 
 		internal abstract double GetWidth(GridStack gridStack);
 
-		public void Evaluate(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
+		public Task EvaluateAsync(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
 		{
 			double ratio = 1.0;
 			string ratioValue;
@@ -21,7 +22,8 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			}
 
 			var gridStack = GridStack.FromContext(context);
-			context.Writer.Write((int)(GetWidth(gridStack) * ratio));
+		    var value = (int)(GetWidth(gridStack) * ratio);
+		    return context.Writer.WriteAsync(value.ToString());
 		}
 	}
 

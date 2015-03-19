@@ -40,7 +40,7 @@ namespace TerrificNet.Controllers
                 var blub = new RenderingContext(fudi);
                 blub.Data.Add("something", "futz");
 
-                aa.Render(siteDefinition, blub);
+                await aa.RenderAsync(siteDefinition, blub);
 
             }
 

@@ -4,3 +4,4 @@ Basic/ConditionalBinding/template_string.html,Basic/ConditionalBinding/data_stri
 Basic/ConditionalBinding/template.html,Basic/ConditionalBinding/data_noproperty.json,Basic/ConditionalBinding/result_false.html
 Basic/ConditionalBinding/template.html,Basic/ConditionalBinding/data_boolean_true.json,Basic/ConditionalBinding/result_true.html
 Basic/ConditionalBinding/template.html,Basic/ConditionalBinding/data_boolean_false.json,Basic/ConditionalBinding/result_false.html
+Basic/Loop/template.html,Basic/Loop/data.json,Basic/Loop/result.html

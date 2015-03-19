@@ -41,13 +41,20 @@ namespace TerrificNet.Controllers
 
         protected HttpResponseMessage View(IView view, object model)
         {
-            using (var writer = new StringWriter())
+            var message = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                view.Render(model, new RenderingContext(writer));
+                Content =
+                    new PushStreamContent((o, c, t) => WriteToStream(view, model, o, c, t),
+                        new MediaTypeHeaderValue("text/html"))
+            };
+            return message;
+        }
 
-                var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(writer.ToString()) };
-                message.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-                return message;
+        private static async Task WriteToStream(IView view, object model, Stream outputStream, HttpContent content, TransportContext context)
+        {
+            using (var writer = new StreamWriter(outputStream))
+            {
+                await view.RenderAsync(model, new RenderingContext(writer));
             }
         }
 

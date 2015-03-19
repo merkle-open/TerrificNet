@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Veil;
 
 namespace TerrificNet.ViewEngine
@@ -8,6 +9,6 @@ namespace TerrificNet.ViewEngine
 
     public interface IView<in T>
     {
-        void Render(T model, RenderingContext context);
+        Task RenderAsync(T model, RenderingContext context);
     }
 }

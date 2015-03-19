@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TerrificNet.ViewEngine.ViewEngines;
 using Veil;
 using Veil.Helper;
@@ -22,7 +23,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			return name.StartsWith("grid-cell");
 		}
 
-		public void Evaluate(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
+		public Task EvaluateAsync(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
 		{
 			var gridStack = GridStack.FromContext(context);
 			double ratio = GetValue(parameters, "ratio", 1);
@@ -32,6 +33,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			double width = GetValue(parameters, "width", gridStack.Current.Width);
 
 			gridStack.Push((int)(((width - margin) * ratio) - padding), componentPadding);
+		    return Task.FromResult(false);
 		}
 
 		private static double GetValue(IDictionary<string, string> parameters, string key, double defaultValue)

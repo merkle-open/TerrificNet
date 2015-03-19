@@ -79,35 +79,33 @@ namespace TerrificNet.ViewEngine.ViewEngines
                 _adaptee = adaptee;
             }
 
-            public void Render(object model, RenderingContext context)
+            public Task RenderAsync(object model, RenderingContext context)
             {
                 context.Data["templateId"] = _templateId;
 
                 if (model != null)
-                    _adaptee.Render((T)model, context);
-                else
-                {
-                    // TODO: Verify what is to be done with null model values
-                    if (typeof(T) == typeof(object))
-                        _adaptee.Render((T)(object)new JObject(), context);
-                    else
-                        _adaptee.Render(Activator.CreateInstance<T>(), context);
-                }
+                    return _adaptee.RenderAsync((T)model, context);
+                
+                // TODO: Verify what is to be done with null model values
+                if (typeof(T) == typeof(object))
+                    return _adaptee.RenderAsync((T)(object)new JObject(), context);
+                    
+                return _adaptee.RenderAsync(Activator.CreateInstance<T>(), context);
             }
         }
 
         private class VeilView<T> : IView<T>
         {
-            private readonly Action<RenderingContext, T> _render;
+            private readonly Func<RenderingContext, T, Task> _render;
 
-            public VeilView(Action<RenderingContext, T> render)
+            public VeilView(Func<RenderingContext, T, Task> render)
             {
                 _render = render;
             }
 
-            public void Render(T model, RenderingContext context)
+            public Task RenderAsync(T model, RenderingContext context)
             {
-                _render(context, model);
+                return _render(context, model);
             }
         }
 

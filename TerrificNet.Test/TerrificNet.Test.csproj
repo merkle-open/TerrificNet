@@ -104,6 +104,7 @@
     <None Include="TestCases\Basic\ConditionalBinding\data_boolean_true.json" />
     <None Include="TestCases\Basic\ConditionalBinding\data_noproperty.json" />
     <None Include="TestCases\Basic\ConditionalBinding\data_string.json" />
+    <None Include="TestCases\Basic\Loop\data.json" />
     <None Include="TestCases\Basic\PropertyBinding\data.json" />
     <None Include="TestCases\test_cases.csv" />
   </ItemGroup>
@@ -113,6 +114,8 @@
     <Content Include="TestCases\Basic\ConditionalBinding\result_true.html" />
     <Content Include="TestCases\Basic\ConditionalBinding\template_string.html" />
     <Content Include="TestCases\Basic\ConditionalBinding\template.html" />
+    <Content Include="TestCases\Basic\Loop\result.html" />
+    <Content Include="TestCases\Basic\Loop\template.html" />
     <Content Include="TestCases\Basic\PropertyBinding\result.html" />
     <Content Include="TestCases\Basic\PropertyBinding\template.html" />
   </ItemGroup>

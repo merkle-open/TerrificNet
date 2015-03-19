@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Globalization;
 using Veil;
@@ -22,7 +24,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             _moduleRepository = moduleRepository;
         }
 
-        public void RenderPlaceholder(object model, string key, RenderingContext context)
+        public Task RenderPlaceholderAsync(object model, string key, RenderingContext context)
         {
             ViewDefinition definition;
             var tmp = model as JObject;
@@ -36,70 +38,65 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             }
 
             if (definition == null || definition.Placeholder == null)
-                return;
+                return Task.FromResult(false);
 
             var placeholder = definition.Placeholder;
 
             ViewDefinition[] definitions;
 
             if (!placeholder.TryGetValue(key, out definitions))
-                return;
+                return Task.FromResult(false);
 
-            foreach (var placeholderConfig in definitions)
-            {
-                placeholderConfig.Render(this, model, new RenderingContext(context.Writer, context));
-            }
+            return
+                Task.WhenAll(
+                    definitions.Select(c => c.RenderAsync(this, model, new RenderingContext(context.Writer, context))));
         }
 
-        public void RenderModule(string moduleId, string skin, RenderingContext context)
+        public async Task RenderModuleAsync(string moduleId, string skin, RenderingContext context)
         {
 	        string dataVariation = null;
 	        object dataVariationObj;
 	        if (context.Data.TryGetValue("data_variation", out dataVariationObj))
 				dataVariation = dataVariationObj as string;
 
-            // TODO: Use async
-            var moduleDefinition = _moduleRepository.GetModuleDefinitionByIdAsync(moduleId).Result;
+            var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(moduleId).ConfigureAwait(false);
             if (moduleDefinition != null)
             {
                 TemplateInfo templateInfo;
                 if (string.IsNullOrEmpty(skin) || moduleDefinition.Skins == null || !moduleDefinition.Skins.TryGetValue(skin, out templateInfo))
                     templateInfo = moduleDefinition.DefaultTemplate;
 
-                // TODO: make async
-                var view = _viewEngine.CreateViewAsync(templateInfo).Result;
+                var view = await _viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
                 if (view != null)
                 {
-                    // TODO: make async
-                    var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).Result;
-                    view.Render(moduleModel, new RenderingContext(context.Writer, context));
+                    var moduleModel = await _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).ConfigureAwait(false);
+                    await view.RenderAsync(moduleModel, new RenderingContext(context.Writer, context));
                     return;
                 }
             }
 
-            context.Writer.Write("Problem loading template " + moduleId + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
+            await context.Writer.WriteAsync("Problem loading template " + moduleId + (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
         }
 
-		public void RenderLabel(string key, RenderingContext context)
+		public Task RenderLabelAsync(string key, RenderingContext context)
 	    {
-		    context.Writer.Write(_labelService.Get(key));
+		    return context.Writer.WriteAsync(_labelService.Get(key));
 	    }
 
-        public void RenderPartial(string template, object model, RenderingContext context)
+        public async Task RenderPartialAsync(string template, object model, RenderingContext context)
         {
-            // TODO: Use async
-            var templateInfo = _templateRepository.GetTemplateAsync(template).Result;
+            var templateInfo = await _templateRepository.GetTemplateAsync(template).ConfigureAwait(false);
             if (templateInfo != null)
             {
-                // TODO: Use async
-                var view = _viewEngine.CreateViewAsync(templateInfo).Result;
+                var view = await _viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
                 if (view != null)
                 {
-                    view.Render(model, new RenderingContext(context.Writer, context));
+                    await view.RenderAsync(model, new RenderingContext(context.Writer, context));
                     return;
                 }
             }
-            context.Writer.Write("Problem loading template " + template);
+
+            await context.Writer.WriteAsync("Problem loading template " + template);
         }
     }
 }

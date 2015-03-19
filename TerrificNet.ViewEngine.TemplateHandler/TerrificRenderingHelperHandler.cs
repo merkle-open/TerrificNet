@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Client;
@@ -32,7 +33,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             return new[] { "module", "placeholder", "label", "partial" }.Any(name.StartsWith);
         }
 
-        public void Evaluate(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
+        public Task EvaluateAsync(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
         {
             if ("module".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
@@ -42,25 +43,25 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 if (parameters.ContainsKey("skin"))
                     skin = parameters["skin"].Trim('"');
 
-                _handler.RenderModule(templateName, skin, context);
+                return _handler.RenderModuleAsync(templateName, skin, context);
             }
-            else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
+            if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 var key = parameters["key"].Trim('"');
-                _handler.RenderPlaceholder(model, key, context);
+                return _handler.RenderPlaceholderAsync(model, key, context);
             }
-            else if ("label".Equals(name, StringComparison.OrdinalIgnoreCase))
+            if ("label".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 var key = parameters.Keys.First().Trim('"');
-                _handler.RenderLabel(key, context);
+                return _handler.RenderLabelAsync(key, context);
             }
-            else if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
+            if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 var template = parameters["template"].Trim('"');
-                _handler.RenderPartial(template, model, context);
+                return _handler.RenderPartialAsync(template, model, context);
             }
-            else
-                throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
+
+            throw new NotSupportedException(string.Format("Helper with name {0} is not supported", name));
         }
 
         public JSchema GetSchema(string name, IDictionary<string, string> parameters)
@@ -166,7 +167,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 var builder = new StringBuilder();
                 using (var writer = new StringWriter(builder))
                 {
-                    _handler.RenderLabel(key, new RenderingContext(writer));
+                    _handler.RenderLabelAsync(key, new RenderingContext(writer));
                 }
                 context.WriteLiteral(builder.ToString());
             }

@@ -2,16 +2,19 @@
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Veil.Parser.Nodes;
 
 namespace Veil.Compiler
 {
     internal partial class VeilTemplateCompiler<T>
     {
-        private static readonly MethodInfo writeMethod = typeof(TextWriter).GetMethod("Write", new[] { typeof(string) });
-        private static readonly MethodInfo writeMethodObject = typeof(TextWriter).GetMethod("Write", new[] { typeof(object) });
+        private static readonly MethodInfo writeMethod = typeof(TextWriter).GetMethod("WriteAsync", new[] { typeof(string) });
+        private static readonly MethodInfo writeMethodObject = typeof(TextWriter).GetMethod("WriteAsync", new[] { typeof(object) });
         private static readonly MethodInfo encodeMethod = typeof(Helpers).GetMethod("HtmlEncode", new[] { typeof(TextWriter), typeof(string) });
         private static readonly MethodInfo encodeMethodObject = typeof(Helpers).GetMethod("HtmlEncode", new[] { typeof(TextWriter), typeof(object) });
+        private static readonly MethodInfo chainMethod = typeof(TaskHelper).GetMethod("Chain", new[] { typeof(Task), typeof(Action) });
+        private static readonly MethodInfo chainTaskMethod = typeof(TaskHelper).GetMethod("ChainTask", new[] { typeof(Task), typeof(Func<Task>) });
 
         private Expression HandleWriteExpression(WriteExpressionNode node)
         {
@@ -22,7 +25,7 @@ namespace Veil.Compiler
             {
                 if (expression.Type == typeof(string))
                     return Expression.Call(encodeMethod, this.writer, expression);
-
+                
                 return Expression.Call(encodeMethodObject, this.writer, expression);
             }
 
@@ -32,7 +35,8 @@ namespace Veil.Compiler
             if (expression.Type == typeof(void))
                return expression;
 
-            return Expression.Call(this.writer, writeMethodObject, expression);
+            // TODO: find better solution
+            return Expression.Call(this.writer, writeMethod, Expression.Call(expression, typeof(object).GetMethod("ToString")));
         }
     }
 }

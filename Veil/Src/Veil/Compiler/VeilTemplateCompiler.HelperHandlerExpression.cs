@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 using Veil.Helper;
 using Veil.Parser.Nodes;
 
@@ -9,7 +10,7 @@ namespace Veil.Compiler
 {
     internal partial class VeilTemplateCompiler<T>
     {
-		private static readonly MethodInfo HelperFunction = typeof(IHelperHandler).GetMethod("Evaluate");
+		private static readonly MethodInfo HelperFunction = typeof(IHelperHandler).GetMethod("EvaluateAsync");
 		private static readonly MethodInfo HelperFunctionLeave = typeof(IBlockHelperHandler).GetMethod("Leave");
 
 		private Expression HandleHelperExpression(HelperExpressionNode node)
@@ -22,8 +23,10 @@ namespace Veil.Compiler
 		    var helper = EvaluateHelper(node);
 		    var modelExpression = EvaluateScope(node.Scope);
 
-		    return Expression.Call(Expression.Constant(helper), helperFunction,
-			    modelExpression, context, Expression.Constant(node.Name), Expression.Constant(node.Parameters));
+	        var expression = Expression.Call(Expression.Constant(helper), helperFunction,
+	            modelExpression, context, Expression.Constant(node.Name), Expression.Constant(node.Parameters));
+
+	        return expression;
 	    }
 
 	    private IHelperHandler EvaluateHelper(HelperExpressionNode node)
@@ -37,10 +40,12 @@ namespace Veil.Compiler
 
 	    private Expression HandleHelperBlockNode(HelperBlockNode node)
 	    {
-		    return Expression.Block(
+	        var task = Expression.Variable(typeof (Task));
+            var ret = Expression.Label(typeof(Task));
+            return HandleBlock(
 				HandleHelperExpression(node.HelperExpression), 
-				HandleBlock(node.Block), 
-				HandleHelperExpressionWithMethod(node.HelperExpression, HelperFunctionLeave));
+				HandleBlock(node.Block),
+                HandleHelperExpressionWithMethod(node.HelperExpression, HelperFunctionLeave));
 	    }
     }
 }

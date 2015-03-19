@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TerrificNet.ViewEngine.Client;
 using Veil;
 using Veil.Helper;
@@ -12,9 +13,10 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             return name.StartsWith("template-id");
         }
 
-        public void Evaluate(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
+        public Task EvaluateAsync(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
         {
-            context.Writer.Write(context.Data["templateId"]);
+            var templateId = context.Data["templateId"];
+            return context.Writer.WriteAsync(templateId as string);
         }
 
         public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -93,17 +95,68 @@ namespace TerrificNet.Test
             var templateInfo = new FileTemplateInfo(testName, templateFile, new FileSystem());
             var view = generator.Generate(templateInfo);
 
-            object model;
+            Dictionary<string, object> model;
             using (var reader = new StreamReader(dataFile))
             {
-                model = new JavaScriptSerializer().Deserialize(reader.ReadToEnd(), typeof(Dictionary<string, object>));
+                model = (Dictionary<string, object>) new JavaScriptSerializer().Deserialize(reader.ReadToEnd(), typeof(Dictionary<string, object>));
             }
+
+            CleanupModel(model);
 
             this.TestContext.BeginTimer("JS Rendering");
             var result = JavascriptClientTest.ExecuteJavascript(view, model, testName);
             this.TestContext.EndTimer("JS Rendering");
 
             return result;
+        }
+
+        private void CleanupModel(Dictionary<string, object> model)
+        {
+            foreach (var entry in model.ToList())
+            {
+                var value = entry.Value;
+                var list = value as ArrayList;
+                if (list != null)
+                {
+                    var objs = list.OfType<object>().ToList();
+                    model[entry.Key] = objs;
+                    value = objs;
+
+                    continue;
+                }
+
+                var enumerable = value as IEnumerable<object>;
+                if (enumerable != null)
+                {
+                    foreach (var item in enumerable)
+                    {
+                        var dItem = item as Dictionary<string, object>;
+                        if (dItem != null)
+                            CleanupModel(dItem);
+                    }
+                }
+
+                var dict = value as Dictionary<string, object>;
+                if (dict != null)
+                    CleanupModel(dict);
+            }
+        }
+
+        private class MyResolver : JavaScriptTypeResolver
+        {
+            public MyResolver()
+            {
+            }
+
+            public override Type ResolveType(string id)
+            {
+                return typeof (Dictionary<string, object>);
+            }
+
+            public override string ResolveTypeId(Type type)
+            {
+                return type.Name;
+            }
         }
 
         private async Task<string> ExecuteServerSideStrongModel(string testName, string templateFile, string dataFile)
@@ -136,7 +189,7 @@ namespace TerrificNet.Test
             var builder = new StringBuilder();
             using (var writer = new StringWriter(builder))
             {
-                view.Render(model, new RenderingContext(writer));
+                await view.RenderAsync(model, new RenderingContext(writer));
             }
             var resultString = builder.ToString();
             this.TestContext.EndTimer("ServerStrong");
@@ -159,14 +212,14 @@ namespace TerrificNet.Test
             object model;
             using (var reader = new StreamReader(dataFile))
             {
-                model = new JavaScriptSerializer().Deserialize(reader.ReadToEnd(), typeof(Dictionary<string, object>));
+                model = new JsonSerializer().Deserialize(reader, typeof(Dictionary<string, object>));
             }
 
             this.TestContext.BeginTimer("Server");
             var builder = new StringBuilder();
             using (var writer = new StringWriter(builder))
             {
-                view.Render(model, new RenderingContext(writer));
+                await view.RenderAsync(model, new RenderingContext(writer));
             }
             var resultString = builder.ToString();
             this.TestContext.EndTimer("Server");

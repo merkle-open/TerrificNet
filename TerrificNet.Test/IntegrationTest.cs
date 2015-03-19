@@ -44,7 +44,7 @@ namespace TerrificNet.Test
             modelType.GetProperty("FirstName").SetValue(model, "{{first_name}}");
 
             var writer = new StringWriter();
-            view.Render(model, new RenderingContext(writer));
+            await view.RenderAsync(model, new RenderingContext(writer));
             var stringResult = writer.ToString();
 
             Assert.AreEqual(input, stringResult);

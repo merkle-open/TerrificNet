@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Veil;
@@ -14,7 +15,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         [JsonExtensionData]
         public IDictionary<string, object> ExtensionData { get; set; }
 
-        protected internal abstract void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context);
+        protected internal abstract Task RenderAsync(ITerrificTemplateHandler templateHandler, object model, RenderingContext context);
 
         public static T FromJObject<T>(JToken obj)
             where T : ViewDefinition
@@ -84,9 +85,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         [JsonProperty("data")]
         public object Data { get; set; }
 
-        protected internal override void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
+        protected internal override Task RenderAsync(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
         {
-            templateHandler.RenderPartial(Template, this, context);
+            return templateHandler.RenderPartialAsync(Template, this, context);
         }
     }
 
@@ -101,14 +102,14 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 		[JsonProperty("data_variation")]
 		public string DataVariation { get; set; }
 
-        protected internal override void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
+        protected internal override Task RenderAsync(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
         {
 			if (context.Data.ContainsKey("data_variation"))
 				context.Data["data_variation"] = this.DataVariation;
 			else
 				context.Data.Add("data_variation", this.DataVariation);
 
-            templateHandler.RenderModule(Module, Skin, context);
+            return templateHandler.RenderModuleAsync(Module, Skin, context);
         }
     }
 }
