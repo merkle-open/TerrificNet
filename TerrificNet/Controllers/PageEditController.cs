@@ -39,8 +39,8 @@ namespace TerrificNet.Controllers
             {
                 PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null,
                 PageHtml = CreateSiteHtml(await appViewEnging.CreateViewAsync(tplInfo), siteDefinition),
-				Modules = new List<PageEditModuleModel>()
-                //Modules = await CreateModules(app)
+				//Modules = new List<PageEditModuleModel>()
+                Modules = await CreateModules(app)
             };
 
             var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
@@ -119,6 +119,7 @@ namespace TerrificNet.Controllers
                 {
                     var context = new RenderingContext(writer);
                     context.Data.Add("pageEditor", true);
+					context.Data.Add("siteDefinition", new ModuleViewDefinition());
                     view.Render(model, context);
                 }
 
@@ -131,6 +132,7 @@ namespace TerrificNet.Controllers
                     {
                         var context = new RenderingContext(writer);
                         context.Data.Add("pageEditor", true);
+	                    context.Data.Add("siteDefinition", new ModuleViewDefinition());
                         skinView.Render(model, context);
                     }
                     skins.Add(new SkinInfoModel
