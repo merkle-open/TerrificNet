@@ -20,16 +20,22 @@
 
             &.module {
                 background-color: #ddd;
-
                 &.drag-over {
                     background-color: darken(#ddd, 20%);
                 }
+            }
 
-                .btn-delete {
-                    position: absolute;
-                    right: 16px;
-                    cursor: pointer;
+            &.template {
+                background-color: #fff;
+                &.drag-over {
+                    background-color: darken(#fff, 20%);
                 }
+            }
+
+            .btn-delete {
+                position: absolute;
+                right: 16px;
+                cursor: pointer;
             }
         }
     }

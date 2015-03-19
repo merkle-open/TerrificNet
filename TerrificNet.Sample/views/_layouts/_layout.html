@@ -1,36 +1,36 @@
 ﻿<!DOCTYPE html>
 <html>
-<!-- MetaHead -->
+{{!-- Meta Head --}}
 {{ partial template="components/modules/MetaHead/metahead" }}
 
-<!--  Body -->
+{{!-- Body --}}
 <body>
-    <!-- Page -->
-    <div class="l-page js-l-page">
+{{!-- Page --}}
+<div class="l-page js-l-page">
 
-        <!-- Header -->
-        <header class="l-head l-wrap" role="banner">
+    {{!-- Header --}}
+    <header class="l-head l-wrap" role="banner">
 
-            <div class="l-logo">
-                {{ module template="components/modules/Logo"}}
+        <div class="l-logo">
+            {{ module template="components/modules/Logo"}}
+        </div>
+
+    </header>
+
+    {{!-- Content --}}
+    <div class="l-content-wrapper">
+
+        <div class="l-main-wrapper l-wrap" role="main">
+            <div class="l-main">
+                {{ placeholder key="main" }}
             </div>
-
-        </header>
-
-        <!-- Content -->
-        <div class="l-content-wrapper">
-
-            <div class="l-main-wrapper l-wrap" role="main">
-                <div class="l-main">
-                    {{ placeholder key="main" }}
-                </div>
-            </div>
-
         </div>
 
     </div>
 
-    <!-- MetaFoot -->
-    {{ partial template="components/modules/MetaFoot/metafoot" }}
+</div>
+
+{{!-- Meta Foot --}}
+{{ partial template="components/modules/MetaFoot/metafoot" }}
 </body>
 </html>

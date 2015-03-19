@@ -20,7 +20,13 @@
 .page-editor .page .plh.module.drag-over {
   background-color: #aaaaaa;
 }
-.page-editor .page .plh.module .btn-delete {
+.page-editor .page .plh.template {
+  background-color: #fff;
+}
+.page-editor .page .plh.template.drag-over {
+  background-color: #cccccc;
+}
+.page-editor .page .plh .btn-delete {
   position: absolute;
   right: 16px;
   cursor: pointer;
