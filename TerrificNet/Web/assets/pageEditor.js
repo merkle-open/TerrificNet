@@ -34,8 +34,12 @@
             console.log(domObject);
         };
 
-        this.addElementToPlaceholder = function(plhId, element, index){
-
+        this.addElementToPlaceholder = function(plhId, element, index, before){
+            var plh = placeholders.get(function (e) {
+                return e.name === plhId;
+            });
+            if (!plh || !element) throw new Error("Placeholder or Element not found!");
+            plh.insertAt(element, before ? index : index + 1);
         };
 
         this.addElementToPlaceholderStart = function(plhId, element){
@@ -98,7 +102,13 @@
         };
 
         this.insertAt = function(element, idx){
-
+            if(idx == 0){
+                elements.unshift(element.elementJson);
+            } else if (idx == elements.length){
+                elements.push(element.elementJson);
+            } else {
+                elements.splice(idx, 0, element.elementJson);
+            }
         };
     }
 
@@ -213,11 +223,11 @@
             if (!element) throw new Error("Element not found");
 
             var before = $this.hasClass('start');
-            var $modStart = $this.hasClass('start') ? $this : $this.prevAll('.start[data-plh-id="' + $this.data('plh-id') + '"]').first();
 
+            var plhId = '';
             if(!$this.hasClass('module') && !$this.hasClass('template')){
                 //if element is a placeholder start or placeholder end DIV, adding is pretty easy.
-                var plhId = $this.attr('id').replace('plh_', '');
+                plhId = $this.attr('id').replace('plh_', '');
                 if(before){
                     jsonDom.addElementToPlaceholderStart(plhId, element);
                     $this.after(element.render(plhId));
@@ -225,13 +235,29 @@
                     jsonDom.addElementToPlaceholderEnd(plhId, element);
                     $this.before(element.render(plhId));
                 }
-                $('[data-toggle="tooltip"]', $editor).tooltip({
-                    container: '.page-editor'
+            } else {
+                plhId = $this.data('plh-id');
+                var $modStart = $this.hasClass('start') ? $this : $this.prevAll('.start[data-plh-id="' + plhId + '"]').first();
+                var $modEnd = $this.hasClass('end') ? $this : $this.nextAll('.end[data-plh-id="' + plhId + '"]').first();
+                var idx = -1;
+                var guid = $modStart.data('index');
+                $('.plh.start[id="plh_' + plhId + '"]').nextUntil('.plh.end[id="plh_' + plhId + '"]', '.plh.start[data-plh-id="' + plhId + '"]').each(function (k, v) {
+                    if ($(v).data('index') === guid) {
+                        idx = k;
+                    }
                 });
-                return;
+                if (idx === -1) throw new Error("Element / Template index could not be found!");
+                jsonDom.addElementToPlaceholder(plhId, element, idx, before);
+                if(before){
+                    $modStart.before(element.render(plhId));
+                } else {
+                    $modEnd.after(element.render(plhId));
+                }
             }
 
-            console.log(element, $modStart, before);
+            $('[data-toggle="tooltip"]', $editor).tooltip({
+                container: '.page-editor'
+            });
         });
 
     $editor.on('click', '.plh .btn-delete', function () {
