@@ -59,7 +59,6 @@
         };
 
         function readPlaceholders(parent, parentPlh) {
-            console.log("init");
             if (parent._placeholder) {
                 for (var plh in parent._placeholder) {
                     if (parent._placeholder.hasOwnProperty(plh)) {
@@ -275,7 +274,6 @@
             guid = $elementStart.data('index'),
             endFinder = '',
             elementId = '';
-console.log("asf");
 
         if ($elementStart.hasClass('module')) {
             endFinder = '.plh.module.end';
@@ -292,14 +290,14 @@ console.log("asf");
         var $between = $elementStart.nextUntil($modEnd);
 
         var idx = -1;
-        $('.plh.start[id="plh_' + placeholder + '"]').nextUntil('.plh.end[id="plh_' + placeholder + '"]', '.plh.start[data-path="' + path + '"]').each(function (k, v) {
+        $('.plh.start[id="plh_' + placeholder + '"]').nextUntil('.plh.end[id="plh_' + placeholder + '"]', '.plh.start[data-path^="' + placeholder + '"]').each(function (k, v) {
             if ($(v).data('index') === guid) {
                 idx = k;
             }
         });
         if (idx === -1) throw new Error("Element / Template index could not be found!");
 
-        jsonDom.removeElementFromPlaceholder(path, elementId, idx);
+        jsonDom.removeElementFromPlaceholder(placeholder, elementId, idx);
 
         $this.tooltip('hide');
         [$elementStart, $between, $modEnd].forEach(function (e) {
