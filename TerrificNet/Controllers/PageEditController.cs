@@ -115,7 +115,9 @@ namespace TerrificNet.Controllers
                 var htmlBuilder = new StringBuilder();
                 using (var writer = new StringWriter(htmlBuilder))
                 {
-                    view.Render(model, new RenderingContext(writer));
+                    var context = new RenderingContext(writer);
+                    context.Data.Add("pageEditor", true);
+                    view.Render(model, context);
                 }
 
                 var skins = new List<SkinInfoModel>();
@@ -125,7 +127,9 @@ namespace TerrificNet.Controllers
                     var skinBuilder = new StringBuilder();
                     using (var writer = new StringWriter(skinBuilder))
                     {
-                        skinView.Render(model, new RenderingContext(writer));
+                        var context = new RenderingContext(writer);
+                        context.Data.Add("pageEditor", true);
+                        skinView.Render(model, context);
                     }
                     skins.Add(new SkinInfoModel
                     {

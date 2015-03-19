@@ -18,6 +18,16 @@
                 "module": "components/modules/Example"
             },
             {
+                "module": "components/modules/SubPlaceholder",
+                "_placeholder": {
+                    "sub": [
+                        {
+                            "module": "components/modules/Teaser"
+                        }
+                    ]
+                }
+            },
+            {
                 "module": "components/modules/Example",
                 "skin": "blue"
             },

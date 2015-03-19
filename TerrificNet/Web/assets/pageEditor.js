@@ -28,10 +28,30 @@
             var plh = placeholders.get(function (e) {
                 return e.name === plhId;
             });
-            if(plh === null || index === -1 || !plh.elementExists(elementId, index)) throw new Error("Element with id " + elementId + " @ index " + index + " does not exist!");
+            if (plh === null || index === -1 || !plh.elementExists(elementId, index)) throw new Error("Element with id " + elementId + " @ index " + index + " does not exist!");
             plh.removeElement(index);
 
             console.log(domObject);
+        };
+
+        this.addElementToPlaceholder = function(plhId, element, index){
+
+        };
+
+        this.addElementToPlaceholderStart = function(plhId, element){
+            var plh = placeholders.get(function (e) {
+                return e.name === plhId;
+            });
+            if (!plh || !element) throw new Error("Placeholder or Element not found!");
+            plh.insertFirst(element);
+        };
+
+        this.addElementToPlaceholderEnd = function(plhId, element){
+            var plh = placeholders.get(function (e) {
+                return e.name === plhId;
+            });
+            if (!plh || !element) throw new Error("Placeholder or Element not found!");
+            plh.insertLast(element);
         };
 
         function readPlaceholders(parent, parentPlh) {
@@ -49,6 +69,7 @@
 
         function init() {
             readPlaceholders(domObject, '');
+            console.log(placeholders);
         }
 
         init();
@@ -56,41 +77,117 @@
 
     function Placeholder(name, plhElements) {
         var elements = plhElements;
+        this.blub = elements;
         this.name = name;
-        this.els = elements;
 
-        this.elementExists = function(elementId, idx){
+        this.elementExists = function (elementId, idx) {
             var el = elements[idx];
             return (el.module && el.module === elementId) || (el.template && el.template === elementId);
         };
 
-        this.removeElement = function(idx){
+        this.removeElement = function (idx) {
             elements.splice(idx, 1);
+        };
+
+        this.insertFirst = function(element){
+            elements.unshift(element.elementJson);
+        };
+
+        this.insertLast = function(element){
+            elements.push(element.elementJson);
+        };
+
+        this.insertAt = function(element, idx){
+
         };
     }
 
-    function Module($el) {
-        this.id = $el.data('id');
-        this.html = $el.find('.js-module-definition').html();
+    function Element($el, elType) {
+        var html = $el.find('.js-module-definition').html(),
+            id = $el.data('id'),
+            skin = $el.data('skin'),
+            type = elType;
+
+        Object.defineProperty(this, 'elementId', {
+            get: function(){
+                return id && skin ? id + '/' + skin : id;
+            }
+        });
+
+        Object.defineProperty(this, 'skin', {
+            get: function(){
+                return skin;
+            }
+        });
+
+        Object.defineProperty(this, 'elementJson', {
+            get: function(){
+                return {
+                    _placeholder: null,
+                    data_variation: null,
+                    module: id,
+                    skin: skin
+                };
+            }
+        });
+
+        this.render = function(plhId){
+            var el = $('<div/>');
+            if(type === 'module'){
+                el.append($('<div/>', {
+                    class: 'plh module start',
+                    'data-module-id': id,
+                    'data-plh-id': plhId,
+                    'data-index': guid()
+                }).text('Module "'+id+'" before')
+                    .append($('<span/>', {
+                        class: 'btn-delete',
+                        'data-toggle': 'tooltip',
+                        'data-placement': 'top',
+                        'title': 'Delete module.'
+                    }).append($('<i/>', {
+                        class: 'glyphicon glyphicon-remove'
+                    }))));
+            } else {
+
+            }
+            el.append(html);
+            if(type === 'module'){
+                el.append($('<div/>', {
+                    class: 'plh module end',
+                    'data-plh-id': plhId
+                }).text('Module '+id+' after'));
+            } else {
+
+            }
+            return el.html();
+        };
     }
-
-    function Template($el) {
-
-    }
-
 
     //variables
     var $editor = $('.page-editor'),
         jsonDom = new JsonDom($('#siteDefinition', $editor).html()),
-        modules = [];
+        elements = [];
 
 
     //functions
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
 
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
+    }
 
     //event binders
     $('.sidebar .module', $editor).on('dragstart', function (e) {
-        e.originalEvent.dataTransfer.setData('id', $(this).data('id'));
+        var $this = $(this);
+        var id = $this.data('id');
+        if($this.data('skin')) id += '/' + $this.data('skin');
+        e.originalEvent.dataTransfer.setData('id', id);
     });
 
     $editor
@@ -107,11 +204,37 @@
             return false;
         })
         .on('drop', '.plh', function (e) {
-            console.log(e.originalEvent.dataTransfer.getData('id'))
-            $(this).removeClass('drag-over');
+            var id = e.originalEvent.dataTransfer.getData('id'),
+                $this = $(this);
+            $this.removeClass('drag-over');
+            var element = elements.get(function (e) {
+                return e.elementId === id;
+            });
+            if (!element) throw new Error("Element not found");
+
+            var before = $this.hasClass('start');
+            var $modStart = $this.hasClass('start') ? $this : $this.prevAll('.start[data-plh-id="' + $this.data('plh-id') + '"]').first();
+
+            if(!$this.hasClass('module') && !$this.hasClass('template')){
+                //if element is a placeholder start or placeholder end DIV, adding is pretty easy.
+                var plhId = $this.attr('id').replace('plh_', '');
+                if(before){
+                    jsonDom.addElementToPlaceholderStart(plhId, element);
+                    $this.after(element.render(plhId));
+                } else {
+                    jsonDom.addElementToPlaceholderEnd(plhId, element);
+                    $this.before(element.render(plhId));
+                }
+                $('[data-toggle="tooltip"]', $editor).tooltip({
+                    container: '.page-editor'
+                });
+                return;
+            }
+
+            console.log(element, $modStart, before);
         });
 
-    $('.plh .btn-delete', $editor).click(function () {
+    $editor.on('click', '.plh .btn-delete', function () {
         var $this = $(this),
             $modStart = $this.parent(),
             plhId = $modStart.data('plh-id'),
@@ -134,12 +257,12 @@
         var $between = $modStart.nextUntil($modEnd);
 
         var idx = -1;
-        $('.plh.start[id="plh_' + plhId + '"]').nextUntil('.plh.end[id="plh_' + plhId + '"]', '[data-plh-id="' + plhId + '"]').each(function (k, v) {
+        $('.plh.start[id="plh_' + plhId + '"]').nextUntil('.plh.end[id="plh_' + plhId + '"]', '.plh.start[data-plh-id="' + plhId + '"]').each(function (k, v) {
             if ($(v).data('index') === guid) {
                 idx = k;
             }
         });
-        if (idx === -1) throw new Error("Module / Template index could not be found!");
+        if (idx === -1) throw new Error("Element / Template index could not be found!");
 
         jsonDom.removeElementFromPlaceholder(plhId, elementId, idx);
 
@@ -161,6 +284,6 @@
 
     //init.
     $('.sidebar .module', $editor).each(function (k, v) {
-        modules.push(new Module($(v)));
+        elements.push(new Element($(v), 'module'));
     });
 });

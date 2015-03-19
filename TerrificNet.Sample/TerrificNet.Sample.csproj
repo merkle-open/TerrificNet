@@ -75,6 +75,7 @@
     <Content Include="components\modules\Logo\logo.html" />
     <Content Include="components\modules\MetaFoot\metafoot.html" />
     <Content Include="components\modules\MetaHead\metahead.html" />
+    <Content Include="components\modules\SubPlaceholder\subplaceholder.html" />
     <Content Include="components\modules\Teaser\js\teaser.js" />
     <Content Include="components\modules\Teaser\teaser.html" />
     <Content Include="views\_layouts\nestedplaceholder.html" />
@@ -83,7 +84,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="views\empty.html.json" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="config.json" />
   </ItemGroup>
@@ -125,6 +128,7 @@
   <ItemGroup>
     <Content Include="components\modules\Breadcrumb\data\extended.json" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
