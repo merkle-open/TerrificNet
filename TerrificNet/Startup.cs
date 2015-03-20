@@ -38,7 +38,7 @@ namespace TerrificNet
             config.Routes.MapHttpRoute(
                 name: "PageEditor",
                 routeTemplate: "web/page_edit",
-                defaults: new { controller = "PageEdit", action = "Index", section = "web/" }
+                defaults: new { controller = "PageEdit", section = "web/" }
             );
 
             config.Routes.MapHttpRoute(

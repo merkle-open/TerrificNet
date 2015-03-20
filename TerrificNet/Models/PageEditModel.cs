@@ -17,6 +17,9 @@ namespace TerrificNet.Models
 
         [JsonProperty("app")]
         public string App { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
     }
 
     public class PageEditModuleModel

@@ -1,10 +1,11 @@
-﻿<div class="row page-editor" data-app="{{app}}">
+﻿<div class="row page-editor" data-app="{{app}}" data-id="{{id}}">
     <script type="text/json" id="siteDefinition">
         {{{pageJson}}}
     </script>
     <div class="col-md-10">
-        <h3>PageEditor</h3>
-        <div class="page">
+        <div>
+            <div class="col-xs-6"><h3>PageEditor</h3></div><div class="col-xs-6 buttons"><button class="btn btn-primary js-save">save</button><button class="btn btn-default js-cancel">cancel</button></div></div>
+        <div class="page col-xs-12">
             {{{pageHtml}}}
         </div>
     </div>

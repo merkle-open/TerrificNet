@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -40,7 +41,8 @@ namespace TerrificNet.Controllers
                 PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null,
                 PageHtml = CreateSiteHtml(await appViewEnging.CreateViewAsync(tplInfo), siteDefinition),
                 Modules = CreateModules(app),
-                App = app
+                App = app,
+                Id = id
             };
 
             var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
@@ -53,6 +55,26 @@ namespace TerrificNet.Controllers
             viewDefinition.IncludeStyle("/web/page_edit/bundle_app.css?app=" + app);
 
             return await View(viewDefinition.Template, viewDefinition);
+        }
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> Save(string id, string app, [FromBody] Fudi definition)
+        {
+            var repo = ResolveForApp<TerrificViewDefinitionRepository>(app);
+            var jObject = JsonConvert.DeserializeObject(definition.Definition) as JObject;
+            var def = ViewDefinition.FromJObject<PageViewDefinition>(jObject);
+
+            if (await repo.UpdateViewDefinitionForId(id, def))
+            {
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+        }
+
+        public class Fudi
+        {
+            [JsonProperty("definition")]
+            public string Definition { get; set; }
         }
 
         [HttpGet]

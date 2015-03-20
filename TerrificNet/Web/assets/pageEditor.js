@@ -59,6 +59,16 @@
             init();
         };
 
+        Object.defineProperty(this, 'dom', {
+            get: function () {
+                var tmp = JSON.parse(JSON.stringify(domObject));
+                delete tmp.scripts;
+                delete tmp.styles;
+                delete tmp.root;
+                return JSON.stringify(tmp);
+            }
+        });
+
         function readPlaceholders(parent, parentPlh) {
             if (parent._placeholder) {
                 for (var plh in parent._placeholder) {
@@ -87,7 +97,6 @@
 
     function Placeholder(name, plhElements) {
         var elements = plhElements;
-        this.blub = elements;
         this.name = name;
 
         this.elementExists = function (elementId, idx) {
@@ -167,17 +176,6 @@
 
 
     //functions
-    function guid() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-        }
-
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
-    }
-
     function reloadTooltips() {
         $('[data-toggle="tooltip"]', $editor).tooltip({
             container: '.page-editor'
@@ -301,6 +299,17 @@
     $editor.on('click', 'a', function () {
         //prevent links from firing
         return false;
+    });
+
+    $('.js-save', $editor).click(function(){
+        $.post('/web/page_edit?id=' + $editor.data('id') + '&app=' + $editor.data('app'), {definition: jsonDom.dom}).then(function(){
+        }, function(err){
+            console.error(err);
+        });
+    });
+
+    $('.js-cancel', $editor).click(function(){
+        window.history.back();
     });
 
     //initialize tooltips
