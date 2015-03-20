@@ -32,7 +32,7 @@
             plh.removeElement(index);
         };
 
-        this.addElementToPlaceholder = function(plhId, element, index, before){
+        this.addElementToPlaceholder = function (plhId, element, index, before) {
             var plh = placeholders.get(function (e) {
                 return e.name === plhId;
             });
@@ -41,7 +41,7 @@
             init();
         };
 
-        this.addElementToPlaceholderStart = function(plhId, element){
+        this.addElementToPlaceholderStart = function (plhId, element) {
             var plh = placeholders.get(function (e) {
                 return e.name === plhId;
             });
@@ -50,7 +50,7 @@
             init();
         };
 
-        this.addElementToPlaceholderEnd = function(plhId, element){
+        this.addElementToPlaceholderEnd = function (plhId, element) {
             var plh = placeholders.get(function (e) {
                 return e.name === plhId;
             });
@@ -64,8 +64,8 @@
                 for (var plh in parent._placeholder) {
                     if (parent._placeholder.hasOwnProperty(plh)) {
                         var plhId = parentPlh;
-                        if(parent.module) plhId += (/\/[^\/]+$/g).exec(parent.module)[0].substring(1) + '/';
-                        if(parent.template && !parent.root) plhId += (/\/[^\/]+$/g).exec(parent.template)[0].substring(1) + '/';
+                        if (parent.module) plhId += (/\/[^\/]+$/g).exec(parent.module)[0].substring(1) + '/';
+                        if (parent.template && !parent.root) plhId += (/\/[^\/]+$/g).exec(parent.template)[0].substring(1) + '/';
                         plhId += plh;
                         placeholders.push(new Placeholder(plhId, parent._placeholder[plh]));
                         parent._placeholder[plh].forEach(function (e) {
@@ -99,18 +99,18 @@
             elements.splice(idx, 1);
         };
 
-        this.insertFirst = function(element){
+        this.insertFirst = function (element) {
             elements.unshift(element.elementJson);
         };
 
-        this.insertLast = function(element){
+        this.insertLast = function (element) {
             elements.push(element.elementJson);
         };
 
-        this.insertAt = function(element, idx){
-            if(idx == 0){
+        this.insertAt = function (element, idx) {
+            if (idx == 0) {
                 elements.unshift(element.elementJson);
-            } else if (idx == elements.length){
+            } else if (idx == elements.length) {
                 elements.push(element.elementJson);
             } else {
                 elements.splice(idx, 0, element.elementJson);
@@ -125,19 +125,19 @@
             type = elType;
 
         Object.defineProperty(this, 'elementId', {
-            get: function(){
+            get: function () {
                 return id && skin ? id + '/' + skin : id;
             }
         });
 
         Object.defineProperty(this, 'skin', {
-            get: function(){
+            get: function () {
                 return skin;
             }
         });
 
         Object.defineProperty(this, 'elementJson', {
-            get: function(){
+            get: function () {
                 return {
                     _placeholder: placeholder,
                     data_variation: null,
@@ -147,14 +147,14 @@
             }
         });
 
-        this.render = function(plhId, renderFunction, callback){
-            var url = '/web/page_edit/element_info/'+type+'?id=' + id + '&parent=' + plhId;
-            if(skin) url += '&skin=' + skin;
-            $.get(url).then(function(response){
+        this.render = function (plhId, renderFunction, callback) {
+            var url = '/web/page_edit/element_info/' + type + '?id=' + id + '&parent=' + plhId;
+            if (skin) url += '&skin=' + skin;
+            $.get(url).then(function (response) {
                 placeholder = response._placeholder;
                 renderFunction(response.html);
                 callback();
-            }, function(err){
+            }, function (err) {
                 console.error(err);
             });
         };
@@ -178,7 +178,7 @@
             s4() + '-' + s4() + s4() + s4();
     }
 
-    function reloadTooltips(){
+    function reloadTooltips() {
         $('[data-toggle="tooltip"]', $editor).tooltip({
             container: '.page-editor'
         });
@@ -188,7 +188,7 @@
     $('.sidebar .module', $editor).on('dragstart', function (e) {
         var $this = $(this);
         var id = $this.data('id');
-        if($this.data('skin')) id += '/' + $this.data('skin');
+        if ($this.data('skin')) id += '/' + $this.data('skin');
         e.originalEvent.dataTransfer.setData('id', id);
     });
 
@@ -214,47 +214,47 @@
             });
             if (!element) throw new Error("Element not found");
 
-            console.log("ueli");
-
             var before = $this.hasClass('start');
 
-            var plhId = '';
-            if(!$this.hasClass('module') && !$this.hasClass('template')){
+            var placeholder = '';
+            if (!$this.hasClass('module') && !$this.hasClass('template')) {
                 //if element is a placeholder start or placeholder end DIV, adding is pretty easy.
-                plhId = $this.attr('id').replace('plh_', '');
-                if(before){
-                    element.render(plhId, function(html){
+                placeholder = $this.attr('id').replace('plh_', '');
+                element.render(placeholder, function (html) {
+                    if (before) {
                         $this.after(html);
-                    }, function(){
-                        jsonDom.addElementToPlaceholderStart(plhId, element);
-                        reloadTooltips();
-                    });
-                } else {
-                    element.render(plhId, function(html){
-                        $this.before(html);
-                    }, function(){
-                        jsonDom.addElementToPlaceholderEnd(plhId, element);
-                        reloadTooltips();
-                    });
-                }
+                        return;
+                    }
+                    $this.before(html);
+                }, function () {
+                    jsonDom.addElementToPlaceholderStart(placeholder, element);
+                    reloadTooltips();
+                });
             } else {
-                plhId = $this.data('plh-id');
-                var $modStart = $this.hasClass('start') ? $this : $this.prevAll('.start[data-plh-id="' + plhId + '"]').first();
-                var $modEnd = $this.hasClass('end') ? $this : $this.nextAll('.end[data-plh-id="' + plhId + '"]').first();
+                var path = $this.data('path'),
+                    self = $this.data('self'),
+                    $elementStart = $this.hasClass('start') ? $this : $this.prevAll('.start[data-path="' + path + '"]').first(),
+                    $elementEnd = $this.hasClass('end') ? $this : $this.nextAll('.end[data-path="' + path + '"]').first();
+
+                placeholder = path.substring(0, path.lastIndexOf('/' + self));
+
                 var idx = -1;
-                var guid = $modStart.data('index');
-                $('.plh.start[id="plh_' + plhId + '"]').nextUntil('.plh.end[id="plh_' + plhId + '"]', '.plh.start[data-plh-id="' + plhId + '"]').each(function (k, v) {
+                var guid = $elementStart.data('index');
+                $('.plh.start[id="plh_' + placeholder + '"]').nextUntil('.plh.end[id="plh_' + placeholder + '"]', '.plh.start[data-path^="' + placeholder + '"]').each(function (k, v) {
                     if ($(v).data('index') === guid) {
                         idx = k;
                     }
                 });
                 if (idx === -1) throw new Error("Element / Template index could not be found!");
-                jsonDom.addElementToPlaceholder(plhId, element, idx, before);
-                if(before){
-                    $modStart.before(element.render(plhId));
-                } else {
-                    $modEnd.after(element.render(plhId));
-                }
+                element.render(placeholder, function (html) {
+                    if (before) {
+                        $elementStart.before(html);
+                        return;
+                    }
+                    $elementEnd.after(html);
+                }, function () {
+                    jsonDom.addElementToPlaceholder(placeholder, element, idx, before);
+                });
             }
         });
 
