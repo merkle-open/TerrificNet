@@ -171,13 +171,47 @@
                 callback();
             }, function (err) {
                 console.error(err);
+                notificator.showError("an error happend during rendering :(");
             });
+        };
+    }
+
+    function Notificator($el){
+        var timeout = null;
+        var $div = $el;
+        var $text = $('.text', $div);
+        var $icon = $('.icon .glyphicon', $div);
+
+        function hideField(){
+            $div.removeClass('show');
+        }
+
+        function showField(){
+            if(timeout) return;
+            $div.addClass('show');
+            timeout = setTimeout(function(){
+                hideField();
+                timeout = null;
+            }, 2000);
+        }
+
+        this.showMessage = function(msg){
+            $text.text(msg);
+            $icon.removeClass('glyphicon-remove-sign').addClass('glyphicon-ok');
+            showField();
+        };
+
+        this.showError = function(errorMessage){
+            $text.text(errorMessage);
+            $icon.removeClass('glyphicon-ok').addClass('glyphicon-remove-sign');
+            showField();
         };
     }
 
     //variables
     var $editor = $('.page-editor'),
         jsonDom = new JsonDom($('#siteDefinition', $editor).html()),
+        notificator = new Notificator($('.notification', $editor)),
         elements = [];
 
 
@@ -313,8 +347,10 @@
 
     $('.js-save', $editor).click(function(){
         $.post('/web/page_edit?id=' + $editor.data('id') + '&app=' + $editor.data('app'), {definition: jsonDom.dom}).then(function(){
+            notificator.showMessage("saved.");
         }, function(err){
             console.error(err);
+            notificator.showError("an error happend during save :(");
         });
     });
 

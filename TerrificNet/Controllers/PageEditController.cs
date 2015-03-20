@@ -170,7 +170,7 @@ namespace TerrificNet.Controllers
             var modelRepository = ResolveForApp<IModuleRepository>(app);
             var replacePath = ResolveForApp<ITerrificNetConfig>(app).ModulePath;
             if (!replacePath.EndsWith("/")) replacePath += "/";
-
+            
             var models = (from mod in modelRepository.GetAll()
                 let skins = mod.Skins.Select(s => s.Key).ToList()
                 select new PageEditModuleModel

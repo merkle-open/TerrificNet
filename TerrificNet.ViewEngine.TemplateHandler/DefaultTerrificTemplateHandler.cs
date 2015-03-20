@@ -193,6 +193,11 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                                              Guid.NewGuid() + "' data-self='"+templateId+"'>Partial Template \"" +
                                              template +
                                              "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete template.'><i class='glyphicon glyphicon-remove'></i></span></div>");
+                        var partial = model as PartialViewDefinition;
+                        if (partial != null)
+                        {
+                            if (partial.Data == null) partial.Data = new JObject();
+                        }
                     }
 
                     view.Render(model, new RenderingContext(context.Writer, context));

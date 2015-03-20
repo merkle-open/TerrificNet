@@ -1,4 +1,49 @@
-﻿.page-editor{
+﻿.transition(@property, @duration, @easing, @delay: 0s) {
+    -webkit-transition: @property @duration @easing @delay;
+    -moz-transition: @property @duration @easing @delay;
+    -ms-transition: @property @duration @easing @delay;
+    -o-transition: @property @duration @easing @delay;
+    transition: @property @duration @easing @delay;
+}
+
+.page-editor{
+
+    .notification {
+        position: fixed;
+        bottom: -210px;
+        width: 400px;
+        left: 50%;
+        height: 210px;
+        z-index: 200;
+
+        .transition(bottom, 250ms, ease-out);
+
+        &.show {
+            bottom: -10px;
+        }
+
+        .wrapper {
+            padding: 40px;
+            position: relative;
+            left: -50%;
+            height: 100%;
+            width: 100%;
+
+            border: 1px solid #ccc;
+            border-radius: 4px;
+
+            .icon, .text {
+                height: 28px;
+                line-height: 28px;
+                font-size: 24px;
+                display: inline;
+            }
+
+            .text {
+                padding-left: 16px;
+            }
+        }
+    }
 
     .buttons {
         height: 56px;
@@ -58,6 +103,7 @@
 
     .sidebar {
         position: fixed;
+        z-index: 100;
         right: 0;
         bottom: 0;
         top: 50px;
