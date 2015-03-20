@@ -35,6 +35,9 @@ namespace TerrificNet.Models
 
         [JsonProperty("skins")]
         public IEnumerable<string> Skins { get; set; }
+
+        [JsonProperty("variations")]
+        public string Variations { get; set; }
     }
 
     public class PageEditLayoutModel

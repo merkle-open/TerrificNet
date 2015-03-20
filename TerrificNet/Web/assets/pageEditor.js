@@ -131,7 +131,16 @@
         var placeholder = null,
             id = $el.data('id'),
             skin = $el.data('skin'),
-            type = elType;
+            type = elType,
+            variations = [],
+            lastSelectedVariation = null;
+
+        if (type === 'module' && $el.data('variations')) {
+            var datavars = $el.data('variations').split('|');
+            if (datavars.length > 1) {
+                variations = datavars;
+            }
+        }
 
         Object.defineProperty(this, 'elementId', {
             get: function () {
@@ -147,10 +156,10 @@
 
         Object.defineProperty(this, 'elementJson', {
             get: function () {
-                if(type === 'module'){
+                if (type === 'module') {
                     return {
                         _placeholder: placeholder,
-                        data_variation: null,
+                        data_variation: lastSelectedVariation,
                         module: id,
                         skin: skin
                     };
@@ -162,8 +171,9 @@
             }
         });
 
-        this.render = function (plhId, renderFunction, callback) {
+        function render(plhId, withVariation, renderFunction, callback) {
             var url = '/web/page_edit/element_info/' + type + '?id=' + id + '&parent=' + plhId;
+            if (withVariation) url += '&dataVariation=' + lastSelectedVariation;
             if (skin) url += '&skin=' + skin;
             $.get(url).then(function (response) {
                 placeholder = response._placeholder;
@@ -173,35 +183,68 @@
                 console.error(err);
                 notificator.showError("an error happend during rendering :(");
             });
+        }
+
+        this.render = function (plhId, renderFunction, callback) {
+            if (variations.length) {
+                var formBody = $('#variationQuestion .modal-body', $editor);
+                formBody.html('');
+
+                variations.forEach(function (e) {
+                    formBody.append($('<div/>', {
+                        class: 'radio'
+                    }).append($('<label/>').append($('<input/>', {
+                        type: 'radio',
+                        name: 'variationRadios',
+                        value: e
+                    })).append(e)));
+                });
+
+                $('#variationQuestion', $editor).modal({
+                    backdrop: false
+                });
+
+                $('#variationQuestion', $editor).on('hidden.bs.modal', function () {
+                    var value = formBody.find('input[name="variationRadios"]:checked').val();
+                    if (value) {
+                        lastSelectedVariation = value;
+                        render(plhId, true, renderFunction, callback);
+                    }
+                    $('#variationQuestion', $editor).off('hidden.bs.modal');
+                });
+
+            } else {
+                render(plhId, false, renderFunction, callback);
+            }
         };
     }
 
-    function Notificator($el){
+    function Notificator($el) {
         var timeout = null;
         var $div = $el;
         var $text = $('.text', $div);
         var $icon = $('.icon .glyphicon', $div);
 
-        function hideField(){
+        function hideField() {
             $div.removeClass('show');
         }
 
-        function showField(){
-            if(timeout) return;
+        function showField() {
+            if (timeout) return;
             $div.addClass('show');
-            timeout = setTimeout(function(){
+            timeout = setTimeout(function () {
                 hideField();
                 timeout = null;
             }, 2000);
         }
 
-        this.showMessage = function(msg){
+        this.showMessage = function (msg) {
             $text.text(msg);
             $icon.removeClass('glyphicon-remove-sign').addClass('glyphicon-ok');
             showField();
         };
 
-        this.showError = function(errorMessage){
+        this.showError = function (errorMessage) {
             $text.text(errorMessage);
             $icon.removeClass('glyphicon-ok').addClass('glyphicon-remove-sign');
             showField();
@@ -345,16 +388,16 @@
         return false;
     });
 
-    $('.js-save', $editor).click(function(){
-        $.post('/web/page_edit?id=' + $editor.data('id') + '&app=' + $editor.data('app'), {definition: jsonDom.dom}).then(function(){
+    $('.js-save', $editor).click(function () {
+        $.post('/web/page_edit?id=' + $editor.data('id') + '&app=' + $editor.data('app'), {definition: jsonDom.dom}).then(function () {
             notificator.showMessage("saved.");
-        }, function(err){
+        }, function (err) {
             console.error(err);
             notificator.showError("an error happend during save :(");
         });
     });
 
-    $('.js-cancel', $editor).click(function(){
+    $('.js-cancel', $editor).click(function () {
         window.history.back();
     });
 

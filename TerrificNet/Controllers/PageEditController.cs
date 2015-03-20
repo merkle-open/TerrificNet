@@ -168,16 +168,17 @@ namespace TerrificNet.Controllers
         private IEnumerable<PageEditModuleModel> CreateModules(string app)
         {
             var modelRepository = ResolveForApp<IModuleRepository>(app);
+            var modelProvider = ResolveForApp<IModelProvider>(app);
             var replacePath = ResolveForApp<ITerrificNetConfig>(app).ModulePath;
             if (!replacePath.EndsWith("/")) replacePath += "/";
-            
             var models = (from mod in modelRepository.GetAll()
                 let skins = mod.Skins.Select(s => s.Key).ToList()
                 select new PageEditModuleModel
                 {
                     Id = mod.Id,
                     Name = mod.Id.Replace(replacePath, ""),
-                    Skins = skins
+                    Skins = skins,
+                    Variations = modelProvider.GetDataVariations(mod).ToList().Aggregate("", (s, s1) => s += s1 + "|", s => s.Length > 0 ? s.Substring(0, s.Length-1) : s)
                 }).ToList();
             return models.Count > 0 ? models : null;
         }
