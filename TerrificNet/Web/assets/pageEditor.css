@@ -53,13 +53,17 @@
   overflow: auto;
   border-left: 1px solid #ccc;
 }
-.page-editor .sidebar .module {
+.page-editor .sidebar .module,
+.page-editor .sidebar .layout {
   background-color: #0b82bE;
   color: white;
   padding: 16px;
   border-radius: 6px;
   margin-bottom: 8px;
   cursor: all-scroll;
+  word-break: break-all;
+  height: auto;
+  word-wrap: break-word;
 }
 .page-editor .sidebar .title {
   font-family: inherit;
@@ -68,4 +72,7 @@
   color: inherit;
   font-size: 24px;
   margin-bottom: 16px;
+}
+.page-editor .sidebar .title:not(:first-child) {
+  margin-top: 20px;
 }

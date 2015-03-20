@@ -35,12 +35,13 @@ namespace TerrificNet.Controllers
             var found = ResolveForApp<TerrificViewDefinitionRepository>(app).TryGetFromViewId(id, out siteDefinition);
             var appViewEnging = ResolveForApp<IViewEngine>(app);
             var tplInfo = await ResolveForApp<ITemplateRepository>(app).GetTemplateAsync(siteDefinition.Template);
-
+            
             var data = new PageEditModel
             {
                 PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null,
                 PageHtml = CreateSiteHtml(await appViewEnging.CreateViewAsync(tplInfo), siteDefinition),
                 Modules = CreateModules(app),
+                Layouts = CreateLayouts(app),
                 App = app,
                 Id = id
             };
@@ -58,7 +59,7 @@ namespace TerrificNet.Controllers
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> Save(string id, string app, [FromBody] Fudi definition)
+        public async Task<HttpResponseMessage> Save(string id, string app, [FromBody] ReceivedDefinition definition)
         {
             var repo = ResolveForApp<TerrificViewDefinitionRepository>(app);
             var jObject = JsonConvert.DeserializeObject(definition.Definition) as JObject;
@@ -69,12 +70,6 @@ namespace TerrificNet.Controllers
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
             return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-        }
-
-        public class Fudi
-        {
-            [JsonProperty("definition")]
-            public string Definition { get; set; }
         }
 
         [HttpGet]
@@ -100,7 +95,8 @@ namespace TerrificNet.Controllers
         }
 
         [HttpGet]
-        public async Task<ModuleEditorDefinition> GetModuleDefinition(string id, string parent, string skin = null, string dataVariation = null, string app = "")
+        public async Task<ElementEditorDefinition> GetModuleDefinition(string id, string parent, string skin = null,
+            string dataVariation = null, string app = "")
         {
             var renderer = ResolveForApp<ITerrificTemplateHandlerFactory>(app).Create();
 
@@ -110,17 +106,41 @@ namespace TerrificNet.Controllers
                 var context = new RenderingContext(writer);
                 context.Data.Add("pageEditor", true);
                 context.Data.Add("data_variation", dataVariation);
-                context.Data.Add("renderPath", new List<string> { parent });
+                context.Data.Add("renderPath", new List<string> {parent});
                 context.Data.Add("siteDefinition", new ModuleViewDefinition());
                 context.Data.Add("short_module", true);
                 renderer.RenderModule(id, skin, context);
 
                 var moduleViewDefinition = context.Data["siteDefinition"] as ModuleViewDefinition;
-                return new ModuleEditorDefinition
+                return new ElementEditorDefinition
                 {
                     Html = htmlBuilder.ToString(),
                     Placeholder = moduleViewDefinition != null ? moduleViewDefinition.Placeholder : null
-                };                    
+                };
+            }
+        }
+
+        [HttpGet]
+        public async Task<ElementEditorDefinition> GetLayoutDefinition(string id, string parent, string app = "")
+        {
+            var renderer = ResolveForApp<ITerrificTemplateHandlerFactory>(app).Create();
+
+            var htmlBuilder = new StringBuilder();
+            using (var writer = new StringWriter(htmlBuilder))
+            {
+                var context = new RenderingContext(writer);
+                context.Data.Add("pageEditor", true);
+                context.Data.Add("renderPath", new List<string> { parent });
+                context.Data.Add("siteDefinition", new PartialViewDefinition());
+                context.Data.Add("layoutPlaceholders", new PlaceholderDefinitionCollection());
+                renderer.RenderPartial(id, null, context);
+
+                var layoutViewDefinition = context.Data["siteDefinition"] as PartialViewDefinition;
+                return new ElementEditorDefinition
+                {
+                    Html = htmlBuilder.ToString(),
+                    Placeholder = layoutViewDefinition != null ? layoutViewDefinition.Placeholder : null
+                };
             }
         }
 
@@ -131,7 +151,7 @@ namespace TerrificNet.Controllers
             {
                 var context = new RenderingContext(writer);
                 context.Data.Add("pageEditor", true);
-	            context.Data.Add("siteDefinition", siteDefinition);
+                context.Data.Add("siteDefinition", siteDefinition);
 
                 view.Render(JObject.FromObject(siteDefinition), context);
             }
@@ -151,12 +171,40 @@ namespace TerrificNet.Controllers
             var replacePath = ResolveForApp<ITerrificNetConfig>(app).ModulePath;
             if (!replacePath.EndsWith("/")) replacePath += "/";
 
-            return (from mod in modelRepository.GetAll()
+            var models = (from mod in modelRepository.GetAll()
                 let skins = mod.Skins.Select(s => s.Key).ToList()
                 select new PageEditModuleModel
                 {
-                    Id = mod.Id, Name = mod.Id.Replace(replacePath, ""), Skins = skins
+                    Id = mod.Id,
+                    Name = mod.Id.Replace(replacePath, ""),
+                    Skins = skins
                 }).ToList();
+            return models.Count > 0 ? models : null;
+        }
+
+        private IEnumerable<PageEditLayoutModel> CreateLayouts(string app)
+        {
+            var templateRepo = ResolveForApp<ITemplateRepository>(app);
+            var config = ResolveForApp<ITerrificNetConfig>(app);
+            
+            var replacePath = config.ViewPath;
+            if (!replacePath.EndsWith("/")) replacePath += "/";
+
+            var tpls = templateRepo.GetAll()
+                .Where(t => t.Id.StartsWith(config.ViewPath))
+                .Select(tpl => new PageEditLayoutModel
+                {
+                    Id = tpl.Id,
+                    Name = tpl.Id.Replace(replacePath, "")
+                })
+                .ToList();
+            return tpls.Count > 0 ? tpls : null;
+        }
+
+        public class ReceivedDefinition
+        {
+            [JsonProperty("definition")]
+            public string Definition { get; set; }
         }
     }
 }

@@ -20,6 +20,9 @@ namespace TerrificNet.Models
 
         [JsonProperty("id")]
         public string Id { get; set; }
+
+        [JsonProperty("layouts")]
+        public IEnumerable<PageEditLayoutModel> Layouts { get; set; }
     }
 
     public class PageEditModuleModel
@@ -34,10 +37,20 @@ namespace TerrificNet.Models
         public IEnumerable<string> Skins { get; set; }
     }
 
-    public class ModuleEditorDefinition
+    public class PageEditLayoutModel
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+    }
+
+    public class ElementEditorDefinition
     {
         [JsonProperty("html")]
         public string Html { get; set; }
+
         [JsonProperty("_placeholder")]
         public PlaceholderDefinitionCollection Placeholder { get; set; }
     }

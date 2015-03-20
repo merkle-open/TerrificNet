@@ -147,11 +147,17 @@
 
         Object.defineProperty(this, 'elementJson', {
             get: function () {
+                if(type === 'module'){
+                    return {
+                        _placeholder: placeholder,
+                        data_variation: null,
+                        module: id,
+                        skin: skin
+                    };
+                }
                 return {
                     _placeholder: placeholder,
-                    data_variation: null,
-                    module: id,
-                    skin: skin
+                    template: id
                 };
             }
         });
@@ -183,7 +189,7 @@
     }
 
     //event binders
-    $('.sidebar .module', $editor).on('dragstart', function (e) {
+    $('.sidebar .module, .sidebar .layout', $editor).on('dragstart', function (e) {
         var $this = $(this);
         var id = $this.data('id');
         if ($this.data('skin')) id += '/' + $this.data('skin');
@@ -225,7 +231,11 @@
                     }
                     $this.before(html);
                 }, function () {
-                    jsonDom.addElementToPlaceholderStart(placeholder, element);
+                    if (before) {
+                        jsonDom.addElementToPlaceholderStart(placeholder, element);
+                    } else {
+                        jsonDom.addElementToPlaceholderEnd(placeholder, element);
+                    }
                     reloadTooltips();
                 });
             } else {
@@ -320,5 +330,8 @@
     //init.
     $('.sidebar .module', $editor).each(function (k, v) {
         elements.push(new Element($(v), 'module'));
+    });
+    $('.sidebar .layout', $editor).each(function (k, v) {
+        elements.push(new Element($(v), 'layout'));
     });
 });

@@ -48,6 +48,16 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 }
             }
 
+            if (context.Data.ContainsKey("layoutPlaceholders"))
+            {
+                var placeholders = context.Data["layoutPlaceholders"] as PlaceholderDefinitionCollection;
+                if (placeholders != null)
+                {
+                    if (!placeholders.ContainsKey(key)) placeholders.Add(key, new ViewDefinition[0]);
+                }
+                if(definition != null) definition.Placeholder = placeholders;
+            }
+
             if (definition == null || definition.Placeholder == null)
                 return;
 
@@ -170,8 +180,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 if (view != null)
                 {
                     var renderDivs = context.Data.ContainsKey("pageEditor") && (bool) context.Data["pageEditor"] &&
-                                     context.Data.ContainsKey("renderPath") &&
-                                     (context.Data["renderPath"] as List<string>).Any();
+                                     context.Data.ContainsKey("renderPath") && (context.Data["renderPath"] as List<string>).Any();
                     var path = "";
                     var templateId = new Regex("/[^/]+$").Match(template).Value.Substring(1);
                     if (renderDivs)

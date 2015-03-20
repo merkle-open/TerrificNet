@@ -56,7 +56,7 @@ namespace TerrificNet
             config.Routes.MapHttpRoute(
                 name: "PageEditorLayoutInfo",
                 routeTemplate: "web/page_edit/element_info/layout",
-                defaults: new { controller = "PageEdit", action = "GetModuleDefinition", section = "web/" }
+                defaults: new { controller = "PageEdit", action = "GetLayoutDefinition", section = "web/" }
             );
 
             config.Routes.MapHttpRoute(

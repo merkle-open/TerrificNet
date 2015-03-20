@@ -65,13 +65,17 @@
         overflow: auto;
         border-left: 1px solid #ccc;
 
-        .module {
+        .module,
+        .layout {
             background-color: #0b82bE;
             color: white;
             padding: 16px;
             border-radius: 6px;
             margin-bottom: 8px;
             cursor: all-scroll;
+            word-break: break-all;
+            height: auto;
+            word-wrap: break-word;
         }
 
         .title {
@@ -81,6 +85,10 @@
             color: inherit;
             font-size: 24px;
             margin-bottom: 16px;
+
+            &:not(:first-child){
+                margin-top: 20px;
+            }
         }
     }
 }
