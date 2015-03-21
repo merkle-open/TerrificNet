@@ -38,13 +38,25 @@ namespace TerrificNet
             config.Routes.MapHttpRoute(
                 name: "PageEditor",
                 routeTemplate: "web/page_edit",
-                defaults: new { controller = "PageEdit", action = "Index", section = "web/" }
+                defaults: new { controller = "PageEdit", section = "web/" }
             );
 
             config.Routes.MapHttpRoute(
                 name: "PageEditorSiteBundles",
                 routeTemplate: "web/page_edit/bundle_{name}",
                 defaults: new { controller = "PageEdit", action = "GetEditorAsset", section = "web/" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "PageEditorModuleInfo",
+                routeTemplate: "web/page_edit/element_info/module",
+                defaults: new { controller = "PageEdit", action = "GetModuleDefinition", section = "web/" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "PageEditorLayoutInfo",
+                routeTemplate: "web/page_edit/element_info/layout",
+                defaults: new { controller = "PageEdit", action = "GetLayoutDefinition", section = "web/" }
             );
 
             config.Routes.MapHttpRoute(

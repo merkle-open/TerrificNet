@@ -1,4 +1,65 @@
-﻿.page-editor{
+﻿.transition(@property, @duration, @easing, @delay: 0s) {
+    -webkit-transition: @property @duration @easing @delay;
+    -moz-transition: @property @duration @easing @delay;
+    -ms-transition: @property @duration @easing @delay;
+    -o-transition: @property @duration @easing @delay;
+    transition: @property @duration @easing @delay;
+}
+
+.page-editor{
+
+    .notification {
+        position: fixed;
+        bottom: -210px;
+        width: 400px;
+        left: 50%;
+        height: 210px;
+        z-index: 200;
+
+        .transition(bottom, 250ms, ease-out);
+
+        &.show {
+            bottom: -10px;
+        }
+
+        .wrapper {
+            padding: 40px;
+            position: relative;
+            left: -50%;
+            height: 100%;
+            width: 100%;
+
+            border: 1px solid #ccc;
+            border-radius: 4px;
+
+            .icon, .text {
+                height: 28px;
+                line-height: 28px;
+                font-size: 24px;
+                display: inline;
+            }
+
+            .text {
+                padding-left: 16px;
+            }
+        }
+    }
+
+    .buttons {
+        height: 56px;
+        line-height: 56px;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-content: center;
+        align-items: center;
+
+        button {
+            margin-left: 16px;
+        }
+    }
 
     .page {
         padding: 32px;
@@ -42,6 +103,7 @@
 
     .sidebar {
         position: fixed;
+        z-index: 100;
         right: 0;
         bottom: 0;
         top: 50px;
@@ -49,13 +111,17 @@
         overflow: auto;
         border-left: 1px solid #ccc;
 
-        .module {
+        .module,
+        .layout {
             background-color: #0b82bE;
             color: white;
             padding: 16px;
             border-radius: 6px;
             margin-bottom: 8px;
             cursor: all-scroll;
+            word-break: break-all;
+            height: auto;
+            word-wrap: break-word;
         }
 
         .title {
@@ -65,6 +131,10 @@
             color: inherit;
             font-size: 24px;
             margin-bottom: 16px;
+
+            &:not(:first-child){
+                margin-top: 20px;
+            }
         }
     }
 }

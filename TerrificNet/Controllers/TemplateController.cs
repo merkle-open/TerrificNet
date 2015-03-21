@@ -104,6 +104,13 @@ namespace TerrificNet.Controllers
             return false;
         }
 
+        public async Task<bool> UpdateViewDefinitionForId(string id, PageViewDefinition viewDefinition)
+        {
+            if (!_fileSystem.FileExists(id)) return false;
+            await WritePageDefinition(viewDefinition, id);
+            return true;
+        }
+
         public IEnumerable<PageViewDefinition> GetAll()
         {
             foreach (var viewPath in _fileSystem.DirectoryGetFiles(_configuration.ViewPath, "html.json"))
@@ -120,13 +127,19 @@ namespace TerrificNet.Controllers
             {
                 var jObj = JToken.ReadFrom(reader);
                 viewDefinition = ViewDefinition.FromJObject<PageViewDefinition>(jObj);
-                if (viewDefinition != null)
-                {
-                    viewDefinition.Id = fileName;
-                    return true;
-                }
+                if (viewDefinition == null) return false;
+                viewDefinition.Id = fileName;
+                return true;
             }
-            return false;
+        }
+
+        private Task WritePageDefinition(PageViewDefinition viewDefinition, string fileName)
+        {
+            using (var stream = new StreamWriter(_fileSystem.OpenWrite(fileName)))
+            {
+                var value = JsonConvert.SerializeObject(viewDefinition);
+                return stream.WriteAsync(value);
+            }
         }
     }
 }

@@ -1,30 +1,70 @@
-﻿<div class="row page-editor">
+﻿<div class="row page-editor" data-app="{{app}}" data-id="{{id}}">
+    <div class="modal fade" id="variationQuestion" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">multiple data-variatons detected</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                            Option one is this and that&mdash;be sure to include why it's great
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios">
+                            Option two can be something else and selecting it will deselect option one
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">abort</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">use data</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/json" id="siteDefinition">
         {{{pageJson}}}
     </script>
+    <div class="notification">
+        <div class="wrapper">
+            <div class="icon"><i class="glyphicon glyphicon-remove-sign"></i></div>
+            <div class="text">OKAI!</div>
+        </div>
+    </div>
     <div class="col-md-10">
-        <h3>PageEditor</h3>
-        <div class="page">
+        <div>
+            <div class="col-xs-6"><h3>PageEditor</h3></div><div class="col-xs-6 buttons"><button class="btn btn-primary js-save">save</button><button class="btn btn-default js-cancel">close</button></div>
+        </div>
+        <div class="page col-xs-12">
             {{{pageHtml}}}
         </div>
     </div>
     <div class="col-md-2 sidebar">
+        {{#if modules}}
         <h3 class="title">Modules</h3>
         {{#each modules}}
-        <div class="module" draggable="true" data-id="{{id}}">
-            <script type="text/template" class="js-module-definition">
-                {{{html}}}
-            </script>
+        <div class="module" draggable="true" data-id="{{id}}" data-variations="{{variations}}">
             <div class="name">{{name}}</div>
         </div>
         {{#each skins}}
-        <div class="module" draggable="true" data-id="{{../id}}" data-skin="{{name}}">
-            <script type="text/template" class="js-module-definition">
-                {{{html}}}
-            </script>
-            <div class="name">{{../name}} - {{name}}</div>
+        <div class="module" draggable="true" data-id="{{../id}}" data-skin="{{this}}">
+            <div class="name">{{../name}} - {{this}}</div>
         </div>
         {{/each}}
         {{/each}}
+        {{/if}}
+        {{#if layouts}}
+        <h3 class="title">Layouts</h3>
+        {{#each layouts}}
+        <div class="layout" draggable="true" data-id="{{id}}">
+            <div class="name">{{name}}</div>
+        </div>
+        {{/each}}
+        {{/if}}
     </div>
 </div>

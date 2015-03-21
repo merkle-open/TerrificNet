@@ -30,41 +30,56 @@
             });
             if (plh === null || index === -1 || !plh.elementExists(elementId, index)) throw new Error("Element with id " + elementId + " @ index " + index + " does not exist!");
             plh.removeElement(index);
-
-            console.log(domObject);
         };
 
-        this.addElementToPlaceholder = function(plhId, element, index, before){
+        this.addElementToPlaceholder = function (plhId, element, index, before) {
             var plh = placeholders.get(function (e) {
                 return e.name === plhId;
             });
             if (!plh || !element) throw new Error("Placeholder or Element not found!");
             plh.insertAt(element, before ? index : index + 1);
+            init();
         };
 
-        this.addElementToPlaceholderStart = function(plhId, element){
+        this.addElementToPlaceholderStart = function (plhId, element) {
             var plh = placeholders.get(function (e) {
                 return e.name === plhId;
             });
             if (!plh || !element) throw new Error("Placeholder or Element not found!");
             plh.insertFirst(element);
+            init();
         };
 
-        this.addElementToPlaceholderEnd = function(plhId, element){
+        this.addElementToPlaceholderEnd = function (plhId, element) {
             var plh = placeholders.get(function (e) {
                 return e.name === plhId;
             });
             if (!plh || !element) throw new Error("Placeholder or Element not found!");
             plh.insertLast(element);
+            init();
         };
+
+        Object.defineProperty(this, 'dom', {
+            get: function () {
+                var tmp = JSON.parse(JSON.stringify(domObject));
+                delete tmp.scripts;
+                delete tmp.styles;
+                delete tmp.root;
+                return JSON.stringify(tmp);
+            }
+        });
 
         function readPlaceholders(parent, parentPlh) {
             if (parent._placeholder) {
                 for (var plh in parent._placeholder) {
                     if (parent._placeholder.hasOwnProperty(plh)) {
-                        placeholders.push(new Placeholder(parentPlh + plh, parent._placeholder[plh]));
+                        var plhId = parentPlh;
+                        if (parent.module) plhId += (/\/[^\/]+$/g).exec(parent.module)[0].substring(1) + '/';
+                        if (parent.template && !parent.root) plhId += (/\/[^\/]+$/g).exec(parent.template)[0].substring(1) + '/';
+                        plhId += plh;
+                        placeholders.push(new Placeholder(plhId, parent._placeholder[plh]));
                         parent._placeholder[plh].forEach(function (e) {
-                            readPlaceholders(e, parentPlh + plh + '/');
+                            readPlaceholders(e, plhId + '/');
                         });
                     }
                 }
@@ -72,8 +87,9 @@
         }
 
         function init() {
+            domObject.root = true;
+            placeholders = [];
             readPlaceholders(domObject, '');
-            console.log(placeholders);
         }
 
         init();
@@ -81,7 +97,6 @@
 
     function Placeholder(name, plhElements) {
         var elements = plhElements;
-        this.blub = elements;
         this.name = name;
 
         this.elementExists = function (elementId, idx) {
@@ -93,18 +108,18 @@
             elements.splice(idx, 1);
         };
 
-        this.insertFirst = function(element){
+        this.insertFirst = function (element) {
             elements.unshift(element.elementJson);
         };
 
-        this.insertLast = function(element){
+        this.insertLast = function (element) {
             elements.push(element.elementJson);
         };
 
-        this.insertAt = function(element, idx){
-            if(idx == 0){
+        this.insertAt = function (element, idx) {
+            if (idx == 0) {
                 elements.unshift(element.elementJson);
-            } else if (idx == elements.length){
+            } else if (idx == elements.length) {
                 elements.push(element.elementJson);
             } else {
                 elements.splice(idx, 0, element.elementJson);
@@ -113,90 +128,148 @@
     }
 
     function Element($el, elType) {
-        var html = $el.find('.js-module-definition').html(),
+        var placeholder = null,
             id = $el.data('id'),
             skin = $el.data('skin'),
-            type = elType;
+            type = elType,
+            variations = [],
+            lastSelectedVariation = null;
+
+        if (type === 'module' && $el.data('variations')) {
+            var datavars = $el.data('variations').split('|');
+            if (datavars.length > 1) {
+                variations = datavars;
+            }
+        }
 
         Object.defineProperty(this, 'elementId', {
-            get: function(){
+            get: function () {
                 return id && skin ? id + '/' + skin : id;
             }
         });
 
         Object.defineProperty(this, 'skin', {
-            get: function(){
+            get: function () {
                 return skin;
             }
         });
 
         Object.defineProperty(this, 'elementJson', {
-            get: function(){
+            get: function () {
+                if (type === 'module') {
+                    return {
+                        _placeholder: placeholder,
+                        data_variation: lastSelectedVariation,
+                        module: id,
+                        skin: skin
+                    };
+                }
                 return {
-                    _placeholder: null,
-                    data_variation: null,
-                    module: id,
-                    skin: skin
+                    _placeholder: placeholder,
+                    template: id
                 };
             }
         });
 
-        this.render = function(plhId){
-            var el = $('<div/>');
-            if(type === 'module'){
-                el.append($('<div/>', {
-                    class: 'plh module start',
-                    'data-module-id': id,
-                    'data-plh-id': plhId,
-                    'data-index': guid()
-                }).text('Module "'+id+'" before')
-                    .append($('<span/>', {
-                        class: 'btn-delete',
-                        'data-toggle': 'tooltip',
-                        'data-placement': 'top',
-                        'title': 'Delete module.'
-                    }).append($('<i/>', {
-                        class: 'glyphicon glyphicon-remove'
-                    }))));
-            } else {
+        function render(plhId, withVariation, renderFunction, callback) {
+            var url = '/web/page_edit/element_info/' + type + '?id=' + id + '&parent=' + plhId;
+            if (withVariation) url += '&dataVariation=' + lastSelectedVariation;
+            if (skin) url += '&skin=' + skin;
+            $.get(url).then(function (response) {
+                placeholder = response._placeholder;
+                renderFunction(response.html);
+                callback();
+            }, function (err) {
+                console.error(err);
+                notificator.showError("an error happend during rendering :(");
+            });
+        }
 
-            }
-            el.append(html);
-            if(type === 'module'){
-                el.append($('<div/>', {
-                    class: 'plh module end',
-                    'data-plh-id': plhId
-                }).text('Module '+id+' after'));
-            } else {
+        this.render = function (plhId, renderFunction, callback) {
+            if (variations.length) {
+                var formBody = $('#variationQuestion .modal-body', $editor);
+                formBody.html('');
 
+                variations.forEach(function (e) {
+                    formBody.append($('<div/>', {
+                        class: 'radio'
+                    }).append($('<label/>').append($('<input/>', {
+                        type: 'radio',
+                        name: 'variationRadios',
+                        value: e
+                    })).append(e)));
+                });
+
+                $('#variationQuestion', $editor).modal({
+                    backdrop: false
+                });
+
+                $('#variationQuestion', $editor).on('hidden.bs.modal', function () {
+                    var value = formBody.find('input[name="variationRadios"]:checked').val();
+                    if (value) {
+                        lastSelectedVariation = value;
+                        render(plhId, true, renderFunction, callback);
+                    }
+                    $('#variationQuestion', $editor).off('hidden.bs.modal');
+                });
+
+            } else {
+                render(plhId, false, renderFunction, callback);
             }
-            return el.html();
+        };
+    }
+
+    function Notificator($el) {
+        var timeout = null;
+        var $div = $el;
+        var $text = $('.text', $div);
+        var $icon = $('.icon .glyphicon', $div);
+
+        function hideField() {
+            $div.removeClass('show');
+        }
+
+        function showField() {
+            if (timeout) return;
+            $div.addClass('show');
+            timeout = setTimeout(function () {
+                hideField();
+                timeout = null;
+            }, 2000);
+        }
+
+        this.showMessage = function (msg) {
+            $text.text(msg);
+            $icon.removeClass('glyphicon-remove-sign').addClass('glyphicon-ok');
+            showField();
+        };
+
+        this.showError = function (errorMessage) {
+            $text.text(errorMessage);
+            $icon.removeClass('glyphicon-ok').addClass('glyphicon-remove-sign');
+            showField();
         };
     }
 
     //variables
     var $editor = $('.page-editor'),
         jsonDom = new JsonDom($('#siteDefinition', $editor).html()),
+        notificator = new Notificator($('.notification', $editor)),
         elements = [];
 
 
     //functions
-    function guid() {
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-        }
-
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-            s4() + '-' + s4() + s4() + s4();
+    function reloadTooltips() {
+        $('[data-toggle="tooltip"]', $editor).tooltip({
+            container: '.page-editor'
+        });
     }
 
     //event binders
-    $('.sidebar .module', $editor).on('dragstart', function (e) {
+    $('.sidebar .module, .sidebar .layout', $editor).on('dragstart', function (e) {
         var $this = $(this);
         var id = $this.data('id');
-        if($this.data('skin')) id += '/' + $this.data('skin');
+        if ($this.data('skin')) id += '/' + $this.data('skin');
         e.originalEvent.dataTransfer.setData('id', id);
     });
 
@@ -224,76 +297,88 @@
 
             var before = $this.hasClass('start');
 
-            var plhId = '';
-            if(!$this.hasClass('module') && !$this.hasClass('template')){
+            var placeholder = '';
+            if (!$this.hasClass('module') && !$this.hasClass('template')) {
                 //if element is a placeholder start or placeholder end DIV, adding is pretty easy.
-                plhId = $this.attr('id').replace('plh_', '');
-                if(before){
-                    jsonDom.addElementToPlaceholderStart(plhId, element);
-                    $this.after(element.render(plhId));
-                } else {
-                    jsonDom.addElementToPlaceholderEnd(plhId, element);
-                    $this.before(element.render(plhId));
-                }
+                placeholder = $this.attr('id').replace('plh_', '');
+                element.render(placeholder, function (html) {
+                    if (before) {
+                        $this.after(html);
+                        return;
+                    }
+                    $this.before(html);
+                }, function () {
+                    if (before) {
+                        jsonDom.addElementToPlaceholderStart(placeholder, element);
+                    } else {
+                        jsonDom.addElementToPlaceholderEnd(placeholder, element);
+                    }
+                    reloadTooltips();
+                });
             } else {
-                plhId = $this.data('plh-id');
-                var $modStart = $this.hasClass('start') ? $this : $this.prevAll('.start[data-plh-id="' + plhId + '"]').first();
-                var $modEnd = $this.hasClass('end') ? $this : $this.nextAll('.end[data-plh-id="' + plhId + '"]').first();
+                var path = $this.data('path'),
+                    self = $this.data('self'),
+                    $elementStart = $this.hasClass('start') ? $this : $this.prevAll('.start[data-path="' + path + '"]').first(),
+                    $elementEnd = $this.hasClass('end') ? $this : $this.nextAll('.end[data-path="' + path + '"]').first();
+
+                placeholder = path.substring(0, path.lastIndexOf('/' + self));
+
                 var idx = -1;
-                var guid = $modStart.data('index');
-                $('.plh.start[id="plh_' + plhId + '"]').nextUntil('.plh.end[id="plh_' + plhId + '"]', '.plh.start[data-plh-id="' + plhId + '"]').each(function (k, v) {
+                var guid = $elementStart.data('index');
+                $('.plh.start[id="plh_' + placeholder + '"]').nextUntil('.plh.end[id="plh_' + placeholder + '"]', '.plh.start[data-path^="' + placeholder + '"]').each(function (k, v) {
                     if ($(v).data('index') === guid) {
                         idx = k;
                     }
                 });
                 if (idx === -1) throw new Error("Element / Template index could not be found!");
-                jsonDom.addElementToPlaceholder(plhId, element, idx, before);
-                if(before){
-                    $modStart.before(element.render(plhId));
-                } else {
-                    $modEnd.after(element.render(plhId));
-                }
+                element.render(placeholder, function (html) {
+                    if (before) {
+                        $elementStart.before(html);
+                        return;
+                    }
+                    $elementEnd.after(html);
+                }, function () {
+                    jsonDom.addElementToPlaceholder(placeholder, element, idx, before);
+                });
             }
-
-            $('[data-toggle="tooltip"]', $editor).tooltip({
-                container: '.page-editor'
-            });
         });
 
     $editor.on('click', '.plh .btn-delete', function () {
         var $this = $(this),
-            $modStart = $this.parent(),
-            plhId = $modStart.data('plh-id'),
-            guid = $modStart.data('index'),
+            $elementStart = $this.parent(),
+            path = $elementStart.data('path'),
+            self = $elementStart.data('self'),
+            placeholder = path.substring(0, path.lastIndexOf('/' + self)),
+            guid = $elementStart.data('index'),
             endFinder = '',
             elementId = '';
 
-        if ($modStart.hasClass('module')) {
+        if ($elementStart.hasClass('module')) {
             endFinder = '.plh.module.end';
-            elementId = $modStart.data('module-id');
+            elementId = $elementStart.data('module-id');
         } else {
             endFinder = '.plh.template.end';
-            elementId = $modStart.data('template-id');
+            elementId = $elementStart.data('template-id');
         }
 
-        if (!$modStart.nextAll(endFinder).length) {
+        if (!$elementStart.nextAll(endFinder).length) {
             throw new Error("no module / template end found.");
         }
-        var $modEnd = $modStart.nextAll(endFinder).first();
-        var $between = $modStart.nextUntil($modEnd);
+        var $modEnd = $elementStart.nextAll(endFinder).first();
+        var $between = $elementStart.nextUntil($modEnd);
 
         var idx = -1;
-        $('.plh.start[id="plh_' + plhId + '"]').nextUntil('.plh.end[id="plh_' + plhId + '"]', '.plh.start[data-plh-id="' + plhId + '"]').each(function (k, v) {
+        $('.plh.start[id="plh_' + placeholder + '"]').nextUntil('.plh.end[id="plh_' + placeholder + '"]', '.plh.start[data-path^="' + placeholder + '"]').each(function (k, v) {
             if ($(v).data('index') === guid) {
                 idx = k;
             }
         });
         if (idx === -1) throw new Error("Element / Template index could not be found!");
 
-        jsonDom.removeElementFromPlaceholder(plhId, elementId, idx);
+        jsonDom.removeElementFromPlaceholder(placeholder, elementId, idx);
 
         $this.tooltip('hide');
-        [$modStart, $between, $modEnd].forEach(function (e) {
+        [$elementStart, $between, $modEnd].forEach(function (e) {
             e.remove();
         });
     });
@@ -301,6 +386,19 @@
     $editor.on('click', 'a', function () {
         //prevent links from firing
         return false;
+    });
+
+    $('.js-save', $editor).click(function () {
+        $.post('/web/page_edit?id=' + $editor.data('id') + '&app=' + $editor.data('app'), {definition: jsonDom.dom}).then(function () {
+            notificator.showMessage("saved.");
+        }, function (err) {
+            console.error(err);
+            notificator.showError("an error happend during save :(");
+        });
+    });
+
+    $('.js-cancel', $editor).click(function () {
+        window.history.back();
     });
 
     //initialize tooltips
@@ -311,5 +409,8 @@
     //init.
     $('.sidebar .module', $editor).each(function (k, v) {
         elements.push(new Element($(v), 'module'));
+    });
+    $('.sidebar .layout', $editor).each(function (k, v) {
+        elements.push(new Element($(v), 'layout'));
     });
 });

@@ -1,3 +1,51 @@
+.page-editor .notification {
+  position: fixed;
+  bottom: -210px;
+  width: 400px;
+  left: 50%;
+  height: 210px;
+  z-index: 200;
+  -webkit-transition: bottom 250ms ease-out 0s;
+  -moz-transition: bottom 250ms ease-out 0s;
+  -ms-transition: bottom 250ms ease-out 0s;
+  -o-transition: bottom 250ms ease-out 0s;
+  transition: bottom 250ms ease-out 0s;
+}
+.page-editor .notification.show {
+  bottom: -10px;
+}
+.page-editor .notification .wrapper {
+  padding: 40px;
+  position: relative;
+  left: -50%;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.page-editor .notification .wrapper .icon,
+.page-editor .notification .wrapper .text {
+  height: 28px;
+  line-height: 28px;
+  font-size: 24px;
+  display: inline;
+}
+.page-editor .notification .wrapper .text {
+  padding-left: 16px;
+}
+.page-editor .buttons {
+  height: 56px;
+  line-height: 56px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-content: center;
+  align-items: center;
+}
+.page-editor .buttons button {
+  margin-left: 16px;
+}
 .page-editor .page {
   padding: 32px;
   border: 1px solid #ccc;
@@ -33,6 +81,7 @@
 }
 .page-editor .sidebar {
   position: fixed;
+  z-index: 100;
   right: 0;
   bottom: 0;
   top: 50px;
@@ -40,13 +89,17 @@
   overflow: auto;
   border-left: 1px solid #ccc;
 }
-.page-editor .sidebar .module {
+.page-editor .sidebar .module,
+.page-editor .sidebar .layout {
   background-color: #0b82bE;
   color: white;
   padding: 16px;
   border-radius: 6px;
   margin-bottom: 8px;
   cursor: all-scroll;
+  word-break: break-all;
+  height: auto;
+  word-wrap: break-word;
 }
 .page-editor .sidebar .title {
   font-family: inherit;
@@ -55,4 +108,7 @@
   color: inherit;
   font-size: 24px;
   margin-bottom: 16px;
+}
+.page-editor .sidebar .title:not(:first-child) {
+  margin-top: 20px;
 }
