@@ -1,7 +1,6 @@
 using System.Net.Http;
 using System.Web.Http;
 using TerrificNet.Configuration;
-using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.IO;
 
@@ -9,12 +8,12 @@ namespace TerrificNet.Controllers
 {
     public class AssetsController : StaticFileController
     {
-        private readonly ITerrificNetConfig _config;
+        private readonly PathInfo _filePath;
 
         public AssetsController(ITerrificNetConfig config, IFileSystem fileSystem, ServerConfiguration serverConfiguration) 
 			: base(fileSystem, serverConfiguration)
         {
-            _config = config;
+            _filePath = config.AssetPath;
         }
 
         [HttpGet]
@@ -25,7 +24,7 @@ namespace TerrificNet.Controllers
 
         protected override PathInfo FilePath
         {
-            get { return PathInfo.Create(_config.AssetPath); }
+            get { return _filePath; }
         }
     }
 }

@@ -169,7 +169,7 @@ namespace TerrificNet.Controllers
         {
             var modelRepository = ResolveForApp<IModuleRepository>(app);
             var modelProvider = ResolveForApp<IModelProvider>(app);
-            var replacePath = ResolveForApp<ITerrificNetConfig>(app).ModulePath;
+            var replacePath = ResolveForApp<ITerrificNetConfig>(app).ModulePath.ToString();
             if (!replacePath.EndsWith("/")) replacePath += "/";
             var models = (from mod in modelRepository.GetAll()
                 let skins = mod.Skins.Select(s => s.Key).ToList()
@@ -188,11 +188,11 @@ namespace TerrificNet.Controllers
             var templateRepo = ResolveForApp<ITemplateRepository>(app);
             var config = ResolveForApp<ITerrificNetConfig>(app);
 
-            var replacePath = config.ViewPath;
+            var replacePath = config.ViewPath.ToString();
             if (!replacePath.EndsWith("/")) replacePath += "/";
 
             var tpls = templateRepo.GetAll()
-                .Where(t => t.Id.StartsWith(config.ViewPath))
+                .Where(t => t.Id.StartsWith(config.ViewPath.ToString()))
                 .Select(tpl => new PageEditLayoutModel
                     {
                     Id = tpl.Id,

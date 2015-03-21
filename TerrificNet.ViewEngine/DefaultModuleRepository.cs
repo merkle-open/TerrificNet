@@ -31,7 +31,7 @@ namespace TerrificNet.ViewEngine
 			_cachedTemplates = templates;
 			// ReSharper disable once PossibleMultipleEnumeration
 			_cachedModules = templates
-				.Where(t => t.Id.StartsWith(_configuration.ModulePath))
+				.Where(t => t.Id.StartsWith(_configuration.ModulePath.ToString()))
 				.GroupBy(t => Path.GetDirectoryName(t.Id))
 				.Select(CreateModuleDefinition)
 				.ToList();

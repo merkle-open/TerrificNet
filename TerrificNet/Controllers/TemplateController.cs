@@ -71,17 +71,17 @@ namespace TerrificNet.Controllers
     public class TerrificViewDefinitionRepository
     {
         private readonly IFileSystem _fileSystem;
-        private readonly ITerrificNetConfig _configuration;
+        private readonly PathInfo _viewPathInfo;
 
         public TerrificViewDefinitionRepository(IFileSystem fileSystem, ITerrificNetConfig configuration)
         {
             _fileSystem = fileSystem;
-            _configuration = configuration;
+            _viewPathInfo = configuration.ViewPath;
         }
 
         public bool TryGetFromView(string path, out PageViewDefinition viewDefinition)
         {
-            var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(PathInfo.Create(_configuration.ViewPath), PathInfo.Create(path)), "html.json");
+            var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_viewPathInfo, PathInfo.Create(path)), "html.json");
             if (_fileSystem.FileExists(fileName))
             {
                 if (TryReadPageDefinition(out viewDefinition, fileName)) 
@@ -117,7 +117,7 @@ namespace TerrificNet.Controllers
 
         public IEnumerable<PageViewDefinition> GetAll()
         {
-            foreach (var viewPath in _fileSystem.DirectoryGetFiles(PathInfo.Create(_configuration.ViewPath), "html.json"))
+            foreach (var viewPath in _fileSystem.DirectoryGetFiles(_viewPathInfo, "html.json"))
             {
                 PageViewDefinition viewDefinition;
                 if (TryReadPageDefinition(out viewDefinition, viewPath))

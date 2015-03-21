@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TerrificNet.Test;
 using TerrificNet.ViewEngine.Config;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine.Test
 {
@@ -91,7 +92,7 @@ namespace TerrificNet.ViewEngine.Test
         private static ITerrificNetConfig CreateConfig()
         {
             var config = new Mock<ITerrificNetConfig>();
-            config.Setup(c => c.ModulePath).Returns("modules");
+            config.Setup(c => c.ModulePath).Returns(PathInfo.Create("modules"));
 
             return config.Object;
         }

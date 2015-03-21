@@ -9,18 +9,19 @@ namespace TerrificNet.ViewEngine.SchemaProviders
 {
     public class PhysicalSchemaProvider : ISchemaProvider
     {
-        private readonly ITerrificNetConfig _config;
         private readonly IFileSystem _fileSystem;
+        private static readonly PathInfo SchemasPathInfo = PathInfo.Create("schemas");
+        private readonly PathInfo _viewPathInfo;
 
         public PhysicalSchemaProvider(ITerrificNetConfig config, IFileSystem fileSystem)
         {
-            _config = config;
             _fileSystem = fileSystem;
+            _viewPathInfo = config.ViewPath;
         }
 
         public Task<JSchema> GetSchemaFromTemplateAsync(TemplateInfo template)
         {
-            var file = _fileSystem.Path.Combine(PathInfo.Create(_config.ViewPath), PathInfo.Create("schemas"), _fileSystem.Path.ChangeExtension(PathInfo.Create(template.Id), "json"));
+            var file = _fileSystem.Path.Combine(_viewPathInfo, SchemasPathInfo, _fileSystem.Path.ChangeExtension(PathInfo.Create(template.Id), "json"));
             if (!_fileSystem.FileExists(file))
                 return null;
 

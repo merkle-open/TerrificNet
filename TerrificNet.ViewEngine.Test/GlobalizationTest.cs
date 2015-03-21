@@ -13,15 +13,13 @@ namespace TerrificNet.ViewEngine.Test
 
 		private JsonLabelService _service;
 		private FileSystem _fileSystem;
-		private ITerrificNetConfig _terrificConfig;
 
-		public TestContext TestContext { get; set; }
+	    public TestContext TestContext { get; set; }
 
 		[TestInitialize]
 		public void Init()
 		{
 			_fileSystem = new FileSystem();
-			_terrificConfig = new TerrificNetConfig { BasePath = "" };
 			_service = new JsonLabelService(_fileSystem);
 			_service.Remove(TestKey);
 			_service.Remove(TestPathKey);

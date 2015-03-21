@@ -10,7 +10,7 @@ namespace TerrificNet.ViewEngine
 	{
 		private readonly IFileSystem _fileSystem;
 		private readonly Func<List<FileTemplateInfo>> _getAll;
-		private readonly IDisposable _subscription;
+		private IDisposable _subscription;
 
 		public TerrificTemplateRepository(IFileSystem fileSystem)
 		{
@@ -18,7 +18,7 @@ namespace TerrificNet.ViewEngine
 
 			_getAll = () => _fileSystem.DirectoryGetFiles(null, "html").Select(f =>
 			{
-				var relativePath = GetTemplateId(f).TrimStart('/');
+				var relativePath = GetTemplateId(f).RemoveStartSlash();
 				return new FileTemplateInfo(relativePath.ToString(), f, _fileSystem);
 			}).ToList();
 
@@ -68,6 +68,8 @@ namespace TerrificNet.ViewEngine
 		{
 			if (disposing)
 				_subscription.Dispose();
+
+		    _subscription = null;
 		}
 	}
 }

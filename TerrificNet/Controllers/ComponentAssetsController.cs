@@ -9,15 +9,15 @@ namespace TerrificNet.Controllers
 {
 	public class ComponentAssetsController : StaticFileController
 	{
-		private readonly ITerrificNetConfig _config;
+	    private readonly PathInfo _filePath;
 
-		public ComponentAssetsController(ITerrificNetConfig config, IFileSystem fileSystem, ServerConfiguration serverConfiguration) 
+	    public ComponentAssetsController(ITerrificNetConfig config, IFileSystem fileSystem, ServerConfiguration serverConfiguration) 
 			: base(fileSystem, serverConfiguration)
-		{
-			_config = config;
-		}
+	    {
+	        _filePath = config.ModulePath;
+	    }
 
-		[HttpGet]
+	    [HttpGet]
 		public override HttpResponseMessage Get(string path)
 		{
 			return GetInternal(path);
@@ -25,7 +25,7 @@ namespace TerrificNet.Controllers
 
         protected override PathInfo FilePath
 		{
-			get { return PathInfo.Create(_config.ModulePath); }
+			get { return _filePath; }
 		}
 	}
 }

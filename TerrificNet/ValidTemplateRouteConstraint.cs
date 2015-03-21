@@ -11,14 +11,14 @@ namespace TerrificNet
 	{
 		private readonly ITemplateRepository _templateRepository;
 		private readonly IFileSystem _fileSystem;
-		private readonly ITerrificNetConfig _configuration;
+	    private readonly PathInfo _viewPathInfo;
 
-		public ValidTemplateRouteConstraint(ITemplateRepository templateRepository, IFileSystem fileSystem,
+	    public ValidTemplateRouteConstraint(ITemplateRepository templateRepository, IFileSystem fileSystem,
 			ITerrificNetConfig configuration)
 		{
-			_templateRepository = templateRepository;
+	        _templateRepository = templateRepository;
 			_fileSystem = fileSystem;
-			_configuration = configuration;
+	        _viewPathInfo = configuration.ViewPath;
 		}
 
 		public bool Match(HttpRequestMessage request, IHttpRoute route, string parameterName,
@@ -36,7 +36,7 @@ namespace TerrificNet
 					if (templateInfo != null)
 						return true;
 
-                    var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(PathInfo.Create(_configuration.ViewPath), PathInfo.Create(path)),
+                    var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_viewPathInfo, PathInfo.Create(path)),
 						"html.json");
 					if (_fileSystem.FileExists(fileName))
 						return true;

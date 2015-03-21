@@ -13,17 +13,22 @@ namespace TerrificNet.Generator
 {
     public class GeneratorUtility
     {
-        public static Task Execute(string sourcePath, string outputAssembly, string rootNamespace = null)
+        public static Task ExecuteAsync(string sourcePath, string outputAssembly, string rootNamespace = null)
         {
             return ExecuteInternal(sourcePath, (c, s) => CompileToAssembly(c, s, outputAssembly, rootNamespace));
         }
 
-        public static Task ExecuteFile(string sourcePath, string fileName, string rootNamespace = null)
+        public static Task ExecuteFileAsync(string sourcePath, string fileName, string rootNamespace = null)
         {
             return ExecuteInternal(sourcePath, (c, s) => WriteToFile(c, s, fileName, rootNamespace));
         }
 
-        public async static Task<string> ExecuteString(string sourcePath, string rootNamespace = null)
+        public static string ExecuteString(string sourcePath, string rootNamespace = null)
+        {
+            return ExecuteStringAsync(sourcePath, rootNamespace).Result;
+        }
+
+        public async static Task<string> ExecuteStringAsync(string sourcePath, string rootNamespace = null)
         {
             using (var stream = new MemoryStream())
             {

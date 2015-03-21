@@ -7,7 +7,7 @@ namespace TerrificNet.Generator.MSBuild
     {
         public override bool Execute()
         {
-            GeneratorUtility.Execute(SourcePath, OutputAssembly, RootNamespace);
+            GeneratorUtility.ExecuteAsync(SourcePath, OutputAssembly, RootNamespace);
             return true;
         }
 

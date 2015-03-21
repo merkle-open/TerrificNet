@@ -21,7 +21,6 @@ namespace TerrificNet.UnityModules
     {
         public void Configure(IUnityContainer container)
         {
-            container.RegisterType<ITemplateRepository, TerrificTemplateRepository>();
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
             container.RegisterType<IModuleSchemaProvider, DefaultModuleSchemaProvider>();
             container.RegisterType<IHelperHandlerFactory, DefaultRenderingHelperHandlerFactory>();
@@ -69,6 +68,7 @@ namespace TerrificNet.UnityModules
             container.RegisterType<IModuleRepository, DefaultModuleRepository>();
 	        container.RegisterType<IClientTemplateGenerator, ClientTemplateGenerator>();
 			container.RegisterType<IClientTemplateGeneratorFactory, UnityClientGeneratorFactory>();
+            container.RegisterType<ITemplateRepository, TerrificTemplateRepository>(new ContainerControlledLifetimeManager());
 
 	        container.RegisterType<ILabelService, JsonLabelService>();
         }

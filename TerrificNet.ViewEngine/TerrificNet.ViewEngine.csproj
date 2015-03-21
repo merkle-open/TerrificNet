@@ -77,6 +77,7 @@
     <Compile Include="IO\IFileSystemSubscription.cs" />
     <Compile Include="IO\IPathHelper.cs" />
     <Compile Include="IO\LookupFileSystem.cs" />
+    <Compile Include="IO\PathInfo.cs" />
     <Compile Include="ISchemaProviderFactory.cs" />
     <Compile Include="ITemplateRepository.cs" />
     <Compile Include="ModuleDefinition.cs" />

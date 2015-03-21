@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using TerrificNet.ViewEngine.IO;
@@ -23,7 +24,7 @@ namespace TerrificNet.ViewEngine.Config
             var basePathInfo = PathInfo.Create(basePath);
             var configFile = fileSystem.Path.Combine(basePathInfo, PathInfo.Create(fileName));
 
-            if (!fileSystem.FileExists(configFile))
+            if (!fileSystem.FileExists(configFile.RemoveStartSlash()))
                 throw new ConfigurationException(string.Format("Could not find configuration in path '{0}' in {1}.", configFile, fileSystem.BasePath));
 
             TerrificNetConfig config;
@@ -32,13 +33,37 @@ namespace TerrificNet.ViewEngine.Config
                 config = new JsonSerializer().Deserialize<TerrificNetConfig>(reader);
             }
 
-            config.ViewPath = fileSystem.Path.Combine(basePathInfo, GetDefaultValueIfNotSet(config.ViewPath, fileSystem, basePathInfo, PathInfo.Create("views"))).ToString();
-            config.ModulePath = fileSystem.Path.Combine(basePathInfo,
-                GetDefaultValueIfNotSet(config.ModulePath, fileSystem, basePathInfo, PathInfo.Create("components"), PathInfo.Create("modules"))).ToString();
-            config.AssetPath = fileSystem.Path.Combine(basePathInfo, GetDefaultValueIfNotSet(config.AssetPath, fileSystem, basePathInfo, PathInfo.Create("assets"))).ToString();
-            config.DataPath = fileSystem.Path.Combine(basePathInfo, GetDefaultValueIfNotSet(config.DataPath, fileSystem, basePathInfo, PathInfo.Create("project"), PathInfo.Create("data"))).ToString();
+            return new TerrificNetPathInfo
+            {
+                Assets = config.Assets,
+                ViewPath =
+                    fileSystem.Path.Combine(basePathInfo,
+                        GetDefaultValueIfNotSet(config.ViewPath, fileSystem, basePathInfo, PathInfo.Create("views"))),
+                ModulePath = fileSystem.Path.Combine(basePathInfo,
+                    GetDefaultValueIfNotSet(config.ModulePath, fileSystem, basePathInfo, PathInfo.Create("components"),
+                        PathInfo.Create("modules"))),
+                AssetPath =
+                    fileSystem.Path.Combine(basePathInfo,
+                        GetDefaultValueIfNotSet(config.AssetPath, fileSystem, basePathInfo, PathInfo.Create("assets"))),
+                DataPath =
+                    fileSystem.Path.Combine(basePathInfo,
+                        GetDefaultValueIfNotSet(config.DataPath, fileSystem, basePathInfo, PathInfo.Create("project"),
+                            PathInfo.Create("data")))
+            };
+        }
 
-            return config;
+        private class TerrificNetPathInfo : ITerrificNetConfig
+        {
+            public PathInfo BasePath { get; set; }
+
+            public PathInfo ViewPath { get; set; }
+
+            public PathInfo ModulePath { get; set; }
+            public PathInfo AssetPath { get; set; }
+
+            public PathInfo DataPath { get; set; }
+
+            public Dictionary<string, string[]> Assets { get; set; }
         }
 
         private static PathInfo GetDefaultValueIfNotSet(string value, IFileSystem fileSystem, params PathInfo[] defaultLocation)

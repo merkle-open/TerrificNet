@@ -102,7 +102,8 @@ namespace TerrificNet.ViewEngine.IO
         {
             public PathInfo Combine(params PathInfo[] parts)
             {
-                return PathInfo.Create(PathUtility.Combine(parts.Select(s => s.ToString()).ToArray()));
+                return PathInfo.Combine(parts);
+                //return PathInfo.Create(PathUtility.Combine(parts.Select(s => s.ToString()).ToArray()));
             }
 
             public PathInfo GetDirectoryName(PathInfo filePath)

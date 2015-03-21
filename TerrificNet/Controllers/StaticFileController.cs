@@ -29,7 +29,8 @@ namespace TerrificNet.Controllers
 
 	    protected HttpResponseMessage GetInternal(string path)
 	    {
-            var filePath = _fileSystem.Path.Combine(this.FilePath, PathInfo.Create(path));
+	        var pathInfo = PathInfo.Create(path);
+	        var filePath = _fileSystem.Path.Combine(this.FilePath, pathInfo);
             if (!_fileSystem.FileExists(filePath))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
@@ -45,7 +46,7 @@ namespace TerrificNet.Controllers
 
             var stream = _fileSystem.OpenRead(filePath);
             var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
-            message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(_fileSystem.Path.GetExtension(PathInfo.Create(path)).ToLower()));
+            message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(_fileSystem.Path.GetExtension(pathInfo).ToLower()));
 	        message.Headers.ETag = eTag;
             return message;
 	    }

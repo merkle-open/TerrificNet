@@ -8,18 +8,18 @@ namespace TerrificNet.ViewEngine.IO
 {
 	internal class LookupFileSystem : IDisposable
 	{
-		private readonly string _basePath;
+		private readonly PathInfo _basePath;
         private HashSet<PathInfo> _fileInfos;
         private HashSet<PathInfo> _directoryInfos;
 		private FileSystemWatcher _watcher;
 		private readonly List<LookupFileSystemSubscription> _subscriptions = new List<LookupFileSystemSubscription>();
 
-		public LookupFileSystem(string basePath)
+		public LookupFileSystem(PathInfo pathInfo)
 		{
-			if (string.IsNullOrEmpty(basePath))
-				throw new ArgumentNullException("basePath");
+			if (pathInfo == null)
+                throw new ArgumentNullException("pathInfo");
 
-			_basePath = basePath;
+			_basePath = pathInfo;
 			Initialize();
 			InitializeWatcher();
 		}
@@ -44,25 +44,25 @@ namespace TerrificNet.ViewEngine.IO
 			return
 				_fileInfos.Where(
 					f => (checkDirectory || f.StartsWith(directory)) &&
-					     (checkExtension || f.EndsWith(fileExtension)));
+					     (checkExtension || f.HasExtension(fileExtension)));
 		}
 
 		private void Initialize()
 		{
             _fileInfos = new HashSet<PathInfo>(
-                Directory.EnumerateFiles(_basePath, "*", SearchOption.AllDirectories)
-                    .Select(fileName => PathInfo.Create(PathUtility.Combine(fileName.Substring(_basePath.Length + 1)))));
+                Directory.EnumerateFiles(_basePath.ToString(), "*", SearchOption.AllDirectories)
+                    .Select(fileName => PathInfo.GetSubPath(_basePath, fileName)));
 
 			_directoryInfos = new HashSet<PathInfo>(
-                Directory.EnumerateDirectories(_basePath, "*", SearchOption.AllDirectories)
-                    .Select(fileName => PathInfo.Create(PathUtility.Combine(fileName.Substring(_basePath.Length + 1)))));
+                Directory.EnumerateDirectories(_basePath.ToString(), "*", SearchOption.AllDirectories)
+                    .Select(fileName => PathInfo.GetSubPath(_basePath, fileName)));
 		}
 
 		private void InitializeWatcher()
 		{
-			_watcher = new FileSystemWatcher(_basePath)
+			_watcher = new FileSystemWatcher(_basePath.ToString())
 			{
-				Path = _basePath,
+				Path = _basePath.ToString(),
 				EnableRaisingEvents = true,
 				IncludeSubdirectories = true
 			};

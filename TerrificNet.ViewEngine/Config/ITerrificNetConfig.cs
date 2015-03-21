@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine.Config
 {
 	public interface ITerrificNetConfig
 	{
-		string BasePath { get; }
-		string ViewPath { get; }
-		string ModulePath { get; }
-		string AssetPath { get; }
-		string DataPath { get; }
+		PathInfo BasePath { get; }
+        PathInfo ViewPath { get; }
+        PathInfo ModulePath { get; }
+        PathInfo AssetPath { get; }
+        PathInfo DataPath { get; }
 
         Dictionary<string, string[]> Assets { get; set; }
 	}

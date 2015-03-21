@@ -35,7 +35,7 @@ namespace TerrificNet.Controllers
             if (templateInfo == null)
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-            var view = await viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);
+            var view = await viewEngine.CreateViewAsync(templateInfo, model.GetType()).ConfigureAwait(false);
             return View(view, model);
         }
 

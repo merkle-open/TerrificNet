@@ -28,24 +28,30 @@ namespace TerrificNet.ViewEngine.IO
 
 		public FileSystem(string basePath, bool useCache)
 		{
-			_basePath = PathInfo.Create(PathUtility.Combine(basePath));
+			_basePath = PathInfo.Create(basePath);
 
 			if (!useCache || string.IsNullOrEmpty(basePath))
 			{
 				_directoryExistsAction = directory => Directory.Exists(GetRootPath(directory).ToString());
-				_directoryGetFilesAction = (directory, fileExtension) => Directory.EnumerateFiles(GetRootPath(directory).ToString(), string.Concat("*.", fileExtension), SearchOption.AllDirectories).Select(fileName => PathInfo.Create(PathUtility.Combine(fileName.Substring(_basePath.ToString().Length))));
+				_directoryGetFilesAction = (directory, fileExtension) => Directory.EnumerateFiles(GetRootPath(directory).ToString(), string.Concat("*.", fileExtension), SearchOption.AllDirectories).Select(GetSubPath);
 				_fileExistsAction = filePath => File.Exists(GetRootPath(filePath).ToString());
 			}
 			else
 			{
-				_lookupSystem = new LookupFileSystem(_basePath.ToString());
+			    string basePath1 = _basePath.ToString();
+			    _lookupSystem = new LookupFileSystem(_basePath = PathInfo.Create(basePath1));
 				_directoryExistsAction = directory => _lookupSystem.DirectoryExists(directory);
 				_directoryGetFilesAction = (directory, fileExtension) => _lookupSystem.DirectoryGetFiles(directory, fileExtension);
 				_fileExistsAction = filePath => _lookupSystem.FileExists(filePath);
 			}
 		}
 
-		public PathInfo BasePath { get { return _basePath; } }
+	    private PathInfo GetSubPath(string fileName)
+	    {
+	        return PathInfo.GetSubPath(_basePath, fileName);
+	    }
+
+	    public PathInfo BasePath { get { return _basePath; } }
 
         public bool DirectoryExists(PathInfo directory)
 		{
@@ -117,7 +123,7 @@ namespace TerrificNet.ViewEngine.IO
 			if (part == null)
 				return _basePath;
 
-			return Path.Combine(_basePath, part.TrimStart('/'));
+			return Path.Combine(_basePath, part.RemoveStartSlash());
 		}
 
 
@@ -125,12 +131,13 @@ namespace TerrificNet.ViewEngine.IO
 		{
 			public PathInfo Combine(params PathInfo[] parts)
 			{
-                return PathInfo.Create(PathUtility.Combine(parts.Select(s => s == null ? null : s.ToString()).ToArray()));
+			    return PathInfo.Combine(parts);
+			    //return PathInfo.Create(PathUtility.Combine(parts.Select(s => s == null ? null : s.ToString()).ToArray()));
 			}
 
             public PathInfo GetDirectoryName(PathInfo filePath)
-			{
-				return PathInfo.Create(PathUtility.GetDirectoryName(filePath.ToString()));
+            {
+                return filePath.DirectoryName;
 			}
 
             public PathInfo ChangeExtension(PathInfo fileName, string extension)

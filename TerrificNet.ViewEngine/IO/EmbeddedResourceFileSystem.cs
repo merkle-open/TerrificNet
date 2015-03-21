@@ -21,7 +21,7 @@ namespace TerrificNet.ViewEngine.IO
 
         public PathInfo BasePath
         {
-            get { return PathInfo.Create(string.Empty); }
+            get { return PathInfo.Empty; }
         }
 
         public bool DirectoryExists(PathInfo directory)
