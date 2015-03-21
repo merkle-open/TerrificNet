@@ -7,18 +7,18 @@ namespace TerrificNet.ViewEngine.IO
 {
     public interface IFileSystem
     {
-        string BasePath { get; }
+        PathInfo BasePath { get; }
 
-        bool DirectoryExists(string directory);
-        IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension);
-		Stream OpenRead(string filePath);
-        Stream OpenWrite(string filePath);
-        bool FileExists(string filePath);
-		void RemoveFile(string filePath);
-        void CreateDirectory(string directory);
-	    Stream OpenReadOrCreate(string filePath);
+        bool DirectoryExists(PathInfo directory);
+        IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension);
+        Stream OpenRead(PathInfo filePath);
+        Stream OpenWrite(PathInfo filePath);
+        bool FileExists(PathInfo filePath);
+		void RemoveFile(PathInfo filePath);
+        void CreateDirectory(PathInfo directory);
+	    Stream OpenReadOrCreate(PathInfo filePath);
         IPathHelper Path { get; }
-        string GetETag(string filePath);
+        string GetETag(PathInfo filePath);
 		Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler);
 		bool SupportsSubscribe { get; }
     }

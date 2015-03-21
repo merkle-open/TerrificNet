@@ -20,14 +20,14 @@ namespace TerrificNet.ViewEngine.SchemaProviders
 
         public Task<JSchema> GetSchemaFromTemplateAsync(TemplateInfo template)
         {
-            var file = Path.Combine(_config.ViewPath, "schemas", Path.ChangeExtension(template.Id, "json"));
+            var file = _fileSystem.Path.Combine(PathInfo.Create(_config.ViewPath), PathInfo.Create("schemas"), _fileSystem.Path.ChangeExtension(PathInfo.Create(template.Id), "json"));
             if (!_fileSystem.FileExists(file))
                 return null;
 
             return GetSchema(file);
         }
 
-        private async Task<JSchema> GetSchema(string path)
+        private async Task<JSchema> GetSchema(PathInfo path)
         {
             string content = null;
             using (var reader = new StreamReader(_fileSystem.OpenRead(path)))

@@ -11,30 +11,30 @@ namespace TerrificNet.ViewEngine.IO
     {
         private static readonly IPathHelper PathHelper = new FileSystem.FilePathHelper();
         private readonly Assembly _assembly;
-        private readonly IDictionary<string, string> _names;
+        private readonly IDictionary<PathInfo, string> _names;
 
         public EmbeddedResourceFileSystem(Assembly assembly)
         {
             _assembly = assembly;
-            _names = _assembly.GetManifestResourceNames().ToDictionary(s => Path.Combine(s), s => s);
+            _names = _assembly.GetManifestResourceNames().ToDictionary(s => Path.Combine(PathInfo.Create(s)), s => s);
         }
 
-        public string BasePath
+        public PathInfo BasePath
         {
-            get { return string.Empty; }
+            get { return PathInfo.Create(string.Empty); }
         }
 
-        public bool DirectoryExists(string directory)
+        public bool DirectoryExists(PathInfo directory)
         {
             return _names.ContainsKey(directory);
         }
 
-        public IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension)
+        public IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension)
         {
             throw new NotSupportedException();
         }
 
-        public Stream OpenRead(string filePath)
+        public Stream OpenRead(PathInfo filePath)
         {
             string resourceName;
             if (!_names.TryGetValue(filePath, out resourceName))
@@ -43,27 +43,27 @@ namespace TerrificNet.ViewEngine.IO
             return _assembly.GetManifestResourceStream(resourceName);
         }
 
-        public Stream OpenWrite(string filePath)
+        public Stream OpenWrite(PathInfo filePath)
         {
             throw new NotSupportedException();
         }
 
-        public bool FileExists(string filePath)
+        public bool FileExists(PathInfo filePath)
         {
             return _names.ContainsKey(filePath);
         }
 
-        public void RemoveFile(string filePath)
+        public void RemoveFile(PathInfo filePath)
         {
             throw new NotSupportedException();
         }
 
-        public void CreateDirectory(string directory)
+        public void CreateDirectory(PathInfo directory)
         {
             throw new NotSupportedException();
         }
 
-        public Stream OpenReadOrCreate(string filePath)
+        public Stream OpenReadOrCreate(PathInfo filePath)
         {
             throw new NotSupportedException();
         }
@@ -83,7 +83,7 @@ namespace TerrificNet.ViewEngine.IO
 		    get { return false; }
 	    }
 
-        public string GetETag(string filePath)
+        public string GetETag(PathInfo filePath)
         {
             return _assembly.GetName().Version.ToString(4);
         }

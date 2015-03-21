@@ -39,7 +39,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             {
                 var fileSystem = new EmbeddedResourceFileSystem(typeof (WebInitializer).Assembly);
 
-                using (var reader = new StreamReader(fileSystem.OpenRead("Core/js/ViewEngine.js")))
+                using (var reader = new StreamReader(fileSystem.OpenRead(PathInfo.Create("Core/js/ViewEngine.js"))))
                 {
                     context.Run(reader.ReadToEnd());
                 }

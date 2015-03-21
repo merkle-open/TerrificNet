@@ -8,7 +8,7 @@ namespace TerrificNet.ViewEngine.Test
 	[TestClass]
 	public class FileSystemSubscriptionTest
 	{
-		protected const string TestFileName = "test.txt";
+        protected PathInfo TestFileName = PathInfo.Create("test.txt");
 		protected const string TestFilePattern = "*.txt";
 
 		public TestContext TestContext { get; set; }
@@ -31,7 +31,7 @@ namespace TerrificNet.ViewEngine.Test
 				}
 
 				var result = await c.Task.ConfigureAwait(false);
-				Assert.AreEqual(TestFileName, new FileInfo(result).Name);
+				Assert.AreEqual(TestFileName.ToString(), new FileInfo(result).Name);
 			}
 		}
 	}

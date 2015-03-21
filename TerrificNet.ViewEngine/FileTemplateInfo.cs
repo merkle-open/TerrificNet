@@ -5,10 +5,11 @@ namespace TerrificNet.ViewEngine
 {
     internal class FileTemplateInfo : TemplateInfo
     {
-        private readonly string _filePath;
+        private readonly PathInfo _filePath;
         private readonly IFileSystem _fileSystem;
 
-        public FileTemplateInfo(string id, string filePath, IFileSystem fileSystem) : base(id)
+        public FileTemplateInfo(string id, PathInfo filePath, IFileSystem fileSystem)
+            : base(id)
         {
             _filePath = filePath;
             _fileSystem = fileSystem;

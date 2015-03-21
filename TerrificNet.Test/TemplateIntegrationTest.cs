@@ -92,7 +92,7 @@ namespace TerrificNet.Test
             var clientGenerator = new ClientTemplateGenerator(handlerFactory, new MemberLocatorFromNamingRule(namingRule));
             var generator = new JavascriptClientTemplateGenerator("repo", clientGenerator);
 
-            var templateInfo = new FileTemplateInfo(testName, templateFile, new FileSystem());
+            var templateInfo = new FileTemplateInfo(testName, PathInfo.Create(templateFile), new FileSystem());
             var view = generator.Generate(templateInfo);
 
             Dictionary<string, object> model;
@@ -186,7 +186,7 @@ namespace TerrificNet.Test
             var namingRule = new NamingRule();
             var handlerFactory = new NullRenderingHelperHandlerFactory();
 
-            var templateInfo = new FileTemplateInfo(testName, templateFile, new FileSystem());
+            var templateInfo = new FileTemplateInfo(testName, PathInfo.Create(templateFile), new FileSystem());
 
             var schemaProvider = new HandlebarsViewSchemaProvider(handlerFactory, new MemberLocatorFromNamingRule(namingRule));
 
@@ -223,7 +223,7 @@ namespace TerrificNet.Test
             var namingRule = new NamingRule();
             var handlerFactory = new NullRenderingHelperHandlerFactory();
 
-            var templateInfo = new FileTemplateInfo(testName, templateFile, new FileSystem());
+            var templateInfo = new FileTemplateInfo(testName, PathInfo.Create(templateFile), new FileSystem());
 
             var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory, namingRule);
             IView view = await viewEngine.CreateViewAsync(templateInfo).ConfigureAwait(false);

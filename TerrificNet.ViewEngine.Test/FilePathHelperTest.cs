@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TerrificNet.ViewEngine.IO;
 
@@ -98,7 +99,7 @@ namespace TerrificNet.ViewEngine.Test
         private static void TestCombine(string expected, params string[] parameters)
         {
             var underTest = new FileSystem.FilePathHelper();
-            var result = underTest.Combine(parameters);
+            var result = underTest.Combine(parameters.Select(PathInfo.Create).ToArray()).ToString();
 
             Assert.AreEqual(expected, result);
         }

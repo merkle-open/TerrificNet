@@ -19,7 +19,7 @@ namespace TerrificNet.ViewEngine
 			_getAll = () => _fileSystem.DirectoryGetFiles(null, "html").Select(f =>
 			{
 				var relativePath = GetTemplateId(f).TrimStart('/');
-				return new FileTemplateInfo(relativePath, f, _fileSystem);
+				return new FileTemplateInfo(relativePath.ToString(), f, _fileSystem);
 			}).ToList();
 
 			if (!_fileSystem.SupportsSubscribe) 
@@ -43,7 +43,7 @@ namespace TerrificNet.ViewEngine
 		    return Task.FromResult<TemplateInfo>(null);
 		}
 
-		private string GetTemplateId(string info)
+        private PathInfo GetTemplateId(PathInfo info)
 		{
 			return _fileSystem.Path.Combine(_fileSystem.Path.GetDirectoryName(info), _fileSystem.Path.GetFileNameWithoutExtension(info));
 		}

@@ -17,10 +17,11 @@ namespace TerrificNet.ViewEngine.Config
             if (basePath == null)
                 throw new ArgumentNullException("basePath");
 
-            if (!fileSystem.DirectoryExists(string.Empty))
+            if (!fileSystem.DirectoryExists(null))
                 throw new ConfigurationException(string.Format("The base path for the configuration doesn't exist in {0}.", fileSystem.BasePath));
 
-            var configFile = fileSystem.Path.Combine(basePath, fileName);
+            var basePathInfo = PathInfo.Create(basePath);
+            var configFile = fileSystem.Path.Combine(basePathInfo, PathInfo.Create(fileName));
 
             if (!fileSystem.FileExists(configFile))
                 throw new ConfigurationException(string.Format("Could not find configuration in path '{0}' in {1}.", configFile, fileSystem.BasePath));
@@ -31,21 +32,21 @@ namespace TerrificNet.ViewEngine.Config
                 config = new JsonSerializer().Deserialize<TerrificNetConfig>(reader);
             }
 
-            config.ViewPath = fileSystem.Path.Combine(basePath, GetDefaultValueIfNotSet(config.ViewPath, fileSystem, basePath, "views"));
-            config.ModulePath = fileSystem.Path.Combine(basePath,
-                GetDefaultValueIfNotSet(config.ModulePath, fileSystem, basePath, "components", "modules"));
-            config.AssetPath = fileSystem.Path.Combine(basePath, GetDefaultValueIfNotSet(config.AssetPath, fileSystem, basePath, "assets"));
-            config.DataPath = fileSystem.Path.Combine(basePath, GetDefaultValueIfNotSet(config.DataPath, fileSystem, basePath, "project", "data"));
+            config.ViewPath = fileSystem.Path.Combine(basePathInfo, GetDefaultValueIfNotSet(config.ViewPath, fileSystem, basePathInfo, PathInfo.Create("views"))).ToString();
+            config.ModulePath = fileSystem.Path.Combine(basePathInfo,
+                GetDefaultValueIfNotSet(config.ModulePath, fileSystem, basePathInfo, PathInfo.Create("components"), PathInfo.Create("modules"))).ToString();
+            config.AssetPath = fileSystem.Path.Combine(basePathInfo, GetDefaultValueIfNotSet(config.AssetPath, fileSystem, basePathInfo, PathInfo.Create("assets"))).ToString();
+            config.DataPath = fileSystem.Path.Combine(basePathInfo, GetDefaultValueIfNotSet(config.DataPath, fileSystem, basePathInfo, PathInfo.Create("project"), PathInfo.Create("data"))).ToString();
 
             return config;
         }
 
-        private static string GetDefaultValueIfNotSet(string value, IFileSystem fileSystem, params string[] defaultLocation)
+        private static PathInfo GetDefaultValueIfNotSet(string value, IFileSystem fileSystem, params PathInfo[] defaultLocation)
         {
             if (String.IsNullOrEmpty(value))
                 return fileSystem.Path.Combine(defaultLocation);
 
-            return value;
+            return PathInfo.Create(value);
         }
     }
 }

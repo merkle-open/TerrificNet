@@ -81,7 +81,7 @@ namespace TerrificNet.Controllers
             var config = ResolveForApp<ITerrificNetConfig>(app);
             var fileSystem = ResolveForApp<IFileSystem>(app);
 
-            var components = assetHelper.GetGlobComponentsForAsset(config.Assets[name], fileSystem.BasePath);
+            var components = assetHelper.GetGlobComponentsForAsset(config.Assets[name], fileSystem.BasePath.ToString());
             var content = await assetBundler.BundleAsync(components);
             content = ".page-editor .page, .page-editor .sidebar{" + content + "}";
             var compiler = assetCompilerFactory.GetCompiler(name);

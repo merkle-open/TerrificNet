@@ -8,12 +8,12 @@ namespace TerrificNet.ViewEngine.Globalization
 	public class JsonLabelService : ILabelService
 	{
 		private readonly IFileSystem _fileSystem;
-		private readonly string _fileName;
+        private readonly PathInfo _fileName;
 
 		public JsonLabelService(IFileSystem fileSystem)
 		{
 			_fileSystem = fileSystem;
-			_fileName = "labels.json";
+			_fileName = PathInfo.Create("labels.json");
 		}
 
 		private Dictionary<string, string> Load()

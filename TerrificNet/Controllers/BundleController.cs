@@ -33,7 +33,7 @@ namespace TerrificNet.Controllers
 		[HttpGet]
 		public async Task<HttpResponseMessage> Get(string name)
 		{
-			var components = _assetHelper.GetGlobComponentsForAsset(_config.Assets[name], _fileSystem.BasePath);
+			var components = _assetHelper.GetGlobComponentsForAsset(_config.Assets[name], _fileSystem.BasePath.ToString());
 			var content = await _assetBundler.BundleAsync(components);
 			var compiler = _assetCompilerFactory.GetCompiler(name);
 			var compiledContent = await compiler.CompileAsync(content);

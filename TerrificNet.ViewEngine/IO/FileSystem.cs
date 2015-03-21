@@ -10,10 +10,10 @@ namespace TerrificNet.ViewEngine.IO
 	{
 		private static readonly IPathHelper PathHelper = new FilePathHelper();
 
-		private readonly string _basePath;
-		private readonly Func<string, bool> _directoryExistsAction;
-		private readonly Func<string, string, IEnumerable<string>> _directoryGetFilesAction;
-		private readonly Func<string, bool> _fileExistsAction;
+		private readonly PathInfo _basePath;
+        private readonly Func<PathInfo, bool> _directoryExistsAction;
+        private readonly Func<PathInfo, string, IEnumerable<PathInfo>> _directoryGetFilesAction;
+		private readonly Func<PathInfo, bool> _fileExistsAction;
 		private readonly LookupFileSystem _lookupSystem;
 
 		public FileSystem()
@@ -28,43 +28,43 @@ namespace TerrificNet.ViewEngine.IO
 
 		public FileSystem(string basePath, bool useCache)
 		{
-			_basePath = PathUtility.Combine(basePath);
+			_basePath = PathInfo.Create(PathUtility.Combine(basePath));
 
 			if (!useCache || string.IsNullOrEmpty(basePath))
 			{
-				_directoryExistsAction = directory => Directory.Exists(GetRootPath(directory));
-				_directoryGetFilesAction = (directory, fileExtension) => Directory.EnumerateFiles(GetRootPath(directory), string.Concat("*.", fileExtension), SearchOption.AllDirectories).Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length)));
-				_fileExistsAction = filePath => File.Exists(GetRootPath(filePath));
+				_directoryExistsAction = directory => Directory.Exists(GetRootPath(directory).ToString());
+				_directoryGetFilesAction = (directory, fileExtension) => Directory.EnumerateFiles(GetRootPath(directory).ToString(), string.Concat("*.", fileExtension), SearchOption.AllDirectories).Select(fileName => PathInfo.Create(PathUtility.Combine(fileName.Substring(_basePath.ToString().Length))));
+				_fileExistsAction = filePath => File.Exists(GetRootPath(filePath).ToString());
 			}
 			else
 			{
-				_lookupSystem = new LookupFileSystem(_basePath);
+				_lookupSystem = new LookupFileSystem(_basePath.ToString());
 				_directoryExistsAction = directory => _lookupSystem.DirectoryExists(directory);
 				_directoryGetFilesAction = (directory, fileExtension) => _lookupSystem.DirectoryGetFiles(directory, fileExtension);
 				_fileExistsAction = filePath => _lookupSystem.FileExists(filePath);
 			}
 		}
 
-		public string BasePath { get { return _basePath; } }
+		public PathInfo BasePath { get { return _basePath; } }
 
-		public bool DirectoryExists(string directory)
+        public bool DirectoryExists(PathInfo directory)
 		{
 			return _directoryExistsAction(directory);
 		}
 
-		public IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension)
+        public IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension)
 		{
 			return _directoryGetFilesAction(directory, fileExtension);
 		}
 
-		public Stream OpenRead(string filePath)
+		public Stream OpenRead(PathInfo filePath)
 		{
-			return new FileStream(GetRootPath(filePath), FileMode.Open, FileAccess.Read);
+			return new FileStream(GetRootPath(filePath).ToString(), FileMode.Open, FileAccess.Read);
 		}
 
-		public Stream OpenReadOrCreate(string filePath)
+        public Stream OpenReadOrCreate(PathInfo filePath)
 		{
-			return new FileStream(GetRootPath(filePath), FileMode.OpenOrCreate, FileAccess.Read);
+			return new FileStream(GetRootPath(filePath).ToString(), FileMode.OpenOrCreate, FileAccess.Read);
 		}
 
 		public IPathHelper Path
@@ -85,36 +85,36 @@ namespace TerrificNet.ViewEngine.IO
 			get { return _lookupSystem != null; }
 		}
 
-		public string GetETag(string filePath)
+        public string GetETag(PathInfo filePath)
 		{
-			return new FileInfo(GetRootPath(filePath)).LastWriteTimeUtc.Ticks.ToString("X8");
+			return new FileInfo(GetRootPath(filePath).ToString()).LastWriteTimeUtc.Ticks.ToString("X8");
 		}
 
-		public Stream OpenWrite(string filePath)
+        public Stream OpenWrite(PathInfo filePath)
 		{
-			var stream = new FileStream(GetRootPath(filePath), FileMode.OpenOrCreate, FileAccess.Write);
+			var stream = new FileStream(GetRootPath(filePath).ToString(), FileMode.OpenOrCreate, FileAccess.Write);
 			stream.SetLength(0);
 			return stream;
 		}
 
-		public bool FileExists(string filePath)
+		public bool FileExists(PathInfo filePath)
 		{
 			return _fileExistsAction(filePath);
 		}
 
-		public void RemoveFile(string filePath)
+        public void RemoveFile(PathInfo filePath)
 		{
-			File.Delete(GetRootPath(filePath));
+			File.Delete(GetRootPath(filePath).ToString());
 		}
 
-		public void CreateDirectory(string directory)
+        public void CreateDirectory(PathInfo directory)
 		{
-			Directory.CreateDirectory(GetRootPath(directory));
+			Directory.CreateDirectory(GetRootPath(directory).ToString());
 		}
 
-		private string GetRootPath(string part)
+		private PathInfo GetRootPath(PathInfo part)
 		{
-			if (string.IsNullOrEmpty(part))
+			if (part == null)
 				return _basePath;
 
 			return Path.Combine(_basePath, part.TrimStart('/'));
@@ -123,29 +123,29 @@ namespace TerrificNet.ViewEngine.IO
 
 		internal class FilePathHelper : IPathHelper
 		{
-			public string Combine(params string[] parts)
+			public PathInfo Combine(params PathInfo[] parts)
 			{
-				return PathUtility.Combine(parts);
+                return PathInfo.Create(PathUtility.Combine(parts.Select(s => s == null ? null : s.ToString()).ToArray()));
 			}
 
-			public string GetDirectoryName(string filePath)
+            public PathInfo GetDirectoryName(PathInfo filePath)
 			{
-				return PathUtility.GetDirectoryName(filePath);
+				return PathInfo.Create(PathUtility.GetDirectoryName(filePath.ToString()));
 			}
 
-			public string ChangeExtension(string fileName, string extension)
+            public PathInfo ChangeExtension(PathInfo fileName, string extension)
 			{
-				return System.IO.Path.ChangeExtension(fileName, extension);
+				return PathInfo.Create(System.IO.Path.ChangeExtension(fileName.ToString(), extension));
 			}
 
-			public string GetFileNameWithoutExtension(string path)
+            public PathInfo GetFileNameWithoutExtension(PathInfo path)
 			{
-				return System.IO.Path.GetFileNameWithoutExtension(path);
+				return PathInfo.Create(System.IO.Path.GetFileNameWithoutExtension(path.ToString()));
 			}
 
-			public string GetExtension(string path)
+            public string GetExtension(PathInfo path)
 			{
-				return System.IO.Path.GetExtension(path);
+				return System.IO.Path.GetExtension(path.ToString());
 			}
 		}
 	}

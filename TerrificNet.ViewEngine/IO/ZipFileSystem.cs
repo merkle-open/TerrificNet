@@ -9,58 +9,58 @@ namespace TerrificNet.ViewEngine.IO
 {
     public class ZipFileSystem : IFileSystem
     {
-        private readonly string _filePath;
-        private readonly string _rootPath;
+        private readonly PathInfo _filePath;
+        private readonly PathInfo _rootPath;
         private static readonly IPathHelper PathHelper = new ZipPathHelper();
         private readonly ZipFile _file;
         private readonly string _etag;
 
         public ZipFileSystem(string filePath, string rootPath)
         {
-            _filePath = filePath;
-            _rootPath = rootPath;
+            _filePath = PathInfo.Create(filePath);
+            _rootPath = PathInfo.Create(rootPath);
             _file = new ZipFile(filePath);
             _etag = new FileInfo(filePath).LastWriteTimeUtc.Ticks.ToString("X8");
         }
 
-        public string BasePath { get { return _filePath; } }
+        public PathInfo BasePath { get { return _filePath; } }
 
-        public bool DirectoryExists(string directory)
+        public bool DirectoryExists(PathInfo directory)
         {
             var entryName = GetFullPath(directory);
             return _file.OfType<ZipEntry>().Any(e => e.Name.StartsWith(entryName));
         }
 
-        public IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension)
+        public IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension)
         {
             return _file.OfType<ZipEntry>()
                 .Where(e => e.IsFile && e.Name.StartsWith(GetFullPath(directory)) && e.Name.EndsWith(string.Concat(".", fileExtension)))
-                .Select(e => e.Name.Substring(_rootPath.Length));
+                .Select(e => PathInfo.Create(e.Name.Substring(_rootPath.ToString().Length)));
         }
 
-		public Stream OpenRead(string filePath)
+		public Stream OpenRead(PathInfo filePath)
         {
-            var file = _file.GetEntry(GetFullPath(filePath));
+            var file = _file.GetEntry(GetFullPath(filePath).ToString());
             return _file.GetInputStream(file);
         }
 
-		public Stream OpenWrite(string filePath)
+		public Stream OpenWrite(PathInfo filePath)
         {
             throw new NotSupportedException();
         }
 
-        public bool FileExists(string filePath)
+        public bool FileExists(PathInfo filePath)
         {
-            var dir = _file.GetEntry(GetFullPath(filePath));
+            var dir = _file.GetEntry(GetFullPath(filePath).ToString());
             return dir != null;
         }
 
-	    public void RemoveFile(string filePath)
+        public void RemoveFile(PathInfo filePath)
 	    {
 	        throw new NotSupportedException();
 	    }
 
-	    public Stream OpenReadOrCreate(string filePath)
+        public Stream OpenReadOrCreate(PathInfo filePath)
 	    {
             throw new NotSupportedException();
 	    }
@@ -70,7 +70,7 @@ namespace TerrificNet.ViewEngine.IO
             get { return PathHelper; }
         }
 
-        public string GetETag(string filePath)
+        public string GetETag(PathInfo filePath)
         {
             return _etag;
         }
@@ -85,44 +85,44 @@ namespace TerrificNet.ViewEngine.IO
 		    get { return false; }
 	    }
 
-	    public void CreateDirectory(string directory)
+        public void CreateDirectory(PathInfo directory)
         {
             throw new NotSupportedException();
         }
 
-        private string GetFullPath(string path)
+        private string GetFullPath(PathInfo path)
         {
-            if (string.IsNullOrEmpty(path))
-                return _rootPath;
+            if (path == null)
+                return _rootPath.ToString();
 
-            return PathUtility.Combine(_rootPath, path);
+            return Path.Combine(_rootPath, path).ToString();
         }
 
         private class ZipPathHelper : IPathHelper
         {
-            public string Combine(params string[] parts)
+            public PathInfo Combine(params PathInfo[] parts)
             {
-                return PathUtility.Combine(parts);
+                return PathInfo.Create(PathUtility.Combine(parts.Select(s => s.ToString()).ToArray()));
             }
 
-            public string GetDirectoryName(string filePath)
+            public PathInfo GetDirectoryName(PathInfo filePath)
             {
-                return System.IO.Path.GetDirectoryName(filePath);
+                return PathInfo.Create(System.IO.Path.GetDirectoryName(filePath.ToString()));
             }
 
-            public string ChangeExtension(string fileName, string extension)
+            public PathInfo ChangeExtension(PathInfo fileName, string extension)
             {
-                return System.IO.Path.ChangeExtension(fileName, extension);
+                return PathInfo.Create(System.IO.Path.ChangeExtension(fileName.ToString(), extension));
             }
 
-            public string GetFileNameWithoutExtension(string path)
+            public PathInfo GetFileNameWithoutExtension(PathInfo path)
             {
-                return System.IO.Path.GetFileNameWithoutExtension(path);
+                return PathInfo.Create(System.IO.Path.GetFileNameWithoutExtension(path.ToString()));
             }
 
-            public string GetExtension(string path)
+            public string GetExtension(PathInfo path)
             {
-                return System.IO.Path.GetExtension(path);
+                return System.IO.Path.GetExtension(path.ToString());
             }
         }
     }

@@ -23,9 +23,9 @@ namespace TerrificNet.Controllers
 			return GetInternal(path);
 		}
 
-		protected override string FilePath
+        protected override PathInfo FilePath
 		{
-			get { return _config.ModulePath; }
+			get { return PathInfo.Create(_config.ModulePath); }
 		}
 	}
 }

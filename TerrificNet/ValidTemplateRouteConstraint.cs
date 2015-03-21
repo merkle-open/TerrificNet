@@ -36,7 +36,7 @@ namespace TerrificNet
 					if (templateInfo != null)
 						return true;
 
-					var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_configuration.ViewPath, path),
+                    var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(PathInfo.Create(_configuration.ViewPath), PathInfo.Create(path)),
 						"html.json");
 					if (_fileSystem.FileExists(fileName))
 						return true;

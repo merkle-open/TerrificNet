@@ -10,9 +10,9 @@ namespace TerrificNet.ViewEngine.ModelProviders
     public class JsonModelProvider : IModelProvider
     {
         private readonly IFileSystem _fileSystem;
-        private const string DefaultFilename = "_default.json";
-        private const string FolderPath = "../data";
-        private const string ModuleFolerPath = "data";
+        private static readonly PathInfo DefaultFilename = PathInfo.Create("_default.json");
+        private static readonly PathInfo FolderPath = PathInfo.Create("../data");
+        private static readonly PathInfo ModuleFolderPath = PathInfo.Create("data");
 
         public JsonModelProvider(IFileSystem fileSystem)
         {
@@ -21,7 +21,8 @@ namespace TerrificNet.ViewEngine.ModelProviders
 
         public Task<object> GetDefaultModelForTemplateAsync(TemplateInfo template)
         {
-            return GetModelForTemplateAsync(template, DefaultFilename);
+            var filePath = GetPath(template, DefaultFilename);
+            return GetModelFromPathAsync(filePath);
         }
 
         public Task UpdateDefaultModelForTemplateAsync(TemplateInfo template, object content)
@@ -35,19 +36,19 @@ namespace TerrificNet.ViewEngine.ModelProviders
 
 	    public Task<object> GetModelForTemplateAsync(TemplateInfo template, string dataId)
         {
-            var filePath = GetPath(template, dataId);
+            var filePath = GetPath(template, PathInfo.Create(dataId));
             return GetModelFromPathAsync(filePath);
         }
 
         public Task<object> GetModelForModuleAsync(ModuleDefinition moduleDefinition, string dataId)
         {
-            var filePath = GetPath(moduleDefinition, dataId ?? DefaultFilename);
+            var filePath = GetPath(moduleDefinition, dataId != null ? PathInfo.Create(dataId) : DefaultFilename);
             return GetModelFromPathAsync(filePath);
         }
 
 	    public Task UpdateModelForModuleAsync(ModuleDefinition moduleDefinition, string dataId, object content)
 	    {
-			var filePath = GetPath(moduleDefinition, dataId ?? DefaultFilename);
+            var filePath = GetPath(moduleDefinition, dataId != null ? PathInfo.Create(dataId) : DefaultFilename);
 			if (!_fileSystem.DirectoryExists(_fileSystem.Path.GetDirectoryName(filePath)))
 				_fileSystem.CreateDirectory(_fileSystem.Path.GetDirectoryName(filePath));
 
@@ -56,15 +57,15 @@ namespace TerrificNet.ViewEngine.ModelProviders
 
 	    public IEnumerable<string> GetDataVariations(ModuleDefinition moduleDefinition)
 	    {
-		    var directory = _fileSystem.Path.Combine(moduleDefinition.Id, ModuleFolerPath);
+		    var directory = _fileSystem.Path.Combine(PathInfo.Create(moduleDefinition.Id), ModuleFolderPath);
 		    if (!_fileSystem.DirectoryExists(directory))
 			    return Enumerable.Empty<string>();
 
 		    return _fileSystem.DirectoryGetFiles(directory, "json")
-				.Select(f => _fileSystem.Path.GetFileNameWithoutExtension(f));
+				.Select(f => _fileSystem.Path.GetFileNameWithoutExtension(f).ToString());
 	    }
 
-	    private async Task<object> GetModelFromPathAsync(string filePath)
+	    private async Task<object> GetModelFromPathAsync(PathInfo filePath)
         {
             if (!_fileSystem.FileExists(filePath))
                 return null;
@@ -76,7 +77,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
             }
         }
 
-		private Task Update(object content, string filePath)
+		private Task Update(object content, PathInfo filePath)
 		{
 			using (var stream = new StreamWriter(_fileSystem.OpenWrite(filePath)))
 			{
@@ -85,15 +86,15 @@ namespace TerrificNet.ViewEngine.ModelProviders
 			}
 		}
 
-        private string GetPath(ModuleDefinition moduleDefinition, string dataId)
+        private PathInfo GetPath(ModuleDefinition moduleDefinition, PathInfo dataId)
         {
-            return _fileSystem.Path.Combine(moduleDefinition.Id, ModuleFolerPath,
+            return _fileSystem.Path.Combine(PathInfo.Create(moduleDefinition.Id), ModuleFolderPath,
                 _fileSystem.Path.ChangeExtension(dataId, ".json"));
         }
 
-        private string GetPath(TemplateInfo templateInfo, string id)
+        private PathInfo GetPath(TemplateInfo templateInfo, PathInfo id)
         {
-            return _fileSystem.Path.Combine(templateInfo.Id, FolderPath, _fileSystem.Path.ChangeExtension(id, ".json"));
+            return _fileSystem.Path.Combine(PathInfo.Create(templateInfo.Id), FolderPath, _fileSystem.Path.ChangeExtension(id, ".json"));
         }
 
     }

@@ -9,8 +9,8 @@ namespace TerrificNet.ViewEngine.IO
 	internal class LookupFileSystem : IDisposable
 	{
 		private readonly string _basePath;
-		private HashSet<string> _fileInfos;
-		private HashSet<string> _directoryInfos;
+        private HashSet<PathInfo> _fileInfos;
+        private HashSet<PathInfo> _directoryInfos;
 		private FileSystemWatcher _watcher;
 		private readonly List<LookupFileSystemSubscription> _subscriptions = new List<LookupFileSystemSubscription>();
 
@@ -24,17 +24,17 @@ namespace TerrificNet.ViewEngine.IO
 			InitializeWatcher();
 		}
 
-		public bool DirectoryExists(string directory)
+        public bool DirectoryExists(PathInfo directory)
 		{
-			return string.IsNullOrEmpty(directory) || _directoryInfos.Contains(directory);
+			return directory == null || _directoryInfos.Contains(directory);
 		}
 
-		public bool FileExists(string filePath)
+        public bool FileExists(PathInfo filePath)
 		{
 			return _fileInfos.Contains(filePath);
 		}
 
-		public IEnumerable<string> DirectoryGetFiles(string directory, string fileExtension)
+        public IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension)
 		{
 			var checkDirectory = directory == null;
 			var checkExtension = fileExtension == null;
@@ -43,17 +43,19 @@ namespace TerrificNet.ViewEngine.IO
 
 			return
 				_fileInfos.Where(
-					f =>
-					{
-						return (checkDirectory || f.StartsWith(directory, StringComparison.InvariantCultureIgnoreCase)) &&
-							   (checkExtension || f.EndsWith(fileExtension));
-					});
+					f => (checkDirectory || f.StartsWith(directory)) &&
+					     (checkExtension || f.EndsWith(fileExtension)));
 		}
 
 		private void Initialize()
 		{
-			_fileInfos = new HashSet<string>(Directory.EnumerateFiles(_basePath, "*", SearchOption.AllDirectories).Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length + 1))));
-			_directoryInfos = new HashSet<string>(Directory.EnumerateDirectories(_basePath, "*", SearchOption.AllDirectories).Select(fileName => PathUtility.Combine(fileName.Substring(_basePath.Length + 1))));
+            _fileInfos = new HashSet<PathInfo>(
+                Directory.EnumerateFiles(_basePath, "*", SearchOption.AllDirectories)
+                    .Select(fileName => PathInfo.Create(PathUtility.Combine(fileName.Substring(_basePath.Length + 1)))));
+
+			_directoryInfos = new HashSet<PathInfo>(
+                Directory.EnumerateDirectories(_basePath, "*", SearchOption.AllDirectories)
+                    .Select(fileName => PathInfo.Create(PathUtility.Combine(fileName.Substring(_basePath.Length + 1)))));
 		}
 
 		private void InitializeWatcher()

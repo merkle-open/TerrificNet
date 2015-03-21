@@ -81,7 +81,7 @@ namespace TerrificNet.Controllers
 
         public bool TryGetFromView(string path, out PageViewDefinition viewDefinition)
         {
-            var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(_configuration.ViewPath, path), "html.json");
+            var fileName = _fileSystem.Path.ChangeExtension(_fileSystem.Path.Combine(PathInfo.Create(_configuration.ViewPath), PathInfo.Create(path)), "html.json");
             if (_fileSystem.FileExists(fileName))
             {
                 if (TryReadPageDefinition(out viewDefinition, fileName)) 
@@ -94,9 +94,10 @@ namespace TerrificNet.Controllers
 
         public bool TryGetFromViewId(string id, out PageViewDefinition viewDefinition)
         {
-            if (_fileSystem.FileExists(id))
+            var fileId = PathInfo.Create(id);
+            if (_fileSystem.FileExists(fileId))
             {
-                if (TryReadPageDefinition(out viewDefinition, id))
+                if (TryReadPageDefinition(out viewDefinition, fileId))
                     return true;
             }
 
@@ -106,14 +107,17 @@ namespace TerrificNet.Controllers
 
         public async Task<bool> UpdateViewDefinitionForId(string id, PageViewDefinition viewDefinition)
         {
-            if (!_fileSystem.FileExists(id)) return false;
-            await WritePageDefinition(viewDefinition, id);
+            var fileId = PathInfo.Create(id);
+            if (!_fileSystem.FileExists(fileId)) 
+                return false;
+
+            await WritePageDefinition(viewDefinition, fileId);
             return true;
         }
 
         public IEnumerable<PageViewDefinition> GetAll()
         {
-            foreach (var viewPath in _fileSystem.DirectoryGetFiles(_configuration.ViewPath, "html.json"))
+            foreach (var viewPath in _fileSystem.DirectoryGetFiles(PathInfo.Create(_configuration.ViewPath), "html.json"))
             {
                 PageViewDefinition viewDefinition;
                 if (TryReadPageDefinition(out viewDefinition, viewPath))
@@ -121,19 +125,22 @@ namespace TerrificNet.Controllers
             }
         }
 
-        private bool TryReadPageDefinition(out PageViewDefinition viewDefinition, string fileName)
+        private bool TryReadPageDefinition(out PageViewDefinition viewDefinition, PathInfo fileName)
         {
             using (var reader = new JsonTextReader(new StreamReader(_fileSystem.OpenRead(fileName))))
             {
                 var jObj = JToken.ReadFrom(reader);
                 viewDefinition = ViewDefinition.FromJObject<PageViewDefinition>(jObj);
-                if (viewDefinition == null) return false;
-                viewDefinition.Id = fileName;
+                if (viewDefinition == null) 
+                    return false;
+
+                viewDefinition.Id = fileName.ToString();
+
                 return true;
             }
         }
 
-        private Task WritePageDefinition(PageViewDefinition viewDefinition, string fileName)
+        private Task WritePageDefinition(PageViewDefinition viewDefinition, PathInfo fileName)
         {
             using (var stream = new StreamWriter(_fileSystem.OpenWrite(fileName)))
             {
