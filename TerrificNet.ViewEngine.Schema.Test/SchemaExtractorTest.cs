@@ -106,5 +106,16 @@ namespace TerrificNet.ViewEngine.Schema.Test
             SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "Street", JSchemaType.String);
             SchemaAssertions.AssertSingleProperty(schema.Properties["Customer"].Properties["Addresses"].Items[0], "ZipCode", JSchemaType.String);
         }
+
+        [TestMethod]
+        [Description("A property used inside a each expression is a array")]
+        public void TestArrayPropertyParent()
+        {
+            var schemaExtractor = new SchemaExtractor(new HandlebarsParser());
+            var schema = schemaExtractor.Run(new StreamReader(Path.Combine(TestContext.DeploymentDirectory, "arrayPropertyParent.mustache")), null, null);
+
+            SchemaAssertions.AssertSingleProperty(schema, "Customer", JSchemaType.Object);
+            SchemaAssertions.AssertSingleProperty(schema, "Name", JSchemaType.String);
+        }
     }
 }

@@ -70,6 +70,7 @@
     <Compile Include="SchemaCombinerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Mocks\arrayPropertyParent.mustache" />
     <None Include="Mocks\arrayProperty.mustache" />
     <None Include="Mocks\Comparisions\infoOnMissingPropertyInBaseSchema.json" />
     <None Include="Mocks\Comparisions\infoOnMissingPropertyInBaseSchema_base.json" />

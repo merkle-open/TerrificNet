@@ -104,6 +104,13 @@ namespace TerrificNet.ViewEngine.Schema
             protected override JSchema VisitLateBoundExpression(LateBoundExpressionNode lateboundExpression)
             {
                 var modelSchema = _schemas.Peek();
+                if (lateboundExpression.Scope == ExpressionScope.ModelOfParentScope)
+                {
+                    var subSchema = _schemas.Pop();
+                    modelSchema = _schemas.Peek();
+                    _schemas.Push(subSchema);
+                }
+
                 string propertyName = lateboundExpression.ItemName;
 
                 modelSchema.Type = JSchemaType.Object;
@@ -133,6 +140,7 @@ namespace TerrificNet.ViewEngine.Schema
                 }
                 return base.VisitHelperNode(helperNode);
             }
+
         }
     }
 }

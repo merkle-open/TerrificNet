@@ -95,6 +95,15 @@ namespace TerrificNet.ViewEngine.Client
 
 		    protected override IClientModel VisitLateBoundExpression(LateBoundExpressionNode lateboundExpression)
 			{
+		        if (lateboundExpression.Scope == ExpressionScope.ModelOfParentScope)
+		        {
+		            var self = _modelStack.Pop();
+		            var outer = _modelStack.Peek();
+		            _modelStack.Push(self);
+		            
+                    return outer.Get(lateboundExpression.ItemName);
+		        }
+
 				return _modelStack.Peek().Get(lateboundExpression.ItemName);
 			}
 

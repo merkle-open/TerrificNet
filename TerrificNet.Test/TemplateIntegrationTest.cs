@@ -143,7 +143,7 @@ namespace TerrificNet.Test
                     model[entry.Key] = objs;
                     value = objs;
 
-                    continue;
+                    //continue;
                 }
 
                 var enumerable = value as IEnumerable<object>;

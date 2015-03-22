@@ -42,6 +42,9 @@ namespace TerrificNet.Generator
 
         public Type Compile(JSchema schema)
         {
+            if (schema.Properties == null || schema.Properties.Count == 0)
+                return typeof (object);
+
             var schemas = new[] { schema };
             using (var stream = new MemoryStream())
             {
