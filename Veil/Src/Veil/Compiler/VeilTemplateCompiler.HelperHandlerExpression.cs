@@ -21,7 +21,7 @@ namespace Veil.Compiler
 	    private Expression HandleHelperExpressionWithMethod(HelperExpressionNode node, MethodInfo helperFunction)
 	    {
 		    var helper = EvaluateHelper(node);
-		    var modelExpression = EvaluateScope(node.Scope);
+		    var modelExpression = EvaluateScope(node.Scope, node);
 
 	        var expression = Expression.Call(Expression.Constant(helper), helperFunction,
 	            modelExpression, context, Expression.Constant(node.Name), Expression.Constant(node.Parameters));

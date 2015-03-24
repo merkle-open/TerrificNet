@@ -26,7 +26,7 @@
         {
             if (expression.ResultType.IsValueType && expression.ResultType != typeof(bool))
             {
-                throw new VeilParserException("Attempted to use a ValueType other than bool as the expression in a conditional.");
+                throw new VeilParserException("Attempted to use a ValueType other than bool as the expression in a conditional.", this.Location);
             }
         }
     }

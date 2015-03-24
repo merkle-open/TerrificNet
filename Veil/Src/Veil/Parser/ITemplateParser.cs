@@ -17,6 +17,6 @@ namespace Veil.Parser
 	    /// <param name="modelType">The type of the model that will be passed to the template</param>
 	    /// <param name="memberLocator"></param>
 	    /// <param name="helperHandlers"></param>
-	    SyntaxTreeNode Parse(TextReader templateReader, Type modelType, IMemberLocator memberLocator, params IHelperHandler[] helperHandlers);
+	    SyntaxTreeNode Parse(string templateId, TextReader templateReader, Type modelType, IMemberLocator memberLocator, params IHelperHandler[] helperHandlers);
     }
 }

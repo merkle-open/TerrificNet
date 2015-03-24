@@ -32,7 +32,7 @@ namespace Veil.Parser.Nodes
 
             if (!this.collection.ResultType.HasEnumerableInterface())
             {
-                throw new VeilParserException("Expression used as iteration collection is not IEnumerable<>");
+                throw new VeilParserException("Expression used as iteration collection is not IEnumerable<>", this.Location);
             }
         }
 

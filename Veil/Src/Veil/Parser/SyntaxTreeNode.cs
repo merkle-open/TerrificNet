@@ -5,5 +5,6 @@
     /// </summary>
     public abstract class SyntaxTreeNode
     {
+	    public SourceLocation Location { get; internal set; }
     }
 }

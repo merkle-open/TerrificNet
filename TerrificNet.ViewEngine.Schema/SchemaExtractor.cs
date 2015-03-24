@@ -17,11 +17,11 @@ namespace TerrificNet.ViewEngine.Schema
             _templateParser = templateParser;
         }
 
-        public JSchema Run(StreamReader reader, IMemberLocator memberLocator, IHelperHandler[] helperHandlers)
+        public JSchema Run(string templateId, StreamReader reader, IMemberLocator memberLocator, IHelperHandler[] helperHandlers)
         {
             using (reader)
             {
-                var node = _templateParser.Parse(reader, typeof(object), memberLocator, helperHandlers);
+                var node = _templateParser.Parse(templateId, reader, typeof(object), memberLocator, helperHandlers);
                 var visitor = new SchemaBuilderVisitor();
                 visitor.Visit(node);
 

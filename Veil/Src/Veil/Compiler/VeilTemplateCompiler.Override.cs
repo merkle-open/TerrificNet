@@ -9,8 +9,10 @@ namespace Veil.Compiler
         {
             if (!this.overrideSections.ContainsKey(node.OverrideName))
             {
-                if (node.IsRequired) throw new VeilCompilerException("Overrideable section '{0}' is required but not specified".FormatInvariant(node.OverrideName));
-                if (node.DefaultContent != null) return HandleNode(node.DefaultContent);
+                if (node.IsRequired) 
+					throw new VeilCompilerException("Overrideable section '{0}' is required but not specified".FormatInvariant(node.OverrideName), node);
+                
+				if (node.DefaultContent != null) return HandleNode(node.DefaultContent);
                 return Expression.Empty();
             }
 

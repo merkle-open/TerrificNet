@@ -55,7 +55,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
         private static IView CreateNonGenericView(string templateId, string content, IVeilEngine viewEngine)
         {
-            var render = viewEngine.CompileNonGeneric(new HandlebarsParser(), new StringReader(content), typeof(object));
+            var render = viewEngine.CompileNonGeneric(templateId, new HandlebarsParser(), new StringReader(content), typeof(object));
             var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render));
             return view;
         }
@@ -64,7 +64,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
         // ReSharper disable once UnusedMember.Local
         private static IView CreateView<T>(string templateId, string content, IVeilEngine veilEngine)
         {
-            var render = veilEngine.Compile<T>(new HandlebarsParser(), new StringReader(content));
+            var render = veilEngine.Compile<T>(templateId, new HandlebarsParser(), new StringReader(content));
             return new VeilViewAdapter<T>(templateId, new VeilView<T>(render));
         }
 

@@ -15,7 +15,7 @@ namespace Veil.Compiler
 
             if (!hasTrueBlock && !hasFalseBlock)
             {
-                throw new VeilCompilerException("Conditionals must have a True or False block");
+                throw new VeilCompilerException("Conditionals must have a True or False block", node);
             }
 
             var valueToCheck = ParseExpression(node.Expression);

@@ -26,7 +26,7 @@ namespace TerrificNet.ViewEngine.SchemaProviders
             var helperHandlers = _helperHandlerFactory != null ? _helperHandlerFactory.Create().ToArray() : null;
 
             // TODO: Use async
-            var schema = extractor.Run(new StreamReader(template.Open()), _memberLocator, helperHandlers);
+            var schema = extractor.Run(template.Id, new StreamReader(template.Open()), _memberLocator, helperHandlers);
             if (schema != null && string.IsNullOrEmpty(schema.Title))
                 schema.Title = string.Concat(template.Id, "Model");
 

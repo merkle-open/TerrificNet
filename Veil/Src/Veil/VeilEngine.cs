@@ -14,7 +14,7 @@ namespace Veil
 	/// </summary>
 	public class VeilEngine : IVeilEngine
 	{
-		private static readonly MethodInfo GenericCompileMethod = typeof(VeilEngine).GetMethod("Compile", new [] { typeof(ITemplateParser), typeof(TextReader) });
+		private static readonly MethodInfo GenericCompileMethod = typeof(VeilEngine).GetMethod("Compile", new [] { typeof(string), typeof(ITemplateParser), typeof(TextReader) });
 	    private readonly IHelperHandler[] _helperHandlers;
 	    private readonly IMemberLocator _memberLocator;
 
@@ -34,18 +34,18 @@ namespace Veil
 		/// <param name="parserKey">Key of the <see cref="ITemplateParser"/> to use to parse the template.</param>
 		/// <param name="templateContents">The contents of the template to compile</param>
 		/// <returns>A compiled action ready to be executed as needed to render the template</returns>
-        public Func<RenderingContext, T, Task> Compile<T>(string parserKey, TextReader templateContents)
+        public Func<RenderingContext, T, Task> Compile<T>(string templateId, string parserKey, TextReader templateContents)
 		{
 		    var parser = GetParser(parserKey);
-		    return Compile<T>(parser, templateContents);
+		    return Compile<T>(templateId, parser, templateContents);
 		}
 
-        public Func<RenderingContext, T, Task> Compile<T>(ITemplateParser parser, TextReader templateContents)
+        public Func<RenderingContext, T, Task> Compile<T>(string templateId, ITemplateParser parser, TextReader templateContents)
 	    {
             if (templateContents == null)
                 throw new ArgumentNullException("templateContents");
 
-            var syntaxTree = parser.Parse(templateContents, typeof(T), _memberLocator, _helperHandlers);
+            var syntaxTree = parser.Parse(templateId, templateContents, typeof(T), _memberLocator, _helperHandlers);
             return CompileFromTree<T>(syntaxTree);
         }
 
@@ -61,15 +61,15 @@ namespace Veil
 		/// <param name="templateContents">The contents of the template to compile</param>
 		/// <param name="modelType">The type of the model that will be passed to the template</param>
 		/// <returns>A compiled action that will cast the model before execution</returns>
-        public Func<RenderingContext, object, Task> CompileNonGeneric(string parserKey, TextReader templateContents, Type modelType)
+        public Func<RenderingContext, object, Task> CompileNonGeneric(string templateId, string parserKey, TextReader templateContents, Type modelType)
 	    {
-	        return CompileNonGeneric(GetParser(parserKey), templateContents, modelType);
+	        return CompileNonGeneric(templateId, GetParser(parserKey), templateContents, modelType);
 	    }
 
-        public Func<RenderingContext, object, Task> CompileNonGeneric(ITemplateParser parser, TextReader templateContents, Type modelType)
+        public Func<RenderingContext, object, Task> CompileNonGeneric(string templateId, ITemplateParser parser, TextReader templateContents, Type modelType)
 	    {
             var typedCompileMethod = GenericCompileMethod.MakeGenericMethod(modelType);
-            var compiledTemplate = typedCompileMethod.Invoke(this, new object[] { parser, templateContents });
+            var compiledTemplate = typedCompileMethod.Invoke(this, new object[] { templateId, parser, templateContents });
 
             var writer = Expression.Parameter(typeof(RenderingContext));
             var model = Expression.Parameter(typeof(object));

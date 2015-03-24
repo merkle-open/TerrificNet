@@ -8,10 +8,16 @@ namespace Veil.Handlebars
 {
     internal class HandlebarsParserState
     {
-        private readonly IMemberLocator _memberLocator;
+	    private readonly string _templateId;
+	    private readonly IMemberLocator _memberLocator;
         public HandlebarsBlockStack BlockStack { get; private set; }
 
         public HandlebarsToken CurrentToken { get; private set; }
+
+	    public SourceLocation CurrentLocation
+	    {
+			get { return new SourceLocation(_templateId, CurrentToken.Position, 0); }
+	    }
 
         public SyntaxTreeNode ExtendNode { get; set; }
 
@@ -21,25 +27,26 @@ namespace Veil.Handlebars
 
         public SyntaxTreeNode RootNode { get { return ExtendNode ?? BlockStack.GetCurrentBlockNode(); } }
 
-        public HandlebarsParserState(IMemberLocator memberLocator)
+        public HandlebarsParserState(string templateId, IMemberLocator memberLocator)
         {
-            _memberLocator = memberLocator;
+	        _templateId = templateId;
+	        _memberLocator = memberLocator;
             this.BlockStack = new HandlebarsBlockStack();
         }
 
-        public void WriteLiteral(string s)
+        public void WriteLiteral(string s, SourceLocation location)
         {
             if (TrimNextLiteral)
             {
                 s = s.TrimStart();
                 TrimNextLiteral = false;
             }
-            AddNodeToCurrentBlock(SyntaxTree.WriteString(s));
+            AddNodeToCurrentBlock(SyntaxTree.WriteString(s, location));
         }
 
         public ExpressionNode ParseExpression(string expression)
         {
-            return HandlebarsExpressionParser.Parse(BlockStack, expression, _memberLocator);
+            return HandlebarsExpressionParser.Parse(this, BlockStack, expression, _memberLocator);
         }
 
         internal void SetCurrentToken(HandlebarsToken token)

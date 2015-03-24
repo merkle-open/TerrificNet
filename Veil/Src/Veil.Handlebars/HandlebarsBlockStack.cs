@@ -17,11 +17,11 @@ namespace Veil.Handlebars
 
         public int Count { get { return blocks.Count; } }
 
-        public void PushNewBlockWithModel(Type modelInScope)
+        public void PushNewBlockWithModel(Type modelInScope, SourceLocation location)
         {
             PushBlock(new HandlebarsParserBlock
             {
-                Block = SyntaxTree.Block(),
+                Block = SyntaxTree.Block(location),
                 ModelInScope = modelInScope
             });
         }
