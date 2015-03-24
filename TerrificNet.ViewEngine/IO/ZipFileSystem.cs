@@ -70,22 +70,27 @@ namespace TerrificNet.ViewEngine.IO
             get { return PathHelper; }
         }
 
-        public string GetETag(PathInfo filePath)
-        {
-            return _etag;
-        }
-
-	    public Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler)
-	    {
-			throw new NotSupportedException();
-	    }
-
 	    public bool SupportsSubscribe
 	    {
 		    get { return false; }
 	    }
 
-        public void CreateDirectory(PathInfo directory)
+	    public Task<IDisposable> SubscribeAsync(string pattern, Action<IFileInfo> handler)
+	    {
+			throw new NotSupportedException();
+	    }
+
+		public Task<IDisposable> SubscribeDirectoryGetFilesAsync(PathInfo prefix, string extension, Action<IEnumerable<IFileInfo>> handler)
+		{
+			throw new NotSupportedException();
+	    }
+
+	    public IFileInfo GetFileInfo(PathInfo filePath)
+	    {
+		    return new ZipFileInfo(filePath, _etag);
+	    }
+
+	    public void CreateDirectory(PathInfo directory)
         {
             throw new NotSupportedException();
         }
@@ -97,6 +102,19 @@ namespace TerrificNet.ViewEngine.IO
 
             return Path.Combine(_rootPath, path).ToString();
         }
+
+		private class ZipFileInfo : IFileInfo
+		{
+			public PathInfo FilePath { get; private set; }
+
+			public string Etag { get; private set; }
+
+			public ZipFileInfo(PathInfo filePath, string etag)
+			{
+				FilePath = filePath;
+				Etag = etag;
+			}
+		}
 
         private class ZipPathHelper : IPathHelper
         {

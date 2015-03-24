@@ -10,7 +10,7 @@ namespace Veil.Compiler
 
         private Expression HandleFlush()
         {
-            return Expression.Call(this.writer, flushMethod);
+            return Expression.Call(this._writer, flushMethod);
         }
     }
 }

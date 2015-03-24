@@ -37,8 +37,8 @@ namespace TerrificNet.Test
         [TestInitialize]
         public void TestSetup()
         {
-            _dataFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["data"]);
-            _templateFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["template"]);
+            _dataFile = (string)TestContext.DataRow["data"];
+            _templateFile = (string)TestContext.DataRow["template"];
             _resultFile = Path.Combine(this.TestContext.DeploymentDirectory, (string)TestContext.DataRow["result"]);
             _testName = Path.GetFileName(Path.GetDirectoryName(_resultFile));
 
@@ -54,7 +54,7 @@ namespace TerrificNet.Test
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
         public async Task TestServerSideRendering()
         {
-            var resultString = await ExecuteServerSide(_testName, _templateFile, _dataFile);
+            var resultString = await ExecuteServerSide(_testName, _templateFile, _dataFile).ConfigureAwait(false);
             Assert.AreEqual(_result, resultString);
         }
 
@@ -62,7 +62,7 @@ namespace TerrificNet.Test
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\test_cases.csv", "test_cases#csv", DataAccessMethod.Sequential)]
         public async Task TestServerSideRenderingWithStronglyTypedModel()
         {
-            var resultString = await ExecuteServerSideStrongModel(_testName, _templateFile, _dataFile);
+            var resultString = await ExecuteServerSideStrongModel(_testName, _templateFile, _dataFile).ConfigureAwait(false);
             Assert.AreEqual(_result, resultString);
         }
 

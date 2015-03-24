@@ -86,9 +86,9 @@ namespace Veil.Compiler
 		{
 			switch (scope)
 			{
-				case ExpressionScope.CurrentModelOnStack: return this.modelStack.First.Value;
-				case ExpressionScope.RootModel: return this.modelStack.Last.Value;
-				case ExpressionScope.ModelOfParentScope: return this.modelStack.First.Next.Value;
+				case ExpressionScope.CurrentModelOnStack: return this._modelStack.First.Value;
+				case ExpressionScope.RootModel: return this._modelStack.Last.Value;
+				case ExpressionScope.ModelOfParentScope: return this._modelStack.First.Next.Value;
 				default:
 					throw new VeilCompilerException("Unknown expression scope '{0}'".FormatInvariant(scope));
 			}

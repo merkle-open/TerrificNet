@@ -30,11 +30,12 @@ namespace TerrificNet.Controllers
 	    protected HttpResponseMessage GetInternal(string path)
 	    {
 	        var pathInfo = PathInfo.Create(path);
+
 	        var filePath = _fileSystem.Path.Combine(this.FilePath, pathInfo);
             if (!_fileSystem.FileExists(filePath))
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
 
-	        var eTag = new EntityTagHeaderValue(string.Concat("\"", _fileSystem.GetETag(filePath), "\""));
+	        var eTag = new EntityTagHeaderValue(string.Concat("\"", _fileSystem.GetFileInfo(filePath).Etag, "\""));
 	        if (Request.Headers.IfNoneMatch != null)
 	        {
 	            foreach (var noneMatch in Request.Headers.IfNoneMatch)

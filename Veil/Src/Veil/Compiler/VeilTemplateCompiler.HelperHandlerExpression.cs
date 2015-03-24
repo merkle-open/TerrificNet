@@ -24,7 +24,7 @@ namespace Veil.Compiler
 		    var modelExpression = EvaluateScope(node.Scope);
 
 	        var expression = Expression.Call(Expression.Constant(helper), helperFunction,
-	            modelExpression, context, Expression.Constant(node.Name), Expression.Constant(node.Parameters));
+	            modelExpression, _context, Expression.Constant(node.Name), Expression.Constant(node.Parameters));
 
 	        return expression;
 	    }

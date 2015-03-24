@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Hosting;
+using System.Web.Http.Owin;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
@@ -26,6 +28,7 @@ namespace TerrificNet.ConsoleHost
 
             var container = WebInitializer.Initialize(Path.GetFullPath(path));
 
+			
             // Start OWIN host
             using (WebApp.Start(baseAddress, builder => Initialize(builder, container)))
             {
@@ -37,7 +40,8 @@ namespace TerrificNet.ConsoleHost
         private static void Initialize(IAppBuilder builder, IUnityContainer container)
         {
             var config = new HttpConfiguration();
-            new Startup().Configuration(container, config);
+	        
+			new Startup().Configuration(container, config);
             builder.UseWebApi(config);
         }
     }

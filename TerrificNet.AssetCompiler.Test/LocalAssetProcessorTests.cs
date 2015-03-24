@@ -1,14 +1,11 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TerrificNet.AssetCompiler.Bundler;
 using TerrificNet.AssetCompiler.Compiler;
-using TerrificNet.AssetCompiler.Configuration;
 using TerrificNet.AssetCompiler.Helpers;
 using TerrificNet.AssetCompiler.Processors;
-using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.IO;
 
@@ -44,7 +41,7 @@ namespace TerrificNet.AssetCompiler.Test
 			var bundler = _container.Resolve<IAssetBundler>();
 			var helper = _container.Resolve<IAssetHelper>();
 			var components = helper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.js"], "");
-			var bundle = await bundler.BundleAsync(components);
+			var bundle = await bundler.BundleAsync(components).ConfigureAwait(false);
 			Assert.IsTrue(bundle.Contains("TestLongParamName"));
 		}
 
@@ -56,7 +53,7 @@ namespace TerrificNet.AssetCompiler.Test
 			var bundler = _container.Resolve<IAssetBundler>();
 			var helper = _container.Resolve<IAssetHelper>();
 			var components = helper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.css"], "");
-			var bundle = await bundler.BundleAsync(components);
+			var bundle = await bundler.BundleAsync(components).ConfigureAwait(false);
 			Assert.IsTrue(bundle.Contains(".example-css"));
 		}
 
@@ -69,8 +66,8 @@ namespace TerrificNet.AssetCompiler.Test
 
 			var helper = _container.Resolve<IAssetHelper>();
 			var components = helper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.js"], "");
-			var bundle = await new DefaultAssetBundler().BundleAsync(components);
-			var compile = await compiler.CompileAsync(bundle);
+			var bundle = await new DefaultAssetBundler().BundleAsync(components).ConfigureAwait(false);
+			var compile = await compiler.CompileAsync(bundle).ConfigureAwait(false);
 			Assert.IsFalse(compile.Contains("TestLongParamName"));
 		}
 
@@ -84,8 +81,8 @@ namespace TerrificNet.AssetCompiler.Test
 
 			var helper = _container.Resolve<IAssetHelper>();
 			var components = helper.GetGlobComponentsForAsset(_terrificConfig.Assets["app.css"], "");
-			var bundle = await new DefaultAssetBundler().BundleAsync(components);
-			var compile = await compiler.CompileAsync(bundle);
+			var bundle = await new DefaultAssetBundler().BundleAsync(components).ConfigureAwait(false);
+			var compile = await compiler.CompileAsync(bundle).ConfigureAwait(false);
 			Assert.IsTrue(compile.Contains(".mod-example{background:#000}"));
 		}
 
@@ -116,7 +113,7 @@ namespace TerrificNet.AssetCompiler.Test
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
 			var asset = _terrificConfig.Assets.First(o => o.Key == "app.js");
-			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.None, "");
+			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.None, "").ConfigureAwait(false);
 			Assert.IsTrue(processed.Contains("TestLongParamName"));
 		}
 
@@ -127,7 +124,7 @@ namespace TerrificNet.AssetCompiler.Test
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
 			var asset = _terrificConfig.Assets.First(o => o.Key == "app.css");
-			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.None, "");
+			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.None, "").ConfigureAwait(false);
 			Assert.IsTrue(processed.Contains(".example-css"));
 		}
 
@@ -137,7 +134,7 @@ namespace TerrificNet.AssetCompiler.Test
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
 			var asset = _terrificConfig.Assets.First(o => o.Key == "app.js");
-			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.Minify, "");
+			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.Minify, "").ConfigureAwait(false);
 			Assert.IsFalse(processed.Contains("TestLongParamName"));
 		}
 
@@ -148,7 +145,7 @@ namespace TerrificNet.AssetCompiler.Test
 		{
 			var processor = _container.Resolve<IAssetProcessor>();
 			var asset = _terrificConfig.Assets.First(o => o.Key == "app.css");
-			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.Minify, "");
+			var processed = await processor.ProcessAsync(asset.Key, asset.Value, ProcessorFlags.Minify, "").ConfigureAwait(false);
 			Assert.IsTrue(processed.Contains(".mod-example{background:#000}"));
 		}
 	}

@@ -18,8 +18,8 @@ namespace TerrificNet.ViewEngine.Config
             if (basePath == null)
                 throw new ArgumentNullException("basePath");
 
-            if (!fileSystem.DirectoryExists(null))
-                throw new ConfigurationException(string.Format("The base path for the configuration doesn't exist in {0}.", fileSystem.BasePath));
+			//if (!fileSystem.DirectoryExists(null))
+			//	throw new ConfigurationException(string.Format("The base path for the configuration doesn't exist in {0}.", fileSystem.BasePath));
 
             var basePathInfo = PathInfo.Create(basePath);
             var configFile = fileSystem.Path.Combine(basePathInfo, PathInfo.Create(fileName));

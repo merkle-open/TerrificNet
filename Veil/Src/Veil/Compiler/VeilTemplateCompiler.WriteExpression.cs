@@ -24,19 +24,19 @@ namespace Veil.Compiler
             if (node.HtmlEncode && escapeHtml)
             {
                 if (expression.Type == typeof(string))
-                    return Expression.Call(encodeMethod, this.writer, expression);
+                    return Expression.Call(encodeMethod, this._writer, expression);
                 
-                return Expression.Call(encodeMethodObject, this.writer, expression);
+                return Expression.Call(encodeMethodObject, this._writer, expression);
             }
 
             if (expression.Type == typeof(string))
-                return Expression.Call(this.writer, writeMethod, expression);
+                return Expression.Call(this._writer, writeMethod, expression);
 
             if (expression.Type == typeof(void))
                return expression;
 
             // TODO: find better solution
-            return Expression.Call(this.writer, writeMethod, Expression.Call(expression, typeof(object).GetMethod("ToString")));
+            return Expression.Call(this._writer, writeMethod, Expression.Call(expression, typeof(object).GetMethod("ToString")));
         }
     }
 }

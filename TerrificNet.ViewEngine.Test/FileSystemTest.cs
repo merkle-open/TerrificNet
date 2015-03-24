@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TerrificNet.ViewEngine.IO;
 
@@ -20,23 +22,30 @@ namespace TerrificNet.ViewEngine.Test
 		}
 
 		[TestMethod]
-		public void TestWrite()
+		public async Task TestWrite()
 		{
 			Assert.AreEqual(false, FileSystem.FileExists(TestFileName));
+
+			var completion = new TaskCompletionSource<IFileInfo>();
+			await FileSystem.SubscribeAsync(TestFilePattern, info => completion.SetResult(info)).ConfigureAwait(false);
 
 			using (var stream = new StreamWriter(FileSystem.OpenWrite(TestFileName)))
 			{
 				stream.Write("123456");
 			}
 
+			await completion.Task.ConfigureAwait(false);
 			Assert.AreEqual(true, FileSystem.FileExists(TestFileName));
 
 			FileSystem.RemoveFile(TestFileName);
 		}
 
 		[TestMethod]
-		public void TestReWrite()
+		public async Task TestReWrite()
 		{
+			var completion = new TaskCompletionSource<IFileInfo>();
+			await FileSystem.SubscribeAsync(TestFilePattern, info => completion.SetResult(info)).ConfigureAwait(false);
+			
 			Assert.AreEqual(false, FileSystem.FileExists(TestFileName));
 
 			using (var stream = new StreamWriter(FileSystem.OpenWrite(TestFileName)))
@@ -44,7 +53,9 @@ namespace TerrificNet.ViewEngine.Test
 				stream.Write("123456");
 			}
 
+			await completion.Task.ConfigureAwait(false);
 			Assert.AreEqual(true, FileSystem.FileExists(TestFileName));
+			completion = new TaskCompletionSource<IFileInfo>();
 
 			using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName)))
 			{
@@ -56,7 +67,9 @@ namespace TerrificNet.ViewEngine.Test
 				stream.Write("654321");
 			}
 
+			await completion.Task.ConfigureAwait(false);
 			Assert.AreEqual(true, FileSystem.FileExists(TestFileName));
+			completion = new TaskCompletionSource<IFileInfo>();
 
 			using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName)))
 			{
@@ -64,7 +77,8 @@ namespace TerrificNet.ViewEngine.Test
 			}
 
 			FileSystem.RemoveFile(TestFileName);
-
+			await completion.Task.ConfigureAwait(false);
+			
 			try
 			{
 				using (var stream = new StreamReader(FileSystem.OpenRead(TestFileName)))

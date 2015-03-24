@@ -9,7 +9,7 @@ namespace Veil.Compiler
     {
         private Expression HandleWriteLiteral(WriteLiteralNode node)
         {
-            var callExpression = Expression.Call(this.writer, writeMethod, Expression.Constant(node.LiteralContent, typeof(string)));
+            var callExpression = Expression.Call(this._writer, writeMethod, Expression.Constant(node.LiteralContent, typeof(string)));
             return callExpression;
         }
 

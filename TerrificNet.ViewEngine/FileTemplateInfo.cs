@@ -22,7 +22,7 @@ namespace TerrificNet.ViewEngine
 
         public override string ETag
         {
-            get { return _fileSystem.GetETag(_filePath); }
+            get { return _fileSystem.GetFileInfo(_filePath).Etag; }
         }
     }
 }

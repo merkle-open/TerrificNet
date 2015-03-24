@@ -7,14 +7,14 @@ namespace Veil.Compiler
     {
         private Expression HandleOverride(OverridePointNode node)
         {
-            if (!this.overrideSections.ContainsKey(node.OverrideName))
+            if (!this._overrideSections.ContainsKey(node.OverrideName))
             {
                 if (node.IsRequired) throw new VeilCompilerException("Overrideable section '{0}' is required but not specified".FormatInvariant(node.OverrideName));
                 if (node.DefaultContent != null) return HandleNode(node.DefaultContent);
                 return Expression.Empty();
             }
 
-            var o = this.overrideSections[node.OverrideName];
+            var o = this._overrideSections[node.OverrideName];
             return HandleNode(o);
         }
     }

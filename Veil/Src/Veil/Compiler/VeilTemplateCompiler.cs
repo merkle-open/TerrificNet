@@ -7,88 +7,41 @@ using Veil.Parser;
 
 namespace Veil.Compiler
 {
-    public static class TaskHelper
-    {
-        public static async Task Chain(Task before, Action after)
-        {
-            if (before == null)
-            {
-                after();
-                return;
-            }
-
-            await before.ConfigureAwait(false);
-            after();
-
-            //return before.ContinueWith(t => after());
-        }
-
-        public static async Task ChainTask(Task before, Func<Task> after)
-        {
-            if (before == null)
-            {
-                await Handle(after).ConfigureAwait(false);
-                return;
-            }
-                //before = Task.FromResult(false);
-
-            await before.ConfigureAwait(false);
-            await Handle(after).ConfigureAwait(false);
-
-            //return before.ContinueWith(t =>
-            //{
-            //    Console.WriteLine("continue");
-            //    after();
-            //});
-        }
-
-        private static async Task Handle(Func<Task> after)
-        {
-            var afterTask = after();
-            if (afterTask != null)
-                await afterTask.ConfigureAwait(false);
-        }
-    }
-
 	internal partial class VeilTemplateCompiler<T>
 	{
-        private readonly ParameterExpression context = Expression.Parameter(typeof(RenderingContext), "context");
-	    private readonly Expression writer;
+		private readonly ParameterExpression _context = Expression.Parameter(typeof(RenderingContext), "context");
+		private readonly Expression _writer;
 
-		private readonly ParameterExpression model = Expression.Parameter(typeof(T), "model");
-		private LinkedList<Expression> modelStack = new LinkedList<Expression>();
-		private readonly IDictionary<string, SyntaxTreeNode> overrideSections = new Dictionary<string, SyntaxTreeNode>();
+		private readonly ParameterExpression _model = Expression.Parameter(typeof(T), "model");
+		private readonly LinkedList<Expression> _modelStack = new LinkedList<Expression>();
+		private readonly IDictionary<string, SyntaxTreeNode> _overrideSections = new Dictionary<string, SyntaxTreeNode>();
 		private readonly IHelperHandler[] _helperHandlers;
 
 		public VeilTemplateCompiler(params IHelperHandler[] helperHandlers)
 		{
 			_helperHandlers = helperHandlers;
-		    this.writer = Expression.Property(context, "Writer");
+			this._writer = Expression.Property(_context, "Writer");
 		}
 
-        public Func<RenderingContext, T, Task> Compile(SyntaxTreeNode templateSyntaxTree)
+		public Func<RenderingContext, T, Task> Compile(SyntaxTreeNode templateSyntaxTree)
 		{
-			this.PushScope(this.model);
+			this.PushScope(this._model);
 
-            Expression<Func<RenderingContext, Task>> test = r => r.Writer.WriteAsync("sss");
+			var bodyExpression = this.HandleNode(templateSyntaxTree);
 
-            ParameterExpression task = Expression.Variable(typeof (Task));
-            var ret = Expression.Label(typeof(Task));
-            Expression bodyExpression = this.HandleNode(templateSyntaxTree);
+			var expression = Expression.Lambda<Func<RenderingContext, T, Task>>(bodyExpression, this._context, this._model);
 
-            var expression = Expression.Lambda<Func<RenderingContext, T, Task>>(bodyExpression, this.context, this.model);
-            
-            return expression.Compile();
+			return expression.Compile();
 		}
 
 		private void PushScope(Expression scope)
 		{
-			this.modelStack.AddFirst(scope);
+			this._modelStack.AddFirst(scope);
 		}
 
 		private void PopScope()
 		{
-			this.modelStack.RemoveFirst();
+			this._modelStack.RemoveFirst();
 		}
 	}
 }

@@ -11,56 +11,92 @@ namespace TerrificNet.ViewEngine.IO
 		private static readonly IPathHelper PathHelper = new FilePathHelper();
 
 		private readonly PathInfo _basePath;
-        private readonly Func<PathInfo, bool> _directoryExistsAction;
-        private readonly Func<PathInfo, string, IEnumerable<PathInfo>> _directoryGetFilesAction;
-		private readonly Func<PathInfo, bool> _fileExistsAction;
-		private readonly LookupFileSystem _lookupSystem;
+		private readonly List<LookupFileSystemSubscription> _subscriptions = new List<LookupFileSystemSubscription>();
+		private readonly HashSet<LookupDirectoryFileSystemSubscription> _directorySubscriptions = new HashSet<LookupDirectoryFileSystemSubscription>();
+
+		private HashSet<PathInfo> _fileInfos;
+		private HashSet<PathInfo> _directoryInfos;
+		private FileSystemWatcher _watcher;
+		private readonly string _basePathConverted;
 
 		public FileSystem()
-			: this(string.Empty, false)
+			: this(string.Empty)
 		{
 		}
 
 		public FileSystem(string basePath)
-			: this(basePath, false)
 		{
-		}
+			if (string.IsNullOrEmpty(basePath))
+				basePath = Environment.CurrentDirectory;
 
-		public FileSystem(string basePath, bool useCache)
-		{
 			_basePath = PathInfo.Create(basePath);
+			_basePathConverted = basePath;
 
-			if (!useCache || string.IsNullOrEmpty(basePath))
+			Initialize();
+			InitializeWatcher();
+		}
+
+		private void Initialize()
+		{
+			_fileInfos = new HashSet<PathInfo>(
+				Directory.EnumerateFiles(_basePathConverted, "*", SearchOption.AllDirectories)
+					.Select(fileName => PathInfo.GetSubPath(_basePath, fileName)));
+
+			_directoryInfos = new HashSet<PathInfo>(
+				Directory.EnumerateDirectories(_basePathConverted, "*", SearchOption.AllDirectories)
+					.Select(fileName => PathInfo.GetSubPath(_basePath, fileName)));
+		}
+
+		private void InitializeWatcher()
+		{
+			_watcher = new FileSystemWatcher(_basePathConverted)
 			{
-				_directoryExistsAction = directory => Directory.Exists(GetRootPath(directory).ToString());
-				_directoryGetFilesAction = (directory, fileExtension) => Directory.EnumerateFiles(GetRootPath(directory).ToString(), string.Concat("*.", fileExtension), SearchOption.AllDirectories).Select(GetSubPath);
-				_fileExistsAction = filePath => File.Exists(GetRootPath(filePath).ToString());
+				Path = _basePathConverted,
+				EnableRaisingEvents = true,
+				IncludeSubdirectories = true
+			};
+			_watcher.Changed += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
+			_watcher.Created += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
+			_watcher.Deleted += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
+			_watcher.Renamed += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
+		}
+
+		private void NotifySubscriptions(IFileInfo file)
+		{
+			Initialize();
+
+			foreach (var subscription in _subscriptions)
+			{
+				subscription.Notify(file);
 			}
-			else
+
+			foreach (var subscription in _directorySubscriptions)
 			{
-			    string basePath1 = _basePath.ToString();
-			    _lookupSystem = new LookupFileSystem(_basePath = PathInfo.Create(basePath1));
-				_directoryExistsAction = directory => _lookupSystem.DirectoryExists(directory);
-				_directoryGetFilesAction = (directory, fileExtension) => _lookupSystem.DirectoryGetFiles(directory, fileExtension);
-				_fileExistsAction = filePath => _lookupSystem.FileExists(filePath);
+				if (!subscription.IsMatch(file.FilePath))
+					continue;
+
+				subscription.Notify(new[] { file });
 			}
 		}
 
-	    private PathInfo GetSubPath(string fileName)
-	    {
-	        return PathInfo.GetSubPath(_basePath, fileName);
-	    }
+		public PathInfo BasePath { get { return _basePath; } }
 
-	    public PathInfo BasePath { get { return _basePath; } }
-
-        public bool DirectoryExists(PathInfo directory)
+		public bool DirectoryExists(PathInfo directory)
 		{
-			return _directoryExistsAction(directory);
+			return _directoryInfos.Contains(directory);
 		}
 
-        public IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension)
+		public IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension)
 		{
-			return _directoryGetFilesAction(directory, fileExtension);
+			var checkDirectory = directory == null;
+			var checkExtension = fileExtension == null;
+			if (!checkExtension)
+				fileExtension = string.Concat(".", fileExtension);
+
+			return
+				_fileInfos.Where(
+					f => (checkDirectory || f.StartsWith(directory)) &&
+						 (checkExtension || f.HasExtension(fileExtension)));
 		}
 
 		public Stream OpenRead(PathInfo filePath)
@@ -68,7 +104,7 @@ namespace TerrificNet.ViewEngine.IO
 			return new FileStream(GetRootPath(filePath).ToString(), FileMode.Open, FileAccess.Read);
 		}
 
-        public Stream OpenReadOrCreate(PathInfo filePath)
+		public Stream OpenReadOrCreate(PathInfo filePath)
 		{
 			return new FileStream(GetRootPath(filePath).ToString(), FileMode.OpenOrCreate, FileAccess.Read);
 		}
@@ -78,25 +114,44 @@ namespace TerrificNet.ViewEngine.IO
 			get { return PathHelper; }
 		}
 
-		public Task<IDisposable> SubscribeAsync(string pattern, Action<string> handler)
-		{
-			if (_lookupSystem == null)
-				throw new NotSupportedException();
-
-			return _lookupSystem.SubscribeAsync(pattern, handler);
-		}
-
 		public bool SupportsSubscribe
 		{
-			get { return _lookupSystem != null; }
+			get { return true; }
 		}
 
-        public string GetETag(PathInfo filePath)
+		private void Unsubscribe(LookupFileSystemSubscription subscription)
 		{
-			return new FileInfo(GetRootPath(filePath).ToString()).LastWriteTimeUtc.Ticks.ToString("X8");
+			_subscriptions.Remove(subscription);
 		}
 
-        public Stream OpenWrite(PathInfo filePath)
+		private void Unsubscribe(LookupDirectoryFileSystemSubscription subscription)
+		{
+			_directorySubscriptions.Remove(subscription);
+		}
+
+		public Task<IDisposable> SubscribeAsync(string pattern, Action<IFileInfo> handler)
+		{
+			var subscription = new LookupFileSystemSubscription(this, handler);
+			_subscriptions.Add(subscription);
+
+			return Task.FromResult<IDisposable>(subscription);
+		}
+
+		public Task<IDisposable> SubscribeDirectoryGetFilesAsync(PathInfo prefix, string extension, Action<IEnumerable<IFileInfo>> handler)
+		{
+			var subscription = new LookupDirectoryFileSystemSubscription(this, prefix, extension, handler);
+
+			_directorySubscriptions.Add(subscription);
+
+			return Task.FromResult<IDisposable>(subscription);
+		}
+
+		public IFileInfo GetFileInfo(PathInfo filePath)
+		{
+			return new FileInfo(filePath);
+		}
+
+		public Stream OpenWrite(PathInfo filePath)
 		{
 			var stream = new FileStream(GetRootPath(filePath).ToString(), FileMode.OpenOrCreate, FileAccess.Write);
 			stream.SetLength(0);
@@ -105,15 +160,15 @@ namespace TerrificNet.ViewEngine.IO
 
 		public bool FileExists(PathInfo filePath)
 		{
-			return _fileExistsAction(filePath);
+			return _fileInfos.Contains(filePath);
 		}
 
-        public void RemoveFile(PathInfo filePath)
+		public void RemoveFile(PathInfo filePath)
 		{
 			File.Delete(GetRootPath(filePath).ToString());
 		}
 
-        public void CreateDirectory(PathInfo directory)
+		public void CreateDirectory(PathInfo directory)
 		{
 			Directory.CreateDirectory(GetRootPath(directory).ToString());
 		}
@@ -131,28 +186,98 @@ namespace TerrificNet.ViewEngine.IO
 		{
 			public PathInfo Combine(params PathInfo[] parts)
 			{
-			    return PathInfo.Combine(parts);
-			    //return PathInfo.Create(PathUtility.Combine(parts.Select(s => s == null ? null : s.ToString()).ToArray()));
+				return PathInfo.Combine(parts);
+				//return PathInfo.Create(PathUtility.Combine(parts.Select(s => s == null ? null : s.ToString()).ToArray()));
 			}
 
-            public PathInfo GetDirectoryName(PathInfo filePath)
-            {
-                return filePath.DirectoryName;
+			public PathInfo GetDirectoryName(PathInfo filePath)
+			{
+				return filePath.DirectoryName;
 			}
 
-            public PathInfo ChangeExtension(PathInfo fileName, string extension)
+			public PathInfo ChangeExtension(PathInfo fileName, string extension)
 			{
 				return PathInfo.Create(System.IO.Path.ChangeExtension(fileName.ToString(), extension));
 			}
 
-            public PathInfo GetFileNameWithoutExtension(PathInfo path)
+			public PathInfo GetFileNameWithoutExtension(PathInfo path)
 			{
 				return PathInfo.Create(System.IO.Path.GetFileNameWithoutExtension(path.ToString()));
 			}
 
-            public string GetExtension(PathInfo path)
+			public string GetExtension(PathInfo path)
 			{
 				return System.IO.Path.GetExtension(path.ToString());
+			}
+		}
+
+		private class LookupFileSystemSubscription : IDisposable
+		{
+			private FileSystem _parent;
+			private Action<IFileInfo> _handler;
+
+			public LookupFileSystemSubscription(FileSystem parent, Action<IFileInfo> handler)
+			{
+				_parent = parent;
+				_handler = handler;
+			}
+
+			internal void Notify(IFileInfo file)
+			{
+				_handler(file);
+			}
+
+			public void Dispose()
+			{
+				_parent.Unsubscribe(this);
+				_handler = null;
+				_parent = null;
+			}
+		}
+
+		private class LookupDirectoryFileSystemSubscription : IDisposable
+		{
+			private FileSystem _parent;
+			private Action<IEnumerable<IFileInfo>> _handler;
+			private readonly PathInfo _prefix;
+			private readonly string _extension;
+
+			public LookupDirectoryFileSystemSubscription(FileSystem parent, PathInfo prefix, string extension, Action<IEnumerable<IFileInfo>> handler)
+			{
+				_parent = parent;
+				_handler = handler;
+				_prefix = prefix;
+				_extension = extension;
+			}
+
+			internal void Notify(IEnumerable<IFileInfo> files)
+			{
+				_handler(files);
+			}
+
+			public void Dispose()
+			{
+				_parent.Unsubscribe(this);
+				_handler = null;
+				_parent = null;
+			}
+
+			public bool IsMatch(PathInfo path)
+			{
+				return path.StartsWith(_prefix) && (path.HasExtension(_extension) || string.IsNullOrEmpty(_extension));
+			}
+		}
+
+		private class FileInfo : IFileInfo
+		{
+			public PathInfo FilePath { get; private set; }
+
+			public string Etag { get; private set; }
+
+			public FileInfo(PathInfo filePath)
+			{
+				FilePath = filePath;
+				Etag = new System.IO.FileInfo(filePath.ToString()).LastWriteTimeUtc.Ticks.ToString("X8");
 			}
 		}
 	}
