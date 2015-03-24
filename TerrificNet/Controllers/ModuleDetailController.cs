@@ -68,7 +68,7 @@ namespace TerrificNet.Controllers
 
 		private ModuleDetailModel GetOverviewModel(ModuleDefinition moduleDefinition, IEnumerable<string> dataVariations, string section)
 		{
-		    var variationsModel = dataVariations.Select(id => GetDataVariation(id, section, moduleDefinition.Id)).ToList();
+		    var variationsModel = dataVariations.Select(id => GetDataVariation(id, section, moduleDefinition.Id, section)).ToList();
 		    return new ModuleDetailModel
 			{
 				Name = moduleDefinition.Id,
@@ -79,14 +79,15 @@ namespace TerrificNet.Controllers
 			};
 		}
 
-	    private DataVariationModel GetDataVariation(string id, string section, string moduleId)
-		{
+	    private DataVariationModel GetDataVariation(string id, string section, string moduleId, string app)
+	    {
+		    var dataUrl = Uri.EscapeDataString(string.Format("/{0}model/{1}?dataId={2}", section, moduleId, id));
 			return new DataVariationModel
 			{
 				Name = id,
 				Link = string.Format("/{0}model/{1}?dataId={2}", section, moduleId, id),
 				DeleteLink = "#",
-				EditLink = string.Format("/web/edit?schema=/{0}module_schema/{1}&data=/{0}model/{1}?dataId={2}", section, moduleId, id)
+				EditLink = string.Format("/web/edit?schema=/{0}module_schema/{1}&data={2}&app={3}", section, moduleId, dataUrl, app)
 			};
 		}
 

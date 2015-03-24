@@ -77,6 +77,7 @@ namespace TerrificNet.Controllers
             return layout
                 .IncludeScript("/web/assets/jsoneditor.min.js")
                 .IncludeScript("/web/assets/common.js")
+				.IncludeScript("/web/assets/dataEditor.js")
                 .IncludeStyle("//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css");
         }
 
