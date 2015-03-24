@@ -1,4 +1,5 @@
 ﻿using System;
+using Veil.Parser;
 
 namespace Veil
 {
@@ -7,12 +8,15 @@ namespace Veil
     /// </summary>
     public class VeilCompilerException : Exception
     {
-        /// <summary>
+	    public SyntaxTreeNode Node { get; private set; }
+
+	    /// <summary>
         /// Creates an exception with the supplied messages
         /// </summary>
-        public VeilCompilerException(string message)
+		public VeilCompilerException(string message, SyntaxTreeNode node)
             : base(message)
-        {
-        }
+	    {
+		    Node = node;
+	    }
     }
 }

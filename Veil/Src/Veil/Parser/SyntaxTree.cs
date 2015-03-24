@@ -11,9 +11,12 @@ namespace Veil.Parser
         /// <summary>
         /// Create a sequential block of nodes
         /// </summary>
-        public static BlockNode Block(params SyntaxTreeNode[] nodes)
+        public static BlockNode Block(SourceLocation location, params SyntaxTreeNode[] nodes)
         {
-            var block = new BlockNode();
+            var block = new BlockNode
+            {
+	            Location = location
+            };
             block.AddRange(nodes);
             return block;
         }
@@ -22,10 +25,11 @@ namespace Veil.Parser
         /// Write a string literal to the TextWriter
         /// </summary>
         /// <param name="content">The string to be written</param>
-        public static WriteLiteralNode WriteString(string content)
+        public static WriteLiteralNode WriteString(string content, SourceLocation location)
         {
             return new WriteLiteralNode
             {
+				Location = location,
                 LiteralContent = content
             };
         }
@@ -35,10 +39,11 @@ namespace Veil.Parser
         /// </summary>
         /// <param name="expression">The expression to be written</param>
         /// <param name="htmlEncode">Indicates whether the content should be html encoded before being written</param>
-        public static WriteExpressionNode WriteExpression(ExpressionNode expression, bool htmlEncode = false)
+        public static WriteExpressionNode WriteExpression(ExpressionNode expression, SourceLocation location, bool htmlEncode = false)
         {
             return new WriteExpressionNode
             {
+				Location = location,
                 Expression = expression,
                 HtmlEncode = htmlEncode
             };
@@ -51,13 +56,14 @@ namespace Veil.Parser
         /// <param name="collectionExpression">expression to load the collection</param>
         /// <param name="body">Block to execute in the scope of each item</param>
         /// <param name="emptyBody">Block to execute when there are no items in the collection</param>
-        public static IterateNode Iterate(ExpressionNode collectionExpression, BlockNode body, BlockNode emptyBody = null)
+        public static IterateNode Iterate(ExpressionNode collectionExpression, SourceLocation location, BlockNode body, BlockNode emptyBody = null)
         {
             return new IterateNode
             {
+				Location = location,
                 Collection = collectionExpression,
                 Body = body,
-                EmptyBody = emptyBody ?? SyntaxTree.Block()
+                EmptyBody = emptyBody ?? SyntaxTree.Block(location)
             };
         }
 
@@ -68,10 +74,11 @@ namespace Veil.Parser
         /// <param name="trueBlock">The block to execute when the expression is true</param>
         /// <param name="falseBlock">The block to evaluate when the expression is false</param>
         /// <returns></returns>
-        public static ConditionalNode Conditional(ExpressionNode expression, BlockNode trueBlock, BlockNode falseBlock = null)
+        public static ConditionalNode Conditional(ExpressionNode expression, SourceLocation location, BlockNode trueBlock, BlockNode falseBlock = null)
         {
             return new ConditionalNode
             {
+				Location = location,
                 Expression = expression,
                 TrueBlock = trueBlock,
                 FalseBlock = falseBlock
@@ -83,10 +90,11 @@ namespace Veil.Parser
         /// </summary>
         /// <param name="templateName">The name of the template to execute. It will be loaded from the <see cref="IVeilContext"/></param>
         /// <param name="modelExpression">An expression for the model to be used as the root scope when executing the template</param>
-        public static IncludeTemplateNode Include(string templateName, ExpressionNode modelExpression)
+        public static IncludeTemplateNode Include(string templateName, ExpressionNode modelExpression, SourceLocation location)
         {
             return new IncludeTemplateNode
             {
+				Location = location,
                 ModelExpression = modelExpression,
                 TemplateName = templateName
             };
@@ -98,10 +106,11 @@ namespace Veil.Parser
         /// </summary>
         /// <param name="templateName">The name of the template to extend. It will be loaded from the <see cref="IVeilContext"/></param>
         /// <param name="overrides">A set of overrides for the <see cref="OverridePointNode"/> defined in the template being extended.</param>
-        public static ExtendTemplateNode Extend(string templateName, IDictionary<string, SyntaxTreeNode> overrides = null)
+        public static ExtendTemplateNode Extend(string templateName, SourceLocation location, IDictionary<string, SyntaxTreeNode> overrides = null)
         {
             return new ExtendTemplateNode
             {
+				Location = location,
                 TemplateName = templateName,
                 Overrides = overrides ?? new Dictionary<string, SyntaxTreeNode>()
             };
@@ -112,10 +121,11 @@ namespace Veil.Parser
         /// </summary>
         /// <param name="overrideName">The name of the override which must match that specified in the overriding template</param>
         /// <param name="isOptional">Indicates whether an exception should be thrown if the override is missing</param>
-        public static OverridePointNode Override(string overrideName, bool isOptional = false)
+        public static OverridePointNode Override(string overrideName, SourceLocation location, bool isOptional = false)
         {
             return new OverridePointNode
             {
+				Location = location,
                 OverrideName = overrideName,
                 IsRequired = !isOptional
             };
@@ -127,10 +137,11 @@ namespace Veil.Parser
         /// </summary>
         /// <param name="overrideName">The name of the override which must match that specified in the overriding template</param>
         /// <param name="defaultContent">The content to use when the point is not overridden</param>
-        public static OverridePointNode Override(string overrideName, SyntaxTreeNode defaultContent)
+        public static OverridePointNode Override(string overrideName, SyntaxTreeNode defaultContent, SourceLocation location)
         {
             return new OverridePointNode
             {
+				Location = location,
                 OverrideName = overrideName,
                 IsRequired = false,
                 DefaultContent = defaultContent
@@ -141,9 +152,12 @@ namespace Veil.Parser
         /// Flushes the TextWriter.
         /// Used to optimize responses in web applications.
         /// </summary>
-        public static FlushNode Flush()
+        public static FlushNode Flush(SourceLocation location)
         {
-            return new FlushNode();
+            return new FlushNode
+            {
+	            Location = location
+            };
         }
 
         /// <summary>
@@ -151,19 +165,21 @@ namespace Veil.Parser
         /// </summary>
         /// <param name="modelToScopeTo">An expression that evaluates to the model to scope to</param>
         /// <param name="node">The node to execute in the new scope</param>
-        public static ScopedNode ScopeNode(ExpressionNode modelToScopeTo, SyntaxTreeNode node)
+        public static ScopedNode ScopeNode(ExpressionNode modelToScopeTo, SyntaxTreeNode node, SourceLocation location)
         {
             return new ScopedNode
             {
+				Location = location,
                 ModelToScope = modelToScopeTo,
                 Node = node
             };
         }
 
-	    public static SyntaxTreeNode Helper(HelperExpressionNode helperExpression, BlockNode block)
+	    public static SyntaxTreeNode Helper(HelperExpressionNode helperExpression, BlockNode block, SourceLocation location)
 	    {
 		    return new HelperBlockNode
 		    {
+				Location = location,
 				HelperExpression = helperExpression,
 				Block = block
 		    };

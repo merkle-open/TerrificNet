@@ -40,20 +40,25 @@ namespace Veil.Handlebars
 
     internal struct HandlebarsToken
     {
-        private bool isSyntaxToken;
+	    private bool isSyntaxToken;
         private string content;
         private bool isHtmlEscape;
         private bool trimLastLiteral;
         private bool trimNextLiteral;
+	    private int _index;
 
         public HandlebarsToken(bool isSyntaxToken, string content, bool isHtmlEscape, bool trimLastLiteral, bool trimNextLiteral, int index)
         {
-            this.isSyntaxToken = isSyntaxToken;
+	        this.isSyntaxToken = isSyntaxToken;
             this.content = content;
             this.isHtmlEscape = isHtmlEscape;
             this.trimLastLiteral = trimLastLiteral;
             this.trimNextLiteral = trimNextLiteral;
+
+			_index = index;
         }
+
+		public int Position { get { return _index; } }
 
         public bool IsSyntaxToken { get { return this.isSyntaxToken; } }
 

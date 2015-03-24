@@ -1,4 +1,5 @@
 ﻿using System;
+using Veil.Parser;
 
 namespace Veil
 {
@@ -7,12 +8,15 @@ namespace Veil
     /// </summary>
     public class VeilParserException : Exception
     {
-        /// <summary>
+	    public SourceLocation Location { get; private set; }
+
+	    /// <summary>
         /// Create an exception with the supplied message
         /// </summary>
-        public VeilParserException(string message)
+        public VeilParserException(string message, SourceLocation location)
             : base(message)
         {
+	        Location = location;
         }
     }
 }

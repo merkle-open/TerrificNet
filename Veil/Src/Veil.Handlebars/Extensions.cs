@@ -9,7 +9,7 @@ namespace Veil.Handlebars
         {
             if (state.BlockStack.Count != 1)
             {
-                throw new VeilParserException(String.Format("Mismatched block found. Expected to find the end of the template but found '{0}' open blocks.", state.BlockStack.Count));
+                throw new VeilParserException(String.Format("Mismatched block found. Expected to find the end of the template but found '{0}' open blocks.", state.BlockStack.Count), state.CurrentLocation);
             }
         }
 
@@ -20,7 +20,7 @@ namespace Veil.Handlebars
 
             if (faulted)
             {
-                throw new VeilParserException(String.Format("Found token '{0}' outside of a conditional block.", foundToken));
+                throw new VeilParserException(String.Format("Found token '{0}' outside of a conditional block.", foundToken), state.CurrentLocation);
             }
         }
 
@@ -31,7 +31,7 @@ namespace Veil.Handlebars
 
             if (faulted)
             {
-                throw new VeilParserException(String.Format("Found token '{0}' outside of an iteration block.", foundToken));
+                throw new VeilParserException(String.Format("Found token '{0}' outside of an iteration block.", foundToken), state.CurrentLocation);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Veil.Handlebars
 
             if (faulted)
             {
-                throw new VeilParserException(String.Format("Found token '{0}' outside of a with block.", foundToken));
+                throw new VeilParserException(String.Format("Found token '{0}' outside of a with block.", foundToken), state.CurrentLocation);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Veil.Handlebars
 
             if (faulted)
             {
-                throw new VeilParserException(String.Format("Found token '{0}' outside of a conditional or iteration block.", foundToken));
+                throw new VeilParserException(String.Format("Found token '{0}' outside of a conditional or iteration block.", foundToken), state.CurrentLocation);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Veil.Handlebars
         {
             if (state.BlockStack.Count > 1 || !state.BlockStack.GetCurrentBlockNode().IsEmpty())
             {
-                throw new VeilParserException(errorMessage);
+                throw new VeilParserException(errorMessage, state.CurrentLocation);
             }
         }
 

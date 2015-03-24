@@ -29,12 +29,12 @@ namespace Veil.Compiler
 			if (node is CollectionHasItemsExpressionNode) return EvaluateHasItemsNode((CollectionHasItemsExpressionNode)node);
 			if (node is FunctionCallExpressionNode) return EvaluateFunctionCall((FunctionCallExpressionNode)node);
 
-			throw new VeilCompilerException("Unknown expression type '{0}'".FormatInvariant(node.GetType().Name));
+			throw new VeilCompilerException("Unknown expression type '{0}'".FormatInvariant(node.GetType().Name), node);
 		}
 
 		private Expression EvaluateFunctionCall(FunctionCallExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope);
+			var modelExpression = EvaluateScope(node.Scope, node);
 			return Expression.Call(modelExpression, node.MethodInfo);
 		}
 
@@ -47,18 +47,16 @@ namespace Veil.Compiler
 
 		private Expression EvaluateLateBoundExpression(LateBoundExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope);
+			var modelExpression = EvaluateScope(node.Scope, node);
 			return Expression.Call(null, RuntimeBindFunction, new[] {
                 modelExpression,
-                Expression.Constant(node.ItemName),
-                Expression.Constant(node.IsCaseSensitive),
-                Expression.Constant(node.MemberLocator)
+                Expression.Constant(node)
             });
 		}
 
 		private Expression EvaluateSelfExpressionNode(SelfExpressionNode node)
 		{
-			return EvaluateScope(node.Scope);
+			return EvaluateScope(node.Scope, node);
 		}
 
 		private Expression EvaluateSubModel(SubModelExpressionNode node)
@@ -72,17 +70,17 @@ namespace Veil.Compiler
 
 		private Expression EvaluateField(FieldExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope);
+			var modelExpression = EvaluateScope(node.Scope, node);
 			return Expression.Field(modelExpression, node.FieldInfo);
 		}
 
 		private Expression EvaluateProperty(PropertyExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope);
+			var modelExpression = EvaluateScope(node.Scope, node);
 			return Expression.Property(modelExpression, node.PropertyInfo);
 		}
 
-		private Expression EvaluateScope(ExpressionScope scope)
+		private Expression EvaluateScope(ExpressionScope scope, SyntaxTreeNode node)
 		{
 			switch (scope)
 			{
@@ -90,7 +88,7 @@ namespace Veil.Compiler
 				case ExpressionScope.RootModel: return this._modelStack.Last.Value;
 				case ExpressionScope.ModelOfParentScope: return this._modelStack.First.Next.Value;
 				default:
-					throw new VeilCompilerException("Unknown expression scope '{0}'".FormatInvariant(scope));
+					throw new VeilCompilerException("Unknown expression scope '{0}'".FormatInvariant(scope), node);
 			}
 		}
 	}

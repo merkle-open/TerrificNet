@@ -25,16 +25,16 @@ namespace TerrificNet.ViewEngine.Client
 	    {
 		    using (var stream = new StreamReader(templateInfo.Open()))
 		    {
-			    GenerateForTemplate(stream.ReadToEnd(), clientContext, clientModel);
+			    GenerateForTemplate(templateInfo.Id, stream.ReadToEnd(), clientContext, clientModel);
 		    }
 	    }
 
-		internal void GenerateForTemplate(string template, IClientContext clientContext, IClientModel model)
+		internal void GenerateForTemplate(string templateId, string template, IClientContext clientContext, IClientModel model)
 	    {
 			var parser = VeilStaticConfiguration.GetParserInstance("handlebars");
 		    var helperHandlers = _helperHandlerFactory.Create().ToArray();
 
-		    var tree = parser.Parse(new StringReader(template), typeof (object), _memberLocator, helperHandlers);
+		    var tree = parser.Parse(templateId, new StringReader(template), typeof (object), _memberLocator, helperHandlers);
 		    new ClientNodeVisitor(clientContext, model).Visit(tree);
 	    }
 

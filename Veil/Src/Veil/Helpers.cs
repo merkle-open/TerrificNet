@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Veil.Compiler;
+using Veil.Parser.Nodes;
 
 namespace Veil
 {
@@ -104,8 +105,11 @@ namespace Veil
 
         private static ConcurrentDictionary<Tuple<Type, string>, Func<object, object>> lateBoundCache = new ConcurrentDictionary<Tuple<Type, string>, Func<object, object>>();
 
-        public static object RuntimeBind(object model, string itemName, bool isCaseSensitive, IMemberLocator memberLocator)
+        public static object RuntimeBind(object model, LateBoundExpressionNode node)
         {
+	        var itemName = node.ItemName;
+	        var memberLocator = node.MemberLocator;
+
             if (model == null)
                 return null;
 
@@ -136,7 +140,9 @@ namespace Veil
                 return null;
             }));
 
-            if (binder == null) throw new VeilCompilerException("Unable to late-bind '{0}' against model {1}".FormatInvariant(itemName, model.GetType().Name));
+            if (binder == null) 
+				throw new VeilCompilerException("Unable to late-bind '{0}' against model {1}".FormatInvariant(itemName, model.GetType().Name), node);
+
             var result = binder(model);
             return result;
         }

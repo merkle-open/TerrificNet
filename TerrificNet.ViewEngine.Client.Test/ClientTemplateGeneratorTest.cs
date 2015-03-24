@@ -21,7 +21,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 			var clientContext = new Mock<IClientContext>();
 			clientContext.Setup(c => c.WriteLiteral(input));
 
-			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
 			clientContext.VerifyAll();
 		}
@@ -37,7 +37,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.test")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
 			clientContext.VerifyAll();
 		}
@@ -53,7 +53,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.test.prop1")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
 			clientContext.VerifyAll();
 		}
@@ -70,7 +70,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.prop2")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
 			clientContext.VerifyAll();
 		}
@@ -92,7 +92,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.anyafter")));
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
 			clientContext.VerifyAll();
 		}
@@ -114,7 +114,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.anyafter")));
             clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-            generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
             clientContext.VerifyAll();
         }
@@ -136,7 +136,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.WriteEncodeExpression(GetModelExpression("model.anyafter")));
             clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-            generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
             clientContext.VerifyAll();
         }
@@ -158,7 +158,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.EndIterate());
             clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-            generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
             clientContext.VerifyAll();
         }
@@ -177,7 +177,7 @@ namespace TerrificNet.ViewEngine.Client.Test
 			clientContext.Setup(c => c.EndIf());
 			clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-			generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
 			clientContext.VerifyAll();
 		}
@@ -193,7 +193,7 @@ namespace TerrificNet.ViewEngine.Client.Test
             clientContext.Setup(c => c.WriteExpression(GetModelExpression("model.expression")));
             clientContext.Setup(c => c.WriteLiteral("</html>"));
 
-            generator.GenerateForTemplate(input, clientContext.Object, new JavascriptClientModel("model"));
+			generator.GenerateForTemplate("test", input, clientContext.Object, new JavascriptClientModel("model"));
 
             clientContext.VerifyAll();
         }
