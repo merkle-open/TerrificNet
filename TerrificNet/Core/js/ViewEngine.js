@@ -50,6 +50,7 @@ var Tcn;
         };
         return StringRenderingContext;
     })();
+    Tcn.StringRenderingContext = StringRenderingContext;
     var Utils = (function () {
         function Utils() {
         }

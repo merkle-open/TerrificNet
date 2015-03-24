@@ -94,9 +94,6 @@
     <Content Include="labels.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="components\modules\Breadcrumb\css\breadcrumb.less" />
     <Content Include="components\modules\Example\css\example.less" />
     <Content Include="components\modules\Example\css\skins\example-blue.less" />
@@ -130,6 +127,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="components\modules\SubPlaceholder\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

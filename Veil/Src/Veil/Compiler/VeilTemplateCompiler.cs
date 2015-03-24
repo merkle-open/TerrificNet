@@ -27,13 +27,13 @@ namespace Veil.Compiler
         {
             if (before == null)
             {
-                await Handle(after);
+                await Handle(after).ConfigureAwait(false);
                 return;
             }
                 //before = Task.FromResult(false);
 
             await before.ConfigureAwait(false);
-            await Handle(after);
+            await Handle(after).ConfigureAwait(false);
 
             //return before.ContinueWith(t =>
             //{
