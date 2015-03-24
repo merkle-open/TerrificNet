@@ -40,16 +40,16 @@ namespace TerrificNet.Controllers
             {
                 PageViewDefinition viewDefinition;
                 if (_viewRepository.TryGetFromView(path, out viewDefinition))
-                    return await Get(viewDefinition.Template, JObject.FromObject(viewDefinition));
+                    return await Get(viewDefinition.Template, JObject.FromObject(viewDefinition)).ConfigureAwait(false);
 
                 return new HttpResponseMessage(HttpStatusCode.NotFound);
             }
 
             object model;
             if (!string.IsNullOrEmpty(data))
-                model = await _modelProvider.GetModelForTemplateAsync(templateInfo, data);
+                model = await _modelProvider.GetModelForTemplateAsync(templateInfo, data).ConfigureAwait(false);
             else
-                model = await _modelProvider.GetDefaultModelForTemplateAsync(templateInfo);
+                model = await _modelProvider.GetDefaultModelForTemplateAsync(templateInfo).ConfigureAwait(false);
 
             return View(view, model);
         }
@@ -111,7 +111,7 @@ namespace TerrificNet.Controllers
             if (!_fileSystem.FileExists(fileId)) 
                 return false;
 
-            await WritePageDefinition(viewDefinition, fileId);
+            await WritePageDefinition(viewDefinition, fileId).ConfigureAwait(false);
             return true;
         }
 

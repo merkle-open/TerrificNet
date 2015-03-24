@@ -14,8 +14,8 @@ namespace TerrificNet.ViewEngine.IO
 		private readonly List<LookupFileSystemSubscription> _subscriptions = new List<LookupFileSystemSubscription>();
 		private readonly HashSet<LookupDirectoryFileSystemSubscription> _directorySubscriptions = new HashSet<LookupDirectoryFileSystemSubscription>();
 
-		private HashSet<PathInfo> _fileInfos;
-		private HashSet<PathInfo> _directoryInfos;
+		private HashSet<PathInfo> _fileInfo;
+		private HashSet<PathInfo> _directoryInfo;
 		private FileSystemWatcher _watcher;
 		private readonly string _basePathConverted;
 
@@ -38,11 +38,11 @@ namespace TerrificNet.ViewEngine.IO
 
 		private void Initialize()
 		{
-			_fileInfos = new HashSet<PathInfo>(
+			_fileInfo = new HashSet<PathInfo>(
 				Directory.EnumerateFiles(_basePathConverted, "*", SearchOption.AllDirectories)
 					.Select(fileName => PathInfo.GetSubPath(_basePath, fileName)));
 
-			_directoryInfos = new HashSet<PathInfo>(
+			_directoryInfo = new HashSet<PathInfo>(
 				Directory.EnumerateDirectories(_basePathConverted, "*", SearchOption.AllDirectories)
 					.Select(fileName => PathInfo.GetSubPath(_basePath, fileName)));
 		}
@@ -55,10 +55,16 @@ namespace TerrificNet.ViewEngine.IO
 				EnableRaisingEvents = true,
 				IncludeSubdirectories = true
 			};
-			_watcher.Changed += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
-			_watcher.Created += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
-			_watcher.Deleted += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
-			_watcher.Renamed += (sender, args) => { Initialize(); NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, args.FullPath))); };
+			_watcher.Changed += (sender, a) => HandleFileSystemEvent(a);
+			_watcher.Created += (sender, a) => HandleFileSystemEvent(a);
+			_watcher.Deleted += (sender, a) => HandleFileSystemEvent(a);
+			_watcher.Renamed += (sender, a) => HandleFileSystemEvent(a);
+		}
+
+		private void HandleFileSystemEvent(FileSystemEventArgs a)
+		{
+			Initialize();
+			NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, a.FullPath)));
 		}
 
 		private void NotifySubscriptions(IFileInfo file)
@@ -83,7 +89,7 @@ namespace TerrificNet.ViewEngine.IO
 
 		public bool DirectoryExists(PathInfo directory)
 		{
-			return _directoryInfos.Contains(directory);
+			return _directoryInfo.Contains(directory);
 		}
 
 		public IEnumerable<PathInfo> DirectoryGetFiles(PathInfo directory, string fileExtension)
@@ -94,7 +100,7 @@ namespace TerrificNet.ViewEngine.IO
 				fileExtension = string.Concat(".", fileExtension);
 
 			return
-				_fileInfos.Where(
+				_fileInfo.Where(
 					f => (checkDirectory || f.StartsWith(directory)) &&
 						 (checkExtension || f.HasExtension(fileExtension)));
 		}
@@ -160,7 +166,7 @@ namespace TerrificNet.ViewEngine.IO
 
 		public bool FileExists(PathInfo filePath)
 		{
-			return _fileInfos.Contains(filePath);
+			return _fileInfo.Contains(filePath);
 		}
 
 		public void RemoveFile(PathInfo filePath)

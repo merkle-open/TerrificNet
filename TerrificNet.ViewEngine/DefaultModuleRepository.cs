@@ -11,32 +11,30 @@ namespace TerrificNet.ViewEngine
 	{
 		private readonly ITerrificNetConfig _configuration;
 		private readonly ITemplateRepository _templateRepository;
-		private IEnumerable<TemplateInfo> _cachedTemplates;
-		private IEnumerable<ModuleDefinition> _cachedModules;
+		private Dictionary<string, ModuleDefinition> _modules;
 
 		public DefaultModuleRepository(ITerrificNetConfig configuration, ITemplateRepository templateRepository)
 		{
 			_configuration = configuration;
 			_templateRepository = templateRepository;
+
+			InitModules();
+		}
+
+		private void InitModules()
+		{
+			var templates = _templateRepository.GetAll();
+
+			_modules = templates
+				.Where(t => t.Id.StartsWith(_configuration.ModulePath.ToString()))
+				.GroupBy(t => Path.GetDirectoryName(t.Id))
+				.Select(CreateModuleDefinition)
+				.ToDictionary(i => i.Id, i => i);
 		}
 
 		public IEnumerable<ModuleDefinition> GetAll()
 		{
-			var templates = _templateRepository.GetAll();
-
-			if (ReferenceEquals(templates, _cachedTemplates))
-				return _cachedModules;
-
-			// ReSharper disable once PossibleMultipleEnumeration
-			_cachedTemplates = templates;
-			// ReSharper disable once PossibleMultipleEnumeration
-			_cachedModules = templates
-				.Where(t => t.Id.StartsWith(_configuration.ModulePath.ToString()))
-				.GroupBy(t => Path.GetDirectoryName(t.Id))
-				.Select(CreateModuleDefinition)
-				.ToList();
-
-			return _cachedModules;
+			return _modules.Values;
 		}
 
 		private static ModuleDefinition CreateModuleDefinition(IGrouping<string, TemplateInfo> t)
@@ -78,9 +76,10 @@ namespace TerrificNet.ViewEngine
 
 		public Task<ModuleDefinition> GetModuleDefinitionByIdAsync(string id)
 		{
-            // TODO use async
-			var moduleDefinition = this.GetAll().FirstOrDefault(k => id.Equals(k.Id, StringComparison.Ordinal));
-			return Task.FromResult(moduleDefinition);
+			if (_modules.ContainsKey(id))
+				return Task.FromResult(_modules[id]);
+
+			return Task.FromResult<ModuleDefinition>(null);
 		}
 	}
 }

@@ -5,6 +5,8 @@ namespace Veil.Compiler
 {
 	public static class TaskHelper
 	{
+		private static readonly Task CompletedTask = Task.FromResult(true); 
+
 		public static async Task Chain(Task before, Action after)
 		{
 			if (before == null)
@@ -29,11 +31,13 @@ namespace Veil.Compiler
 			await Handle(after).ConfigureAwait(false);
 		}
 
-		private static async Task Handle(Func<Task> after)
+		private static Task Handle(Func<Task> after)
 		{
 			var afterTask = after();
 			if (afterTask != null)
-				await afterTask.ConfigureAwait(false);
+				return afterTask;
+
+			return CompletedTask;
 		}
 	}
 }
