@@ -6,7 +6,7 @@
 		},
 		"sample": {
 			"section": "",
-			"basePath": "C:\\Projects\\ifolorshop\\dms\\frontend"
+			"basePath": "../TerrificNet.Sample/"
 		}
 	}
 }
