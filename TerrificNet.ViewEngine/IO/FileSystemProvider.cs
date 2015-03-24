@@ -24,7 +24,7 @@ namespace TerrificNet.ViewEngine.IO
             }
             else
             {
-                basePath = Path.Combine(hostPath, path);
+				basePath = PathInfo.Combine(PathInfo.Create(hostPath), PathInfo.Create(path)).ToString();
                 fileSystem = new FileSystem(basePath);
 
                 basePath = string.Empty;

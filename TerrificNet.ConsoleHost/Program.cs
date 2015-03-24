@@ -28,7 +28,6 @@ namespace TerrificNet.ConsoleHost
 
             var container = WebInitializer.Initialize(Path.GetFullPath(path));
 
-			
             // Start OWIN host
             using (WebApp.Start(baseAddress, builder => Initialize(builder, container)))
             {
