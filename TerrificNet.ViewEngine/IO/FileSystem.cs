@@ -154,7 +154,7 @@ namespace TerrificNet.ViewEngine.IO
 
 		public IFileInfo GetFileInfo(PathInfo filePath)
 		{
-			return new FileInfo(filePath);
+			return new FileInfo(GetRootPath(filePath));
 		}
 
 		public Stream OpenWrite(PathInfo filePath)
