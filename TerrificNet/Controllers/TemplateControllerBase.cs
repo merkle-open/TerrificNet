@@ -75,7 +75,8 @@ namespace TerrificNet.Controllers
                     errorLocation = ex.Node.Location;
                 }
                 
-                await GetErrorPage(writer, error, errorLocation);
+                if (error != null)
+                    await GetErrorPage(writer, error, errorLocation);
             }
         }
 
