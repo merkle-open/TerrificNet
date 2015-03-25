@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using Veil.Parser;
 using Veil.Parser.Nodes;
 
 namespace Veil.Compiler
@@ -11,6 +12,7 @@ namespace Veil.Compiler
     {
         private static MethodInfo moveNextMethod = typeof(System.Collections.IEnumerator).GetMethod("MoveNext");
         private static MethodInfo disposeMethod = typeof(IDisposable).GetMethod("Dispose");
+        private static MethodInfo nullCheckMethod = typeof(Helpers).GetMethod("CheckNotNull");
 
         private Expression HandleIterate(IterateNode node)
         {
@@ -44,6 +46,7 @@ namespace Veil.Compiler
 
             return Expression.Block(
                 new[] { enumerator, hasElements, task },
+                NullCheck("Cannot iterate over collection because value is null.", node.Collection, collection),
                 Expression.Assign(hasElements, Expression.Constant(false)),
                 Expression.Assign(enumerator, Expression.Call(collection, getEnumeratorMethod)),
                 Expression.Assign(task, Expression.Constant(null, typeof (Task))),
@@ -65,6 +68,11 @@ namespace Veil.Compiler
                 Expression.Return(returnLabel, task),
                 Expression.Label(returnLabel, Expression.Constant(null, typeof(Task)))
             );
+        }
+
+        private static MethodCallExpression NullCheck(string message, SyntaxTreeNode node, Expression value)
+        {
+            return Expression.Call(null, nullCheckMethod, Expression.Constant(message), value, Expression.Constant(node));
         }
 
         private Expression HandleIterateArray(IterateNode node)

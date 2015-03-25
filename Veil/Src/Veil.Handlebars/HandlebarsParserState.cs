@@ -16,7 +16,7 @@ namespace Veil.Handlebars
 
 	    public SourceLocation CurrentLocation
 	    {
-			get { return new SourceLocation(_templateId, CurrentToken.Position, 0); }
+			get { return new SourceLocation(_templateId, CurrentToken.Position, CurrentToken.Length); }
 	    }
 
         public SyntaxTreeNode ExtendNode { get; set; }
@@ -44,9 +44,9 @@ namespace Veil.Handlebars
             AddNodeToCurrentBlock(SyntaxTree.WriteString(s, location));
         }
 
-        public ExpressionNode ParseExpression(string expression)
+        public ExpressionNode ParseExpression(string expression, SourceLocation location)
         {
-            return HandlebarsExpressionParser.Parse(this, BlockStack, expression, _memberLocator);
+            return HandlebarsExpressionParser.Parse(this, BlockStack, location, expression, _memberLocator);
         }
 
         internal void SetCurrentToken(HandlebarsToken token)

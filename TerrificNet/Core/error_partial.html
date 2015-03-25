@@ -1,0 +1,61 @@
+﻿<style>
+    div.tcnerror {
+        font-family: "Arial";
+        background: #1F67B1;
+        color: white;
+        padding: 5px;
+        margin:5px;
+    }
+
+        div.tcnerror div.subtitle {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        div.tcnerror div.title {
+            font-size: 14pt;
+            font-weight: bold;
+        }
+
+        div.tcnerror pre {
+            background: white;
+            color: black;
+        }
+
+        div.tcnerror div.template {
+            font-family: "Courier New", monospace;
+            font-size: 10pt;
+            white-space: pre;
+            background: white;
+            color: black;
+            display: inline-block;
+            padding: 5px;
+        }
+
+            div.tcnerror div.template .error {
+                display: inline-block;
+                position: relative;
+            }
+
+            div.tcnerror div.template .error:before {
+                content: "~~~~~~~~~~~~";
+                font-size: 0.6em;
+                font-weight: 700;
+                font-family: Times New Roman, Serif;
+                color: red;
+                width: 100%;
+                position: absolute;
+                top: 12px;
+                left: -1px;
+                overflow: hidden;
+            }
+</style>
+<div class="tcnerror">
+    <div class="title">Oops! Error in template [{{templateId}}]</div>
+    <p class="message">{{errorMessage}}</p>
+    <div class="subtitle">Source</div>
+    <div class="template">{{before}}<span class="error">{{node}}</span>{{after}}</div>
+    <div class="subtitle">Stack trace</div>
+    <pre class="details">{{details}}</pre>
+</div>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Veil.Compiler;
+using Veil.Parser;
 using Veil.Parser.Nodes;
 
 namespace Veil
@@ -101,6 +102,12 @@ namespace Veil
         {
             if (o is bool) return (bool)o;
             return o != null;
+        }
+
+        public static void CheckNotNull(string message, object obj, SyntaxTreeNode node)
+        {
+            if (obj == null)
+                throw new VeilCompilerException(message, node);
         }
 
         private static ConcurrentDictionary<Tuple<Type, string>, Func<object, object>> lateBoundCache = new ConcurrentDictionary<Tuple<Type, string>, Func<object, object>>();

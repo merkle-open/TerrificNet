@@ -1,12 +1,3 @@
 {
-    "links": [
-        {
-            "name": "Home",
-            "url": "/"
-        },
-        {
-            "name": "Detail",
-            "url":  "/detail"
-        }
-    ]
+
 }
