@@ -11,7 +11,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 
 		internal abstract double GetWidth(GridStack gridStack);
 
-		public Task EvaluateAsync(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
+		public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
 			double ratio = 1.0;
 			string ratioValue;

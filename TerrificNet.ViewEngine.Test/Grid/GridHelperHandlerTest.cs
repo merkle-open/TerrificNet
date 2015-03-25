@@ -18,7 +18,7 @@ namespace TerrificNet.ViewEngine.Test.Grid
 			var gridStack = GridStack.FromContext(renderingContext);
 			gridStack.Push(960);
 
-			underTest.EvaluateAsync(null, renderingContext, "", new Dictionary<string, string>
+			underTest.EvaluateAsync(null, renderingContext, new Dictionary<string, string>
 			{
 			    {"ratio", "1/3"}
 			});

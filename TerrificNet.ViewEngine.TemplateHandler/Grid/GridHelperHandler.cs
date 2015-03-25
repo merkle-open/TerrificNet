@@ -23,7 +23,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			return name.StartsWith("grid-cell");
 		}
 
-		public Task EvaluateAsync(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
+		public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
 			var gridStack = GridStack.FromContext(context);
 			double ratio = GetValue(parameters, "ratio", 1);

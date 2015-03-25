@@ -14,7 +14,7 @@ namespace Veil.Compiler
         {
             try
             {
-                await handler.EvaluateAsync(model, renderingContext, node.Name, node.Parameters);
+                await handler.EvaluateAsync(model, renderingContext, node.Parameters);
             }
             catch (VeilCompilerException)
             {

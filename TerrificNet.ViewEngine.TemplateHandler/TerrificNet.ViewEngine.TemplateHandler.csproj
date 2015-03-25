@@ -58,12 +58,15 @@
     <Compile Include="Grid\GridWidthHelperHandler.cs" />
     <Compile Include="ITerrificTemplateHandler.cs" />
     <Compile Include="ITerrificTemplateHandlerFactory.cs" />
+    <Compile Include="LabelHelperHandler.cs" />
+    <Compile Include="ModuleHelperHandler.cs" />
     <Compile Include="PlaceholderDefinitionCollection.cs" />
+    <Compile Include="PlaceholderHelperHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptImport.cs" />
     <Compile Include="StyleImport.cs" />
     <Compile Include="TemplateIdHelperHandler.cs" />
-    <Compile Include="TerrificRenderingHelperHandler.cs" />
+    <Compile Include="PartialHelperHandler.cs" />
     <Compile Include="ViewDefinition.cs" />
   </ItemGroup>
   <ItemGroup>

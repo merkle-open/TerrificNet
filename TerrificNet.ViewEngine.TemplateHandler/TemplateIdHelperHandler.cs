@@ -13,7 +13,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             return name.StartsWith("template-id");
         }
 
-        public Task EvaluateAsync(object model, RenderingContext context, string name, IDictionary<string, string> parameters)
+        public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
         {
             var templateId = context.Data["templateId"];
             return context.Writer.WriteAsync(templateId as string);

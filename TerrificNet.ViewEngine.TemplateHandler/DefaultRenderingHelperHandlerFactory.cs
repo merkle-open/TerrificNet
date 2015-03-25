@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using TerrificNet.ViewEngine.Client;
 using TerrificNet.ViewEngine.TemplateHandler.Grid;
-using TerrificNet.ViewEngine.ViewEngines;
 using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.TemplateHandler
@@ -27,7 +26,10 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
         public IEnumerable<IHelperHandler> Create()
         {
-            yield return new TerrificRenderingHelperHandler(_terrificTemplateHandlerFactory.Create(), _schemaProviderFactory.Create(), _templateRepository, _clientTemplateGeneratorFactory.Create());
+            yield return new ModuleHelperHandler(_terrificTemplateHandlerFactory.Create());
+            yield return new PartialHelperHandler(_terrificTemplateHandlerFactory.Create(), _schemaProviderFactory.Create(), _templateRepository, _clientTemplateGeneratorFactory.Create());
+            yield return new PlaceholderHelperHandler(_terrificTemplateHandlerFactory.Create());
+            yield return new LabelHelperHandler(_terrificTemplateHandlerFactory.Create());
             yield return new GridHelperHandler();
             yield return new GridWidthHelperHandler();
 			yield return new GridComponentWidthHelperHandler();
