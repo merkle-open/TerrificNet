@@ -81,7 +81,7 @@ namespace TerrificNet.ViewEngine.ModelProviders
 		{
 			using (var stream = new StreamWriter(_fileSystem.OpenWrite(filePath)))
 			{
-				var value = JsonConvert.SerializeObject(content);
+				var value = JsonConvert.SerializeObject(content, Formatting.Indented);
 				return stream.WriteAsync(value);
 			}
 		}

@@ -38,7 +38,7 @@ namespace TerrificNet.Controllers
 
             var data = new PageEditModel
             {
-                PageJson = found ? JsonConvert.SerializeObject(siteDefinition) : null,
+                PageJson = found ? JsonConvert.SerializeObject(siteDefinition, Formatting.Indented) : null,
                 PageHtml = await CreateSiteHtml(await appViewEnging.CreateViewAsync(tplInfo), siteDefinition),
                 Modules = CreateModules(app),
                 Layouts = CreateLayouts(app),

@@ -8,7 +8,7 @@ namespace TerrificNet.ViewEngine.Globalization
 	public class JsonLabelService : ILabelService
 	{
 		private readonly IFileSystem _fileSystem;
-        private readonly PathInfo _fileName;
+		private readonly PathInfo _fileName;
 
 		public JsonLabelService(IFileSystem fileSystem)
 		{
@@ -31,7 +31,7 @@ namespace TerrificNet.ViewEngine.Globalization
 		{
 			using (var stream = new StreamWriter(_fileSystem.OpenWrite(_fileName)))
 			{
-				new JsonSerializer().Serialize(new JsonTextWriter(stream), data);
+				new JsonSerializer { Formatting = Formatting.Indented }.Serialize(new JsonTextWriter(stream), data);
 			}
 		}
 
