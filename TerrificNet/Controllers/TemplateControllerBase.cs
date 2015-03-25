@@ -26,12 +26,6 @@ namespace TerrificNet.Controllers
 
         protected async Task<HttpResponseMessage> View(string viewName, object model)
         {
-            var serializer = new JsonSerializer
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            };
-            //model = JObject.FromObject(model, serializer);
-
             var dependencyResolver = ((IDependencyResolverAware)this).DependencyResolver;
             var templateRepository = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));
             var viewEngine = (IViewEngine)dependencyResolver.GetService(typeof(IViewEngine));

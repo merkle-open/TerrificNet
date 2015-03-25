@@ -182,7 +182,7 @@ namespace TerrificNet.Controllers
         {
             using (var stream = new StreamWriter(_fileSystem.OpenWrite(fileName)))
             {
-                var value = JsonConvert.SerializeObject(viewDefinition);
+                var value = JsonConvert.SerializeObject(viewDefinition, Formatting.Indented);
                 return stream.WriteAsync(value);
             }
         }
