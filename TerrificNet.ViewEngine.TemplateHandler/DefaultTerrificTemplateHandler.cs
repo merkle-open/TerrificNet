@@ -159,8 +159,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 }
             }
 
-            context.Writer.Write("Problem loading template " + moduleId +
-                                 (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
+            throw new ArgumentException("Problem loading template " + moduleId +
+                                        (!string.IsNullOrEmpty(skin) ? "-" + skin : string.Empty));
+            
         }
 
 		public Task RenderLabelAsync(string key, RenderingContext context)
@@ -210,7 +211,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 }
             }
 
-            await context.Writer.WriteAsync("Problem loading template " + template);
+            throw new ArgumentException("Problem loading template " + template);
         }
 
         private static string GetRenderPath(RenderingContext context)

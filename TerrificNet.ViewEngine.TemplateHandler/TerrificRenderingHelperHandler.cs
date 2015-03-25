@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using TerrificNet.ViewEngine.Client;
 using TerrificNet.ViewEngine.Schema;
@@ -76,81 +75,11 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 // TODO: Use async
                 return _schemaProvider.GetSchemaFromTemplateAsync(templateInfo).Result;
             }
-            else if ("placeholder".Equals(name, StringComparison.OrdinalIgnoreCase))
-            {
-                var placeholderSchema = new JSchema();
-                var itemSchema = new JSchema
-                {
-                    Type = JSchemaType.Array
-                };
-                itemSchema.Items.Add(GetViewSchema());
-                placeholderSchema.Properties.Add(parameters["key"].Trim('"'), itemSchema);
-
-                var schema = new JSchema();
-                schema.Properties.Add("_placeholders", placeholderSchema);
-                
-                return schema;
-            }
+            
             return null;
         }
 
-        private static JSchema GetViewSchema()
-        {
-            //var schema = new JSchema();
-            //schema.OneOf.Add(GetPartialViewSchema());
-            //schema.OneOf.Add(GetModuleViewSchema());
-
-            //return schema;
-            return GetPartialViewSchema();
-        }
-
-        private static JSchema GetModuleViewSchema()
-        {
-            const string schema = @"{
-                ""type"":
-                ""object"",
-                ""properties"":
-                {
-                    ""module"":
-                    {
-                        ""type"": [""string"", ""null""],
-                        ""format"": ""template""
-                    }
-                ,
-                    ""skin"":
-                    {
-                        ""type"": [""string"", ""null""]
-                    }
-                ,
-                    ""data_variation"":
-                    {
-                        ""type"": [""string"", ""null""]
-                    }
-                }
-            }";
-
-            return JsonConvert.DeserializeObject<JSchema>(schema);
-        }
-
-        private static JSchema GetPartialViewSchema()
-        {
-            const string schema = @"{
-                ""type"":
-                ""object"",
-                ""properties"":
-                {
-                    ""template"":
-                    {
-                        ""type"": ""string"",
-                        ""format"": ""template""
-                    }
-                }
-            }";
-
-            return JsonConvert.DeserializeObject<JSchema>(schema);
-        }
-
-		public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)
+	    public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)
 		{
 			if ("partial".Equals(name, StringComparison.OrdinalIgnoreCase))
 			{

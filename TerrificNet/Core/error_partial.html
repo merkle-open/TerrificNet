@@ -37,14 +37,17 @@
 <div class="tcnerror">
     <div class="title">Oops! Error in template [{{templateId}}]</div>
     <p class="message">{{errorMessage}}</p>
+    {{#if text}}
     <div class="subtitle">Source</div>
     <pre id="tcncontent" class="template"></pre>
+    {{/if}}
     <div class="subtitle">Stack trace</div>
     <pre class="details">{{details}}</pre>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/mode-handlebars.js" type="text/javascript"></script>
 
+{{#if range}}
 <script>
     var editor = ace.edit("tcncontent");
     editor.setValue("{{{text}}}");
@@ -58,4 +61,5 @@
 
     var Range = ace.require('ace/range').Range;
     var markerId = editor.session.addMarker(new Range({{range.startRow}}, {{range.startColumn}}, {{range.endRow}}, {{range.endColumn}}), "error_marker", "line", true);
-</script>
+
+</script>{{/if}}

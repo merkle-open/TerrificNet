@@ -69,6 +69,10 @@ namespace TerrificNet.Controllers
                     error = ex;
                     errorLocation = ex.Node.Location;
                 }
+                catch (Exception ex)
+                {
+                    error = ex;
+                }
                 
                 if (error != null)
                     await GetErrorPage(writer, error, errorLocation);
@@ -88,6 +92,17 @@ namespace TerrificNet.Controllers
 
             var view = await ((IViewEngine)this.Resolver.GetService(typeof(IViewEngine)))
                 .CreateViewAsync(templateInfo, typeof(TemplateController.ErrorViewModel));
+
+            if (location == null)
+            {
+                var modelWithoutLocation = new TemplateController.ErrorViewModel
+                {
+                    ErrorMessage = error.Message,
+                    Details = error.StackTrace
+                };
+                await view.RenderAsync(modelWithoutLocation, new RenderingContext(writer));
+                return;
+            }
 
             var templateRepository = (ITemplateRepository)this.Resolver.GetService(typeof(ITemplateRepository));
             var sourceTemplate = await templateRepository.GetTemplateAsync(location.TemplateId);

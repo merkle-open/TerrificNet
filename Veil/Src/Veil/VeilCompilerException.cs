@@ -18,5 +18,11 @@ namespace Veil
 	    {
 		    Node = node;
 	    }
+
+        public VeilCompilerException(string message, Exception innerException, SyntaxTreeNode node)
+            : base(message, innerException)
+        {
+            Node = node;
+        }
     }
 }
