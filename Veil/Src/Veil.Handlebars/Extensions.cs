@@ -9,7 +9,7 @@ namespace Veil.Handlebars
         {
             if (state.BlockStack.Count != 1)
             {
-                throw new VeilParserException(String.Format("Mismatched block found. Expected to find the end of the template but found '{0}' open blocks.", state.BlockStack.Count), state.CurrentLocation);
+                throw new VeilParserException(String.Format("Mismatched block found. Expected to find the end of the template but found '{0}' open blocks.", state.BlockStack.Count - 1), state.CurrentLocation);
             }
         }
 

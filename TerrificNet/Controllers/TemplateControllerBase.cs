@@ -130,7 +130,6 @@ namespace TerrificNet.Controllers
 
         private static ErrorRange GetRange(string sourceTemplateSource, SourceLocation location)
         {
-            int startRow;
             int lineNumber = 0;
             int idx = 0;
             int lastIdx = 0;
@@ -141,10 +140,19 @@ namespace TerrificNet.Controllers
                 lastIdx = idx;
             }
 
+            int startLineNumber = lineNumber;
+            int startIdx = lastIdx;
+            while ((idx = sourceTemplateSource.IndexOf('\n', idx)) >= 0 && idx < location.Index + location.Length)
+            {
+                lineNumber++;
+                idx++;
+                lastIdx = idx;                
+            }
+
             return new ErrorRange
             {
-                StartRow = lineNumber,
-                StartColumn = location.Index - lastIdx,
+                StartRow = startLineNumber,
+                StartColumn = location.Index - startIdx,
                 EndRow = lineNumber,
                 EndColumn = location.Index - lastIdx + location.Length
             };
