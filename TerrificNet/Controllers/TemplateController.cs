@@ -63,6 +63,8 @@ namespace TerrificNet.Controllers
             public string Before { get; set; }
             public string Node { get; set; }
             public string After { get; set; }
+            public string Text { get; set; }
+            public ErrorRange Range { get; set; }
         }
 
         private async Task<HttpResponseMessage> GetInternal(string path, string data)

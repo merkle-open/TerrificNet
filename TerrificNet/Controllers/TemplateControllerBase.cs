@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
 using Newtonsoft.Json;
@@ -110,14 +111,46 @@ namespace TerrificNet.Controllers
                 Details = error.StackTrace,
                 Before = sourceTemplateSource.Substring(0, location.Index),
                 Node = sourceTemplateSource.Substring(location.Index, location.Length),
-                After = sourceTemplateSource.Substring(location.Index + location.Length)
+                After = sourceTemplateSource.Substring(location.Index + location.Length),
+                Text = HttpUtility.JavaScriptStringEncode(sourceTemplateSource),
+                Range = GetRange(sourceTemplateSource, location)
             };
 
             await view.RenderAsync(model, new RenderingContext(writer));
         }
 
+        private static ErrorRange GetRange(string sourceTemplateSource, SourceLocation location)
+        {
+            int startRow;
+            int lineNumber = 0;
+            int idx = 0;
+            int lastIdx = 0;
+            while ((idx = sourceTemplateSource.IndexOf('\n', idx)) >= 0 && idx < location.Index)
+            {
+                lineNumber++;
+                idx++;
+                lastIdx = idx;
+            }
+
+            return new ErrorRange
+            {
+                StartRow = lineNumber,
+                StartColumn = location.Index - lastIdx,
+                EndRow = lineNumber,
+                EndColumn = location.Index - lastIdx + location.Length
+            };
+        }
+
         protected IDependencyResolver Resolver { get { return ((IDependencyResolverAware) this).DependencyResolver; }}
 
         IDependencyResolver IDependencyResolverAware.DependencyResolver { get; set; }
+    }
+
+    public class ErrorRange
+    {
+        public int StartRow { get; set; }
+        public int StartColumn { get; set; }
+        public int EndRow { get; set; }
+        public int EndColumn { get; set; }
     }
 }
