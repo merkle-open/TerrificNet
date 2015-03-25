@@ -4,7 +4,7 @@
         background: #1F67B1;
         color: white;
         padding: 5px;
-        margin:5px;
+        margin: 5px;
     }
 
         div.tcnerror div.subtitle {
@@ -23,39 +23,39 @@
             color: black;
         }
 
-        div.tcnerror div.template {
-            font-family: "Courier New", monospace;
-            font-size: 10pt;
-            white-space: pre;
-            background: white;
-            color: black;
-            display: inline-block;
-            padding: 5px;
-        }
+    #tcncontent {
+        height: 300px;
+    }
 
-            div.tcnerror div.template .error {
-                display: inline-block;
-                position: relative;
-            }
-
-            div.tcnerror div.template .error:before {
-                content: "~~~~~~~~~~~~";
-                font-size: 0.6em;
-                font-weight: 700;
-                font-family: Times New Roman, Serif;
-                color: red;
-                width: 100%;
-                position: absolute;
-                top: 12px;
-                left: -1px;
-                overflow: hidden;
-            }
+    .error_marker {
+        position: absolute;
+        background: #ff0000;
+        background: rgba(255,0,0,0.25);
+        z-index: 20;
+    }
 </style>
 <div class="tcnerror">
     <div class="title">Oops! Error in template [{{templateId}}]</div>
     <p class="message">{{errorMessage}}</p>
     <div class="subtitle">Source</div>
-    <div class="template">{{before}}<span class="error">{{node}}</span>{{after}}</div>
+    <pre id="tcncontent" class="template"></pre>
     <div class="subtitle">Stack trace</div>
     <pre class="details">{{details}}</pre>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/mode-handlebars.js" type="text/javascript"></script>
+
+<script>
+    var editor = ace.edit("tcncontent");
+    editor.setValue("{{{text}}}");
+    editor.getSession().setMode("ace/mode/handlebars");
+    editor.getSession().selection.clearSelection();
+    editor.setReadOnly(true);
+    editor.setHighlightActiveLine(false);
+    editor.setHighlightGutterLine(false);
+
+    editor.session.setAnnotations([{ row: {{range.startRow}}, column: {{range.startColumn}}, text: "{{{errorMessage}}}", type: "error" }]);
+
+    var Range = ace.require('ace/range').Range;
+    var markerId = editor.session.addMarker(new Range({{range.startRow}}, {{range.startColumn}}, {{range.endRow}}, {{range.endColumn}}), "error_marker", "line", true);
+</script>

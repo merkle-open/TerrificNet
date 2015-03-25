@@ -26,7 +26,7 @@ namespace Veil.Compiler
                 if (expression.Type == typeof(string))
                     return Expression.Call(encodeMethod, this._writer, expression);
                 
-                return Expression.Call(encodeMethodObject, this._writer, expression);
+                return Expression.Call(encodeMethodObject, this._writer, Expression.Convert(expression, typeof(object)));
             }
 
             if (expression.Type == typeof(string))
