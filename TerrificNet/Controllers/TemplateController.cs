@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -10,6 +11,9 @@ using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.IO;
 using TerrificNet.ViewEngine.TemplateHandler;
+using TerrificNet.ViewEngine.ViewEngines;
+using Veil;
+using Veil.Parser;
 
 namespace TerrificNet.Controllers
 {
@@ -30,6 +34,38 @@ namespace TerrificNet.Controllers
 
         [HttpGet]
         public async Task<HttpResponseMessage> Get(string path, string data = null)
+        {
+            SourceLocation errorLocation;
+            Exception error;
+            //try
+            //{
+                return await GetInternal(path, data);
+            //}
+            //catch (VeilParserException ex)
+            //{
+            //    error = ex;
+            //    errorLocation = ex.Location;
+            //}
+            //catch (VeilCompilerException ex)
+            //{
+            //    error = ex;
+            //    errorLocation = ex.Node.Location;
+            //}
+
+            //return await GetErrorPage(error, errorLocation);
+        }
+
+        public class ErrorViewModel
+        {
+            public string ErrorMessage { get; set; }
+            public string Details { get; set; }
+            public string TemplateId { get; set; }
+            public string Before { get; set; }
+            public string Node { get; set; }
+            public string After { get; set; }
+        }
+
+        private async Task<HttpResponseMessage> GetInternal(string path, string data)
         {
             IView view = null;
             var templateInfo = await _templateRepository.GetTemplateAsync(path).ConfigureAwait(false);

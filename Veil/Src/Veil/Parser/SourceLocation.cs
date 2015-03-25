@@ -3,14 +3,14 @@
 	public class SourceLocation
 	{
 		public string TemplateId { get; private set; }
-		public int Row { get; private set; }
-		public int Column { get; private set; }
+		public int Length { get; private set; }
+		public int Index { get; private set; }
 
-		public SourceLocation(string templateId, int row, int column)
+		public SourceLocation(string templateId, int index, int length)
 		{
 			TemplateId = templateId;
-			Row = row;
-			Column = column;
+			Length = length;
+			Index = index;
 		}
 	}
 }

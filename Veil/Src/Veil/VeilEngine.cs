@@ -69,7 +69,16 @@ namespace Veil
         public Func<RenderingContext, object, Task> CompileNonGeneric(string templateId, ITemplateParser parser, TextReader templateContents, Type modelType)
 	    {
             var typedCompileMethod = GenericCompileMethod.MakeGenericMethod(modelType);
-            var compiledTemplate = typedCompileMethod.Invoke(this, new object[] { templateId, parser, templateContents });
+            object compiledTemplate;
+            try
+            {
+                compiledTemplate = typedCompileMethod.Invoke(this,
+                    new object[] {templateId, parser, templateContents});
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
 
             var writer = Expression.Parameter(typeof(RenderingContext));
             var model = Expression.Parameter(typeof(object));

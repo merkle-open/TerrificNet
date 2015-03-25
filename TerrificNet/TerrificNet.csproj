@@ -242,6 +242,7 @@
     <Content Include="Web\assets\dataEditor.js" />
     <Content Include="Web\assets\pageEditor.js" />
     <Content Include="Web\components\modules\PageEditor\PageEditor.html" />
+    <Content Include="Core\error.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProjectDir)\_build\build.targets" />

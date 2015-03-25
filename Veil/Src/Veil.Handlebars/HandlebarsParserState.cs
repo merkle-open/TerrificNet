@@ -16,7 +16,7 @@ namespace Veil.Handlebars
 
 	    public SourceLocation CurrentLocation
 	    {
-			get { return new SourceLocation(_templateId, CurrentToken.Position, 0); }
+			get { return new SourceLocation(_templateId, CurrentToken.Position, CurrentToken.Length); }
 	    }
 
         public SyntaxTreeNode ExtendNode { get; set; }
