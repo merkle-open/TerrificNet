@@ -283,7 +283,12 @@ namespace TerrificNet.ViewEngine.IO
 			public FileInfo(PathInfo filePath)
 			{
 				FilePath = filePath;
-				Etag = new System.IO.FileInfo(filePath.ToString()).LastWriteTimeUtc.Ticks.ToString("X8");
+
+				var fileInfo = new System.IO.FileInfo(filePath.ToString());
+				if(!fileInfo.Exists)
+					throw new FileNotFoundException(filePath.ToString());
+
+				Etag = fileInfo.LastWriteTimeUtc.Ticks.ToString("X8");
 			}
 		}
 	}
