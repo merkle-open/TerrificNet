@@ -138,7 +138,10 @@
     <Compile Include="Models\DataVariationModel.cs" />
     <Compile Include="Models\ModuleDetailModel.cs" />
     <Compile Include="Models\NavigationGroupModel.cs" />
-    <Compile Include="Models\PageEditModel.cs" />
+    <Compile Include="Models\PageEditor\ElementEditorDefinition.cs" />
+    <Compile Include="Models\PageEditor\PageEditLayoutModel.cs" />
+    <Compile Include="Models\PageEditor\PageEditModel.cs" />
+    <Compile Include="Models\PageEditor\PageEditModuleModel.cs" />
     <Compile Include="Models\TemplateItemModel.cs" />
     <Compile Include="Models\ViewOverviewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
