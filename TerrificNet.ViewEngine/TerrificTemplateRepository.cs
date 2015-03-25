@@ -16,12 +16,12 @@ namespace TerrificNet.ViewEngine
 		{
 			_fileSystem = fileSystem;
 
+			InitCache();
+
 			if (!_fileSystem.SupportsSubscribe)
 				return;
 
 			_fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(""), "html", files => InitCache());
-
-			InitCache();
 		}
 
 		private void InitCache()

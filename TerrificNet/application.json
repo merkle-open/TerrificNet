@@ -2,7 +2,7 @@
 	"applications": {
 		"admin": {
 			"section": "web/",
-			"basePath": "Web"
+			"basePath": "zip://web.zip/Web"
 		},
 		"sample": {
 			"section": "",
