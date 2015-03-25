@@ -64,13 +64,14 @@ namespace TerrificNet.ViewEngine.IO
 		private void HandleFileSystemEvent(FileSystemEventArgs a)
 		{
 			Initialize();
-			NotifySubscriptions(new FileInfo(PathInfo.GetSubPath(_basePath, a.FullPath)));
+
+			var fileInfo = FileInfo.Create(GetRootPath(PathInfo.GetSubPath(_basePath, a.FullPath)));
+			if (fileInfo != null)
+				NotifySubscriptions(fileInfo);
 		}
 
 		private void NotifySubscriptions(IFileInfo file)
 		{
-			Initialize();
-
 			foreach (var subscription in _subscriptions)
 			{
 				subscription.Notify(file);
@@ -154,7 +155,7 @@ namespace TerrificNet.ViewEngine.IO
 
 		public IFileInfo GetFileInfo(PathInfo filePath)
 		{
-			return new FileInfo(GetRootPath(filePath));
+			return FileInfo.Create(GetRootPath(filePath));
 		}
 
 		public Stream OpenWrite(PathInfo filePath)
@@ -280,15 +281,19 @@ namespace TerrificNet.ViewEngine.IO
 
 			public string Etag { get; private set; }
 
-			public FileInfo(PathInfo filePath)
+			private FileInfo(PathInfo filePath, System.IO.FileInfo fileInfo)
 			{
 				FilePath = filePath;
-
-				var fileInfo = new System.IO.FileInfo(filePath.ToString());
-				if(!fileInfo.Exists)
-					throw new FileNotFoundException(filePath.ToString());
-
 				Etag = fileInfo.LastWriteTimeUtc.Ticks.ToString("X8");
+			}
+
+			public static FileInfo Create(PathInfo filePath)
+			{
+				var fileInfo = new System.IO.FileInfo(filePath.ToString());
+				if (!fileInfo.Exists)
+					return null;
+
+				return new FileInfo(filePath, fileInfo);
 			}
 		}
 	}
