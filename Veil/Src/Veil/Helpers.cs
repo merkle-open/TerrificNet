@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using Veil.Compiler;
 using Veil.Parser;
 using Veil.Parser.Nodes;
 
@@ -117,8 +116,8 @@ namespace Veil
 	        var itemName = node.ItemName;
 	        var memberLocator = node.MemberLocator;
 
-            if (model == null)
-                return null;
+            CheckNotNull(string.Format("Could not bind expression with name '{0}'. The value is null.", node.ItemName), 
+                model, node);
 
             var runtimeModel = model as IRuntimeModel;
             if (runtimeModel != null && runtimeModel.Data != null)

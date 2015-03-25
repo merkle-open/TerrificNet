@@ -1,3 +1,18 @@
 {
-
+    "links": [
+        {
+            "name": "Home",
+            "url": "/",
+            "inner": { 
+                "soso":  "bla"
+            }
+        },
+        {
+            "name": "Detail",
+            "url": "/detail",
+            "inner": { 
+                "soso":  "bla"
+            }
+        }
+    ]
 }
