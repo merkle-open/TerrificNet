@@ -44,9 +44,9 @@ namespace Veil.Handlebars
             AddNodeToCurrentBlock(SyntaxTree.WriteString(s, location));
         }
 
-        public ExpressionNode ParseExpression(string expression)
+        public ExpressionNode ParseExpression(string expression, SourceLocation location)
         {
-            return HandlebarsExpressionParser.Parse(this, BlockStack, expression, _memberLocator);
+            return HandlebarsExpressionParser.Parse(this, BlockStack, location, expression, _memberLocator);
         }
 
         internal void SetCurrentToken(HandlebarsToken token)

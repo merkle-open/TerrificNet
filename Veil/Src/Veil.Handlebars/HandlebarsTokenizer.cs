@@ -27,7 +27,7 @@ namespace Veil.Handlebars
                 var trimLastLiteral = token.StartsWith("~");
                 var trimNextLiteral = token.EndsWith("~");
                 token = token.Trim('~').Trim();
-                yield return new HandlebarsToken(true, token, isHtmlEscape, trimLastLiteral, trimNextLiteral, match.Index, match.Length);
+                yield return new HandlebarsToken(true, token, isHtmlEscape, trimLastLiteral, trimNextLiteral, match.Index + 2, match.Length - 4);
 
                 index = match.Index + match.Length;
             }

@@ -239,6 +239,7 @@
     <None Include="Web\components\modules\ApplicationOverview\partials\row.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Core\error_partial.html" />
     <Content Include="Web\assets\dataEditor.js" />
     <Content Include="Web\assets\pageEditor.js" />
     <Content Include="Web\components\modules\PageEditor\PageEditor.html" />

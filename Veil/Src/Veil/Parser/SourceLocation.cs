@@ -12,5 +12,15 @@
 			Length = length;
 			Index = index;
 		}
+
+	    public SourceLocation SetLength(int length)
+	    {
+	        return new SourceLocation(this.TemplateId, this.Index, length);
+	    }
+
+	    public SourceLocation MoveIndex(int index)
+	    {
+	        return new SourceLocation(this.TemplateId, this.Index + index, Length - index);
+	    }
 	}
 }

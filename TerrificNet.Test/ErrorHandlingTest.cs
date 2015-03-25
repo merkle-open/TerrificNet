@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using TerrificNet.ViewEngine.Cache;
 using TerrificNet.ViewEngine.ViewEngines;
 using Veil;
 using Veil.Helper;
+using Veil.Parser;
 
 namespace TerrificNet.Test
 {
@@ -27,19 +29,14 @@ namespace TerrificNet.Test
 		    }
 		    catch (VeilCompilerException ex)
             {
-                Assert.IsNotNull(ex.Message);
-                Assert.IsNotNull(ex.Node);
-                Assert.IsNotNull(ex.Node.Location);
-                Assert.AreEqual(3, ex.Node.Location.Index);
-                Assert.AreEqual(8, ex.Node.Location.Length);
-                Assert.AreEqual(templateId, ex.Node.Location.TemplateId);
+                AssertException(ex, input, templateId, "name", 5);
                 return;
             }
             Assert.Fail("Expected a VeilCompilerException");
 		}
 
         [TestMethod]
-        public async Task TestParseInvalidBlockStatementMissingEndThrowsException()
+        public async Task TestParseInvalidBlockStatementMissingEnd_ThrowsException()
         {
             const string templateId = "views/test";
             const string input = "<p>{{#if name}}</p>";
@@ -50,15 +47,70 @@ namespace TerrificNet.Test
             }
             catch (VeilParserException ex)
             {
-                Assert.IsNotNull(ex.Message);
-                Assert.IsNotNull(ex.Location);
-                Assert.AreEqual(15, ex.Location.Index);
-                Assert.AreEqual(4, ex.Location.Length);
-                Assert.AreEqual(templateId, ex.Location.TemplateId);
+                AssertException(ex, input, templateId, "</p>", 15);
                 return;
             }
             Assert.Fail("Expected a VeilCompilerException");
         }
+
+        [TestMethod]
+        public async Task TestNullCollection_ThrowsException()
+        {
+            const string templateId = "views/test";
+            const string input = "<p>{{#each items}}{{/each}}</p>";
+
+            try
+            {
+                await Execute(input, templateId, new Model1(), typeof(Model1));
+            }
+            catch (VeilCompilerException ex)
+            {
+                AssertException(ex, input, templateId, "items", 11);
+                return;
+            }
+            Assert.Fail("Expected a VeilCompilerException");
+        }
+
+        [TestMethod]
+        public async Task TestNullObject_ThrowsException()
+        {
+            const string templateId = "views/test";
+            const string input = "<p>{{#if inner.inner.inner}}do{{/if}}</p>";
+
+            try
+            {
+                await Execute(input, templateId, new Model1 { Inner = new Model1() }, typeof(Model1));
+            }
+            catch (VeilCompilerException ex)
+            {
+                AssertException(ex, input, templateId, "inner", 21);
+                return;
+            }
+            Assert.Fail("Expected a VeilCompilerException");
+        }
+
+        private static void AssertException(VeilParserException ex, string input, string templateId, string enclosedText, int index)
+        {
+            Assert.IsNotNull(ex.Message);
+            Assert.IsNotNull(ex.Location);
+            AssertLocation(input, templateId, ex.Location, enclosedText, index);
+        }
+
+	    private static void AssertException(VeilCompilerException ex, string input, string templateId, string enclosedText, int index)
+	    {
+	        Assert.IsNotNull(ex.Message);
+	        Assert.IsNotNull(ex.Node);
+	        Assert.IsNotNull(ex.Node.Location);
+	        AssertLocation(input, templateId, ex.Node.Location, enclosedText, index);
+	    }
+
+	    private static void AssertLocation(string input, string templateId, SourceLocation location, string enclosedText, int index)
+	    {
+	        Assert.AreEqual(enclosedText, input.Substring(location.Index, location.Length));
+	        Assert.AreEqual(index, location.Index);
+	        Assert.AreEqual(enclosedText.Length, location.Length);
+	        Assert.AreEqual(templateId, location.TemplateId);
+	    }
 
 	    private static async Task<string> Execute(string input, string templateId, object model, Type modelType)
 	    {
@@ -80,6 +132,12 @@ namespace TerrificNet.Test
 	            await view.RenderAsync(model, context);
 	        }
 	        return builder.ToString();
+	    }
+
+	    private class Model1
+	    {
+	        public IList<string> Items { get; set; }
+            public Model1 Inner { get; set; }
 	    }
 	}
 }

@@ -152,7 +152,7 @@ namespace Veil.Handlebars
         private static void HandleIf(HandlebarsParserState state)
         {
             var block = SyntaxTree.Block(state.CurrentLocation);
-            var conditional = SyntaxTree.Conditional(state.ParseExpression(state.CurrentToken.Content.Substring(4)), state.CurrentLocation, block);
+            var conditional = SyntaxTree.Conditional(state.ParseExpression(state.CurrentToken.Content.Substring(4), state.CurrentLocation.MoveIndex(4)), state.CurrentLocation, block);
             state.AddNodeToCurrentBlock(conditional);
             state.BlockStack.PushModelInheritingBlock(block);
         }
@@ -194,7 +194,7 @@ namespace Veil.Handlebars
         private static void HandleUnless(HandlebarsParserState state)
         {
             var block = SyntaxTree.Block(state.CurrentLocation);
-            var conditional = SyntaxTree.Conditional(state.ParseExpression(state.CurrentToken.Content.Substring(8)), state.CurrentLocation, SyntaxTree.Block(state.CurrentLocation), block);
+            var conditional = SyntaxTree.Conditional(state.ParseExpression(state.CurrentToken.Content.Substring(8), state.CurrentLocation.MoveIndex(8)), state.CurrentLocation, SyntaxTree.Block(state.CurrentLocation), block);
             state.AddNodeToCurrentBlock(conditional);
             state.BlockStack.PushModelInheritingBlock(block);
         }
@@ -208,7 +208,7 @@ namespace Veil.Handlebars
         private static void HandleEach(HandlebarsParserState state)
         {
             var iteration = SyntaxTree.Iterate(
-                state.ParseExpression(state.CurrentToken.Content.Substring(6)),
+                state.ParseExpression(state.CurrentToken.Content.Substring(6), state.CurrentLocation.MoveIndex(6)),
 				state.CurrentLocation,
                 SyntaxTree.Block(state.CurrentLocation)
             );
@@ -230,7 +230,7 @@ namespace Veil.Handlebars
         private static void HandleWith(HandlebarsParserState state)
         {
             var withBlock = SyntaxTree.Block(state.CurrentLocation);
-            var modelExpression = state.ParseExpression(state.CurrentToken.Content.Substring(6).Trim());
+            var modelExpression = state.ParseExpression(state.CurrentToken.Content.Substring(6), state.CurrentLocation.MoveIndex(6));
             state.AddNodeToCurrentBlock(SyntaxTree.ScopeNode(modelExpression, withBlock, state.CurrentLocation));
             state.BlockStack.PushBlock(new HandlebarsParserBlock
             {
@@ -269,7 +269,7 @@ namespace Veil.Handlebars
 
         private static void HandleExpression(HandlebarsParserState state)
         {
-            var expression = state.ParseExpression(state.CurrentToken.Content);
+            var expression = state.ParseExpression(state.CurrentToken.Content, state.CurrentLocation);
             state.AddNodeToCurrentBlock(SyntaxTree.WriteExpression(expression, state.CurrentLocation, state.CurrentToken.IsHtmlEscape));
         }
     }

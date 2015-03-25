@@ -84,7 +84,7 @@ namespace TerrificNet.Controllers
         {
             var fileSystem = new EmbeddedResourceFileSystem(typeof(WebInitializer).Assembly);
             string content;
-            using (var reader = new StreamReader(fileSystem.OpenRead(PathInfo.Create("Core/error.html"))))
+            using (var reader = new StreamReader(fileSystem.OpenRead(PathInfo.Create("Core/error_partial.html"))))
             {
                 content = await reader.ReadToEndAsync();
             }
