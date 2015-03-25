@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -27,7 +28,7 @@ namespace Veil.Handlebars
                 var trimLastLiteral = token.StartsWith("~");
                 var trimNextLiteral = token.EndsWith("~");
                 token = token.Trim('~').Trim();
-                yield return new HandlebarsToken(true, token, isHtmlEscape, trimLastLiteral, trimNextLiteral, match.Index + 2, match.Length - 4);
+                yield return new HandlebarsToken(true, token, isHtmlEscape, trimLastLiteral, trimNextLiteral, match.Index + match.Value.IndexOf(token, StringComparison.Ordinal), token.Length);
 
                 index = match.Index + match.Length;
             }

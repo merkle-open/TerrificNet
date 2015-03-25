@@ -21,7 +21,7 @@ namespace Veil.Handlebars
             }
             if (expression.StartsWith("../"))
             {
-                return ParseAgainstModel(blockStack.GetParentModelType(), expression.Substring(3), ExpressionScope.ModelOfParentScope, memberLocator, state.CurrentLocation);
+                return ParseAgainstModel(blockStack.GetParentModelType(), expression.Substring(3), ExpressionScope.ModelOfParentScope, memberLocator, location.MoveIndex(3));
             }
 
             return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack, memberLocator, location);

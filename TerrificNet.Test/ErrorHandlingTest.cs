@@ -21,7 +21,7 @@ namespace TerrificNet.Test
 		public async Task TestPropertyNotBindable_ThrowsExpection()
 		{
 		    const string templateId = "views/test";
-            const string input = "<p>{{name}}</p>";
+            const string input = "<p>{{   name  }}</p>";
 
 		    try
 		    {
@@ -29,7 +29,7 @@ namespace TerrificNet.Test
 		    }
 		    catch (VeilCompilerException ex)
             {
-                AssertException(ex, input, templateId, "name", 5);
+                AssertException(ex, input, templateId, "name", 8);
                 return;
             }
             Assert.Fail("Expected a VeilCompilerException");
