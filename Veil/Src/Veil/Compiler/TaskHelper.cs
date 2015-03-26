@@ -7,28 +7,20 @@ namespace Veil.Compiler
 	{
 		private static readonly Task CompletedTask = Task.FromResult(true); 
 
-		public static async Task Chain(Task before, Action after)
+		public static Task Chain(Task before, Action after)
 		{
 			if (before == null)
-			{
-				after();
-				return;
-			}
+				return new Task(after);
 
-			await before.ConfigureAwait(false);
-			after();
+			return before.ContinueWith(t => after());
 		}
 
-		public static async Task ChainTask(Task before, Func<Task> after)
+		public static Task ChainTask(Task before, Func<Task> after)
 		{
 			if (before == null)
-			{
-				await Handle(after).ConfigureAwait(false);
-				return;
-			}
+				return CompletedTask.ContinueWith(t => after()).Unwrap();
 
-			await before.ConfigureAwait(false);
-			await Handle(after).ConfigureAwait(false);
+			return before.ContinueWith(t => after()).Unwrap();
 		}
 
 		private static Task Handle(Func<Task> after)

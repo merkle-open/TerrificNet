@@ -49,7 +49,7 @@ namespace Veil.Compiler
                 NullCheck("Cannot iterate over collection because value is null.", node.Collection, collection),
                 Expression.Assign(hasElements, Expression.Constant(false)),
                 Expression.Assign(enumerator, Expression.Call(collection, getEnumeratorMethod)),
-                Expression.Assign(task, Expression.Constant(null, typeof (Task))),
+                Expression.Assign(task, Expression.Constant(Task.FromResult(false), typeof (Task))),
                 Expression.Loop(Expression.Block(
                     new[] { didMoveNext },
                     Expression.Assign(didMoveNext, Expression.Call(enumerator, moveNextMethod)),
