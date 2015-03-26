@@ -19,6 +19,11 @@
 			var mod = this,
 				$ctx = mod.$ctx;
 
+			$ctx.on('click', function() {
+				Tcn.ViewEngine.loadAndRenderAsync($ctx.data("templateid"), {links: [{ name: "entry1" }, { name: "test" + new Date().toTimeString() }]}).then(function(data) {
+					$ctx.html(data);
+				});
+			});
 
 			callback();
 		},
