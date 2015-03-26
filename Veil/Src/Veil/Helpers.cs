@@ -18,18 +18,22 @@ namespace Veil
             return HtmlEncodeAsync(before, writer, string.Empty);
         }
 
-        public static async Task WriteAsync(Task before, TextWriter writer, string value)
+        public static Task WriteAsync(Task before, TextWriter writer, string value)
         {
-            await before.ConfigureAwait(false);
-            await writer.WriteAsync(value).ConfigureAwait(false);
-            //return before.ContinueWith(t => writer.WriteAsync(value), TaskContinuationOptions.AttachedToParent).Unwrap();
+            return Then(before, () => writer.Write(value));
+            //await before.ConfigureAwait(false);
+            //await writer.WriteAsync(value).ConfigureAwait(false);
+            //return before.ContinueWith(t => writer.WriteAsync(value), TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnRanToCompletion).Unwrap();
         }
 
-        public static async Task HtmlEncodeAsync(Task before, TextWriter writer, string value)
+        public static Task HtmlEncodeAsync(Task before, TextWriter writer, string value)
         {
-            await before.ConfigureAwait(false);
+            return Then(before, () => Escape(writer, value));
+        }
 
-            if (string.IsNullOrEmpty(value)) 
+        private static void Escape(TextWriter writer, string value)
+        {
+            if (string.IsNullOrEmpty(value))
                 return;
 
             var startIndex = 0;
@@ -45,12 +49,24 @@ namespace Veil
                     currentChar = value[currentIndex];
                     switch (currentChar)
                     {
-                        case '&': writer.Write("&amp;"); break;
-                        case '<': writer.Write("&lt;"); break;
-                        case '>': writer.Write("&gt;"); break;
-                        case '"': writer.Write("&quot;"); break;
-                        case '\'': writer.Write("&#39;"); break;
-                        default: writer.Write(currentChar); break;
+                        case '&':
+                            writer.Write("&amp;");
+                            break;
+                        case '<':
+                            writer.Write("&lt;");
+                            break;
+                        case '>':
+                            writer.Write("&gt;");
+                            break;
+                        case '"':
+                            writer.Write("&quot;");
+                            break;
+                        case '\'':
+                            writer.Write("&#39;");
+                            break;
+                        default:
+                            writer.Write(currentChar);
+                            break;
                     }
                 }
             }
@@ -74,11 +90,21 @@ namespace Veil
 
                             switch (currentChar)
                             {
-                                case '&': writer.Write("&amp;"); break;
-                                case '<': writer.Write("&lt;"); break;
-                                case '>': writer.Write("&gt;"); break;
-                                case '"': writer.Write("&quot;"); break;
-                                case '\'': writer.Write("&#39;"); break;
+                                case '&':
+                                    writer.Write("&amp;");
+                                    break;
+                                case '<':
+                                    writer.Write("&lt;");
+                                    break;
+                                case '>':
+                                    writer.Write("&gt;");
+                                    break;
+                                case '"':
+                                    writer.Write("&quot;");
+                                    break;
+                                case '\'':
+                                    writer.Write("&#39;");
+                                    break;
                             }
                             break;
                     }
@@ -86,12 +112,12 @@ namespace Veil
 
                 if (startIndex == 0)
                 {
-                    await writer.WriteAsync(value).ConfigureAwait(false);
+                    writer.Write(value);
                     return;
                 }
 
                 if (currentIndex != startIndex)
-                    await writer.WriteAsync(chars, startIndex, currentIndex - startIndex).ConfigureAwait(false);
+                    writer.Write(chars, startIndex, currentIndex - startIndex);
             }
         }
 
@@ -108,10 +134,11 @@ namespace Veil
             return before;
         }
 
-        private static async Task Unwrap(Task before, TextWriter writer, object value)
+        private static Task Unwrap(Task before, TextWriter writer, object value)
         {
-            await before.ConfigureAwait(false);
-            await writer.WriteAsync(value.ToString());
+            return Then(before, () => writer.Write(value.ToString()));
+            //await before.ConfigureAwait(false);
+            //await writer.WriteAsync(value.ToString());
         }
 
         public static bool Boolify(object o)
@@ -178,6 +205,47 @@ namespace Veil
                 flags = flags | BindingFlags.IgnoreCase;
             }
             return flags;
+        }
+
+        public static Task Then(Task first, Action next)
+        {
+            return first.ContinueWith(t => next(), TaskContinuationOptions.ExecuteSynchronously);
+        }
+
+        public static Task Then(Task first, Func<Task> next)
+        {
+            //return first.ContinueWith(t => next()).Unwrap();
+            var tcs = new TaskCompletionSource<bool>();
+            first.ContinueWith(t1 =>
+            {
+                if (t1.IsFaulted)
+                    tcs.TrySetException(t1.Exception.InnerExceptions);
+
+                else if (t1.IsCanceled)
+                    tcs.TrySetCanceled();
+
+                else
+                {
+                    try
+                    {
+                        var t = next();
+                        if (t == null)
+                            tcs.TrySetCanceled();
+
+                        else t.ContinueWith(t2 =>
+                        {
+                            if (t2.IsFaulted)
+                                tcs.TrySetException(t2.Exception.InnerExceptions);
+
+                            else if (t2.IsCanceled) tcs.TrySetCanceled();
+                            else tcs.TrySetResult(true);
+                        }, TaskContinuationOptions.ExecuteSynchronously);
+                    }
+                    catch (Exception exc) { tcs.TrySetException(exc); }
+                }
+            }, TaskContinuationOptions.ExecuteSynchronously);
+
+            return tcs.Task;
         }
     }
 
