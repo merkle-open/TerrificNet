@@ -13,7 +13,7 @@ namespace Veil.Compiler
 		private readonly Expression _writer;
 
 		private readonly ParameterExpression _model = Expression.Parameter(typeof(T), "model");
-		private readonly LinkedList<Expression> _modelStack = new LinkedList<Expression>();
+        private readonly LinkedList<Expression> _modelStack = new LinkedList<Expression>();
 		private readonly IDictionary<string, SyntaxTreeNode> _overrideSections = new Dictionary<string, SyntaxTreeNode>();
 		private readonly IHelperHandler[] _helperHandlers;
 
@@ -29,12 +29,17 @@ namespace Veil.Compiler
 
 			var bodyExpression = this.HandleNode(templateSyntaxTree);
 
-			var expression = Expression.Lambda<Func<RenderingContext, T, Task>>(bodyExpression, this._context, this._model);
+		    var innerExpression = Expression.Block(typeof(Task), new[] {_task}, 
+                Expression.Assign(_task, Expression.Constant(Task.FromResult(false))), 
+                bodyExpression,
+                _task);
 
-			return expression.Compile();
+            var expression = Expression.Lambda<Func<RenderingContext, T, Task>>(innerExpression, this._context, this._model);
+
+			return expression.Compile(); 
 		}
 
-		private void PushScope(Expression scope)
+        private void PushScope(Expression scope)
 		{
 			this._modelStack.AddFirst(scope);
 		}

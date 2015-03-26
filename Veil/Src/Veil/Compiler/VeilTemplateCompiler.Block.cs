@@ -14,13 +14,13 @@ namespace Veil.Compiler
                 return Expression.Empty();
             }
 
-            var task = Expression.Variable(typeof (Task));
+            //var task = Expression.Variable(typeof(Task));
             var blockNodes = (from node in block.Nodes
                               select this.HandleNode(node)).ToArray();
-            if (blockNodes.Length == 1)
-            {
-                return blockNodes[0];
-            }
+            //if (blockNodes.Length == 1)
+            //{
+            //    return HandleAsync(blockNodes[0]);
+            //}
 
             return HandleBlock(blockNodes);
 
@@ -29,15 +29,16 @@ namespace Veil.Compiler
             //    blockNodes.Union(new Expression[] { Expression.Return(ret, task), Expression.Label(ret, Expression.Constant(null, typeof(Task))) }));
         }
 
-        private static Expression HandleBlock(params Expression[] blockNodes)
+        private Expression HandleBlock(params Expression[] blockNodes)
         {
-            Expression ex = blockNodes[0];
-            ex = HandleAsync(Expression.Constant(null, typeof(Task)), ex);
-            for (int i = 1; i < blockNodes.Length; i++)
-            {
-                ex = HandleAsync(ex, blockNodes[i]);
-            }
-            return ex;
+            return Expression.Block(/*new[] { _task }, */blockNodes.Select(HandleAsync).ToList());
+            //Expression ex = blockNodes[0];
+            //ex = HandleAsync(Expression.Constant(null, typeof(Task)), ex);
+            //for (int i = 1; i < blockNodes.Length; i++)
+            //{
+            //    ex = HandleAsync(ex, blockNodes[i]);
+            //}
+            //return ex;
         }
     }
 }

@@ -10,18 +10,27 @@ namespace Veil
 {
     internal static class Helpers
     {
-        public static Task HtmlEncodeAsync(TextWriter writer, object value)
+        public static Task HtmlEncodeAsync(Task before, TextWriter writer, object value)
         {
             if (value != null)
-                return HtmlEncodeAsync(writer, value.ToString());
+                return HtmlEncodeAsync(before, writer, value.ToString());
 
-            return HtmlEncodeAsync(writer, string.Empty);
+            return HtmlEncodeAsync(before, writer, string.Empty);
         }
 
-        public static Task HtmlEncodeAsync(TextWriter writer, string value)
+        public static async Task WriteAsync(Task before, TextWriter writer, string value)
         {
+            await before.ConfigureAwait(false);
+            await writer.WriteAsync(value).ConfigureAwait(false);
+            //return before.ContinueWith(t => writer.WriteAsync(value), TaskContinuationOptions.AttachedToParent).Unwrap();
+        }
+
+        public static async Task HtmlEncodeAsync(Task before, TextWriter writer, string value)
+        {
+            await before.ConfigureAwait(false);
+
             if (string.IsNullOrEmpty(value)) 
-                return Task.FromResult(false);
+                return;
 
             var startIndex = 0;
             var currentIndex = 0;
@@ -75,26 +84,34 @@ namespace Veil
                     }
                 }
 
-                if (startIndex == 0) 
-                    return writer.WriteAsync(value);
+                if (startIndex == 0)
+                {
+                    await writer.WriteAsync(value).ConfigureAwait(false);
+                    return;
+                }
 
-                if (currentIndex != startIndex) 
-                    return writer.WriteAsync(chars, startIndex, currentIndex - startIndex);
+                if (currentIndex != startIndex)
+                    await writer.WriteAsync(chars, startIndex, currentIndex - startIndex).ConfigureAwait(false);
             }
-            return Task.FromResult(false);
         }
 
-        public static Task HtmlEncodeLateBoundAsync(TextWriter writer, object value)
+        public static Task HtmlEncodeLateBoundAsync(Task before, TextWriter writer, object value)
         {
             if (value is string)
             {
-                return HtmlEncodeAsync(writer, (string)value);
+                return HtmlEncodeAsync(before, writer, (string)value);
             }
             
             if (value != null)
-                return writer.WriteAsync(value.ToString());
+                return Unwrap(before, writer, value);
 
-            return Task.FromResult(false);
+            return before;
+        }
+
+        private static async Task Unwrap(Task before, TextWriter writer, object value)
+        {
+            await before.ConfigureAwait(false);
+            await writer.WriteAsync(value.ToString());
         }
 
         public static bool Boolify(object o)

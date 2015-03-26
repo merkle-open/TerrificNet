@@ -7,22 +7,30 @@ namespace Veil.Compiler
 {
     internal partial class VeilTemplateCompiler<T>
     {
+        private readonly ParameterExpression _task = Expression.Variable(typeof(Task), "task");
+
         private Expression HandleWriteLiteral(WriteLiteralNode node)
         {
-            var callExpression = Expression.Call(this._writer, writeMethod, Expression.Constant(node.LiteralContent, typeof(string)));
+            var callExpression = Expression.Call(writeMethod, _task, this._writer, Expression.Constant(node.LiteralContent, typeof(string)));
             return callExpression;
         }
 
-        private static Expression HandleAsync(Expression taskExpression, Expression callExpression)
+        private Expression HandleAsync(Expression callExpression)
         {
-            if (callExpression.Type == typeof (Task))
+            if (callExpression.Type == typeof(Task))
             {
-                var exprTask = Expression.Lambda<Func<Task>>(callExpression);
-                return Expression.Call(chainTaskMethod, taskExpression, exprTask);                
+                if (callExpression.NodeType == ExpressionType.Block)
+                {
+                    return callExpression;
+                }
+
+                return Expression.Assign(_task, callExpression);
+                //return Expression.Assign(_task, Expression.Call(chainMethod, new[] { _task, callExpression }));
             }
 
-            var expr = Expression.Lambda<Action>(callExpression);
-            return Expression.Call(chainMethod, taskExpression, expr);
+            return callExpression;
+            //var expr = Expression.Lambda<Action>(callExpression);
+            //return Expression.Assign(_task, Expression.Call(chainMethod, _task, expr));
         }
     }
 }

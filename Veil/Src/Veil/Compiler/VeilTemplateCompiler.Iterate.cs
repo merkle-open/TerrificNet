@@ -30,9 +30,9 @@ namespace Veil.Compiler
             var hasElements = Expression.Variable(typeof(bool), "hasElements");
             var enumerator = Expression.Variable(getEnumeratorMethod.ReturnType, "enumerator");
 
-            var task = Expression.Variable(typeof (Task));
+            //var task = Expression.Variable(typeof (Task));
             var exitLabel = Expression.Label();
-            var returnLabel = Expression.Label(typeof (Task));
+            //var returnLabel = Expression.Label(typeof (Task));
 
             var collection = ParseExpression(node.Collection);
             if (collection.Type == typeof(object))
@@ -41,15 +41,14 @@ namespace Veil.Compiler
             }
 
             this.PushScope(currentElement);
-            var loopBody = Expression.Assign(task, HandleAsync(task, HandleNode(node.Body)));
-            this.PopScope();
+            var loopBody = HandleAsync(HandleNode(node.Body));
 
-            return Expression.Block(
-                new[] { enumerator, hasElements, task },
+            var ex = Expression.Block(
+                new[] { enumerator, hasElements },
                 NullCheck("Cannot iterate over collection because value is null.", node.Collection, collection),
                 Expression.Assign(hasElements, Expression.Constant(false)),
                 Expression.Assign(enumerator, Expression.Call(collection, getEnumeratorMethod)),
-                Expression.Assign(task, Expression.Constant(Task.FromResult(false), typeof (Task))),
+                //Expression.Assign(task, Expression.Constant(Task.FromResult(false), typeof (Task))),
                 Expression.Loop(Expression.Block(
                     new[] { didMoveNext },
                     Expression.Assign(didMoveNext, Expression.Call(enumerator, moveNextMethod)),
@@ -64,10 +63,14 @@ namespace Veil.Compiler
                     )
                 ), exitLabel),
                 DisposeIfNeeded(enumerator),
-                Expression.IfThen(Expression.IsFalse(hasElements), HandleNode(node.EmptyBody)),
-                Expression.Return(returnLabel, task),
-                Expression.Label(returnLabel, Expression.Constant(null, typeof(Task)))
+                Expression.IfThen(Expression.IsFalse(hasElements), HandleNode(node.EmptyBody))//,
+                //Expression.Return(returnLabel, task),
+                //Expression.Label(returnLabel, Expression.Constant(null, typeof(Task)))
+                
             );
+            this.PopScope();
+
+            return ex;
         }
 
         private static MethodCallExpression NullCheck(string message, SyntaxTreeNode node, Expression value)

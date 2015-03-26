@@ -9,12 +9,11 @@ namespace Veil.Compiler
 {
     internal partial class VeilTemplateCompiler<T>
     {
-        private static readonly MethodInfo writeMethod = typeof(TextWriter).GetMethod("WriteAsync", new[] { typeof(string) });
-        private static readonly MethodInfo writeMethodObject = typeof(TextWriter).GetMethod("WriteAsync", new[] { typeof(object) });
-        private static readonly MethodInfo encodeMethod = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(TextWriter), typeof(string) });
-        private static readonly MethodInfo encodeMethodObject = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(TextWriter), typeof(object) });
-        private static readonly MethodInfo chainMethod = typeof(TaskHelper).GetMethod("Chain", new[] { typeof(Task), typeof(Action) });
-        private static readonly MethodInfo chainTaskMethod = typeof(TaskHelper).GetMethod("ChainTask", new[] { typeof(Task), typeof(Func<Task>) });
+        private static readonly MethodInfo writeMethod = typeof(Helpers).GetMethod("WriteAsync", new[] { typeof(Task), typeof(TextWriter), typeof(string) });
+        //private static readonly MethodInfo writeMethodObject = typeof(Helpers).GetMethod("WriteAsync", new[] { typeof(object) });
+        private static readonly MethodInfo encodeMethod = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(Task), typeof(TextWriter), typeof(string) });
+        private static readonly MethodInfo encodeMethodObject = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(Task), typeof(TextWriter), typeof(object) });
+        //private static readonly MethodInfo chainMethod = typeof(TaskHelper).GetMethod("ChainTask", new[] { typeof(Task), typeof(Func<Task>) });
 
         private Expression HandleWriteExpression(WriteExpressionNode node)
         {
@@ -24,19 +23,24 @@ namespace Veil.Compiler
             if (node.HtmlEncode && escapeHtml)
             {
                 if (expression.Type == typeof(string))
-                    return Expression.Call(encodeMethod, this._writer, expression);
+                    return Expression.Call(encodeMethod, _task, this._writer, expression);
                 
-                return Expression.Call(encodeMethodObject, this._writer, Expression.Convert(expression, typeof(object)));
+                return Expression.Call(encodeMethodObject, _task, this._writer, Expression.Convert(expression, typeof(object)));
             }
 
             if (expression.Type == typeof(string))
-                return Expression.Call(this._writer, writeMethod, expression);
+                return Expression.Call(writeMethod, _task, _writer, expression);
 
             if (expression.Type == typeof(void))
                return expression;
 
             // TODO: find better solution
-            return Expression.Call(this._writer, writeMethod, Expression.Call(expression, typeof(object).GetMethod("ToString")));
+            return Expression.Call(writeMethod, _task, _writer, Expression.Call(expression, typeof(object).GetMethod("ToString")));
         }
+
+        //private Expression CompileToTask(Expression expression)
+        //{
+        //    Expression.Lambda<Func<Task>>(
+        //}
     }
 }

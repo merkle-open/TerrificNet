@@ -144,9 +144,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                     }
 
                     
-                    var moduleModel = await _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation);
+                    var moduleModel = await _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).ConfigureAwait(false);
                     if (context.Data.ContainsKey("siteDefinition") && context.Data.ContainsKey("short_module")) context.Data["siteDefinition"] = JsonConvert.DeserializeObject<ModuleViewDefinition>(JsonConvert.SerializeObject(moduleModel));
-                    await view.RenderAsync(moduleModel, new RenderingContext(context.Writer, context));
+                    await view.RenderAsync(moduleModel, new RenderingContext(context.Writer, context)).ConfigureAwait(false);
 
                     if (renderEditDivs)
                     {
