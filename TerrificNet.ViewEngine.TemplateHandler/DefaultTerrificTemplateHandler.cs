@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Globalization;
+using TerrificNet.ViewEngine.TemplateHandler.UI;
 using Veil;
 
 namespace TerrificNet.ViewEngine.TemplateHandler
@@ -30,24 +31,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
         public async Task RenderPlaceholderAsync(object model, string key, RenderingContext context)
         {
-            ViewDefinition definition;
-            var tmp = model as JObject;
+            object tmp;
 
-	        if (context.Data.ContainsKey("siteDefinition"))
-	        {
-		        definition = context.Data["siteDefinition"] as ViewDefinition;
-	        }
-	        else
-	        {
-		        if (tmp != null)
-		        {
-			        definition = ViewDefinition.FromJObject<ViewDefinition>(tmp);
-		        }
-		        else
-		        {
-			        definition = model as ViewDefinition;
-		        }
-	        }
+            if (!context.Data.TryGetValue("siteDefinition", out tmp))
+                throw new InvalidOperationException("The context must contain a siteDefinition to use the placeholder helper.");
+
+            var definition = tmp as ViewDefinition;
 
             if (context.Data.ContainsKey("layoutPlaceholders"))
             {

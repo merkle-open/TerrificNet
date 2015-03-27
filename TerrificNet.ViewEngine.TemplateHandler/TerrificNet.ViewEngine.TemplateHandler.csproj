@@ -60,14 +60,20 @@
     <Compile Include="ITerrificTemplateHandlerFactory.cs" />
     <Compile Include="LabelHelperHandler.cs" />
     <Compile Include="ModuleHelperHandler.cs" />
-    <Compile Include="PlaceholderDefinitionCollection.cs" />
+    <Compile Include="UI\IPageViewDefinition.cs" />
+    <Compile Include="UI\IPartialViewDefinition.cs" />
+    <Compile Include="UI\ModuleViewDefinition.cs" />
+    <Compile Include="UI\PageViewDefinition.cs" />
+    <Compile Include="UI\PartialViewDefinition.cs" />
+    <Compile Include="UI\PlaceholderDefinitionCollection.cs" />
     <Compile Include="PlaceholderHelperHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptImport.cs" />
-    <Compile Include="StyleImport.cs" />
+    <Compile Include="UI\ScriptImport.cs" />
+    <Compile Include="UI\StyleImport.cs" />
     <Compile Include="TemplateIdHelperHandler.cs" />
     <Compile Include="PartialHelperHandler.cs" />
-    <Compile Include="ViewDefinition.cs" />
+    <Compile Include="UI\ViewDefinition.cs" />
+    <Compile Include="UI\ViewDefinitionTypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TerrificNet.ViewEngine.Client\TerrificNet.ViewEngine.Client.csproj">

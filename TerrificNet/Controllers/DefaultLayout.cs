@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using TerrificNet.Models;
-using TerrificNet.ViewEngine.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler.UI;
 
 namespace TerrificNet.Controllers
 {
@@ -16,7 +16,7 @@ namespace TerrificNet.Controllers
                     {
                         "content", new ViewDefinition[]
                         {
-                            new PartialViewDefinition
+                            new PartialViewDefinition<NavigationGroupModel>
                             {
                                 Template = "views/_layouts/page",
                                 Placeholder = new PlaceholderDefinitionCollection
@@ -36,7 +36,7 @@ namespace TerrificNet.Controllers
 
         public static ViewDefinition AddAction(this ViewDefinition viewDefinition, ActionModel actionModel)
         {
-            var model = (NavigationGroupModel)((PartialViewDefinition)viewDefinition.Placeholder["content"][0]).Data;
+            var model = (NavigationGroupModel)((IPartialViewDefinition)viewDefinition.Placeholder["content"][0]).Data;
             if (model.Actions == null)
                 model.Actions = new List<ActionModel>();
 
@@ -49,22 +49,32 @@ namespace TerrificNet.Controllers
         {
             var script = new ScriptImport {Src = scriptSource};
 
-            if (viewDefintion.Scripts == null)
-                viewDefintion.Scripts = new List<ScriptImport>();
+            EnsureData(viewDefintion);
 
-            viewDefintion.Scripts.Add(script);
+            if (viewDefintion.Data.Scripts == null)
+                viewDefintion.Data.Scripts = new List<ScriptImport>();
+
+            viewDefintion.Data.Scripts.Add(script);
 
             return viewDefintion;
+        }
+
+        private static void EnsureData(PageViewDefinition viewDefintion)
+        {
+            if (viewDefintion.Data == null)
+                viewDefintion.Data = new PageViewData();
         }
 
         public static PageViewDefinition IncludeStyle(this PageViewDefinition viewDefinition, string styleSource)
         {
             var script = new StyleImport { Href = styleSource };
 
-            if (viewDefinition.Styles == null)
-                viewDefinition.Styles = new List<StyleImport>();
+            EnsureData(viewDefinition);
 
-            viewDefinition.Styles.Add(script);
+            if (viewDefinition.Data.Styles == null)
+                viewDefinition.Data.Styles = new List<StyleImport>();
+
+            viewDefinition.Data.Styles.Add(script);
 
             return viewDefinition;
         }

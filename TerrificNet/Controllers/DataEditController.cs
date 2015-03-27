@@ -8,6 +8,7 @@ using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler.UI;
 
 namespace TerrificNet.Controllers
 {
@@ -27,7 +28,7 @@ namespace TerrificNet.Controllers
 
             AddSaveAction(viewDefinition, model);
 
-            return View(viewDefinition.Template, viewDefinition);
+            return View(viewDefinition);
         }
 
         [HttpGet]
@@ -49,7 +50,7 @@ namespace TerrificNet.Controllers
 
             AddSaveAction(viewDefinition, model);
 
-            return View(viewDefinition.Template, viewDefinition);
+            return View(viewDefinition);
         }
 
         private static void AddSaveAction(ViewDefinition viewDefinition, DataEditModel model)

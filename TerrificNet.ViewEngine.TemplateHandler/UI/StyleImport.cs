@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace TerrificNet.ViewEngine.TemplateHandler
+namespace TerrificNet.ViewEngine.TemplateHandler.UI
 {
     public class StyleImport
     {

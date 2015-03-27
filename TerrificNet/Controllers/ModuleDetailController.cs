@@ -9,6 +9,7 @@ using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler.UI;
 
 namespace TerrificNet.Controllers
 {
@@ -46,7 +47,7 @@ namespace TerrificNet.Controllers
 				Link = "#"
 			});
 
-			return await View(viewDefinition.Template, viewDefinition);
+            return await View(viewDefinition);
 		}
 
 		[HttpGet]
