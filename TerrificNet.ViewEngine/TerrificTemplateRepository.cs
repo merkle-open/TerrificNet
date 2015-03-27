@@ -65,7 +65,7 @@ namespace TerrificNet.ViewEngine
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (disposing)
+			if (disposing && _subscription != null)
 				_subscription.Dispose();
 
 			_subscription = null;
