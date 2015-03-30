@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Dependencies;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using TerrificNet.Dispatcher;
+using TerrificNet.Models.ErrorHandling;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.IO;
-using TerrificNet.ViewEngine.ViewEngines;
+using TerrificNet.ViewEngine.TemplateHandler.UI;
 using Veil;
 using Veil.Parser;
 
@@ -24,32 +23,32 @@ namespace TerrificNet.Controllers
         {
         }
 
-        protected async Task<HttpResponseMessage> View(string viewName, object model)
+        protected async Task<HttpResponseMessage> View(PageViewDefinition viewDefinition)
         {
             var dependencyResolver = ((IDependencyResolverAware)this).DependencyResolver;
-            var templateRepository = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));
             var viewEngine = (IViewEngine)dependencyResolver.GetService(typeof(IViewEngine));
 
-            var templateInfo = await templateRepository.GetTemplateAsync(viewName).ConfigureAwait(false);
-            if (templateInfo == null)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            if (viewDefinition.TemplateInfo == null)
+            {
+                var repo = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));
+                viewDefinition.TemplateInfo = await repo.GetTemplateAsync(viewDefinition.Template);
+            }
 
-            var view = await viewEngine.CreateViewAsync(templateInfo, model.GetType()).ConfigureAwait(false);
-            return View(view, model);
+            return View(viewEngine, viewDefinition);
         }
 
-        protected HttpResponseMessage View(IView view, object model)
+        protected HttpResponseMessage View(IViewEngine viewEngine, IPageViewDefinition siteDefinition)
         {
             var message = new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content =
-                    new PushStreamContent((o, c, t) => WriteToStream(view, model, o, c, t),
+                    new PushStreamContent((o, c, t) => WriteToStream(o, viewEngine, siteDefinition),
                         new MediaTypeHeaderValue("text/html"))
             };
             return message;
         }
 
-        private async Task WriteToStream(IView view, object model, Stream outputStream, HttpContent content, TransportContext context)
+        private async Task WriteToStream(Stream outputStream, IViewEngine viewEngine, IPageViewDefinition viewDefinition)
         {
             using (var writer = new StreamWriter(outputStream))
             {
@@ -57,7 +56,7 @@ namespace TerrificNet.Controllers
                 Exception error = null;
                 try
                 {
-                    await view.RenderAsync(model, new RenderingContext(writer));
+                    await viewDefinition.RenderAsync(viewEngine, writer);
                 }
                 catch (VeilParserException ex)
                 {
@@ -91,11 +90,11 @@ namespace TerrificNet.Controllers
             var templateInfo = new StringTemplateInfo("error", content);
 
             var view = await ((IViewEngine)this.Resolver.GetService(typeof(IViewEngine)))
-                .CreateViewAsync(templateInfo, typeof(TemplateController.ErrorViewModel));
+                .CreateViewAsync(templateInfo, typeof(ErrorViewModel));
 
             if (location == null)
             {
-                var modelWithoutLocation = new TemplateController.ErrorViewModel
+                var modelWithoutLocation = new ErrorViewModel
                 {
                     ErrorMessage = error.Message,
                     Details = error.StackTrace
@@ -113,7 +112,7 @@ namespace TerrificNet.Controllers
                 sourceTemplateSource = await reader.ReadToEndAsync();
             }
 
-            var model = new TemplateController.ErrorViewModel
+            var model = new ErrorViewModel
             {
                 TemplateId = location.TemplateId,
                 ErrorMessage = error.Message,
@@ -161,13 +160,5 @@ namespace TerrificNet.Controllers
         protected IDependencyResolver Resolver { get { return ((IDependencyResolverAware) this).DependencyResolver; }}
 
         IDependencyResolver IDependencyResolverAware.DependencyResolver { get; set; }
-    }
-
-    public class ErrorRange
-    {
-        public int StartRow { get; set; }
-        public int StartColumn { get; set; }
-        public int EndRow { get; set; }
-        public int EndColumn { get; set; }
     }
 }

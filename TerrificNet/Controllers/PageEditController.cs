@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,6 +19,7 @@ using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.IO;
 using TerrificNet.ViewEngine.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler.UI;
 using Veil;
 
 namespace TerrificNet.Controllers
@@ -32,7 +34,7 @@ namespace TerrificNet.Controllers
 		[HttpGet]
 		public async Task<HttpResponseMessage> Index(string id, string app)
 		{
-			PageViewDefinition siteDefinition;
+            IPageViewDefinition siteDefinition;
 			var found = ResolveForApp<TerrificViewDefinitionRepository>(app).TryGetFromViewId(id, out siteDefinition);
 			var appViewEngine = ResolveForApp<IViewEngine>(app);
 			var tplInfo = await ResolveForApp<ITemplateRepository>(app).GetTemplateAsync(siteDefinition.Template).ConfigureAwait(false);
@@ -56,7 +58,7 @@ namespace TerrificNet.Controllers
 			viewDefinition.IncludeStyle("assets/pageEditor.css");
 			viewDefinition.IncludeStyle("/web/page_edit/bundle_app.css?app=" + app);
 
-			return await View(viewDefinition.Template, viewDefinition).ConfigureAwait(false);
+            return await View(viewDefinition).ConfigureAwait(false);
 		}
 
 		[HttpPost]
@@ -64,7 +66,7 @@ namespace TerrificNet.Controllers
 		{
 			var repository = ResolveForApp<TerrificViewDefinitionRepository>(app);
 			var jObject = JsonConvert.DeserializeObject(definition.Definition) as JObject;
-			var def = ViewDefinition.FromJObject<PageViewDefinition>(jObject);
+		    var def = repository.Deserialize(jObject.CreateReader());
 
 			if (await repository.UpdateViewDefinitionForId(id, def).ConfigureAwait(false))
 			{
@@ -133,7 +135,6 @@ namespace TerrificNet.Controllers
 				context.Data.Add("pageEditor", true);
 				context.Data.Add("renderPath", new List<string> { parent });
 				context.Data.Add("siteDefinition", new PartialViewDefinition());
-				context.Data.Add("layoutPlaceholders", new PlaceholderDefinitionCollection());
 				await renderer.RenderPartialAsync(id, null, context).ConfigureAwait(false);
 
 				var layoutViewDefinition = context.Data["siteDefinition"] as PartialViewDefinition;
@@ -145,7 +146,7 @@ namespace TerrificNet.Controllers
 			}
 		}
 
-		private static async Task<string> CreateSiteHtml(IView view, PageViewDefinition siteDefinition)
+        private static async Task<string> CreateSiteHtml(IView view, IPageViewDefinition siteDefinition)
 		{
 			var pageHtmlBuilder = new StringBuilder();
 			using (var writer = new StringWriter(pageHtmlBuilder))

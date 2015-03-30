@@ -59,6 +59,7 @@ namespace TerrificNet.UnityModules
             container.RegisterType<IViewEngine, VeilViewEngine>();
             container.RegisterType<ICacheProvider, MemoryCacheProvider>();
             container.RegisterType<IModelProvider, JsonModelProvider>();
+            container.RegisterType<IModelTypeProvider, DynamicModelTypeProvider>();
 
             container.RegisterType<ISchemaProvider, SchemaMergeProvider>(
                 new InjectionConstructor(new ResolvedParameter<HandlebarsViewSchemaProvider>(),

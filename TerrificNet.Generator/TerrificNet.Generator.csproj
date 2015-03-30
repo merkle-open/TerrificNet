@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicModelTypeProvider.cs" />
     <Compile Include="GeneratorUtility.cs" />
     <Compile Include="JsonSchemaCodeGenerator.cs" />
     <Compile Include="IJsonSchemaCodeGenerator.cs" />

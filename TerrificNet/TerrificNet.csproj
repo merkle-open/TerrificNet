@@ -116,10 +116,13 @@
     <Compile Include="Controllers\ClientTemplateController.cs" />
     <Compile Include="Controllers\DataEditController.cs" />
     <Compile Include="Controllers\DefaultLayout.cs" />
+    <Compile Include="Models\ErrorHandling\ErrorRange.cs" />
+    <Compile Include="Models\ErrorHandling\ErrorViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModuleDetailController.cs" />
     <Compile Include="Controllers\ModuleSchemaController.cs" />
     <Compile Include="Controllers\PageEditController.cs" />
+    <Compile Include="Controllers\TerrificViewDefinitionRepository.cs" />
     <Compile Include="Dispatcher\IDependencyResolverAware.cs" />
     <Compile Include="Dispatcher\ApplicationSpecificControllerActivator.cs" />
     <Compile Include="Controllers\BundleController.cs" />

@@ -7,7 +7,7 @@ using Microsoft.Practices.Unity;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
-using TerrificNet.ViewEngine.TemplateHandler;
+using TerrificNet.ViewEngine.TemplateHandler.UI;
 
 namespace TerrificNet.Controllers
 {
@@ -23,13 +23,13 @@ namespace TerrificNet.Controllers
         [HttpGet]
         public Task<HttpResponseMessage> Index()
         {
-            var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition
+            var viewDefinition = DefaultLayout.WithDefaultLayout(new PartialViewDefinition<ApplicationOverviewModel>
             {
                 Template = "components/modules/ApplicationOverview/ApplicationOverview",
                 Data = GetOverviewModel()
             });
 
-            return View(viewDefinition.Template, viewDefinition);
+            return View(viewDefinition);
         }
 
         private ApplicationOverviewModel GetOverviewModel()
@@ -58,7 +58,7 @@ namespace TerrificNet.Controllers
             return model;
         }
 
-        private static TemplateItemModel GetViews(string section, PageViewDefinition pageViewDefinition)
+        private static TemplateItemModel GetViews(string section, IPageViewDefinition pageViewDefinition)
         {
             var schemaUrl = "/web/viewdefinition_schema.json";
             var dataUrl = string.Format("/{0}model/{1}", section, pageViewDefinition.Id);

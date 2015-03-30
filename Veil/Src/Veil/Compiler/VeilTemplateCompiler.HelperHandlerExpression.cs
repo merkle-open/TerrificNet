@@ -10,26 +10,27 @@ namespace Veil.Compiler
 {
     public static class HelperWrapper
     {
-        public async static Task EvaluateAsync(Task before, IHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
+        public static Task EvaluateAsync(Task before, IHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
         {
-            await before.ConfigureAwait(false);
+            return Helpers.Then(before, () => handler.EvaluateAsync(model, renderingContext, node.Parameters));
+            //return before.ContinueWith(t => handler.EvaluateAsync(model, renderingContext, node.Parameters), TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnRanToCompletion).Unwrap();
 
-            try
-            {
-                await handler.EvaluateAsync(model, renderingContext, node.Parameters).ConfigureAwait(false);
-            }
-            catch (VeilCompilerException)
-            {
-                throw;
-            }
-            catch (VeilParserException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new VeilCompilerException(string.Format("Error on execute helper '{0}'. Message is: {1}", node.Name, ex.Message), ex, node);
-            }
+            //try
+            //{
+            //    await handler.EvaluateAsync(model, renderingContext, node.Parameters).ConfigureAwait(false);
+            //}
+            //catch (VeilCompilerException)
+            //{
+            //    throw;
+            //}
+            //catch (VeilParserException)
+            //{
+            //    throw;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new VeilCompilerException(string.Format("Error on execute helper '{0}'. Message is: {1}", node.Name, ex.Message), ex, node);
+            //}
         }
 
         public async static Task Leave(Task before, IBlockHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
