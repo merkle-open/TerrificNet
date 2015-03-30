@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -65,8 +66,7 @@ namespace TerrificNet.Controllers
 		{
 			var repository = ResolveForApp<TerrificViewDefinitionRepository>(app);
 			var jObject = JsonConvert.DeserializeObject(definition.Definition) as JObject;
-            //TODO: fix
-		    PageViewDefinition def = null;//ViewDefinition.FromJObject<PageViewDefinition>(jObject);
+		    var def = repository.Deserialize(jObject.CreateReader());
 
 			if (await repository.UpdateViewDefinitionForId(id, def).ConfigureAwait(false))
 			{
@@ -135,7 +135,6 @@ namespace TerrificNet.Controllers
 				context.Data.Add("pageEditor", true);
 				context.Data.Add("renderPath", new List<string> { parent });
 				context.Data.Add("siteDefinition", new PartialViewDefinition());
-				context.Data.Add("layoutPlaceholders", new PlaceholderDefinitionCollection());
 				await renderer.RenderPartialAsync(id, null, context).ConfigureAwait(false);
 
 				var layoutViewDefinition = context.Data["siteDefinition"] as PartialViewDefinition;

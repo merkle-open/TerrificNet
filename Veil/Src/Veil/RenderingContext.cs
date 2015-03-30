@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -21,6 +22,29 @@ namespace Veil
 
         public RenderingContext(TextWriter writer) : this(writer, null)
         {
+        }
+
+        public T GetData<T>(string key, Func<T> defaultValueFactory) 
+        {
+            T result;
+            if (!TryGetData(key, out result))
+            {
+                result = defaultValueFactory();
+                this.Data.Add(key, result);
+            }
+            return result;
+        }
+
+        public bool TryGetData<T>(string key, out T obj)
+        {
+            obj = default(T);
+
+            object raw;
+            if (!this.Data.TryGetValue(key, out raw))
+                return false;
+
+            obj = (T)raw;
+            return obj != null;
         }
 
 		public IDictionary<string, object> Data { get { return _data; } }

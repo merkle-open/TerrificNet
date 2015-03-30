@@ -23,9 +23,10 @@ namespace TerrificNet
 		public static UnityContainer Initialize(string path, TerrificNetHostConfiguration configuration, ServerConfiguration serverConfiguration)
 		{
 			var container = new UnityContainer();
+		    container.RegisterType<ITerrificTemplateHandler, DefaultTerrificTemplateHandler>();
 			container
 				.RegisterType
-				<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
+                <ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<PageEditDefaultTerrificTemplateHandler>>();
 			container.RegisterType<INamingRule, NamingRule>();
 			container.RegisterInstance(serverConfiguration);
 

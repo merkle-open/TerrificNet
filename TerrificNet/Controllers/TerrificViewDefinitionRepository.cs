@@ -53,7 +53,7 @@ namespace TerrificNet.Controllers
             return false;
         }
 
-        public async Task<bool> UpdateViewDefinitionForId(string id, PageViewDefinition viewDefinition)
+        public async Task<bool> UpdateViewDefinitionForId(string id, IPageViewDefinition viewDefinition)
         {
             var fileId = PathInfo.Create(id);
             if (!_fileSystem.FileExists(fileId)) 
@@ -75,12 +75,10 @@ namespace TerrificNet.Controllers
 
         private bool TryReadPageDefinition(out IPageViewDefinition viewDefinition, PathInfo fileName)
         {
-            var serializer = new JsonSerializer();
-            serializer.Converters.Add(new ViewDefinitionTypeConverter(_templateRepository, _typeProvider));
-
             using (var reader = new JsonTextReader(new StreamReader(_fileSystem.OpenRead(fileName))))
             {
-                viewDefinition = serializer.Deserialize<IPageViewDefinition>(reader);
+                viewDefinition = Deserialize(reader);
+
                 if (viewDefinition == null)
                     return false;
 
@@ -90,7 +88,14 @@ namespace TerrificNet.Controllers
             }
         }
 
-        private Task WritePageDefinition(PageViewDefinition viewDefinition, PathInfo fileName)
+        public IPageViewDefinition Deserialize(JsonReader reader)
+        {
+            var serializer = new JsonSerializer();
+            serializer.Converters.Add(new ViewDefinitionTypeConverter(_templateRepository, _typeProvider));
+            return serializer.Deserialize<IPageViewDefinition>(reader);
+        }
+
+        private Task WritePageDefinition(IPageViewDefinition viewDefinition, PathInfo fileName)
         {
             using (var stream = new StreamWriter(_fileSystem.OpenWrite(fileName)))
             {

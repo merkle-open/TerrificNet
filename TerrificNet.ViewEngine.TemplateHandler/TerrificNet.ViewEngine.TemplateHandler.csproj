@@ -60,6 +60,7 @@
     <Compile Include="ITerrificTemplateHandlerFactory.cs" />
     <Compile Include="LabelHelperHandler.cs" />
     <Compile Include="ModuleHelperHandler.cs" />
+    <Compile Include="PageEditDefaultTerrificTemplateHandler.cs" />
     <Compile Include="UI\IPageViewDefinition.cs" />
     <Compile Include="UI\IPartialViewDefinition.cs" />
     <Compile Include="UI\ModuleViewDefinition.cs" />
