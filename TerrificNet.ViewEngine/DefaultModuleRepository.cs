@@ -11,21 +11,18 @@ namespace TerrificNet.ViewEngine
 	{
 		private readonly ITerrificNetConfig _configuration;
 		private readonly ITemplateRepository _templateRepository;
-		private Dictionary<string, ModuleDefinition> _modules;
 
 		public DefaultModuleRepository(ITerrificNetConfig configuration, ITemplateRepository templateRepository)
 		{
 			_configuration = configuration;
 			_templateRepository = templateRepository;
-
-			InitModules();
 		}
 
-		private void InitModules()
+		private Dictionary<string, ModuleDefinition> GetModules()
 		{
 			var templates = _templateRepository.GetAll();
 
-			_modules = templates
+			return templates
 				.Where(t => t.Id.StartsWith(_configuration.ModulePath.ToString()))
 				.GroupBy(t => Path.GetDirectoryName(t.Id))
 				.Select(CreateModuleDefinition)
@@ -34,7 +31,7 @@ namespace TerrificNet.ViewEngine
 
 		public IEnumerable<ModuleDefinition> GetAll()
 		{
-			return _modules.Values;
+			return GetModules().Values;
 		}
 
 		private static ModuleDefinition CreateModuleDefinition(IGrouping<string, TemplateInfo> t)
@@ -76,8 +73,10 @@ namespace TerrificNet.ViewEngine
 
 		public Task<ModuleDefinition> GetModuleDefinitionByIdAsync(string id)
 		{
-			if (_modules.ContainsKey(id))
-				return Task.FromResult(_modules[id]);
+			var modules = GetModules();
+
+			if (modules.ContainsKey(id))
+				return Task.FromResult(modules[id]);
 
 			return Task.FromResult<ModuleDefinition>(null);
 		}
