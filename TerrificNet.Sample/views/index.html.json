@@ -16,7 +16,7 @@
 
 		"stage": [
 			{
-				"module": "components/modules/ProductCarousel"
+				"module": "components/modules/Carousel"
 			}
 		],
 

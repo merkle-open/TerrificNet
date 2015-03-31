@@ -1,0 +1,11 @@
+{
+	"image": {
+		"source": "https://placeimg.com/640/400/tech/grayscale",
+		"alt": "Nature",
+		"width": 640,
+		"height": 400
+	},
+	"text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. <b>Lorem ipsum</b> dolor sit <u>amet</u>, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+	"title": "Text Image (skin left) ",
+	"youtubeUrl": "https://www.youtube.com/embed/27hYEBsy3BQ"
+}

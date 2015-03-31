@@ -1,0 +1,25 @@
+<div class="mod mod-text-image" data-template="{{template-id}}">
+
+	<div class="g-row">
+		<div class="g-cell s-1of2">
+			{{#if youtubeUrl}}
+			<div class="video-box e-box">
+				<iframe width="470" height="264" src="{{youtubeUrl}}" frameborder="0" allowfullscreen="true"></iframe>
+			</div>
+			{{/if}}
+		</div>
+		<div class="g-cell s-1of2">
+			{{#if text}}
+			<div class="text-box e-box">
+				{{#if title}}
+				<h2 class="e-text title">{{{title}}}</h2>
+				{{/if}}
+				<div class="text">
+					{{{text}}}
+				</div>
+			</div>
+			{{/if}}
+		</div>
+	</div>
+
+</div>

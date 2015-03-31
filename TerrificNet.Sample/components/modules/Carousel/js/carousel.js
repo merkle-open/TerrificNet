@@ -1,13 +1,13 @@
 (function($) {
 	"use strict";
 	/**
-	 * ProductCarousel module implementation.
+	 * Carousel module implementation.
 	 *
 	 * @namespace Tc.Module
-	 * @class ProductCarousel
+	 * @class Carousel
 	 * @extends Tc.Module
 	 */
-	Tc.Module.ProductCarousel = Tc.Module.extend({
+	Tc.Module.Carousel = Tc.Module.extend({
 
 		dataTemplate: null,
 
@@ -20,11 +20,11 @@
 		bind: function() {
 			var mod = this,
 				$ctx = mod.$ctx,
-				$prodSlider = $ctx.find('.js-product-carousel'),
+				$slider = $ctx.find('.js-carousel'),
 				$btnNavPrev = $ctx.find('.js-btn-nav-prev'),
 				$btnNavNext = $ctx.find('.js-btn-nav-next');
 
-			$prodSlider.owlCarousel({
+			$slider.owlCarousel({
 
 				navigation: false, // Show next and prev buttons
 				slideSpeed: 500,
