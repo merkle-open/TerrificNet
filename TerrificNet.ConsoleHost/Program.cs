@@ -11,23 +11,24 @@ namespace TerrificNet.ConsoleHost
     class Program
     {
         private const string PathArgumentPrefix = "--path=";
+        private const string BindingArgumentPrefix = "--bind=";
 
         static void Main(string[] args)
         {
             const string baseAddress = "http://+:9000/";
 
+			var bind = args.FirstOrDefault(i => i.StartsWith(BindingArgumentPrefix));
+			bind = !string.IsNullOrEmpty(bind) ? bind.Substring(PathArgumentPrefix.Length) : baseAddress;
+
             var path = args.FirstOrDefault(i => i.StartsWith(PathArgumentPrefix));
-            if (!string.IsNullOrEmpty(path))
-                path = path.Substring(PathArgumentPrefix.Length);
-            else
-                path = ".";
+            path = !string.IsNullOrEmpty(path) ? path.Substring(PathArgumentPrefix.Length) : ".";
 
             var container = WebInitializer.Initialize(Path.GetFullPath(path));
 
             // Start OWIN host
-            using (WebApp.Start(baseAddress, builder => Initialize(builder, container)))
+			using (WebApp.Start(bind, builder => Initialize(builder, container)))
             {
-                Console.WriteLine("Started on " + baseAddress);
+				Console.WriteLine("Started on " + bind);
                 Console.ReadLine();
             }
         }
