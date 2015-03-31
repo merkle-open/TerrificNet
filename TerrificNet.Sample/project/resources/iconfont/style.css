@@ -1,0 +1,49 @@
+@font-face {
+	font-family: 'ifolor';
+	src:url('fonts/ifolor.eot?jvk1nl');
+	src:url('fonts/ifolor.eot?#iefixjvk1nl') format('embedded-opentype'),
+		url('fonts/ifolor.woff?jvk1nl') format('woff'),
+		url('fonts/ifolor.ttf?jvk1nl') format('truetype'),
+		url('fonts/ifolor.svg?jvk1nl#ifolor') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'ifolor';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow:before {
+	content: "\e600";
+}
+
+.icon-mobile-menu:before {
+	content: "\e601";
+}
+
+.icon-shopping-cart:before {
+	content: "\e602";
+}
+
+.icon-desktop:before {
+	content: "\e603";
+}
+
+.icon-tablet:before {
+	content: "\e604";
+}
+
+.icon-phone:before {
+	content: "\e605";
+}
+

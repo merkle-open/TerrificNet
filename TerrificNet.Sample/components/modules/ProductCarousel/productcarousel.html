@@ -1,0 +1,20 @@
+<div class="mod mod-product-carousel" data-template="{{template-id}}">
+
+	<!--
+	<div class="product-carousel-nav">
+		<a class="btn-nav-prev js-btn-nav-prev"></a>
+		<a class="btn-nav-next js-btn-nav-next"></a>
+	</div>
+	-->
+
+	<div class="product-carousel js-product-carousel owl-carousel owl-theme">
+
+		{{#if images}}
+		{{#each images}}
+		<div class="product-image"><img src="{{source}}" alt="{{alt}}" width="{{width}}" height="{{height}}"></div>
+		{{/each}}
+		{{/if}}
+
+	</div>
+
+</div>

@@ -1,5 +1,5 @@
 // -----------------------------------------
-// Helper
+// Mixins
 // -----------------------------------------
 .box-sizing (@type: border-box) {
 	-webkit-box-sizing: @type;
@@ -19,45 +19,40 @@
 	box-shadow: @shadow;
 }
 
-.opacity(@opacity) {
-	opacity: @opacity / 100;
-	-ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opacity})"; // first for IE 5-7
-	filter: ~"alpha(opacity=@{opacity})"; // second for IE8
-}
-
-.user-select(@select: none) {
-	// none | text | all
-	-webkit-user-select: @select;   // Chrome all / Safari all
-	-moz-user-select: @select;      // Firefox all
-	-ms-user-select: @select;       // IE 10+
-	-o-user-select: @select;
-	user-select: @select;
-}
-
-.font-style (@font-family, @font-size, @font-weight, @color) {
+.font-style (@font-family, @font-size, @color) {
 	font-family: @font-family;
 	font-size: @font-size;
-	font-weight: @font-weight;
 	color: @color;
 }
 
 .flex-order (@order){
-	-ms-flex-order: @order; /* TWEENER - IE 10 */
-	-webkit-order: @order;  /* NEW - Chrome */
-	order: @order;          /* NEW, Spec - Opera 12.1, Firefox 20+ */
+	-webkit-box-ordinal-group: @order; /* OLD - iOS 6-, Safari 3.1-6 */
+	-moz-box-ordinal-group: @order;    /* OLD - Firefox 19- */
+	-ms-flex-order: @order;            /* TWEENER - IE 10 */
+	-webkit-order: @order;             /* NEW - Chrome */
+	order: @order;
 }
 
-.pointer-events (@select: none) {
-	// auto | none | visiblePainted | visibleFill | visibleStroke | visible | painted | fill | stroke | all | inherit
-
-	-webkit-pointer-events: @select;
-	-moz-pointer-events: @select;
-	-ms-pointer-events: @select;
-	pointer-events: @select;
+.opacity(@opacity) {
+	opacity: @opacity / 100;
 }
 
-.glyph() {
-	// font-family: 'travel';
+.user-select(@select: none) {
+	// none | text | all
+	-webkit-user-select: @select; // Chrome all / Safari all
+	-moz-user-select: @select; // Firefox all
+	-ms-user-select: @select; // IE 10+
+	-o-user-select: @select;
+	// user-select: @select;
+}
+
+.ellipsis() {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.icon-font() {
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -69,12 +64,12 @@
 // -----------------------------------------
 // Transisiton, Transformation, Animation
 // -----------------------------------------
-.transition(@property, @duration, @easing, @delay: 0) {
-	-webkit-transition: @property @duration @easing @delay;
-	-moz-transition: @property @duration @easing @delay;
-	-ms-transition: @property @duration @easing @delay;
-	-o-transition: @property @duration @easing @delay;
-	transition: @property @duration @easing @delay;
+.transition(@transition) {
+	-webkit-transition: @transition;
+	-moz-transition: @transition;
+	-ms-transition: @transition;
+	-o-transition: @transition;
+	transition: @transition;
 }
 
 .transform(@transformation) {
@@ -85,12 +80,24 @@
 	transform: @transformation;
 }
 
+.transform-style(@style: preserve-3d) {
+	-webkit-transform-style: @style;
+	-moz-transform-style: @style;
+	transform-style: @style;
+}
+
 .transform-origin (@origin) {
 	-webkit-transform-origin: @origin;
 	-moz-transform-origin: @origin;
 	-ms-transform-origin: @origin;
 	-o-transform-origin: @origin;
 	transform-origin: @origin;
+}
+
+.backface-visibility(@visibility: hidden) {
+	-webkit-backface-visibility: @visibility;
+	-moz-backface-visibility: @visibility;
+	backface-visibility: @visibility;
 }
 
 .rotate(@degrees) {
@@ -141,6 +148,23 @@
 	animation: @animation;
 }
 
+.transition-duration(@animation) {
+	-webkit-transition-duration: @animation;
+	-moz-transition-duration: @animation;
+	-o-transition-duration: @animation;
+	transition-duration: @animation;
+}
+
+/*
+.keyframes(@name, @frames) {
+	@-webkit-keyframes @name { @frames(); }
+	@-moz-keyframes @name { @frames(); }
+	@-ms-keyframes @name { @frames(); }
+	@-o-keyframes @name { @frames(); }
+	@keyframes @name { @frames(); }
+}
+*/
+
 // -----------------------------------------
 // Gradient
 // -----------------------------------------
@@ -184,10 +208,8 @@
 	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{c-start}', endColorstr='@{c-end}', GradientType=@{type})";
 	-ms-filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{c-start}',endColorstr='@{c-end}',GradientType=@{type})";
 }
-//
-// -----------------------------------------
+
 // Reset filters for IE
-// -----------------------------------------
 .reset-gradient-filter() {
 	filter: ~"progid:DXImageTransform.Microsoft.gradient(enabled = false)";
 	-ms-filter: ~"progid:DXImageTransform.Microsoft.gradient(enabled = false)";

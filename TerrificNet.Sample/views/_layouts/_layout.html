@@ -4,22 +4,58 @@
 {{ partial template="components/modules/MetaHead/metahead" }}
 
 {{!-- Body --}}
-<body>
+<body class="mod mod-layout">
 
 {{!-- Page --}}
 <div class="l-page js-l-page">
 
+	<div class="l-off-nav js-l-off-nav">
+		{{ module template="components/modules/Nav" skin="mobile" }}
+		{{ module template="components/modules/LanguageSwitch" skin="mobile"}}
+		{{ module template="components/modules/Login" skin="mobile"}}
+	</div>
+
 	{{!-- Header --}}
 	<header class="l-head l-wrap" role="banner">
 
+		<div class="e-btn btn-menu-mobile js-btn-menu-mobile"></div>
+
 		<div class="l-logo">
 			{{ module template="components/modules/Logo"}}
+		</div>
+
+		<div class="l-service-wrapper">
+
+			<div class="l-service-top">
+
+				<div class="l-service-login">
+					{{ module template="components/modules/Login" }}
+				</div>
+
+				<div class="l-service-lang">
+					{{ module template="components/modules/LanguageSwitch" }}
+				</div>
+
+			</div>
+
+			<div class="l-service-bot">
+
+				<div class="l-nav" role="navigation">
+					{{ placeholder key="nav" }}
+				</div>
+
+			</div>
 		</div>
 
 	</header>
 
 	{{!-- Content --}}
 	<div class="l-content-wrapper">
+
+		{{!-- Stage --}}
+		<div class="l-stage">
+			{{ placeholder key="stage" }}
+		</div>
 
 		<div class="l-main-wrapper l-wrap" role="main">
 			<div class="l-main">

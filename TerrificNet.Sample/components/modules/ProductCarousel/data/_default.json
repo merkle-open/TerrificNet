@@ -1,0 +1,16 @@
+{
+	"images": [
+		{
+			"source": "/components/modules/ProductCarousel/img/product-stage-1.jpg",
+			"alt": "Image 1"
+		},
+		{
+			"source": "/components/modules/ProductCarousel/img/product-stage-2.jpg",
+			"alt": "Image 2"
+		},
+		{
+			"source": "/components/modules/ProductCarousel/img/product-stage-3.jpg",
+			"alt": "Image 3"
+		}
+	]
+}

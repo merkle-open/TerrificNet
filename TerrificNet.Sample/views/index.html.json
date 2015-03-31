@@ -1,32 +1,43 @@
 {
-    "Id": "views/index.html.json",
-    "template": "views/_layouts/_layout",
-    "data": {
-        "title": null,
-        "styles": null,
-        "scripts": null,
-        "pageTitle": "Terrific Net Sample"
-    },
-    "_placeholder": {
-        "main": [
-            {
-                "module": "components/modules/Breadcrumb",
-                "skin": null,
-                "data_variation": null,
-                "_placeholder": null
-            },
-            {
-                "module": "components/modules/Logo",
-                "skin": null,
-                "data_variation": null,
-                "_placeholder": null
-            },
-            {
-                "module": "components/modules/Example",
-                "skin": null,
-                "data_variation": null,
-                "_placeholder": null
-            }
-        ]
-    }
+	"Id": "views/index.html.json",
+	"template": "views/_layouts/_layout",
+	"data": {
+		"title": null,
+		"styles": null,
+		"scripts": null,
+		"pageTitle": "Terrific Net Sample"
+	},
+	"_placeholder": {
+		"nav": [
+			{
+				"module": "components/modules/Nav"
+			}
+		],
+
+		"stage": [
+			{
+				"module": "components/modules/ProductCarousel"
+			}
+		],
+
+		"main": [
+			{
+				"template": "views/_layouts/grid/g-1",
+				"data": {
+
+				},
+
+				"_placeholder": {
+					"phcell_1": [
+						{
+							"template": "views/_partials/title",
+							"data": {
+								"text": "TerrificNET SC8 //"
+							}
+						}
+					]
+				}
+			}
+		]
+	}
 }

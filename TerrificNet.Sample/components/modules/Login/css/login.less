@@ -1,0 +1,53 @@
+.mod-login {
+	.text-link {
+		.font-style(@font-lato, @font-size-16px, @gray);
+		text-decoration: none;
+		font-weight: 200;
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px & > 800px
+// -----------------------------------------
+@media (max-width: 959px) and (min-width: 800px) {
+	.mod-login {
+		.text-link {
+			font-size: @font-size-14px;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 800px
+// -----------------------------------------
+@media (max-width: 799px) {
+	.mod-login {
+		float: left;
+		display: block;
+		padding: 16px 0;
+		border-bottom: 1px solid @space-gray;
+		width: 100%;
+		
+		.text-link {
+			color: @space-gray;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint only iPad
+// -----------------------------------------
+
+.ipad {
+	.mod-login {
+		float: left;
+		display: block;
+		padding: 16px 0 14px 0;
+		border-bottom: 1px solid @space-gray;
+		width: 100%;
+
+		.text-link {
+			color: @space-gray;
+		}
+	}
+}

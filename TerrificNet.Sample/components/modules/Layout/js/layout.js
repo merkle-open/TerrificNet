@@ -13,15 +13,22 @@
 		init: function($ctx, sandbox, modId) {
 			this._super($ctx, sandbox, modId);
 
-
-
 		},
 
 		on: function(callback) {
 			var mod = this,
-				$ctx = mod.$ctx;
+				$ctx = mod.$ctx,
+				$navMobBtn = $ctx.find('.js-btn-menu-mobile');
 
+			// -----------------------------------------
+			// Mobile Navigaiton Button
+			// -----------------------------------------
+			$navMobBtn.on('click', function (e) {
 
+				var $this = $(this);
+				$this.toggleClass('state-active');
+				$('.js-l-off-nav').toggleClass('state-open');
+			});
 
 			callback();
 		},

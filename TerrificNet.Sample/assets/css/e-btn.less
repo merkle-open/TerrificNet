@@ -1,0 +1,194 @@
+// -----------------------------------------
+// Elements - Button
+// -----------------------------------------
+@media screen {
+	.e-btn {
+		display: block;
+
+		&.btn,
+		button, button&,
+		input[type="submit"],
+		input[type="submit"] &,
+		input[type="reset"],
+		input[type="reset"] &,
+		input[type="button"],
+		input[type="button"] & {
+			display: inline-block;
+			background-color: transparent;
+			.border-radius(5px);
+			color: #555;
+			text-align: center;
+			.font-style(@font-lato, @font-size-16px, @white);
+			font-weight: 300;
+			text-decoration: none;
+			cursor: pointer;
+			border: 1px solid @mercury;
+			height: 52px;
+			line-height: 52px;
+			padding: 0 28px;
+			white-space: nowrap;
+			box-sizing: border-box;
+			.transition(.25s);
+
+			&:hover,
+			button:hover,
+			input[type="submit"]:hover,
+			input[type="reset"]:hover,
+			input[type="button"]:hover,
+			&:focus,
+			button:focus,
+			input[type="submit"]:focus,
+			input[type="reset"]:focus,
+			input[type="button"]:focus {
+				border-color: #888;
+				color: #333;
+				outline: 0;
+				.transition(.5s);
+			}
+
+			// -----------------------------------------
+			// btn primary
+			// -----------------------------------------
+			&.btn-primary,
+			button.btn-primary,
+			button.btn-primary&,
+			input[type="submit"].btn-primary,
+			input[type="reset"].btn-primary,
+			input[type="button"].btn-primary {
+				color: @white;
+				border-color: @light-blue;
+				background-color: @light-blue;
+			}
+
+			&.btn-primary:hover,
+			button.btn-primary:hover,
+			input[type="submit"].btn-primary:hover,
+			input[type="reset"].btn-primary:hover,
+			input[type="button"].btn-primary:hover,
+			&.btn-primary:focus,
+			button.btn-primary:focus,
+			input[type="submit"].btn-primary:focus,
+			input[type="reset"].btn-primary:focus,
+			input[type="button"].btn-primary:focus {
+				border-color: @light-blue;
+				background-color: @light-blue;
+			}
+
+			// -----------------------------------------
+			// btn call to action
+			// -----------------------------------------
+			&.btn-cta,
+			button.btn-cta,
+			button.btn-cta&,
+			input[type="submit"].btn-cta,
+			input[type="reset"].btn-cta,
+			input[type="button"].btn-cta {
+				color: @white;
+				border-color: @orange;
+				background-color: @orange;
+			}
+
+			&.btn-cta:hover,
+			button.btn-primary:hover,
+			input[type="submit"].btn-cta:hover,
+			input[type="reset"].btn-cta:hover,
+			input[type="button"].btn-cta:hover,
+			&.btn-cta:focus,
+			button.btn-primary:focus,
+			input[type="submit"].btn-cta:focus,
+			input[type="reset"].btn-cta:focus,
+			input[type="button"].btn-cta:focus {
+				background-color: @pumpkin;
+				border-color: @pumpkin;
+				color: @white;
+				.opacity(90);
+			}
+		}
+
+		// -----------------------------------------
+		// Button Mobile
+		// -----------------------------------------
+		&.btn-menu-mobile {
+			display: none;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 800px
+// -----------------------------------------
+@media (max-width: 799px) {
+	.e-btn {
+
+		// -----------------------------------------
+		// Button Mobile
+		// -----------------------------------------
+
+		&.btn-menu-mobile {
+			display: block;
+			width: 24px;
+			height: 24px;
+			background: transparent;
+			position: absolute;
+			left: 12px;
+			top: 28px;
+			cursor: pointer;
+			outline-style: none;
+			.user-select();
+
+			&:before {
+				.font-style (@font-icon, 24px, @onyx);
+				.icon-font();
+				content: @icon-mobile-menu;
+				display: inline-block;
+			}
+
+			&.state-active {
+				background: transparent;
+
+
+				&:before {
+					display: block;
+					color: @orange;
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint only iPad
+// -----------------------------------------
+.ipad {
+	.e-btn {
+		&.btn-menu-mobile {
+			display: block;
+			width: 24px;
+			height: 24px;
+			background: transparent;
+			position: absolute;
+			left: 12px;
+			top: 28px;
+			cursor: pointer;
+			outline-style: none;
+			.user-select();
+
+			&:before {
+				.font-style (@font-icon, 24px, @onyx);
+				.icon-font();
+				content: @icon-mobile-menu;
+				display: inline-block;
+			}
+
+			&.state-active {
+				background: transparent;
+
+				&:before {
+					display: block;
+					margin-top: 1px;
+				}
+			}
+		}
+	}
+}
+

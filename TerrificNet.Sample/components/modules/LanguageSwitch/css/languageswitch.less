@@ -1,0 +1,137 @@
+.mod-languageswitch {
+
+	float: left;
+	margin: 0 0 0 40px;
+
+	li {
+		float: left;
+		display: inline-block;
+		margin-left: 8px;
+
+		a {
+			font-family: @font-lato;
+			font-size: @font-size-16px;
+			font-weight: 200;
+			text-decoration: none;
+			color: @gray;
+			padding: 5px;
+
+			.transition(.5s);
+
+			&:hover {
+				color: @orange;
+				.transition(.25s);
+			}
+
+			&.state-active {
+				color: @orange;
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px & > 800px
+// -----------------------------------------
+@media (max-width: 959px) and (min-width: 800px) {
+	.mod-languageswitch {
+		li {
+			a {
+				font-size: @font-size-14px;
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 800px
+// -----------------------------------------
+@media (max-width: 799px) {
+	.mod-languageswitch {
+
+		float: left;
+		margin: 0;
+		padding: 16px 0;
+		display: block;
+		width: 100%;
+		border-top: 1px solid @space-gray;
+		border-bottom: 1px solid @space-gray;
+
+		li {
+			float: left;
+			display: inline-block;
+			margin-left: 8px;
+
+			&:first-child {
+				margin-left: -5px;
+			}
+
+			a {
+				font-family: @font-lato;
+				font-size: @font-size-18px;
+				font-weight: 200;
+				text-decoration: none;
+				color: @space-gray;
+				padding: 5px;
+
+				.transition(.5s);
+
+				&:hover {
+					color: @orange;
+					.transition(.25s);
+				}
+
+				&.state-active {
+					color: @orange;
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint only Tablet (iPad)
+// -----------------------------------------
+
+.ipad {
+	.mod-languageswitch {
+
+		float: left;
+		margin: 0;
+		padding: 16px 0;
+		display: block;
+		width: 100%;
+		border-top: 1px solid @space-gray;
+		border-bottom: 1px solid @space-gray;
+
+		li {
+			float: left;
+			display: inline-block;
+			margin-left: 8px;
+
+			&:first-child {
+				margin-left: -5px;
+			}
+
+			a {
+				font-family: @font-lato;
+				font-size: @font-size-18px;
+				font-weight: 200;
+				text-decoration: none;
+				color: @space-gray;
+				padding: 5px;
+
+				.transition(.5s);
+
+				&:hover {
+					color: @orange;
+					.transition(.25s);
+				}
+
+				&.state-active {
+					color: @orange;
+				}
+			}
+		}
+	}
+}
