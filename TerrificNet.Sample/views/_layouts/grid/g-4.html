@@ -1,0 +1,30 @@
+﻿<!-- g4 -->
+
+{{#if css}}
+<div class="{{ css }}">
+	{{/if}}
+	<div class="g-row">
+		<div class="g-cell s-1of4">
+			{{#grid-cell ratio=1/4}}
+			{{placeholder key="phcell_1_4_1"}}
+			{{/grid-cell}}
+		</div>
+		<div class="g-cell s-1of4">
+			{{#grid-cell ratio=1/4}}
+			{{placeholder key="phcell_1_4_2"}}
+			{{/grid-cell}}
+		</div>
+		<div class="g-cell s-1of4">
+			{{#grid-cell ratio=1/4}}
+			{{placeholder key="phcell_1_4_3"}}
+			{{/grid-cell}}
+		</div>
+		<div class="g-cell s-1of4">
+			{{#grid-cell ratio=1/4}}
+			{{placeholder key="phcell_1_4_4"}}
+			{{/grid-cell}}
+		</div>
+	</div>
+	{{#if css}}
+</div>
+{{/if}}

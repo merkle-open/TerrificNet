@@ -1,0 +1,49 @@
+// -----------------------------------------
+// Elements - Base
+// -----------------------------------------
+
+@media all {
+	body {
+		font-family: Lato, Arial, Helvetica, sans-serif;
+	}
+
+	html {
+		overflow-y: scroll;
+		-webkit-box-sizing: border-box;    /* Safari/Chrome, other WebKit */
+		   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+		        box-sizing: border-box;    /* Opera/IE 8+ */
+
+		-webkit-tap-highlight-color: rgba(0,0,0,0);
+	}
+}
+
+// -----------------------------------------
+// Placeholder
+// -----------------------------------------
+
+// @media all at this point disables style customizing in chrome developer tools
+::-webkit-input-placeholder {
+	color: lighten(#111, 50%);
+	font-weight: normal;
+}
+
+::-moz-placeholder {
+	color: lighten(#111, 50%);
+	font-weight: normal;
+}
+
+/* firefox 19+ */
+:-ms-input-placeholder {
+	color: lighten(#111, 50%);
+	font-weight: normal;
+}
+
+/* ie */
+input:-moz-placeholder {
+	color: lighten(#111, 50%);
+	font-weight: normal;
+}
+
+*, *:before, *:after {
+	.box-sizing(border-box);
+}
