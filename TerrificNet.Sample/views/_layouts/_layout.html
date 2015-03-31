@@ -1,24 +1,26 @@
 ﻿<!DOCTYPE html>
-<html>
+<html class="mod mod-layout">
 {{!-- Meta Head --}}
 {{ partial template="components/modules/MetaHead/metahead" }}
 
 {{!-- Body --}}
-<body class="mod mod-layout">
+<body>
+
+{{!-- Off Screen --}}
+<div class="l-off-nav js-l-off-nav">
+	<div class="e-btn btn-m-mobile-close js-btn-m-mobile-close"></div>
+	{{ module template="components/modules/Nav" skin="mobile" }}
+	{{ module template="components/modules/LanguageSwitch" skin="mobile"}}
+	{{ module template="components/modules/Login" skin="mobile"}}
+</div>
 
 {{!-- Page --}}
 <div class="l-page js-l-page">
 
-	<div class="l-off-nav js-l-off-nav">
-		{{ module template="components/modules/Nav" skin="mobile" }}
-		{{ module template="components/modules/LanguageSwitch" skin="mobile"}}
-		{{ module template="components/modules/Login" skin="mobile"}}
-	</div>
-
 	{{!-- Header --}}
 	<header class="l-head l-wrap" role="banner">
 
-		<div class="e-btn btn-menu-mobile js-btn-menu-mobile"></div>
+		<div class="e-btn btn-m-mobile js-btn-m-mobile"></div>
 
 		<div class="l-logo">
 			{{ module template="components/modules/Logo"}}

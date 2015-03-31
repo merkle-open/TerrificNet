@@ -1,0 +1,21 @@
+// Box style - no inner styling
+// use it for content containers like e-text
+
+.e-box {
+	display: block;
+	margin: 0 8px;
+
+	// no margin
+	&.box-nm {
+		margin: 0;
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 660px
+// -----------------------------------------
+@media (max-width: 659px) {
+	.e-box {
+		// margin: 0;
+	}
+}

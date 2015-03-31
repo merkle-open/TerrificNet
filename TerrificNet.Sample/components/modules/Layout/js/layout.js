@@ -18,17 +18,27 @@
 		on: function(callback) {
 			var mod = this,
 				$ctx = mod.$ctx,
-				$navMobBtn = $ctx.find('.js-btn-menu-mobile');
+				$page = $ctx.find('.js-l-page'),
+				$navMobBtn = $ctx.find('.js-btn-m-mobile'),
+				$navMobClose = $ctx.find('.js-btn-m-mobile-close');
 
 			// -----------------------------------------
 			// Mobile Navigaiton Button
 			// -----------------------------------------
 			$navMobBtn.on('click', function (e) {
-
 				var $this = $(this);
 				$this.toggleClass('state-active');
-				$('.js-l-off-nav').toggleClass('state-open');
+				$('.js-l-off-nav').addClass('state-open');
+				$page.addClass('state-dimmed');
 			});
+
+			$navMobClose.on('click', function (e) {
+				var $this = $(this);
+				$this.toggleClass('state-active');
+				$('.js-l-off-nav').removeClass('state-open');
+				$page.removeClass('state-dimmed');
+			});
+
 
 			callback();
 		},

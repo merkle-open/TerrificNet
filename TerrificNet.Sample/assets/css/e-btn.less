@@ -108,7 +108,7 @@
 		// -----------------------------------------
 		// Button Mobile
 		// -----------------------------------------
-		&.btn-menu-mobile {
+		&.btn-m-mobile {
 			display: none;
 		}
 	}
@@ -124,7 +124,7 @@
 		// Button Mobile
 		// -----------------------------------------
 
-		&.btn-menu-mobile {
+		&.btn-m-mobile {
 			display: block;
 			width: 24px;
 			height: 24px;
@@ -146,11 +146,24 @@
 			&.state-active {
 				background: transparent;
 
-
 				&:before {
-					display: block;
-					color: @orange;
+					//display: block;
+					//color: @orange;
 				}
+			}
+		}
+
+		&.btn-m-mobile-close {
+			position: relative;
+			float: right;
+			margin-top: 12px;
+			.user-select();
+
+			&:before {
+				.font-style (@font-icon, 24px, @pink);
+				.icon-font();
+				content: @icon-close;
+				display: inline-block;
 			}
 		}
 	}
@@ -161,7 +174,7 @@
 // -----------------------------------------
 .ipad {
 	.e-btn {
-		&.btn-menu-mobile {
+		&.btn-m-mobile {
 			display: block;
 			width: 24px;
 			height: 24px;

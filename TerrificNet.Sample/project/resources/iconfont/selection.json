@@ -28,13 +28,14 @@
 				{}
 			],
 			"properties": {
-				"order": 6,
+				"order": 2,
 				"id": 5,
 				"name": "arrow",
 				"prevSize": 16,
 				"code": 58880
 			},
 			"setIdx": 0,
+			"setId": 0,
 			"iconIdx": 0
 		},
 		{
@@ -68,13 +69,14 @@
 				{}
 			],
 			"properties": {
-				"order": 5,
+				"order": 1,
 				"id": 4,
 				"name": "mobile-menu",
 				"prevSize": 16,
 				"code": 58881
 			},
 			"setIdx": 0,
+			"setId": 0,
 			"iconIdx": 1
 		},
 		{
@@ -116,13 +118,14 @@
 				{}
 			],
 			"properties": {
-				"order": 14,
+				"order": 5,
 				"id": 6,
 				"name": "shopping-cart",
 				"prevSize": 16,
 				"code": 58882
 			},
 			"setIdx": 0,
+			"setId": 0,
 			"iconIdx": 2
 		},
 		{
@@ -160,13 +163,14 @@
 				{}
 			],
 			"properties": {
-				"order": 11,
+				"order": 3,
 				"id": 9,
 				"name": "desktop",
 				"prevSize": 16,
 				"code": 58883
 			},
 			"setIdx": 0,
+			"setId": 0,
 			"iconIdx": 3
 		},
 		{
@@ -200,13 +204,14 @@
 				{}
 			],
 			"properties": {
-				"order": 12,
+				"order": 4,
 				"id": 7,
 				"name": "tablet",
 				"prevSize": 16,
 				"code": 58884
 			},
 			"setIdx": 0,
+			"setId": 0,
 			"iconIdx": 4
 		},
 		{
@@ -240,19 +245,53 @@
 				{}
 			],
 			"properties": {
-				"order": 15,
+				"order": 8,
 				"id": 8,
 				"name": "phone",
 				"prevSize": 16,
 				"code": 58885
 			},
 			"setIdx": 0,
+			"setId": 0,
 			"iconIdx": 5
+		},
+		{
+			"icon": {
+				"paths": [
+					"M794.624 216.064l-286.72 287.744-287.744-287.744-19.456 19.456 286.72 287.744-286.72 287.744 19.456 19.456 287.744-287.744 286.72 287.744 20.48-19.456-287.744-287.744 287.744-287.744z"
+				],
+				"attrs": [
+					{}
+				],
+				"isMulticolor": false,
+				"grid": 16,
+				"tags": [
+					"circle-close"
+				],
+				"colorPermutations": {
+					"6868681": [
+						0
+					]
+				}
+			},
+			"attrs": [
+				{}
+			],
+			"properties": {
+				"order": 7,
+				"id": 10,
+				"name": "circle-close",
+				"prevSize": 16,
+				"code": 58886
+			},
+			"setIdx": 0,
+			"setId": 0,
+			"iconIdx": 6
 		}
 	],
 	"height": 1024,
 	"metadata": {
-		"name": "ifolor"
+		"name": "sc8-tnet"
 	},
 	"preferences": {
 		"showGlyphs": true,
@@ -262,7 +301,7 @@
 		"fontPref": {
 			"prefix": "icon-",
 			"metadata": {
-				"fontFamily": "ifolor",
+				"fontFamily": "sc8-tnet",
 				"majorVersion": 1,
 				"minorVersion": 0
 			},

@@ -37,7 +37,31 @@
 						}
 					]
 				}
-			}
+			},
+
+			{
+				"template": "views/_layouts/grid/g-2",
+				"data": {
+					"css": "h-offset-top"
+				},
+
+				"_placeholder": {
+					"phcell_1_2": [
+						{
+							"module": "components/modules/Teaser",
+							"skin": "horizontal",
+							"data_variation": "teaser-1"
+						}
+					],
+					"phcell_2_2": [
+						{
+							"module": "components/modules/Teaser",
+							"skin": "horizontal",
+							"data_variation": "teaser-2"
+						}
+					]
+				}
+			},
 		]
 	}
 }

@@ -1,16 +1,16 @@
 @font-face {
-	font-family: 'ifolor';
-	src:url('fonts/ifolor.eot?jvk1nl');
-	src:url('fonts/ifolor.eot?#iefixjvk1nl') format('embedded-opentype'),
-		url('fonts/ifolor.woff?jvk1nl') format('woff'),
-		url('fonts/ifolor.ttf?jvk1nl') format('truetype'),
-		url('fonts/ifolor.svg?jvk1nl#ifolor') format('svg');
+	font-family: 'sc8-tnet';
+	src:url('fonts/sc8-tnet.eot?-6log1t');
+	src:url('fonts/sc8-tnet.eot?#iefix-6log1t') format('embedded-opentype'),
+		url('fonts/sc8-tnet.woff?-6log1t') format('woff'),
+		url('fonts/sc8-tnet.ttf?-6log1t') format('truetype'),
+		url('fonts/sc8-tnet.svg?-6log1t#sc8-tnet') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'ifolor';
+	font-family: 'sc8-tnet';
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -45,5 +45,9 @@
 
 .icon-phone:before {
 	content: "\e605";
+}
+
+.icon-circle-close:before {
+	content: "\e606";
 }
 

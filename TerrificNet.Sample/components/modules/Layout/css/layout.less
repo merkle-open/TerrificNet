@@ -13,6 +13,10 @@
 		background: @white;
 		min-height: 100%;
 		overflow-x: hidden;
+
+		&.state-dimmed {
+			.opacity(40);
+		}
 	}
 
 	.l-head {
@@ -106,7 +110,8 @@
 		background-color: @white;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
-		top: 73px;
+		top: 0;
+		height: 100%;
 
 		.transition(all 300ms ease);
 		.backface-visibility(hidden); // avoid font flickering
@@ -116,6 +121,7 @@
 		&.state-open {
 			.transform(translateX(0));
 			.transition(.25s);
+
 		}
 	}
 }
@@ -239,7 +245,7 @@
 		.l-off-nav {
 			display: block;
 			position: absolute;
-			z-index: 100;
+			z-index: 1000;
 			width: 85%;
 			height: 100%;
 			padding: 10px;
