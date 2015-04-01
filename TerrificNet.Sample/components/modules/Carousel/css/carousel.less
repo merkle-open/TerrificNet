@@ -1,0 +1,134 @@
+.mod-carousel {
+	.carousel {
+		margin: 0 auto;
+		max-width: 96%;
+
+		.carousel-image {
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
+
+	.owl-pagination {
+		position: absolute;
+		width: 100%;
+		bottom: 12px;
+		text-align: center;
+		z-index: 20;
+	}
+
+	.carousel-nav {
+		position: absolute;
+		z-index: 2;
+		width: 100%;
+		margin-top: auto;
+		margin-bottom: auto;
+
+		.btn-nav-prev,
+		.btn-nav-next {
+			cursor: pointer;
+			color: @white;
+			.font-style(@font-lato, 70px, @white);
+			font-weight: 100;
+			.opacity(70);
+			.transition(.5s);
+
+			&:hover {
+				.opacity(100);
+			}
+		}
+
+		.btn-nav-prev {
+			position: absolute;
+			left: 5%;
+
+			&:after {
+				content: '<';
+				.transition(.25s);
+			}
+		}
+
+		.btn-nav-next {
+			position: absolute;
+			right: 5%;
+
+			&:after {
+				content: '>';
+			}
+		}
+	}
+}
+
+// ---------------------------------------------
+// RWD: Stage 1680px > 1440px / SaveArea = 900px
+// ---------------------------------------------
+@media (max-width: 1680px) and (min-width: 1441px) {
+	.mod-product-carousel {
+		.carousel {
+			margin: 0 auto;
+		}
+	}
+}
+
+// ---------------------------------------------
+// RWD: Stage 1440px > 1280px / SaveArea = 600px
+// ---------------------------------------------
+@media (max-width: 1440px) and (min-width: 1281px) {
+	.mod-carousel {
+		.carousel {
+			margin: 0 auto;
+		}
+	}
+}
+
+// ---------------------------------------------
+// RWD: Stage 1280px > 1024px / SaveArea = 500px
+// ---------------------------------------------
+@media (max-width: 1280px) and (min-width: 1025px) {
+	.mod-carousel {
+		.carousel {
+			margin: 0 auto;
+			max-width: 100%;
+		}
+	}
+}
+
+// --------------------------------------------
+// RWD: Stage 1024px - 800px / SaveArea = 500px
+// --------------------------------------------
+@media (max-width: 1024px) and (min-width: 800px) {
+	.mod-carousel {
+		.carousel {
+			margin: 0 auto;
+			max-width: 100%;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 550px
+// -----------------------------------------
+
+@media (max-width: 799px) {
+	.mod-carousel {
+		.carousel {
+			margin: 0 auto;
+			max-width: 100%;
+		}
+
+		.owl-controls {
+			margin-top: 30px;
+		}
+
+		.owl-pagination {
+			bottom: -30px;
+			
+			span {
+				opacity: 1;
+			}
+		}
+	}
+}

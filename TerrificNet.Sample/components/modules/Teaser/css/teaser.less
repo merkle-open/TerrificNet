@@ -1,3 +1,80 @@
 .mod-teaser {
 
+	.teaser-box {
+		position: relative;
+		margin-bottom: 20px;
+
+		.teaser-image {
+
+			height: 300/16%;
+			width: 100%;
+
+			img {
+				width: 100%;
+				height: auto;
+				display: inherit;
+			}
+		}
+
+		.teaser-overlay {
+			position: absolute;
+			display: inline-block;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			padding: 16px 15px;
+			background: @white;
+			text-decoration: none;
+			background-color: rgba(255, 255, 255, .7);
+			.transition(.5s);
+
+			&:hover {
+				background-color: rgba(255, 255, 255, .85);
+				.transition(.25s);
+			}
+
+			.teaser-link-txt {
+				.font-style(@font-lato, @font-size-20px, @onyx);
+				.transition(.5s);
+				display: block;
+
+				&:after {
+					.font-style (@font-icon, 42px, @light-blue);
+					.icon-font();
+					content: @icon-arrow-right;
+					position: absolute;
+					right: 8px;
+					top: 8px;
+					.transition(.5s);
+				}
+
+				&:hover {
+					color: @orange;
+					.transition(.25s);
+
+					&:after {
+						color: @orange;
+						.transition(.25s);
+					}
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 660px
+// -----------------------------------------
+@media (max-width: 659px) {
+	.mod-teaser {
+
+		height: 300/16%;
+
+		.teaser-image {
+			img {
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
 }

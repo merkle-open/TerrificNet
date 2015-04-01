@@ -1,0 +1,97 @@
+.mod-nav {
+	.nav-main {
+		margin-top: -2px;
+
+		li {
+			float: left;
+
+			a {
+				font-family: @font-lato;
+				font-size: @font-size-16px;
+				font-weight: 200;
+				text-decoration: none;
+				color: @mine-shaft;
+				margin-left: 8px;
+				padding: 6px;
+				display: block;
+				.transition(.5s);
+
+				&:hover {
+					color: @orange;
+					.transition(.25s);
+				}
+
+				&.state-active {
+					color: @orange;
+				}
+			}
+
+			&:last-child {
+				a {
+					padding-right: 0;
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px & > 800px
+// -----------------------------------------
+@media (max-width: 959px) and (min-width: 800px) {
+	.mod-nav {
+		.nav-main {
+			li {
+				a {
+					font-size: @font-size-14px;
+					margin-left: 4px;
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 800px
+// -----------------------------------------
+@media (max-width: 799px) {
+	.mod-nav {
+
+		padding: 16px 16px 8px 0;
+
+		.nav-main {
+			li {
+				float: none;
+
+				a {
+					margin-left: 0;
+					padding-left: 0;
+				}
+			}
+		}
+
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint only iPad
+// -----------------------------------------
+
+.ipad {
+	.mod-nav {
+
+		padding: 16px 16px 8px 0;
+
+		.nav-main {
+			li {
+				float: none;
+
+				a {
+					margin-left: 0;
+					padding-left: 0;
+				}
+			}
+		}
+
+	}
+}

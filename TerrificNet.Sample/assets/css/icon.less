@@ -1,0 +1,43 @@
+// -----------------------------------------
+// Icon
+// -----------------------------------------
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'ifolor';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-desktop {
+	&:before {
+		content: @icon-desktop;
+		.font-style (font-icon, 32px, @light-blue);
+		.icon-font();
+		position: absolute;
+	}
+}
+
+.icon-tablet {
+	&:before {
+		content: @icon-tablet;
+		.font-style (font-icon, 32px, @light-blue);
+		.icon-font();
+		position: absolute;
+	}
+}
+
+.icon-mobile {
+	&:before {
+		content: @icon-phone;
+		.font-style (font-icon, 32px, @light-blue);
+		.icon-font();
+		position: absolute;
+	}
+}

@@ -1,3 +1,71 @@
 .mod-logo {
+	a     { display: inline-block; }
+	img   { vertical-align: bottom;}
 
+	.logo {
+		display: block;
+		width: 80px;
+		height: 80px;
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960
+// -----------------------------------------
+@media (max-width: 959px) {
+	.mod-logo {
+		margin-top: 0;
+
+		img {
+			vertical-align: bottom;
+			width: 50px;
+			height: 50px;
+		}
+
+		.logo {
+			width: 50px;
+			height: 50px;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 850
+// -----------------------------------------
+@media (max-width: 849px) {
+	.mod-logo {
+
+		margin-top: 0;
+
+		img {
+			vertical-align: bottom;
+			width: 50px;
+			height: 50px;
+		}
+
+		.logo {
+			width: 50px;
+			height: 50px;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint only iPad
+// -----------------------------------------
+.ipad {
+	.mod-logo {
+
+		img {
+			vertical-align: bottom;
+			width: 50px;
+			height: 50px;
+		}
+
+		.logo {
+			display: block;
+			width: 50px;
+			height: 50px;
+		}
+	}
 }

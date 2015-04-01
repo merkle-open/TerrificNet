@@ -1,0 +1,25 @@
+<div class="mod mod-text-image" data-template="{{template-id}}">
+
+	<div class="g-row">
+		<div class="g-cell s-1of2">
+			{{#if image}}
+			<div class="image-box e-box">
+				<img src="{{image.source}}" width="470" height="300" alt="{{image.alt}}">
+			</div>
+			{{/if}}
+		</div>
+		<div class="g-cell s-1of2">
+			{{#if text}}
+			<div class="text-box e-box">
+				{{#if title}}
+				<h2 class="e-text title">{{{title}}}</h2>
+				{{/if}}
+				<div class="text">
+					{{{text}}}
+				</div>
+			</div>
+			{{/if}}
+		</div>
+	</div>
+
+</div>

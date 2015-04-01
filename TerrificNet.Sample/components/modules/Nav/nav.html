@@ -1,0 +1,17 @@
+<div class="mod mod-nav">
+	<ul class="nav-main">
+	{{#each entries}}
+
+		<li data-test="selenium-nav">
+			{{#if active}}
+			<a href="{{link}}" class="state-active">{{name}}</a>
+
+			{{else}}
+
+			<a href="{{link}}">{{name}}</a>
+			{{/if}}
+		</li>
+
+	{{/each}}
+	</ul>
+</div>

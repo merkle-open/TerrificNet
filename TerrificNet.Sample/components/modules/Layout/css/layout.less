@@ -1,3 +1,386 @@
 .mod-layout {
 
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+	.l-wrap {
+		margin: 0 auto;
+		width: @page-width;
+	}
+
+	.l-page {
+		.box-sizing(content-box);
+		background: @white;
+		min-height: 100%;
+		overflow-x: hidden;
+
+		&.state-dimmed {
+			.opacity(40);
+		}
+	}
+
+	.l-head {
+		height: 130px;
+		position: relative;
+		background: @white;
+
+		.l-logo {
+			margin-top: 38px;
+			float: left;
+		}
+
+		.l-service-wrapper {
+
+			.l-service-top {
+				margin-top: 38px;
+				float: right;
+				position: relative;
+
+				.l-service-login {
+					float: left;
+				}
+
+				.l-service-lang {
+					float: left;
+				}
+
+				.l-service-shopping {
+					float: right;
+				}
+			}
+
+			.l-service-bot {
+				position: absolute;
+				right: 0;
+				bottom: 6px;
+
+				.l-nav {
+				}
+			}
+		}
+	}
+
+	.l-stage {
+		margin: 0 auto;
+		position: relative;
+		width: 1440px;
+	}
+
+	.l-intro {
+		width: 1280px;
+		margin: 0 auto;
+		background: #f9f8f4;
+		padding: 38px;
+	}
+
+	.l-main-wrapper {}
+
+	.l-main {
+		margin: 0 -8px;
+	}
+
+	.l-content {
+		padding: 20px 0;
+	}
+
+	.l-footer-wrapper {
+		padding-top: 24px;
+		border-top: 1px solid #e4e4e4;
+
+		.l-footer {
+			margin: 0 -8px;
+		}
+
+		.l-footer-content {
+			margin-bottom: 24px
+		}
+
+		.l-footer-bottom {
+			background: #f9f8f4;
+
+			.l-wrap {
+				overflow: hidden;
+				padding-top: 16px;
+			}
+		}
+	}
+
+	.l-off-nav {
+		display: none;
+		background-color: @white;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		top: 0;
+		height: 100%;
+
+		.transition(all 300ms ease);
+		.backface-visibility(hidden); // avoid font flickering
+		.transform(translateX(-110%));
+		.transition(.25s);
+
+		&.state-open {
+			.transform(translateX(0));
+			.transition(.25s);
+
+		}
+	}
+}
+
+// ------------------------------------------
+// RWD: Layout Breakpoint < 1680px > 1440px
+// ------------------------------------------
+@media (max-width: 1680px) and (min-width: 1441px) {
+	.mod-layout {
+		.l-stage {
+			width: 100%;
+			height: auto;
+			margin: 0 auto;
+			position: relative;
+		}
+	}
+}
+
+// ------------------------------------------
+// RWD: Layout Breakpoint < 1440px > 1280px
+// ------------------------------------------
+@media (max-width: 1440px) and (min-width: 1281px) {
+	.mod-layout {
+		.l-stage {
+			height: auto;
+			width: 100%;
+		}
+
+		.l-intro {
+			height: auto;
+			width: 100%;
+		}
+	}
+}
+
+// ------------------------------------------
+// RWD: Layout Breakpoint < 1280px > 1024px
+// ------------------------------------------
+@media (max-width: 1280px) and (min-width: 1023px) {
+	.mod-layout {
+		.l-stage {
+			height: auto;
+			width: 100%;
+		}
+
+		.l-intro {
+			height: auto;
+			width: 100%;
+		}
+	}
+}
+
+// ------------------------------------------
+// RWD: Layout Breakpoint < 1024px > 800px
+// ------------------------------------------
+@media (max-width: 1024px) and (min-width: 800px) {
+	.mod-layout {
+		.l-stage {
+			height: auto;
+			width: 100%;
+		}
+
+		.l-intro {
+			height: auto;
+			width: 100%;
+		}
+	}
+}
+
+// ------------------------------------------
+// RWD: Layout Breakpoint < 800px
+// ------------------------------------------
+@media (max-width: 799px) {
+	.mod-layout {
+
+		.l-head {
+			padding: 10px 0 10px 0;
+			height: auto;
+
+			.l-logo {
+				margin-top: 0;
+				float: inherit;
+				text-align: center;
+			}
+
+			.l-service-wrapper {
+				display: flex;
+				display: -webkit-flex;
+				-webkit-flex-flow: row wrap;
+				-moz-flex-flow: row wrap;
+				-ms-flex-flow: row wrap;
+				flex-flow: row wrap;
+
+				.l-service-top {
+					margin: 0;
+					top: 29px;
+					right: 12px;
+					position: absolute;
+
+					.l-service-login {
+						display: none;
+					}
+
+					.l-service-lang {
+						display: none;
+					}
+
+					.l-service-shopping {
+						float: right;
+					}
+				}
+
+				.l-service-bot {
+					.l-nav {
+						display: none;
+					}
+				}
+			}
+		}
+
+		.l-off-nav {
+			display: block;
+			position: absolute;
+			z-index: 1000;
+			width: 85%;
+			height: 100%;
+			padding: 10px;
+			.box-shadow(3px 3px 5px 0px rgba(100, 100, 100, 0.75));
+		}
+
+		.l-stage {
+			height: auto;
+			width: 100%;
+		}
+
+		.l-intro {
+			height: auto;
+			width: 100%;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Header Breakpoint < 960px > 800px
+// -----------------------------------------
+@media (max-width: 959px) and (min-width: 800px) {
+	.mod-layout {
+
+		.l-head {
+			.l-logo { margin-left: 8px; }
+
+			.l-service-wrapper {
+				.l-service-top { padding-right: 8px; }
+				.l-service-bot { padding-right: 8px; left: 0; }
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px
+// -----------------------------------------
+@media (max-width: 959px) {
+	.mod-layout {
+
+		.l-wrap {
+			width: 100%;
+		}
+
+		.l-footer-wrapper {
+
+			.l-footer-content {
+				padding: 0;
+				margin: 0;
+			}
+
+			.l-footer-bottom {
+				padding: 0 12px;
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 660px
+// -----------------------------------------
+@media (max-width: 659px) {
+	.mod-layout {
+		.l-footer-wrapper {
+
+			.l-footer-content {
+				padding: 12px;
+				margin: 0;
+			}
+
+			.l-footer-bottom {
+				padding: 0 12px;
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint only Tablet (iPad)
+// -----------------------------------------
+.mod-layout {
+	&.ipad {
+		.l-head {
+			padding: 10px 0 10px 0;
+			height: auto;
+
+			.l-logo {
+				float: inherit;
+				text-align: center;
+			}
+
+			.l-service-wrapper {
+				display: flex;
+				display: -webkit-flex;
+				-webkit-flex-flow: row wrap;
+				-moz-flex-flow: row wrap;
+				-ms-flex-flow: row wrap;
+				flex-flow: row wrap;
+
+				.l-service-top {
+					margin: 0;
+					top: 29px;
+					right: 12px;
+					position: absolute;
+
+					.l-service-login {
+						display: none;
+					}
+
+					.l-service-lang {
+						display: none;
+					}
+
+					.l-service-shopping {
+						float: right;
+					}
+				}
+
+				.l-service-bot {
+					.l-nav {
+						display: none;
+					}
+				}
+			}
+		}
+
+		.l-off-nav {
+			display: block;
+			position: absolute;
+			z-index: 100;
+			width: 85%;
+			height: 100%;
+			padding: 10px;
+			.box-shadow(3px 3px 5px 0px rgba(100, 100, 100, 0.75));
+		}
+	}
 }

@@ -4,6 +4,7 @@
 @black:         #000;           //rgb(0,0,0);
 @white:         #fff;           //rgb(255,255,255);
 @flash-white:   #f3f3f3;        //rgb(243, 243, 243);
+@mine-shaft:    #333333;        // rgb(51,51,51);
 
 @deep-blue:     #073B82;        //rgb(7,59,130);
 @light-blue:    #0b82bE;        //rgb(11,130,190);
@@ -17,44 +18,43 @@
 @smoke-gray:    #f8f8f8;        //rgb(248,248,248);
 @white-gray:    #efefef;        //rgb(239,239,239);
 @silver-gray:   #ddd;           //rgb(221,221,221);
-@mercury-gray:  #e5e5e5;
+@space-gray:    #e5e5e5;
 
 @green:         #809e00;
-@orange:        #e14e00;
+@pink:          #B6465F;
+@orange:        #B6465F;
 @dark-gray:     #333;
+@pumpkin:     #FF7419; // rgb(255,116,25);
+@mercury:     #E4E4E4; // rgb(228,228,228);
 
 // -----------------------------------------
 // Text
 // -----------------------------------------
-@text-color:    @onyx;
+@text-color:        @onyx;
+
+@link-hover-color:  @pink;
 
 // -----------------------------------------
 // Font
 // -----------------------------------------
-@font-base:              'Times New Roman';
+@font-lato:         'Lato', sans-serif;
+@font-icon:         'icon'; //'Icon-Font'
 
-@font-frutiger-45-light: 'FrutigerLTW01-45Light';   //'Frutiger 45 Light';
-@font-frutiger-55-roman: 'FrutigerLTW01-55Roman';   //'Frutiger 55 Roman';
-@font-frutiger-65-bold:  'Frutiger LT W01_65 Bold'; //'Frutiger 65 Bold';
-
-@font-finma-glyph:       'finma';
-
-@font-size-base:   100%;   // 16px
-@font-size-normal: 1em;     // 16px
-
-//@font-size-xxs:    0.5em;   // 7px
-//@font-size-xss:    0.75em;  // 11px
-//@font-size-xsm:    0.8em;   // 12px
-
-@font-size-xs:     .8125em; // 13px
-@font-size-s:       .875em; // 14px
-@font-size-m:          1em; // 16px
-@font-size-l:      1.125em; // 18px
-@font-size-ll:     1.250em; // 20px
-@font-size-xl:     1.375em; // 22px
-@font-size-xxl:    1.875em; // 30px
-@font-size-xxx:        2em; // 32px
-@font-size-xxxl:     2.5em; // 40px
+@font-size-base:    100%;
+@font-size-12px:    12px;
+@font-size-13px:    13px;
+@font-size-14px:    14px;
+@font-size-15px:    15px;
+@font-size-16px:    16px;
+@font-size-17px:    17px;
+@font-size-18px:    18px;
+@font-size-20px:    20px;
+@font-size-22px:    22px;
+@font-size-24px:    24px;
+@font-size-30px:    30px;
+@font-size-32px:    32px;
+@font-size-40px:    40px;
+@font-size-46px:    46px;
 
 // -----------------------------------------
 // Elements
@@ -67,41 +67,18 @@
 // -----------------------------------------
 // Breakpoints
 // -----------------------------------------
-
 @bp-sm:     500/16em; // small-vw
 @bp-md:     767/16em; // medium-vw
 @bp-lg:     974/16em; // large-vw
 
 // -----------------------------------------
-// Glyphs
+// Icons
 // -----------------------------------------
-@glyph-arw-m-down:      'e600';
-@glyph-arw-m-left:      'e601';
-@glyph-arw-m-up:        'e602';
-@glyph-arw-s-right:     'e603';
-@glyph-arw-s-down:      'e604';
-@glyph-arw-s-left:      'e605';
-@glyph-arw-m-right:     'e606';
-@glyph-arw-s-up:        'e607';
-@glyph-basket:          'e608';
-@glyph-delete:          'e609';
-@glyph-document:        'e60a';
-@glyph-documents:       'e60b';
-@glyph-download_simple: 'e60c';
-@glyph-download:        'e60d';
-@glyph-link-ext:        'e60e';
-@glyph-link:            'e60f';
-@glyph-menu:            'e610';
-@glyph-menu-close:      'e61d';
-@glyph-news:            'e611';
-@glyph-phone:           'e612';
-@glyph-rss:             'e613';
-@glyph-question:        'e614';
-@glyph-search:          'e615';
-@glyph-pdf:             'e616';
-@glyph-ppt:             'e617';
-@glyph-doc:             'e618';
-@glyph-xls:             'e619';
-@glyph-zip:             'e61a';
-@glyph-lock-open:       'e61b';
-@glyph-lock-closed:     'e61c';
+@icon-arrow-right:   '\e600';
+@icon-mobile-menu:   '\e601';
+@icon-shopping-cart: '\e602';
+
+@icon-desktop:       '\e603';
+@icon-tablet:        '\e604';
+@icon-phone:         '\e605';
+@icon-close:         '\e606';

@@ -13,14 +13,31 @@
 		init: function($ctx, sandbox, modId) {
 			this._super($ctx, sandbox, modId);
 
-
-
 		},
 
 		on: function(callback) {
 			var mod = this,
-				$ctx = mod.$ctx;
+				$ctx = mod.$ctx,
+				$page = $ctx.find('.js-l-page'),
+				$navMobBtn = $ctx.find('.js-btn-m-mobile'),
+				$navMobClose = $ctx.find('.js-btn-m-mobile-close');
 
+			// -----------------------------------------
+			// Mobile Navigaiton Button
+			// -----------------------------------------
+			$navMobBtn.on('click', function (e) {
+				var $this = $(this);
+				$this.toggleClass('state-active');
+				$('.js-l-off-nav').addClass('state-open');
+				$page.addClass('state-dimmed');
+			});
+
+			$navMobClose.on('click', function (e) {
+				var $this = $(this);
+				$this.toggleClass('state-active');
+				$('.js-l-off-nav').removeClass('state-open');
+				$page.removeClass('state-dimmed');
+			});
 
 
 			callback();
