@@ -34,9 +34,9 @@ namespace TerrificNet.Controllers
 		public async Task<HttpResponseMessage> Get(string name)
 		{
 			var components = _assetHelper.GetGlobComponentsForAsset(_config.Assets[name], _fileSystem.BasePath.ToString());
-			var content = await _assetBundler.BundleAsync(components);
+			var content = await _assetBundler.BundleAsync(components).ConfigureAwait(false);
 			var compiler = _assetCompilerFactory.GetCompiler(name);
-			var compiledContent = await compiler.CompileAsync(content);
+			var compiledContent = await compiler.CompileAsync(content).ConfigureAwait(false);
 			var response = new HttpResponseMessage { Content = new StringContent(compiledContent, System.Text.Encoding.Default, compiler.MimeType) };
 			return response;
 		}
