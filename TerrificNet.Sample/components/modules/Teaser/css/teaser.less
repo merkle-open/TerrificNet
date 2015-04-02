@@ -41,19 +41,19 @@
 				&:after {
 					.font-style (@font-icon, 42px, @light-blue);
 					.icon-font();
+					.transition(.5s);
 					content: @icon-arrow-right;
 					position: absolute;
-					right: 8px;
 					top: 8px;
-					.transition(.5s);
+					right: 8px;
 				}
 
 				&:hover {
-					color: @orange;
+					color: @link-hover-color;
 					.transition(.25s);
 
 					&:after {
-						color: @orange;
+						color: @link-hover-color;
 						.transition(.25s);
 					}
 				}
