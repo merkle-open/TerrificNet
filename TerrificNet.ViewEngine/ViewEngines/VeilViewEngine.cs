@@ -83,8 +83,9 @@ namespace TerrificNet.ViewEngine.ViewEngines
             {
                 context.Data["templateId"] = _templateId;
 
-                if (model != null)
-                    return _adaptee.RenderAsync((T)model, context);
+	            var castModel = model as T;
+	            if (castModel != null)
+                    return _adaptee.RenderAsync(castModel, context);
                 
                 // TODO: Verify what is to be done with null model values
                 if (typeof(T) == typeof(object))

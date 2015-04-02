@@ -98,7 +98,7 @@ namespace TerrificNet.Mvc
             {
                 this.ViewData = viewContext.ViewData;
 		        var context = _resolveContext(viewContext, this, writer);
-	            _adaptee.RenderAsync(viewContext.ViewData.Model, context);
+	            _adaptee.RenderAsync(viewContext.ViewData.Model, context).Wait();
             }
 
 	        public ViewDataDictionary ViewData { get; set; }
