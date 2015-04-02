@@ -83,7 +83,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
             {
                 context.Data["templateId"] = _templateId;
 
-	            var castModel = model as T;
+	            var castModel = model is T ? (T) model : default(T);
 	            if (castModel != null)
                     return _adaptee.RenderAsync(castModel, context);
                 
