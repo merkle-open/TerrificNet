@@ -17,12 +17,12 @@
 				.transition(.5s);
 
 				&:hover {
-					color: @orange;
+					color: @link-hover-color;
 					.transition(.25s);
 				}
 
 				&.state-active {
-					color: @orange;
+					color: @link-state-active;
 				}
 			}
 
@@ -32,6 +32,14 @@
 				}
 			}
 		}
+	}
+	
+	.nav-main-flyout {
+		display: none;
+		position: absolute;
+		z-index: 5;
+		background-color: red;
+		width: 100%;
 	}
 }
 
@@ -57,7 +65,7 @@
 @media (max-width: 799px) {
 	.mod-nav {
 
-		padding: 16px 16px 8px 0;
+		padding: 12px 12px 8px 0;
 
 		.nav-main {
 			li {

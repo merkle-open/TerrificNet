@@ -108,10 +108,15 @@
 	.l-off-nav {
 		display: none;
 		background-color: @white;
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
+		overflow: scroll;
+		position: fixed;
 		top: 0;
+		bottom: 0;
 		height: 100%;
+		z-index: 100;
+		width: 100%;
+		padding: 10px;
+		// .box-shadow(3px 3px 5px 0px rgba(100, 100, 100, 0.75));
 
 		.transition(all 300ms ease);
 		.backface-visibility(hidden); // avoid font flickering
@@ -121,7 +126,6 @@
 		&.state-open {
 			.transform(translateX(0));
 			.transition(.25s);
-
 		}
 	}
 }
@@ -198,8 +202,8 @@
 	.mod-layout {
 
 		.l-head {
-			padding: 10px 0 10px 0;
-			height: auto;
+			padding: 8px 0;
+			height: 68px;
 
 			.l-logo {
 				margin-top: 0;
@@ -244,12 +248,6 @@
 
 		.l-off-nav {
 			display: block;
-			position: absolute;
-			z-index: 1000;
-			width: 85%;
-			height: 100%;
-			padding: 10px;
-			.box-shadow(3px 3px 5px 0px rgba(100, 100, 100, 0.75));
 		}
 
 		.l-stage {
@@ -375,7 +373,6 @@
 
 		.l-off-nav {
 			display: block;
-			position: absolute;
 			z-index: 100;
 			width: 85%;
 			height: 100%;

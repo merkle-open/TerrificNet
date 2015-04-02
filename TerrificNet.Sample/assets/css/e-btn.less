@@ -22,7 +22,7 @@
 			font-weight: 300;
 			text-decoration: none;
 			cursor: pointer;
-			border: 1px solid @mercury;
+			border: 1px solid grey;
 			height: 52px;
 			line-height: 52px;
 			padding: 0 28px;
@@ -84,8 +84,8 @@
 			input[type="reset"].btn-cta,
 			input[type="button"].btn-cta {
 				color: @white;
-				border-color: @orange;
-				background-color: @orange;
+				border-color: red;
+				background-color: red;
 			}
 
 			&.btn-cta:hover,
@@ -98,8 +98,8 @@
 			input[type="submit"].btn-cta:focus,
 			input[type="reset"].btn-cta:focus,
 			input[type="button"].btn-cta:focus {
-				background-color: @pumpkin;
-				border-color: @pumpkin;
+				background-color: lightblue;
+				border-color: lightblue;
 				color: @white;
 				.opacity(90);
 			}
@@ -131,13 +131,13 @@
 			background: transparent;
 			position: absolute;
 			left: 12px;
-			top: 28px;
+			top: 20px;
 			cursor: pointer;
 			outline-style: none;
 			.user-select();
 
 			&:before {
-				.font-style (@font-icon, 24px, @onyx);
+				.font-style (@font-icon, 26px, @onyx);
 				.icon-font();
 				content: @icon-mobile-menu;
 				display: inline-block;
@@ -156,13 +156,15 @@
 		&.btn-m-mobile-close {
 			position: relative;
 			float: right;
-			margin-top: 12px;
+			margin-top: 6px;
+			cursor: pointer;
 			.user-select();
 
 			&:before {
-				.font-style (@font-icon, 24px, @pink);
+				.font-style (@font-icon, 32px, @pink);
 				.icon-font();
-				content: @icon-close;
+				content: @icon-arrow-right;
+				.rotate(-180deg);
 				display: inline-block;
 			}
 		}
