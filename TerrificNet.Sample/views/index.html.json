@@ -38,7 +38,6 @@
 					]
 				}
 			},
-
 			{
 				"template": "views/_layouts/grid/g-2",
 				"data": {
@@ -86,7 +85,7 @@
 			{
 				"template": "views/_layouts/grid/g-5",
 				"data": {
-					"css": ""
+					"css": "footer-list"
 				},
 				"_placeholder": {
 					"phcell_1_5_1": [
@@ -119,6 +118,39 @@
 							"skin": "vertical"
 						}
 					]
+				}
+			},
+			{
+				"template": "views/_layouts/grid/g-1",
+				"data": {
+					"css": "footer-social"
+				},
+
+				"_placeholder": {
+					"phcell_1": [
+						{
+							"module": "components/modules/Linklist",
+							"skin": "horizontal",
+							"data_variation": "social_media"
+						}
+					]
+				}
+			}
+		],
+
+		"footer-copy": [
+			{
+				"template": "views/_layouts/grid/g-1",
+				"data": {
+					"css": "footer-copy"
+				},
+				"_placeholder": {
+					"phcell_1": [
+						{
+							"module": "components/modules/Linklist",
+							"skin": "horizontal",
+							"data_variation": "footer_copy"
+						}]
 				}
 			}
 		]

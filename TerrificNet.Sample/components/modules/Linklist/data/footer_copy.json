@@ -1,0 +1,28 @@
+﻿{
+	"items": [
+		{
+			"title": "© 2015 sc8.net",
+			"content": "© 2015 sc8.net"
+		},
+		{
+			"title": "Impressum",
+			"content": "Impressum",
+			"href": "#"
+		},
+		{
+			"title": "Disclaimer",
+			"content": "Disclaimer",
+			"href": "#"
+		},
+		{
+			"title": "Privacy",
+			"content": "Privacy",
+			"href": "#"
+		},
+		{
+			"title": "Downloads",
+			"content": "Downloads",
+			"href": "#"
+		}
+	]
+}

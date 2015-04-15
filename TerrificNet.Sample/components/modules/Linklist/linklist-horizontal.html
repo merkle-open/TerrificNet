@@ -4,7 +4,11 @@
 		<ul class="linklist js-linklist">
 			{{#each items}}
 			<li>
+				{{#if href}}
 				<a href="{{href}}" title="{{title}}">{{{content}}}</a>
+				{{else}}
+				<span>{{{content}}}</span>
+				{{/if}}
 			</li>
 			{{/each}}
 		</ul>

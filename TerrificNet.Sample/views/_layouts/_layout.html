@@ -4,75 +4,80 @@
 {{ partial template="components/modules/MetaHead/metahead" }}
 
 {{!-- Body --}}
-<body>
+	<body>
 
-{{!-- Off Screen --}}
-<div class="l-off-nav js-l-off-nav">
-	<div class="e-btn btn-m-mobile-close js-btn-m-mobile-close"></div>
-	{{ module template="components/modules/Nav" skin="mobile" }}
-	{{ module template="components/modules/LanguageSwitch" skin="mobile"}}
-	{{ module template="components/modules/Login" skin="mobile"}}
-</div>
-
-{{!-- Page --}}
-<div class="l-page js-l-page">
-
-	{{!-- Header --}}
-	<header class="l-head l-wrap" role="banner">
-
-		<div class="e-btn btn-m-mobile js-btn-m-mobile"></div>
-
-		<div class="l-logo">
-			{{ module template="components/modules/Logo"}}
-		</div>
-
-		<div class="l-service-wrapper">
-
-			<div class="l-service-top">
-
-				<div class="l-service-lang">
-					{{ module template="components/modules/LanguageSwitch" }}
-				</div>
-
-			</div>
-
-			<div class="l-service-bot">
-
-				<div class="l-nav" role="navigation">
-					{{ placeholder key="nav" }}
-				</div>
-
-			</div>
-		</div>
-
-	</header>
-
-	{{!-- Content --}}
-	<div class="l-content-wrapper">
-
-		{{!-- Stage --}}
-		<div class="l-stage">
-			{{ placeholder key="stage" }}
-		</div>
-
-		<div class="l-main-wrapper l-wrap" role="main">
-			<div class="l-main">
-				{{ placeholder key="main" }}
-			</div>
-		</div>
-
+	{{!-- Off Screen --}}
+	<div class="l-off-nav js-l-off-nav">
+		<div class="e-btn btn-m-mobile-close js-btn-m-mobile-close"></div>
+		{{ module template="components/modules/Nav" skin="mobile" }}
+		{{ module template="components/modules/LanguageSwitch" skin="mobile"}}
+		{{ module template="components/modules/Login" skin="mobile"}}
 	</div>
 
-	{{!-- Footer --}}
-	<footer class="l-footer-wrapper" role="contentinfo">
-		<div class="l-footer l-wrap">
-			{{ placeholder key="footer" }}
+	{{!-- Page --}}
+	<div class="l-page js-l-page">
+
+		{{!-- Header --}}
+		<header class="l-head l-wrap" role="banner">
+
+			<div class="e-btn btn-m-mobile js-btn-m-mobile"></div>
+
+			<div class="l-logo">
+				{{ module template="components/modules/Logo"}}
+			</div>
+
+			<div class="l-service-wrapper">
+
+				<div class="l-service-top">
+
+					<div class="l-service-lang">
+						{{ module template="components/modules/LanguageSwitch" }}
+					</div>
+
+				</div>
+
+				<div class="l-service-bot">
+
+					<div class="l-nav" role="navigation">
+						{{ placeholder key="nav" }}
+					</div>
+
+				</div>
+			</div>
+
+		</header>
+
+		{{!-- Content --}}
+		<div class="l-content-wrapper">
+
+			{{!-- Stage --}}
+			<div class="l-stage">
+				{{ placeholder key="stage" }}
+			</div>
+
+			<div class="l-main-wrapper l-wrap" role="main">
+				<div class="l-main">
+					{{ placeholder key="main" }}
+				</div>
+			</div>
+
 		</div>
-	</footer>
 
-</div>
+		{{!-- Footer --}}
+		<footer class="l-footer-wrapper" role="contentinfo">
+			<div class="l-footer l-wrap">
+				{{ placeholder key="footer" }}
+			</div>
 
-{{!-- Meta Foot --}}
-{{ partial template="components/modules/MetaFoot/metafoot" }}
-</body>
+			<div class="l-footer-bottom">
+				<div class="l-wrap">
+					{{ placeholder key="footer-copy" }}
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	{{!-- Meta Foot --}}
+	{{ partial template="components/modules/MetaFoot/metafoot" }}
+	</body>
 </html>

@@ -2,6 +2,7 @@
 
 	h3 {
 		.font-style(@font-lato, @font-size-16px, @white);
+		font-weight: bold;
 		margin-bottom: 20px;
 		display: inline-block;
 	}
@@ -14,7 +15,6 @@
 
 			a {
 				.font-style(@font-lato, @font-size-15px, @white);
-				.opacity(70);
 				font-weight: 200;
 				text-decoration: none;
 				display: inline-block;
@@ -22,7 +22,6 @@
 
 				&:hover {
 					color: @link-hover-color;
-					.opacity(100);
 					.transition(.25s);
 				}
 			}
