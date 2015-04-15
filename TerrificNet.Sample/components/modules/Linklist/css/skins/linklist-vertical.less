@@ -1,0 +1,35 @@
+.skin-linklist-vertical {}
+
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 660px
+// -----------------------------------------
+@media (max-width: 659px) {
+	.skin-linklist-vertical {
+
+		h3 {
+			position: relative;
+			cursor: pointer;
+
+			&:before {
+				//.font-style (@font-ifolor-icon, 24px, @white);
+				.icon-font();
+
+				//content: @icon-arrow-right;
+				position: absolute;
+				left: -30px;
+				top: -3px;
+
+				.rotate(-270deg);
+				.transition-duration(0.5s);
+			}
+
+			&.state-active {
+				&:before {
+					.rotate(-90deg);
+					.transition(0.5s);
+				}
+			}
+		}
+	}
+}

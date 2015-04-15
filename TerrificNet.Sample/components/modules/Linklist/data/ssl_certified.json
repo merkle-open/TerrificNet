@@ -1,0 +1,10 @@
+﻿{
+	"title": "SSL Zertifiziert",
+	"items": [
+		{
+			"title": "title",
+			"content": "<img src=/components/modules/Linklist/img/ssl-norton-logo.png>",
+			"href": "#"
+		}
+	]
+}

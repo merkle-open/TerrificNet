@@ -1,0 +1,12 @@
+<div class="mod mod-linklist skin-linklist-centric">
+	<div class="e-box">
+		{{#if title}}<h3 class="title">{{{title}}}</h3>{{/if}}
+		<ul class="linklist js-linklist">
+			{{#each items}}
+			<li>
+				<a href="{{href}}" title="{{title}}">{{{content}}}</a>
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+</div>

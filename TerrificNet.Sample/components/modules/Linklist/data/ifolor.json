@@ -1,0 +1,30 @@
+﻿{
+    "title": "ifolor AG",
+    "items": [
+        {
+            "title": "title",
+            "content": "Company",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Jobs",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Imprint",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "GTC",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Sitemap",
+            "href": "#"
+        }
+    ]
+}

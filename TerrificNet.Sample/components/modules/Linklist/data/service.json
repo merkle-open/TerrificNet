@@ -1,0 +1,25 @@
+﻿{
+    "title": "Kundendienst",
+    "items": [
+        {
+            "title": "title",
+            "content": "FAQ",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Delivery times",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Contact",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Service",
+            "href": "#"
+        }
+    ]
+}

@@ -73,35 +73,36 @@
 		padding: 38px;
 	}
 
-	.l-main-wrapper {}
+	.l-main-wrapper {
+		margin-bottom: 64px;
 
-	.l-main {
-		margin: 0 -8px;
+		.l-main {
+			margin: 0 -8px;
+		}
 	}
 
-	.l-content {
-		padding: 20px 0;
+	.l-content-wrapper {
+		padding: 0;
 	}
 
 	.l-footer-wrapper {
-		padding-top: 24px;
+		padding: 32px 0;
 		border-top: 1px solid #e4e4e4;
+		background: @onyx;
 
 		.l-footer {
-			margin: 0 -8px;
+			&.l-wrap {
+				overflow: hidden;
+				padding-top: 16px;
+			}
 		}
 
 		.l-footer-content {
-			margin-bottom: 24px
+
 		}
 
 		.l-footer-bottom {
 			background: #f9f8f4;
-
-			.l-wrap {
-				overflow: hidden;
-				padding-top: 16px;
-			}
 		}
 	}
 

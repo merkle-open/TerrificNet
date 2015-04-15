@@ -32,7 +32,7 @@
 						{
 							"template": "views/_partials/title",
 							"data": {
-								"text": "Terrific NET SC8 //"
+								"text": "Terrific.NET SC8 //"
 							}
 						}
 					]
@@ -49,15 +49,74 @@
 					"phcell_1_2": [
 						{
 							"module": "components/modules/Teaser",
-							"skin": "horizontal",
 							"data_variation": "teaser-1"
 						}
 					],
 					"phcell_2_2": [
 						{
 							"module": "components/modules/Teaser",
-							"skin": "horizontal",
 							"data_variation": "teaser-2"
+						}
+					]
+				}
+			},
+			{
+				"template": "views/_layouts/grid/g-2",
+				"data": {
+					"css": "h-offset-bottom"
+				},
+
+				"_placeholder": {
+					"phcell_1_2": [
+						{
+							"module": "components/modules/Teaser",
+							"data_variation": "teaser-3"
+						}
+					],
+					"phcell_2_2": [
+						{
+							"module": "components/modules/Teaser",
+							"data_variation": "teaser-4"
+						}
+					]
+				}
+			}
+		],
+		"footer": [
+			{
+				"template": "views/_layouts/grid/g-5",
+				"data": {
+					"css": ""
+				},
+				"_placeholder": {
+					"phcell_1_5_1": [
+						{
+							"module": "components/modules/Linklist",
+							"skin": "vertical"
+						}
+					],
+					"phcell_1_5_2": [
+						{
+							"module": "components/modules/Linklist",
+							"skin": "vertical"
+						}
+					],
+					"phcell_1_5_3": [
+						{
+							"module": "components/modules/Linklist",
+							"skin": "vertical"
+						}
+					],
+					"phcell_1_5_4": [
+						{
+							"module": "components/modules/Linklist",
+							"skin": "vertical"
+						}
+					],
+					"phcell_1_5_5": [
+						{
+							"module": "components/modules/Linklist",
+							"skin": "vertical"
 						}
 					]
 				}

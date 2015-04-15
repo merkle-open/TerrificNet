@@ -1,0 +1,38 @@
+.mod-linklist {
+
+	h3 {
+		.font-style(@font-lato, @font-size-16px, @white);
+		margin-bottom: 20px;
+		display: inline-block;
+	}
+
+	.linklist {
+
+		li {
+
+			margin-bottom: 8px;
+
+			a {
+				.font-style(@font-lato, @font-size-15px, @white);
+				.opacity(70);
+				font-weight: 200;
+				text-decoration: none;
+				display: inline-block;
+				.transition(.5s);
+
+				&:hover {
+					color: @link-hover-color;
+					.opacity(100);
+					.transition(.25s);
+				}
+			}
+
+			span {
+				.font-style(@font-lato, @font-size-15px, @white);
+				font-weight: 200;
+			}
+		}
+	}
+}
+
+

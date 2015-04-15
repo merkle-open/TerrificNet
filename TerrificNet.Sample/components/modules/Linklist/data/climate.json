@@ -1,0 +1,10 @@
+﻿{
+	"title": "Swiss Climate CO Netural",
+	"items": [
+		{
+			"title": "title",
+			"content": "<img src=/components/modules/Linklist/img/swiss-cilmate-logo.png alt='Image' />",
+			"href": "#"
+		}
+	]
+}

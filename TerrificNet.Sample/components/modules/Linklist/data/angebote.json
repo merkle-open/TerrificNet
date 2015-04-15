@@ -1,0 +1,25 @@
+﻿{
+    "title": "Angebote",
+    "items": [
+        {
+            "title": "title",
+            "content": "Unsere Produkte",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "So funktioniert's",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Preisliste",
+            "href": "#"
+        },
+        {
+            "title": "title",
+            "content":  "Software Download",
+            "href": "#"
+        }
+    ]
+}

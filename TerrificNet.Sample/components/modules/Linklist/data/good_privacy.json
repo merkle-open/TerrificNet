@@ -1,0 +1,10 @@
+﻿{
+	"title": "Good Privacy",
+	"items": [
+		{
+			"title": "title",
+			"content": "<img src=/components/modules/Linklist/img/good-privacy-logo.png  />",
+			"href": "#"
+		}
+	]
+}
