@@ -20,43 +20,68 @@
 		z-index: 20;
 	}
 
-	.carousel-nav {
+	.product-carousel-nav {
 		position: absolute;
 		z-index: 2;
+		height: 100%;
 		width: 100%;
-		margin-top: auto;
-		margin-bottom: auto;
 
 		.btn-nav-prev,
 		.btn-nav-next {
 			cursor: pointer;
-			color: @white;
-			.font-style(@font-lato, 70px, @white);
-			font-weight: 100;
+			position: absolute;
+			top: 44%;
+			background: @link-hover-color;
+			display: block;
 			.opacity(70);
 			.transition(.5s);
 
 			&:hover {
 				.opacity(100);
+				.transition(.25s);
+				background: none;
 			}
 		}
 
 		.btn-nav-prev {
-			position: absolute;
-			left: 5%;
+			left: 2%;
 
 			&:after {
-				content: '<';
-				.transition(.25s);
+				.font-style (@font-icon, 88px, @white);
+				.icon-font();
+				content: @icon-arrow-right;
+				display: inline-block;
+				.rotate(180deg);
+				.transition(.5s);
+
+				&:hover {
+					color: @link-hover-color;
+				}
+			}
+
+			&:hover {
+				&:after {
+					color: @link-hover-color;
+					.transition(.25s);
+				}
 			}
 		}
 
 		.btn-nav-next {
-			position: absolute;
-			right: 5%;
+			right: 2%;
 
 			&:after {
-				content: '>';
+				.font-style (@font-icon, 88px, @white);
+				.icon-font();
+				display: inline-block;
+				content: @icon-arrow-right;
+			}
+
+			&:hover {
+				&:after {
+					color: @link-hover-color;
+					.transition(.25s);
+				}
 			}
 		}
 	}
@@ -121,6 +146,10 @@
 
 		.owl-controls {
 			margin-top: 30px;
+		}
+
+		.product-carousel-nav {
+			display: none;
 		}
 
 		.owl-pagination {

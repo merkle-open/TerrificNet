@@ -35,11 +35,11 @@
 
 			// Custom Navigation Events
 			$btnNavPrev.click(function () {
-				$prodSlider.trigger('owl.prev');
+				$slider.trigger('owl.prev');
 			});
 
 			$btnNavNext.click(function () {
-				$prodSlider.trigger('owl.next');
+				$slider.trigger('owl.next');
 			});
 		},
 
