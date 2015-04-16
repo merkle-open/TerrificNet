@@ -30,6 +30,20 @@
 				"_placeholder": {
 					"phcell_1": [
 						{
+							"module": "components/modules/Breadcrumb"
+						}
+					]
+				}
+			},
+			{
+				"template": "views/_layouts/grid/g-1",
+				"data": {
+					"css": "u-offset-top"
+				},
+
+				"_placeholder": {
+					"phcell_1": [
+						{
 							"template": "views/_partials/title",
 							"data": {
 								"text": "Terrific.NET SC8 //"

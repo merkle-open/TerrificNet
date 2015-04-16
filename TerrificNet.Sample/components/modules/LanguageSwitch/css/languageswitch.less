@@ -54,8 +54,8 @@
 		padding: 16px 0;
 		display: block;
 		width: 100%;
-		border-top: 1px solid @space-gray;
-		border-bottom: 1px solid @space-gray;
+		border-top: 1px solid @dark-gray;
+		border-bottom: 1px solid @dark-gray;
 
 		li {
 			float: left;
@@ -67,11 +67,9 @@
 			}
 
 			a {
-				font-family: @font-lato;
-				font-size: @font-size-18px;
-				font-weight: 200;
+				.font-style(@font-lato, @font-size-18px, @mine-shaft);
+				font-weight: 100;
 				text-decoration: none;
-				color: @space-gray;
 				padding: 5px;
 
 				.transition(.5s);

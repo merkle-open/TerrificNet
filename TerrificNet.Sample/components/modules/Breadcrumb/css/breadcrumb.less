@@ -1,7 +1,40 @@
 .mod-breadcrumb {
-    min-height: 30px;
-	li {
-		float: left;
-		margin-left: 20px;
+
+	.breadcrumb-list {
+
+		li {
+			float: left;
+			margin-left: 8px;
+
+			a {
+				.font-style(@font-lato, @font-size-16px, @mine-shaft);
+				font-weight: 100;
+				padding: 4px;
+				text-decoration: none;
+
+				&:after {
+					.font-style (@font-icon, 18px, @link-state-active);
+					.icon-font();
+					.transition(.5s);
+					content: @icon-arrow-right;
+					position: relative;
+					top: 2px;
+					margin-left: 2px;
+				}
+
+				&:hover {
+					color: @link-hover-color;
+				}
+
+				&.state-active {
+
+					color: @link-state-active;
+
+					&:after {
+						content: '';
+					}
+				}
+			}
+		}
 	}
 }

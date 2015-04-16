@@ -20,7 +20,7 @@
 		z-index: 20;
 	}
 
-	.product-carousel-nav {
+	.carousel-nav {
 		position: absolute;
 		z-index: 2;
 		height: 100%;
@@ -45,10 +45,10 @@
 		}
 
 		.btn-nav-prev {
-			left: 2%;
+			left: 3%;
 
 			&:after {
-				.font-style (@font-icon, 88px, @white);
+				.font-style (@font-icon, 66px, @white);
 				.icon-font();
 				content: @icon-arrow-left;
 				display: inline-block;
@@ -68,10 +68,10 @@
 		}
 
 		.btn-nav-next {
-			right: 2%;
+			right: 3%;
 
 			&:after {
-				.font-style (@font-icon, 88px, @white);
+				.font-style (@font-icon, 66px, @white);
 				.icon-font();
 				display: inline-block;
 				content: @icon-arrow-right;
@@ -94,6 +94,14 @@
 	.mod-product-carousel {
 		.carousel {
 			margin: 0 auto;
+		}
+
+		.btn-nav-prev {
+			left: 2%;
+		}
+
+		.btn-nav-next {
+			right: 2%;
 		}
 	}
 }
@@ -118,6 +126,17 @@
 			margin: 0 auto;
 			max-width: 100%;
 		}
+
+		.carousel-nav {
+
+			.btn-nav-prev {
+				left: 2%;
+			}
+
+			.btn-nav-next {
+				right: 2%;
+			}
+		}
 	}
 }
 
@@ -129,6 +148,25 @@
 		.carousel {
 			margin: 0 auto;
 			max-width: 100%;
+		}
+
+		.carousel-nav {
+
+			.btn-nav-prev {
+				left: 1%;
+
+				&:after {
+					font-size: 38px;
+				}
+			}
+
+			.btn-nav-next {
+				right: 1%;
+
+				&:after {
+					font-size: 38px;
+				}
+			}
 		}
 	}
 }
@@ -142,6 +180,11 @@
 		.carousel {
 			margin: 0 auto;
 			max-width: 100%;
+		}
+
+		.carousel-nav {
+
+			display: none;
 		}
 
 		.owl-controls {

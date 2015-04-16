@@ -1,18 +1,21 @@
 {
-    "links": [
-        {
-            "name": "Home",
-            "url": "/",
-            "inner": { 
-                "soso":  "bla"
-            }
-        },
-        {
-            "name": "Detail",
-            "url": "/detail",
-            "inner": { 
-                "soso":  "bla"
-            }
-        }
-    ]
+	"links": [
+		{
+			"name": "Home",
+			"url": "/"
+		},
+		{
+			"name": "Detail",
+			"url": "/detail"
+		},
+		{
+			"name": "Product",
+			"url": "/"
+		},
+		{
+			"name": "Window",
+			"url": "/",
+			"selected": true
+		}
+	]
 }
