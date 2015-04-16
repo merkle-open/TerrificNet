@@ -93,9 +93,23 @@
 						}
 					]
 				}
-			}
+			},
+			{
+				"template": "views/_layouts/grid/g-1",
+				"data": {
+					"css": "h-offset-bottom"
+				},
 
+				"_placeholder": {
+					"phcell_1": [
+						{
+							"module": "components/modules/Tab"
+						}
+					]
+				}
+			}
 		],
+
 		"footer": [
 			{
 				"template": "views/_layouts/grid/g-5",

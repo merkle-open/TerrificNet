@@ -11,9 +11,6 @@
 
 		init: function($ctx, sandbox, modId) {
 			this._super($ctx, sandbox, modId);
-
-
-
 		},
 
 		on: function(callback) {

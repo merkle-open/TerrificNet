@@ -14,7 +14,7 @@
 				$ctx = mod.$ctx,
 				$titel = $ctx.find('.js-title'),
 				$list  = $ctx.find('.js-linklist');
-
+			
 				enquire.register("(max-width: 659px)", {
 
 					match: function() {

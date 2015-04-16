@@ -32,6 +32,7 @@
 			position: absolute;
 			top: 44%;
 			background: @onyx;
+			.border-radius(5px);
 			display: block;
 			.opacity(70);
 			.transition(.5s);
@@ -49,9 +50,8 @@
 			&:after {
 				.font-style (@font-icon, 88px, @white);
 				.icon-font();
-				content: @icon-arrow-right;
+				content: @icon-arrow-left;
 				display: inline-block;
-				.rotate(180deg);
 				.transition(.5s);
 
 				&:hover {
@@ -134,7 +134,7 @@
 }
 
 // -----------------------------------------
-// RWD: Mobile Breakpoint < 550px
+// RWD: Mobile Breakpoint < 800px
 // -----------------------------------------
 
 @media (max-width: 799px) {
