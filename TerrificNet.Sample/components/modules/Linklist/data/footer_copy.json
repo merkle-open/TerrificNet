@@ -1,8 +1,7 @@
 ﻿{
 	"items": [
 		{
-			"title": "© 2015 sc8.net",
-			"content": "© 2015 sc8.net"
+			"content": "© 2015 Terrific.NET SC8"
 		},
 		{
 			"title": "Impressum",
@@ -22,6 +21,11 @@
 		{
 			"title": "Downloads",
 			"content": "Downloads",
+			"href": "#"
+		},
+		{
+			"title": "Media",
+			"content": "Media",
 			"href": "#"
 		}
 	]

@@ -1,0 +1,71 @@
+.mod-accordion {
+	margin: 20px 0 40px;
+
+	.accordion-chapter {
+		//background: transparent url(assets/img/line.png) 0 bottom no-repeat;
+		border-bottom: 1px solid @silver-gray;
+	}
+
+	.accordion-title {
+		.font-style (@font-lato, @font-size-24px, @onyx);
+		font-weight: 100;
+		position: relative;
+		padding: 15px 0 15px 30px;
+		cursor: pointer;
+		.no-select();
+
+		&:hover,
+		&:active,
+		&.state-open {
+			color: @link-state-active;
+		}
+
+		.accordion-icon {
+			position: absolute;
+			display: block;
+			width: 20px;
+			height: 20px;
+			margin-left: -30px;
+			margin-top: -4px;
+			font-size: 32px;
+			-webkit-transition: all 400ms ease, opacity 200ms ease;
+			-moz-transition: all 400ms ease, opacity 200ms ease;
+			-ms-transition: all 400ms ease, opacity 200ms ease;
+			-o-transition: all 400ms ease, opacity 200ms ease;
+			transition: all 400ms ease, opacity 200ms ease;
+		}
+		.icon-swp-plus {
+			.opacity(100);
+			.transform(rotate(0deg) scale(1));
+		}
+		.icon-swp-minus {
+			.opacity(0);
+			.transform(rotate(-90deg) scale(.5));
+		}
+		&.state-open {
+			.icon-swp-plus {
+				.opacity(0);
+				.transform(rotate(90deg) scale(.1));
+			}
+			.icon-swp-minus {
+				.opacity(100);
+				.transform(rotate(0deg) scale(1));
+			}
+		}
+
+	}
+	.accordion-content {
+		display: none;
+		padding: .2em 0 2em;
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px
+// -----------------------------------------
+@media (max-width: 959px) {
+	.mod-accordion {
+
+		padding: 0 8px;
+	}
+}

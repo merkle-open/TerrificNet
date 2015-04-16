@@ -36,8 +36,28 @@
 .icon-mobile {
 	&:before {
 		content: @icon-phone;
-		.font-style (font-icon, 32px, @light-blue);
 		.icon-font();
 		position: absolute;
+	}
+}
+
+.icon-swp-plus {
+	&:before {
+
+
+		.font-style (@font-icon, 26px, @dark-gray);
+		.icon-font();
+		content: @icon-plus;
+		display: inline-block;
+
+	}
+}
+
+.icon-swp-minus {
+	&:before {
+		.font-style (@font-icon, 26px, @dark-gray);
+		.icon-font();
+		content: @icon-minus;
+		display: inline-block;
 	}
 }
