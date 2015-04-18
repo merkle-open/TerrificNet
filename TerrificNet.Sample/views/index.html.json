@@ -24,7 +24,7 @@
 			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
-					"css": "u-offset-top"
+					"css": "g-offset-top"
 				},
 
 				"_placeholder": {
@@ -38,7 +38,7 @@
 			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
-					"css": "u-offset-top"
+					"css": "g-offset-top"
 				},
 
 				"_placeholder": {
@@ -55,7 +55,7 @@
 			{
 				"template": "views/_layouts/grid/g-2",
 				"data": {
-					"css": "u-offset-top"
+					"css": "g-offset-top"
 				},
 
 				"_placeholder": {
@@ -76,7 +76,7 @@
 			{
 				"template": "views/_layouts/grid/g-2",
 				"data": {
-					"css": "h-offset-bottom"
+					"css": "g-offset-bottom"
 				},
 
 				"_placeholder": {
@@ -97,7 +97,7 @@
 			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
-					"css": "h-offset-bottom"
+					"css": "g-offset-bottom"
 				},
 
 				"_placeholder": {
@@ -111,7 +111,7 @@
 			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
-					"css": "h-offset-bottom"
+					"css": "g-offset-bottom"
 				},
 
 				"_placeholder": {

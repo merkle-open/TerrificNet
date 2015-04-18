@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'sc8-tnet';
-	src:url('fonts/sc8-tnet.eot?-6log1t');
-	src:url('fonts/sc8-tnet.eot?#iefix-6log1t') format('embedded-opentype'),
-		url('fonts/sc8-tnet.woff?-6log1t') format('woff'),
-		url('fonts/sc8-tnet.ttf?-6log1t') format('truetype'),
-		url('fonts/sc8-tnet.svg?-6log1t#sc8-tnet') format('svg');
+	src:url('fonts/sc8-tnet.eot?h4hjr9');
+	src:url('fonts/sc8-tnet.eot?#iefixh4hjr9') format('embedded-opentype'),
+		url('fonts/sc8-tnet.woff?h4hjr9') format('woff'),
+		url('fonts/sc8-tnet.ttf?h4hjr9') format('truetype'),
+		url('fonts/sc8-tnet.svg?h4hjr9#sc8-tnet') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,7 +23,11 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow:before {
+.icon-arrow-left:before {
+	content: "\e607";
+}
+
+.icon-arrow-right:before {
 	content: "\e600";
 }
 
@@ -49,5 +53,13 @@
 
 .icon-circle-close:before {
 	content: "\e606";
+}
+
+.icon-minus:before {
+	content: "\e608";
+}
+
+.icon-plus:before {
+	content: "\e609";
 }
 

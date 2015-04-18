@@ -6,13 +6,8 @@
 		display: block;
 
 		&.btn,
-		button, button&,
-		input[type="submit"],
-		input[type="submit"] &,
-		input[type="reset"],
-		input[type="reset"] &,
-		input[type="button"],
-		input[type="button"] & {
+		button,
+		button&{
 			display: inline-block;
 			background-color: transparent;
 			.border-radius(5px);
@@ -32,14 +27,7 @@
 
 			&:hover,
 			button:hover,
-			input[type="submit"]:hover,
-			input[type="reset"]:hover,
-			input[type="button"]:hover,
-			&:focus,
-			button:focus,
-			input[type="submit"]:focus,
-			input[type="reset"]:focus,
-			input[type="button"]:focus {
+			&:focus,{
 				border-color: #888;
 				color: #333;
 				outline: 0;
@@ -51,10 +39,7 @@
 			// -----------------------------------------
 			&.btn-primary,
 			button.btn-primary,
-			button.btn-primary&,
-			input[type="submit"].btn-primary,
-			input[type="reset"].btn-primary,
-			input[type="button"].btn-primary {
+			button.btn-primary& {
 				color: @white;
 				border-color: @light-blue;
 				background-color: @light-blue;
@@ -62,14 +47,8 @@
 
 			&.btn-primary:hover,
 			button.btn-primary:hover,
-			input[type="submit"].btn-primary:hover,
-			input[type="reset"].btn-primary:hover,
-			input[type="button"].btn-primary:hover,
 			&.btn-primary:focus,
-			button.btn-primary:focus,
-			input[type="submit"].btn-primary:focus,
-			input[type="reset"].btn-primary:focus,
-			input[type="button"].btn-primary:focus {
+			button.btn-primary:focus {
 				border-color: @light-blue;
 				background-color: @light-blue;
 			}
@@ -79,10 +58,7 @@
 			// -----------------------------------------
 			&.btn-cta,
 			button.btn-cta,
-			button.btn-cta&,
-			input[type="submit"].btn-cta,
-			input[type="reset"].btn-cta,
-			input[type="button"].btn-cta {
+			button.btn-cta& {
 				color: @white;
 				border-color: red;
 				background-color: red;
@@ -90,14 +66,8 @@
 
 			&.btn-cta:hover,
 			button.btn-primary:hover,
-			input[type="submit"].btn-cta:hover,
-			input[type="reset"].btn-cta:hover,
-			input[type="button"].btn-cta:hover,
 			&.btn-cta:focus,
-			button.btn-primary:focus,
-			input[type="submit"].btn-cta:focus,
-			input[type="reset"].btn-cta:focus,
-			input[type="button"].btn-cta:focus {
+			button.btn-primary:focus, {
 				background-color: lightblue;
 				border-color: lightblue;
 				color: @white;
