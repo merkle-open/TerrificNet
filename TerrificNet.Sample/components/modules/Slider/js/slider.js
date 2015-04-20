@@ -12,16 +12,48 @@
 
 		init: function($ctx, sandbox, modId) {
 			this._super($ctx, sandbox, modId);
+		},
 
+		bind: function() {
+			var mod = this,
+				$ctx = mod.$ctx,
+				$slider = $ctx.find('.js-slider'),
+				$itemsDesktop = $slider.data('item-desktop'),
+				$itemsDesktopSmall = $slider.data('item-desktop-small'),
+				$btnNavPrev = $slider.find('.js-btn-nav-prev'),
+				$btnNavNext = $slider.find('.js-btn-nav-next');
 
+			console.log($itemsDesktop);
+			console.log($itemsDesktopSmall);
 
+			$slider.owlCarousel({
+
+				navigation: false, // Show next and prev buttons
+				slideSpeed: 700,
+				paginationSpeed: 700,
+				mouseDrag: false,
+				autoPlay: 7000, //Set AutoPlay to 7 seconds
+				items : 4,
+				itemsDesktop : [1199, $itemsDesktop],
+				itemsDesktopSmall : [979, $itemsDesktopSmall],
+				lazyLoad : true
+			});
+
+			// Custom Navigation Events
+			$btnNavPrev.click(function () {
+				$slider.trigger('owl.prev');
+			});
+
+			$btnNavNext.click(function () {
+				$slider.trigger('owl.next');
+			});
 		},
 
 		on: function(callback) {
-			var mod = this,
-				$ctx = mod.$ctx;
+			var mod = this;
 
-
+			//mod.sandbox.subscribe('productState', mod);
+			mod.bind();
 
 			callback();
 		},
@@ -29,8 +61,6 @@
 		after: function() {
 			var mod = this,
 				$ctx = mod.$ctx;
-
-
 		}
 
 	});

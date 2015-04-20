@@ -1,3 +1,39 @@
 .mod-slider {
+	.slider {
+		.item {
+			margin: 2px;
 
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px
+// -----------------------------------------
+@media (max-width: 959px) {
+	.mod-slider {
+
+		.owl-item.loading {
+			margin-top: 20px;
+			display: inline-block;
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 660px
+// -----------------------------------------
+@media (max-width: 659px) {
+	.mod-slider {
+		.slider {
+			.item {
+				margin-right: 0;
+			}
+		}
+	}
 }
