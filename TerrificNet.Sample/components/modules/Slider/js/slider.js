@@ -19,9 +19,7 @@
 				$ctx = mod.$ctx,
 				$slider = $ctx.find('.js-slider'),
 				$itemsDesktop = $slider.data('item-desktop'),
-				$itemsDesktopSmall = $slider.data('item-desktop-small'),
-				$btnNavPrev = $slider.find('.js-btn-nav-prev'),
-				$btnNavNext = $slider.find('.js-btn-nav-next');
+				$itemsDesktopSmall = $slider.data('item-desktop-small');
 
 			console.log($itemsDesktop);
 			console.log($itemsDesktopSmall);
@@ -37,15 +35,6 @@
 				itemsDesktop : [1199, $itemsDesktop],
 				itemsDesktopSmall : [979, $itemsDesktopSmall],
 				lazyLoad : true
-			});
-
-			// Custom Navigation Events
-			$btnNavPrev.click(function () {
-				$slider.trigger('owl.prev');
-			});
-
-			$btnNavNext.click(function () {
-				$slider.trigger('owl.next');
 			});
 		},
 
