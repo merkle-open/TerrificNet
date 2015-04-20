@@ -30,5 +30,16 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
             return _handler.RenderModuleAsync(templateName, skin, context);
         }
+
+		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
+			var templateName = parameters["template"].Trim('"');
+
+			var skin = string.Empty;
+			if (parameters.ContainsKey("skin"))
+				skin = parameters["skin"].Trim('"');
+
+			_handler.RenderModule(templateName, skin, context);
+		}
     }
 }

@@ -7,5 +7,6 @@ namespace Veil.Helper
 	{
 		bool IsSupported(string name);
 		Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters);
+		void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters);
 	}
 }

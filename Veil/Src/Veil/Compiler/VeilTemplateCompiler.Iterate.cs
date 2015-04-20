@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Threading.Tasks;
 using Veil.Parser;
 using Veil.Parser.Nodes;
 

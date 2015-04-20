@@ -24,5 +24,15 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
 
             return templateHandler.RenderModuleAsync(Module, Skin, context);
         }
+
+		protected internal override void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
+		{
+			if (context.Data.ContainsKey("data_variation"))
+				context.Data["data_variation"] = this.DataVariation;
+			else
+				context.Data.Add("data_variation", this.DataVariation);
+
+			templateHandler.RenderModule(Module, Skin, context);
+		}
     }
 }

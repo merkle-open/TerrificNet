@@ -23,7 +23,7 @@ namespace Veil.Compiler
 			this._writer = Expression.Property(_context, "Writer");
 		}
 
-		public Func<RenderingContext, T, Task> Compile(SyntaxTreeNode templateSyntaxTree)
+		public Func<RenderingContext, T, Task> CompileAsync(SyntaxTreeNode templateSyntaxTree)
 		{
 			this.PushScope(this._model);
 
@@ -37,6 +37,17 @@ namespace Veil.Compiler
             var expression = Expression.Lambda<Func<RenderingContext, T, Task>>(innerExpression, this._context, this._model);
 
 			return expression.Compile(); 
+		}
+
+		public Action<RenderingContext, T> Compile(SyntaxTreeNode templateSyntaxTree)
+		{
+			this.PushScope(this._model);
+
+			var bodyExpression = this.HandleNode(templateSyntaxTree);
+
+			var expression = Expression.Lambda<Action<RenderingContext, T>>(bodyExpression, this._context, this._model);
+
+			return expression.Compile();
 		}
 
         private void PushScope(Expression scope)
