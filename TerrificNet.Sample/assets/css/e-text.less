@@ -12,10 +12,13 @@
 		.font-style (@font-lato, @font-size-46px, @onyx);
 		font-weight: 200;
 	}
+
 	h2, h2& {
 		.font-style (@font-lato, @font-size-32px, @onyx);
 		margin: 16px 0;
 		font-weight: 100;
+		border-bottom: 1px solid @gray;
+		display: inline-block;
 	}
 
 	h3, h3& {
@@ -51,6 +54,10 @@
 // -----------------------------------------
 @media (max-width: 959px) {
 	.e-text {
-
+		h2, h2& {
+			font-size: 24px;
+			margin-right: 8px;
+			margin-left: 8px;
+		}
 	}
 }

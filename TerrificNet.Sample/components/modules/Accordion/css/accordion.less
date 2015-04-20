@@ -2,12 +2,11 @@
 	margin: 20px 0 40px;
 
 	.accordion-chapter {
-		//background: transparent url(assets/img/line.png) 0 bottom no-repeat;
-		border-bottom: 1px solid @silver-gray;
+		border-bottom: 1px dashed @silver-gray;
 	}
 
 	.accordion-title {
-		.font-style (@font-lato, @font-size-24px, @onyx);
+		.font-style (@font-lato, @font-size-22px, @onyx);
 		font-weight: 100;
 		position: relative;
 		padding: 15px 0 15px 30px;
@@ -25,14 +24,14 @@
 			display: block;
 			width: 20px;
 			height: 20px;
-			margin-left: -30px;
+			margin-left: -28px;
 			margin-top: -5px;
 			font-size: 32px;
 			-webkit-transition: all 400ms ease, opacity 200ms ease;
-			-moz-transition: all 400ms ease, opacity 200ms ease;
-			-ms-transition: all 400ms ease, opacity 200ms ease;
-			-o-transition: all 400ms ease, opacity 200ms ease;
-			transition: all 400ms ease, opacity 200ms ease;
+			   -moz-transition: all 400ms ease, opacity 200ms ease;
+			    -ms-transition: all 400ms ease, opacity 200ms ease;
+			     -o-transition: all 400ms ease, opacity 200ms ease;
+			        transition: all 400ms ease, opacity 200ms ease;
 		}
 		.icon-swp-plus {
 			.opacity(100);
@@ -56,7 +55,7 @@
 	}
 	.accordion-content {
 		display: none;
-		padding: .2em 0 2em;
+		padding: 8px 0 16px;
 	}
 }
 
