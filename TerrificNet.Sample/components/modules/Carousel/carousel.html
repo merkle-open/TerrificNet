@@ -9,7 +9,18 @@
 
 		{{#if images}}
 		{{#each images}}
-		<div class="carousel-image"><img src="{{source}}" alt="{{alt}}" width="{{width}}" height="{{height}}"></div>
+		<div class="carousel-image">
+
+			{{#if title}}
+			<div class="l-wrap">
+				<div class="carousel-text-box {{#if alignment}}{{alignment}}{{/if}}">
+					<h1 class="e-text">{{title}}</h1>
+				</div>
+			</div>
+			{{/if}}
+
+			<img src="{{source}}" alt="{{alt}}" width="{{width}}" height="{{height}}">
+		</div>
 		{{/each}}
 		{{/if}}
 
