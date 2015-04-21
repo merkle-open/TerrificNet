@@ -13,7 +13,7 @@ namespace Veil.Compiler
         private static MethodInfo disposeMethod = typeof(IDisposable).GetMethod("Dispose");
         private static MethodInfo nullCheckMethod = typeof(Helpers).GetMethod("CheckNotNull");
 
-        private Expression HandleIterate(IterateNode node)
+        private Expression HandleIterateAsync(IterateNode node)
         {
             if (node.Collection.ResultType.IsArray)
             {
@@ -40,7 +40,7 @@ namespace Veil.Compiler
             }
 
             this.PushScope(currentElement);
-            var loopBody = HandleAsync(HandleNode(node.Body));
+            var loopBody = HandleAsync(HandleNodeAsync(node.Body));
 
             var ex = Expression.Block(
                 new[] { enumerator, hasElements },
@@ -62,7 +62,7 @@ namespace Veil.Compiler
                     )
                 ), exitLabel),
                 DisposeIfNeeded(enumerator),
-                Expression.IfThen(Expression.IsFalse(hasElements), HandleNode(node.EmptyBody))//,
+				Expression.IfThen(Expression.IsFalse(hasElements), HandleNodeAsync(node.EmptyBody))//,
                 //Expression.Return(returnLabel, task),
                 //Expression.Label(returnLabel, Expression.Constant(null, typeof(Task)))
                 
@@ -71,6 +71,65 @@ namespace Veil.Compiler
 
             return ex;
         }
+
+		private Expression HandleIterate(IterateNode node)
+		{
+			if (node.Collection.ResultType.IsArray)
+			{
+				return HandleIterateArray(node);
+			}
+
+			var enumerableType = typeof(IEnumerable<>).MakeGenericType(node.ItemType);
+			var getEnumeratorMethod = enumerableType.GetMethod("GetEnumerator");
+			var getCurrentMethod = getEnumeratorMethod.ReturnType.GetProperty("Current").GetGetMethod();
+
+			var currentElement = Expression.Variable(node.ItemType, "current");
+			var didMoveNext = Expression.Variable(typeof(bool), "didMoveNext");
+			var hasElements = Expression.Variable(typeof(bool), "hasElements");
+			var enumerator = Expression.Variable(getEnumeratorMethod.ReturnType, "enumerator");
+
+			//var task = Expression.Variable(typeof (Task));
+			var exitLabel = Expression.Label();
+			//var returnLabel = Expression.Label(typeof (Task));
+
+			var collection = ParseExpression(node.Collection);
+			if (collection.Type == typeof(object))
+			{
+				collection = Expression.Convert(collection, enumerableType);
+			}
+
+			this.PushScope(currentElement);
+			var loopBody = HandleAsync(HandleNode(node.Body));
+
+			var ex = Expression.Block(
+				new[] { enumerator, hasElements },
+				NullCheck("Cannot iterate over collection because value is null.", node.Collection, collection),
+				Expression.Assign(hasElements, Expression.Constant(false)),
+				Expression.Assign(enumerator, Expression.Call(collection, getEnumeratorMethod)),
+				//Expression.Assign(task, Expression.Constant(Task.FromResult(false), typeof (Task))),
+				Expression.Loop(Expression.Block(
+					new[] { didMoveNext },
+					Expression.Assign(didMoveNext, Expression.Call(enumerator, moveNextMethod)),
+					Expression.IfThenElse(Expression.IsFalse(didMoveNext),
+						Expression.Break(exitLabel),
+						Expression.Block(
+							new[] { currentElement },
+							Expression.Assign(currentElement, Expression.Property(enumerator, getCurrentMethod)),
+							Expression.Assign(hasElements, Expression.Constant(true)),
+							loopBody
+						)
+					)
+				), exitLabel),
+				DisposeIfNeeded(enumerator),
+				Expression.IfThen(Expression.IsFalse(hasElements), HandleNode(node.EmptyBody))//,
+				//Expression.Return(returnLabel, task),
+				//Expression.Label(returnLabel, Expression.Constant(null, typeof(Task)))
+
+			);
+			this.PopScope();
+
+			return ex;
+		}
 
         private static MethodCallExpression NullCheck(string message, SyntaxTreeNode node, Expression value)
         {

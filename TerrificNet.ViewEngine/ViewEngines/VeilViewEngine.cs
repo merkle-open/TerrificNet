@@ -27,8 +27,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			_memberLocator = new MemberLocatorFromNamingRule(namingRule);
 		}
 
-		private async Task<IView> CreateView(TemplateInfo templateInfo, Type modelType)
+		public async Task<IView> CreateViewAsync(TemplateInfo templateInfo, Type modelType)
 		{
+			if (templateInfo == null)
+				return null;
+			
 			var hash = string.Concat("template_", templateInfo.Id, templateInfo.ETag, modelType.FullName);
 
 			IView view;
@@ -138,14 +141,6 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			{
 				_render(context, model);
 			}
-		}
-
-		public Task<IView> CreateViewAsync(TemplateInfo templateInfo, Type modelType)
-		{
-			if (templateInfo == null)
-				return null;
-
-			return CreateView(templateInfo, modelType);
 		}
 	}
 }
