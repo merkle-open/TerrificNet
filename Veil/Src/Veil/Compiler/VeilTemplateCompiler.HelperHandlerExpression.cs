@@ -20,17 +20,23 @@ namespace Veil.Compiler
 			return Helpers.Then(before, () => handler.EvaluateAsync(model, renderingContext, node.Parameters));
 		}
 
-        public async static Task Leave(Task before, IBlockHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
+        public async static Task LeaveAsync(Task before, IBlockHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
         {
             await before.ConfigureAwait(false);
             handler.Leave(model, renderingContext, node.Name, node.Parameters);
         }
+
+		public static void Leave(IBlockHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
+		{
+			handler.Leave(model, renderingContext, node.Name, node.Parameters);
+		}
     }
 
 	class VeilTemplateCompiler
 	{
 		internal static readonly MethodInfo HelperFunction = typeof(HelperWrapper).GetMethod("Evaluate");
 		internal static readonly MethodInfo HelperFunctionAsync = typeof(HelperWrapper).GetMethod("EvaluateAsync");
+		internal static readonly MethodInfo HelperFunctionLeaveAsync = typeof(HelperWrapper).GetMethod("LeaveAsync");
 		internal static readonly MethodInfo HelperFunctionLeave = typeof(HelperWrapper).GetMethod("Leave");
 	}
 
@@ -82,10 +88,18 @@ namespace Veil.Compiler
 
 	    private Expression HandleHelperBlockNode(HelperBlockNode node)
 	    {
-            return HandleBlock(
+			return HandleBlock(
 				HandleHelperExpression(node.HelperExpression), 
 				HandleBlock(node.Block),
                 HandleHelperExpressionWithMethod(node.HelperExpression, HelperFunctionLeave));
 	    }
+
+		private Expression HandleHelperBlockNodeAsync(HelperBlockNode node)
+		{
+			return HandleBlock(
+				HandleHelperExpressionAsync(node.HelperExpression),
+				HandleBlockAsync(node.Block),
+				HandleHelperExpressionWithMethodAsync(node.HelperExpression, HelperFunctionLeaveAsync));
+		}
     }
 }

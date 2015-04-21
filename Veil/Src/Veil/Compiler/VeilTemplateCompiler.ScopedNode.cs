@@ -19,5 +19,20 @@ namespace Veil.Compiler
                 body
             );
         }
+
+		private Expression HandleScopedNodeAsync(ScopedNode node)
+		{
+			var scopedModel = ParseExpression(node.ModelToScope);
+			var storedModel = Expression.Variable(scopedModel.Type);
+			PushScope(storedModel);
+			var body = HandleNodeAsync(node.Node);
+			PopScope();
+
+			return Expression.Block(
+				new[] { storedModel },
+				Expression.Assign(storedModel, scopedModel),
+				body
+			);
+		}
     }
 }
