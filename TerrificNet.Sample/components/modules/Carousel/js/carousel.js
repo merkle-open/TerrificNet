@@ -20,11 +20,11 @@
 		bind: function() {
 			var mod = this,
 				$ctx = mod.$ctx,
-				$slider = $ctx.find('.js-carousel'),
+				$carousel = $ctx.find('.js-carousel'),
 				$btnNavPrev = $ctx.find('.js-btn-nav-prev'),
 				$btnNavNext = $ctx.find('.js-btn-nav-next');
 
-			$slider.owlCarousel({
+			$carousel.owlCarousel({
 
 				navigation: false, // Show next and prev buttons
 				slideSpeed: 500,
@@ -35,18 +35,18 @@
 
 			// Custom Navigation Events
 			$btnNavPrev.click(function () {
-				$slider.trigger('owl.prev');
+				$carousel.trigger('owl.prev');
 			});
 
 			$btnNavNext.click(function () {
-				$slider.trigger('owl.next');
+				$carousel.trigger('owl.next');
 			});
 		},
 
 		on: function(callback) {
 			var mod = this;
 
-			mod.sandbox.subscribe('productState', mod);
+			//mod.sandbox.subscribe('productState', mod);
 			mod.bind();
 
 			callback();

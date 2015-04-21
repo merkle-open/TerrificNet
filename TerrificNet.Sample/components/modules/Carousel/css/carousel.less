@@ -1,7 +1,7 @@
 .mod-carousel {
 	.carousel {
 		margin: 0 auto;
-		max-width: 96%;
+		max-width: 100%;
 
 		.carousel-image {
 			img {
@@ -9,6 +9,14 @@
 				width: 100%;
 				height: auto;
 			}
+		}
+	}
+
+	&:hover {
+		.carousel-nav {
+			visibility: visible;
+			opacity: 1;
+			.transition(.5s);
 		}
 	}
 
@@ -25,6 +33,9 @@
 		z-index: 2;
 		height: 100%;
 		width: 100%;
+		visibility:hidden;
+		opacity: 0;
+		.transition(.5s);
 
 		.btn-nav-prev,
 		.btn-nav-next {
@@ -45,7 +56,7 @@
 		}
 
 		.btn-nav-prev {
-			left: 3%;
+			left: 2%;
 
 			&:after {
 				.font-style (@font-icon, 66px, @white);
@@ -68,7 +79,7 @@
 		}
 
 		.btn-nav-next {
-			right: 3%;
+			right: 2%;
 
 			&:after {
 				.font-style (@font-icon, 66px, @white);

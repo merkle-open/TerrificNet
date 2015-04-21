@@ -4,76 +4,95 @@
 @media screen {
 	.e-btn {
 		display: block;
+		background-color: transparent;
+		text-align: center;
+		text-decoration: none;
+		cursor: pointer;
+		line-height: 2;
+		white-space: nowrap;
+		box-sizing: border-box;
+		border: none;
+		.border-radius(5px);
+		margin: 12px 0;
 
-		&.btn,
-		button,
-		button&{
-			display: inline-block;
-			background-color: transparent;
-			.border-radius(5px);
-			color: #555;
-			text-align: center;
+		// -----------------------------------------
+		// btn primary
+		// -----------------------------------------
+		&.btn-primary {
 			.font-style(@font-lato, @font-size-16px, @white);
-			font-weight: 300;
-			text-decoration: none;
-			cursor: pointer;
-			border: 1px solid grey;
-			height: 52px;
-			line-height: 52px;
-			padding: 0 28px;
-			white-space: nowrap;
-			box-sizing: border-box;
+			padding: 8px 24px 6px;
+			font-weight: 600;
+			display: inline-block;
+			color: @white;
+			background-color: @gray;
 			.transition(.25s);
 
 			&:hover,
-			button:hover,
-			&:focus,{
-				border-color: #888;
-				color: #333;
-				outline: 0;
+			&:focus {
+				background-color: @onyx;
 				.transition(.5s);
 			}
+		}
 
-			// -----------------------------------------
-			// btn primary
-			// -----------------------------------------
-			&.btn-primary,
-			button.btn-primary,
-			button.btn-primary& {
-				color: @white;
-				border-color: @light-blue;
-				background-color: @light-blue;
-			}
+		// -----------------------------------------
+		// btn secondary
+		// -----------------------------------------
+		&.btn-secondary {
+			.font-style(@font-lato, @font-size-16px, @white);
+			padding: 8px 24px 6px;
+			font-weight: 600;
+			display: inline-block;
+			color: @white;
+			background-color: @light-blue;
+			.transition(.25s);
 
-			&.btn-primary:hover,
-			button.btn-primary:hover,
-			&.btn-primary:focus,
-			button.btn-primary:focus {
-				border-color: @light-blue;
-				background-color: @light-blue;
-			}
-
-			// -----------------------------------------
-			// btn call to action
-			// -----------------------------------------
-			&.btn-cta,
-			button.btn-cta,
-			button.btn-cta& {
-				color: @white;
-				border-color: red;
-				background-color: red;
-			}
-
-			&.btn-cta:hover,
-			button.btn-primary:hover,
-			&.btn-cta:focus,
-			button.btn-primary:focus, {
-				background-color: lightblue;
-				border-color: lightblue;
-				color: @white;
-				.opacity(90);
+			&:hover,
+			&:focus {
+				background-color: @deep-blue;
+				.transition(.5s);
 			}
 		}
+
+		// -----------------------------------------
+		// btn success
+		// -----------------------------------------
+		&.btn-success {
+			.font-style(@font-lato, @font-size-16px, @white);
+			padding: 8px 24px 6px;
+			font-weight: 600;
+			display: inline-block;
+			color: @white;
+			background-color: @dark-green;
+			.transition(.25s);
+
+			&:hover,
+			&:focus {
+				background-color: #646F4B;
+				color: @white;
+				.transition(.5s);
+			}
+		}
+
+		// -----------------------------------------
+		// btn success
+		// -----------------------------------------
+		&.btn-error {
+			.font-style(@font-lato, @font-size-16px, @white);
+			padding: 8px 24px 6px;
+			font-weight: 600;
+			display: inline-block;
+			color: @white;
+			background-color: @pink;
+			.transition(.25s);
+
+			&:hover,
+			&:focus {
+				background-color: @red;
+				color: @white;
+				.transition(.5s);
+			}
+		}
+
 
 		// -----------------------------------------
 		// Button Mobile
