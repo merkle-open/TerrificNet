@@ -22,5 +22,10 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
         {
             return templateHandler.RenderPartialAsync(Template, ((IPartialViewDefinition)this).Data ?? model, context);
         }
+
+		protected internal override void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
+		{
+			templateHandler.RenderPartial(Template, ((IPartialViewDefinition)this).Data ?? model, context);
+		}
     }
 }

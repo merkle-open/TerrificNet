@@ -9,11 +9,17 @@ namespace Veil.Compiler
     {
         private readonly ParameterExpression _task = Expression.Variable(typeof(Task), "task");
 
-        private Expression HandleWriteLiteral(WriteLiteralNode node)
+        private Expression HandleWriteLiteralAsync(WriteLiteralNode node)
         {
-            var callExpression = Expression.Call(writeMethod, _task, this._writer, Expression.Constant(node.LiteralContent, typeof(string)));
+            var callExpression = Expression.Call(writeMethodAsync, _task, this._writer, Expression.Constant(node.LiteralContent, typeof(string)));
             return callExpression;
         }
+
+		private Expression HandleWriteLiteral(WriteLiteralNode node)
+		{
+			var callExpression = Expression.Call(writeMethod, this._writer, Expression.Constant(node.LiteralContent, typeof(string)));
+			return callExpression;
+		}
 
         private Expression HandleAsync(Expression callExpression)
         {

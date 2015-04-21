@@ -13,6 +13,18 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 
 		public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
+			var value = CalculateWidth(context, parameters);
+		    return context.Writer.WriteAsync(value.ToString());
+		}
+
+		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
+			var value = CalculateWidth(context, parameters);
+			context.Writer.Write(value.ToString());
+		}
+
+		private int CalculateWidth(RenderingContext context, IDictionary<string, string> parameters)
+		{
 			double ratio = 1.0;
 			string ratioValue;
 			if (parameters.TryGetValue("ratio", out ratioValue))
@@ -22,8 +34,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			}
 
 			var gridStack = GridStack.FromContext(context);
-		    var value = (int)(GetWidth(gridStack) * ratio);
-		    return context.Writer.WriteAsync(value.ToString());
+			return (int)(GetWidth(gridStack) * ratio);
 		}
 	}
 

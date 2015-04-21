@@ -30,6 +30,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             return _handler.RenderLabelAsync(key, context);
         }
 
+		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
+			var key = parameters.Keys.First().Trim('"');
+			_handler.RenderLabel(key, context);
+		}
+
         public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)
         {
             var key = parameters.Keys.First().Trim('"');

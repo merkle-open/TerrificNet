@@ -25,6 +25,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 
 		public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
+			Evaluate(model, context, parameters);
+		    return Task.FromResult(false);
+		}
+
+		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
 			var gridStack = GridStack.FromContext(context);
 			double ratio = GetValue(parameters, "ratio", 1);
 			double margin = GetValue(parameters, "margin", 0);
@@ -33,7 +39,6 @@ namespace TerrificNet.ViewEngine.TemplateHandler.Grid
 			double width = GetValue(parameters, "width", gridStack.Current.Width);
 
 			gridStack.Push((int)(((width - margin) * ratio) - padding), componentPadding);
-		    return Task.FromResult(false);
 		}
 
 		private static double GetValue(IDictionary<string, string> parameters, string key, double defaultValue)

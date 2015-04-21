@@ -19,6 +19,12 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             return context.Writer.WriteAsync(templateId as string);
         }
 
+		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
+			var templateId = context.Data["templateId"];
+			context.Writer.Write(templateId as string);
+		}
+
         public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)
         {
             context.WriteLiteral(context.TemplateId);

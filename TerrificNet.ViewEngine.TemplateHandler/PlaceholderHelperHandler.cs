@@ -25,5 +25,11 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             var key = parameters["key"].Trim('"');
             return _handler.RenderPlaceholderAsync(model, key, context);
         }
+
+		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
+			var key = parameters["key"].Trim('"');
+			_handler.RenderPlaceholder(model, key, context);
+		}
     }
 }

@@ -9,107 +9,113 @@ using Veil.Helper;
 
 namespace TerrificNet.ViewEngine.TemplateHandler
 {
-    internal class PartialHelperHandler : IHelperHandler, IHelperHandlerWithSchema, IHelperHandlerClient
-    {
-        private readonly ITerrificTemplateHandler _handler;
-        private readonly ISchemaProvider _schemaProvider;
-        private readonly ITemplateRepository _templateRepository;
-        private readonly IClientTemplateGenerator _clientTemplateGenerator;
+	internal class PartialHelperHandler : IHelperHandler, IHelperHandlerWithSchema, IHelperHandlerClient
+	{
+		private readonly ITerrificTemplateHandler _handler;
+		private readonly ISchemaProvider _schemaProvider;
+		private readonly ITemplateRepository _templateRepository;
+		private readonly IClientTemplateGenerator _clientTemplateGenerator;
 
-        public PartialHelperHandler(ITerrificTemplateHandler handler, ISchemaProvider schemaProvider, ITemplateRepository templateRepository, IClientTemplateGenerator clientTemplateGenerator)
-        {
-            _handler = handler;
-            _schemaProvider = schemaProvider;
-            _templateRepository = templateRepository;
-            _clientTemplateGenerator = clientTemplateGenerator;
-        }
+		public PartialHelperHandler(ITerrificTemplateHandler handler, ISchemaProvider schemaProvider, ITemplateRepository templateRepository, IClientTemplateGenerator clientTemplateGenerator)
+		{
+			_handler = handler;
+			_schemaProvider = schemaProvider;
+			_templateRepository = templateRepository;
+			_clientTemplateGenerator = clientTemplateGenerator;
+		}
 
-        public bool IsSupported(string name)
-        {
-            return name.StartsWith("partial", StringComparison.OrdinalIgnoreCase);
-        }
+		public bool IsSupported(string name)
+		{
+			return name.StartsWith("partial", StringComparison.OrdinalIgnoreCase);
+		}
 
-        public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
-        {
-            var template = parameters["template"].Trim('"');
-            return _handler.RenderPartialAsync(template, model, context);
-        }
+		public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
+			var template = parameters["template"].Trim('"');
+			return _handler.RenderPartialAsync(template, model, context);
+		}
 
-        public JSchema GetSchema(string name, IDictionary<string, string> parameters)
-        {
-            // TODO: Use async
-            var templateInfo = _templateRepository.GetTemplateAsync(parameters["template"].Trim('"')).Result;
-            if (templateInfo == null)
-                return null;
+		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+		{
+			var template = parameters["template"].Trim('"');
+			_handler.RenderPartial(template, model, context);
+		}
 
-            // TODO: Use async
-            return _schemaProvider.GetSchemaFromTemplateAsync(templateInfo).Result;
-        }
+		public JSchema GetSchema(string name, IDictionary<string, string> parameters)
+		{
+			// TODO: Use async
+			var templateInfo = _templateRepository.GetTemplateAsync(parameters["template"].Trim('"')).Result;
+			if (templateInfo == null)
+				return null;
 
-        public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)
-        {
-            // TODO: Use async
-            var templateInfo = _templateRepository.GetTemplateAsync(parameters["template"].Trim('"')).Result;
-            if (templateInfo == null)
-                return model;
+			// TODO: Use async
+			return _schemaProvider.GetSchemaFromTemplateAsync(templateInfo).Result;
+		}
 
-            _clientTemplateGenerator.Generate(templateInfo, new PartialClientContextAdapter(templateInfo.Id, context), model);
-            
-            return model;
-        }
+		public IClientModel Evaluate(IClientContext context, IClientModel model, string name, IDictionary<string, string> parameters)
+		{
+			// TODO: Use async
+			var templateInfo = _templateRepository.GetTemplateAsync(parameters["template"].Trim('"')).Result;
+			if (templateInfo == null)
+				return model;
 
-        private class PartialClientContextAdapter : IClientContext
-        {
-            private readonly IClientContext _adaptee;
+			_clientTemplateGenerator.Generate(templateInfo, new PartialClientContextAdapter(templateInfo.Id, context), model);
 
-            public PartialClientContextAdapter(string templateId, IClientContext adaptee)
-            {
-                _adaptee = adaptee;
-                this.TemplateId = templateId;
-            }
+			return model;
+		}
 
-            public string TemplateId { get; private set; }
+		private class PartialClientContextAdapter : IClientContext
+		{
+			private readonly IClientContext _adaptee;
 
-            public void WriteLiteral(string content)
-            {
-                _adaptee.WriteLiteral(content);
-            }
+			public PartialClientContextAdapter(string templateId, IClientContext adaptee)
+			{
+				_adaptee = adaptee;
+				this.TemplateId = templateId;
+			}
 
-            public void WriteExpression(IClientModel model)
-            {
-                _adaptee.WriteExpression(model);
-            }
+			public string TemplateId { get; private set; }
 
-            public void WriteEncodeExpression(IClientModel model)
-            {
-                _adaptee.WriteEncodeExpression(model);
-            }
+			public void WriteLiteral(string content)
+			{
+				_adaptee.WriteLiteral(content);
+			}
 
-            public IClientModel BeginIterate(IClientModel model)
-            {
-                return _adaptee.BeginIterate(model);
-            }
+			public void WriteExpression(IClientModel model)
+			{
+				_adaptee.WriteExpression(model);
+			}
 
-            public void EndIterate()
-            {
-                _adaptee.EndIterate();
-            }
+			public void WriteEncodeExpression(IClientModel model)
+			{
+				_adaptee.WriteEncodeExpression(model);
+			}
 
-            public void BeginIf(IClientModel model)
-            {
-                _adaptee.BeginIf(model);
-            }
+			public IClientModel BeginIterate(IClientModel model)
+			{
+				return _adaptee.BeginIterate(model);
+			}
 
-            public void EndIf()
-            {
-                _adaptee.EndIf();
-            }
+			public void EndIterate()
+			{
+				_adaptee.EndIterate();
+			}
 
-            public void ElseIf()
-            {
-                _adaptee.ElseIf();
-            }
-        }
+			public void BeginIf(IClientModel model)
+			{
+				_adaptee.BeginIf(model);
+			}
 
-    }
+			public void EndIf()
+			{
+				_adaptee.EndIf();
+			}
+
+			public void ElseIf()
+			{
+				_adaptee.ElseIf();
+			}
+		}
+
+	}
 }
