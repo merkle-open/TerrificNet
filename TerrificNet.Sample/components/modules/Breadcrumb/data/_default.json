@@ -1,24 +1,21 @@
 {
-  "links": [
-    {
-      "url": "/",
-      "selected": false,
-      "name": "Home"
-    },
-    {
-      "url": "/detail",
-      "selected": false,
-      "name": "Detail"
-    },
-    {
-      "url": "/",
-      "selected": false,
-      "name": "Product"
-    },
-    {
-      "url": "/",
-      "selected": true,
-      "name": "Window"
-    }
-  ]
+	"links": [
+		{
+			"url": "/",
+			"name": "Home"
+		},
+		{
+			"url": "/detail",
+			"name": "Detail"
+		},
+		{
+			"url": "/",
+			"name": "Product"
+		},
+		{
+			"url": "/",
+			"selected": true,
+			"name": "Window"
+		}
+	]
 }
