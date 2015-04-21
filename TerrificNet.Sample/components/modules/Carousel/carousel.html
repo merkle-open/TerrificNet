@@ -1,29 +1,32 @@
-<div class="mod mod-carousel" data-template="{{template-id}}">
+<div class="l-stage">
 
-	<div class="carousel-nav">
-		<a class="btn-nav-prev js-btn-nav-prev"></a>
-		<a class="btn-nav-next js-btn-nav-next"></a>
-	</div>
+	<div class="mod mod-carousel" data-template="{{template-id}}">
 
-	<div class="carousel js-carousel owl-carousel owl-theme">
+		<div class="carousel-nav">
+			<a class="btn-nav-prev js-btn-nav-prev"></a>
+			<a class="btn-nav-next js-btn-nav-next"></a>
+		</div>
 
-		{{#if images}}
-		{{#each images}}
-		<div class="carousel-image">
+		<div class="carousel js-carousel owl-carousel owl-theme">
 
-			{{#if title}}
-			<div class="l-wrap">
-				<div class="carousel-text-box {{#if alignment}}{{alignment}}{{/if}}">
-					<h1 class="e-text">{{title}}</h1>
+			{{#if images}}
+			{{#each images}}
+			<div class="carousel-image">
+
+				{{#if title}}
+				<div class="l-wrap">
+					<a href="/" class="carousel-text-box {{#if alignment}}{{alignment}}{{/if}}">
+						<h1 class="e-text">{{title}}</h1>
+					</a>
 				</div>
+				{{/if}}
+
+				<img src="{{source}}" alt="{{alt}}" width="{{width}}" height="{{height}}">
 			</div>
+			{{/each}}
 			{{/if}}
 
-			<img src="{{source}}" alt="{{alt}}" width="{{width}}" height="{{height}}">
 		</div>
-		{{/each}}
-		{{/if}}
 
 	</div>
-
 </div>

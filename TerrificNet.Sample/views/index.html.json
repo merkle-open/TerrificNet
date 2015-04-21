@@ -21,6 +21,7 @@
 		],
 
 		"main": [
+
 			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
@@ -193,7 +194,7 @@
 			}
 		],
 
-		"footer-copy": [
+		"footer-info": [
 			{
 				"template": "views/_layouts/grid/g-4__s-3of4--s-1of4",
 				"data": {
