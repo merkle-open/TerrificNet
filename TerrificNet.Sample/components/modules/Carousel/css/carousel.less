@@ -1,4 +1,13 @@
 .mod-carousel {
+
+	&:hover {
+		.carousel-nav {
+			visibility: visible;
+			opacity: 1;
+			.transition(.5s);
+		}
+	}
+
 	.carousel {
 		margin: 0 auto;
 		max-width: 100%;
@@ -12,20 +21,41 @@
 		}
 	}
 
-	&:hover {
-		.carousel-nav {
-			visibility: visible;
-			opacity: 1;
-			.transition(.5s);
+	.carousel-image {
+		.l-wrap {
+			position: relative;
+			height: 100%;
 		}
 	}
 
-	.owl-pagination {
+	.carousel-text-box {
 		position: absolute;
-		width: 100%;
-		bottom: 12px;
-		text-align: center;
-		z-index: 20;
+		background-color: rgba(182,70,95, .82);
+		cursor: pointer;
+
+		h1 {
+			font-weight: 400;
+			text-shadow: 1px 1px 1px @mine-shaft;
+			color: @white;
+			line-height: 1.2;
+		}
+
+		&.pos-top-left {
+			left: 0;
+			margin-top: 64/16em;
+			padding: 16px 8px 16px 24px;
+			max-width: 55%;
+			.border-radius(0 25px);
+		}
+
+		&.pos-top-right {
+			right: 0;
+			margin-top: 64/16em;
+			padding: 16px 24px 16px 8px;
+			max-width: 55%;
+			direction: rtl;
+			.border-radius(25px 0);
+		}
 	}
 
 	.carousel-nav {
@@ -96,10 +126,18 @@
 			}
 		}
 	}
+
+	.owl-pagination {
+		position: absolute;
+		width: 100%;
+		bottom: 12px;
+		text-align: center;
+		z-index: 20;
+	}
 }
 
 // ---------------------------------------------
-// RWD: Stage 1680px > 1440px / SaveArea = 900px
+// RWD: Stage 1680px > 1440px
 // ---------------------------------------------
 @media (max-width: 1680px) and (min-width: 1441px) {
 	.mod-product-carousel {
@@ -118,7 +156,7 @@
 }
 
 // ---------------------------------------------
-// RWD: Stage 1440px > 1280px / SaveArea = 600px
+// RWD: Stage 1440px > 1280px
 // ---------------------------------------------
 @media (max-width: 1440px) and (min-width: 1281px) {
 	.mod-carousel {
@@ -129,7 +167,7 @@
 }
 
 // ---------------------------------------------
-// RWD: Stage 1280px > 1024px / SaveArea = 500px
+// RWD: Stage 1280px > 1024px
 // ---------------------------------------------
 @media (max-width: 1280px) and (min-width: 1025px) {
 	.mod-carousel {
