@@ -18,6 +18,17 @@ namespace Veil
 			return HtmlEncodeAsync(before, writer, string.Empty);
 		}
 
+		public static void HtmlEncode(TextWriter writer, object value)
+		{
+			if (value != null)
+			{
+				HtmlEncode(writer, value.ToString());
+				return;
+			}
+
+			HtmlEncode(writer, string.Empty);
+		}
+
 		public static void Write(TextWriter writer, string value)
 		{
 			writer.Write(value);

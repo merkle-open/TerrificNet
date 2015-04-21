@@ -27,7 +27,7 @@ namespace Veil.Compiler
 		{
 			this.PushScope(this._model);
 
-			var bodyExpression = this.HandleNode(templateSyntaxTree);
+			var bodyExpression = this.HandleNodeAsync(templateSyntaxTree);
 
 		    var innerExpression = Expression.Block(typeof(Task), new[] {_task}, 
                 Expression.Assign(_task, Expression.Constant(Task.FromResult(false))), 

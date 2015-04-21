@@ -35,7 +35,7 @@ namespace Veil.Compiler
 			var blockNodes = (from node in block.Nodes
 							  select this.HandleNode(node)).ToArray();
 
-			return HandleBlockAsync(blockNodes);
+			return HandleBlock(blockNodes);
 		}
 
 		private Expression HandleBlock(params Expression[] blockNodes)
