@@ -5,7 +5,7 @@
 		"title": null,
 		"styles": null,
 		"scripts": null,
-		"pageTitle": "Terrific Net Home"
+		"pageTitle": "Terrific Net Content"
 	},
 	"_placeholder": {
 		"nav": [
@@ -13,15 +13,7 @@
 				"module": "components/modules/Nav"
 			}
 		],
-
-		"stage": [
-			{
-				"module": "components/modules/Carousel"
-			}
-		],
-
 		"main": [
-
 			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
@@ -31,7 +23,8 @@
 				"_placeholder": {
 					"phcell_1": [
 						{
-							"module": "components/modules/Breadcrumb"
+							"module": "components/modules/Breadcrumb",
+							"data_variation": "content"
 						}
 					]
 				}
@@ -41,35 +34,28 @@
 				"data": {
 					"css": "g-offset-top"
 				},
-
 				"_placeholder": {
 					"phcell_1": [
 						{
 							"template": "views/_partials/title",
 							"data": {
-								"text": "Terrific.NET SC8 //"
+								"text": "Contentpage //"
 							}
 						}
 					]
 				}
 			},
 			{
-				"template": "views/_layouts/grid/g-2",
+				"template": "views/_layouts/grid/g-1",
 				"data": {
 					"css": "g-offset-top"
 				},
 
 				"_placeholder": {
-					"phcell_1_2": [
+					"phcell_1": [
 						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-1"
-						}
-					],
-					"phcell_2_2": [
-						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-2"
+							"module": "components/modules/Elements",
+							"skin": "content"
 						}
 					]
 				}
@@ -133,6 +119,21 @@
 					"phcell_1": [
 						{
 							"module": "components/modules/Tab"
+						}
+					]
+				}
+			},
+			{
+				"template": "views/_layouts/grid/g-1",
+				"data": {
+					"css": "g-offset-top"
+				},
+
+				"_placeholder": {
+					"phcell_1": [
+						{
+							"module": "components/modules/Elements",
+							"skin": "button"
 						}
 					]
 				}

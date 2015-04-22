@@ -2,20 +2,8 @@
 	"links": [
 		{
 			"url": "/",
-			"name": "Home"
-		},
-		{
-			"url": "/detail",
-			"name": "Detail"
-		},
-		{
-			"url": "/",
-			"name": "Product"
-		},
-		{
-			"url": "/",
-			"selected": true,
-			"name": "Window"
+			"name": "Home",
+			"selected": true
 		}
 	]
 }

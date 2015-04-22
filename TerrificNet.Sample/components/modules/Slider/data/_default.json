@@ -1,44 +1,46 @@
 {
+	"title": "Slider Module",
+
 	"images": [
 		{
 			"source": "/components/modules/Slider/img/owl1.jpg",
 			"alt": "Image 1",
-			"link": "/"
+			"link": "/content"
 		},
 		{
 			"source": "/components/modules/Slider/img/owl2.jpg",
-			"alt": "Image 1",
-			"link": "/"
+			"alt": "Image 2",
+			"link": "/content"
 		},
 		{
 			"source": "/components/modules/Slider/img/owl3.jpg",
-			"alt": "Image 1",
-			"link": "/"
+			"alt": "Image 3",
+			"link": "/content"
 		},
 		{
 			"source": "/components/modules/Slider/img/owl4.jpg",
-			"alt": "Image 1",
-			"link": "/"
+			"alt": "Image 4",
+			"link": "/content"
 		},
 		{
 			"source": "/components/modules/Slider/img/owl5.jpg",
-			"alt": "Image 1",
-			"link": "/"
+			"alt": "Image 5",
+			"link": "/content"
 		},
 		{
 			"source": "/components/modules/Slider/img/owl6.jpg",
-			"alt": "Image 1",
-			"link": "/"
+			"alt": "Image 6",
+			"link": "/content"
 		},
 		{
 			"source": "/components/modules/Slider/img/owl7.jpg",
-			"alt": "Image 1",
-			"link": "/"
+			"alt": "Image 7",
+			"link": "/content"
 		},
 		{
 			"source": "/components/modules/Slider/img/owl8.jpg",
-			"alt": "Image 1",
-			"link": "/"
+			"alt": "Image 8",
+			"link": "/content"
 		}
 	]
 }
