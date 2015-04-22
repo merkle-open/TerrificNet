@@ -1,22 +1,44 @@
 {
 	"images": [
 		{
-			"source": "/components/modules/Carousel/img/stage-1.jpg",
+			"source": "/components/modules/Slider/img/owl1.jpg",
 			"alt": "Image 1",
-			"title": "Introducing the new Sitecore XP 8 with Terrific.NET",
-			"alignment": "pos-top-left"
+			"link": "/"
 		},
 		{
-			"source": "/components/modules/Carousel/img/stage-2.jpg",
-			"alt": "Image 2",
-			"title": "Powerful .NET application for simple and complex frontend",
-			"alignment": "pos-top-right"
+			"source": "/components/modules/Slider/img/owl2.jpg",
+			"alt": "Image 1",
+			"link": "/"
 		},
 		{
-			"source": "/components/modules/Carousel/img/stage-3.jpg",
-			"alt": "Image 3",
-			"title": "Fusce dapibus, tellus ac cursus commodo tortor",
-			"alignment": "pos-top-left"
+			"source": "/components/modules/Slider/img/owl3.jpg",
+			"alt": "Image 1",
+			"link": "/"
+		},
+		{
+			"source": "/components/modules/Slider/img/owl4.jpg",
+			"alt": "Image 1",
+			"link": "/"
+		},
+		{
+			"source": "/components/modules/Slider/img/owl5.jpg",
+			"alt": "Image 1",
+			"link": "/"
+		},
+		{
+			"source": "/components/modules/Slider/img/owl6.jpg",
+			"alt": "Image 1",
+			"link": "/"
+		},
+		{
+			"source": "/components/modules/Slider/img/owl7.jpg",
+			"alt": "Image 1",
+			"link": "/"
+		},
+		{
+			"source": "/components/modules/Slider/img/owl8.jpg",
+			"alt": "Image 1",
+			"link": "/"
 		}
 	]
 }
