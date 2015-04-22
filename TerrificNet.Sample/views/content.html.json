@@ -39,7 +39,7 @@
 						{
 							"template": "views/_partials/title",
 							"data": {
-								"text": "Contentpage //"
+								"text": "Content Elements //"
 							}
 						}
 					]
@@ -77,48 +77,6 @@
 						{
 							"module": "components/modules/Teaser",
 							"data_variation": "teaser-4"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-bottom"
-				},
-
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"module": "components/modules/Slider"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-bottom"
-				},
-
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"module": "components/modules/Accordion"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-bottom"
-				},
-
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"module": "components/modules/Tab"
 						}
 					]
 				}
