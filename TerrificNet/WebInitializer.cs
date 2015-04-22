@@ -26,7 +26,8 @@ namespace TerrificNet
 		    container.RegisterType<ITerrificTemplateHandler, DefaultTerrificTemplateHandler>();
 			container
 				.RegisterType
-                <ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<PageEditDefaultTerrificTemplateHandler>>();
+				<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
+				//<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<PageEditDefaultTerrificTemplateHandler>>();
 			container.RegisterType<INamingRule, NamingRule>();
 			container.RegisterInstance(serverConfiguration);
 

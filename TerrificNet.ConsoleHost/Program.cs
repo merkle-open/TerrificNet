@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Owin.Hosting;
 using Microsoft.Practices.Unity;
 using Owin;
+using TerrificNet.ViewEngine;
 
 namespace TerrificNet.ConsoleHost
 {
@@ -24,7 +26,7 @@ namespace TerrificNet.ConsoleHost
             path = !string.IsNullOrEmpty(path) ? path.Substring(PathArgumentPrefix.Length) : ".";
 
             var container = WebInitializer.Initialize(Path.GetFullPath(path));
-
+			
             // Start OWIN host
 			using (WebApp.Start(bind, builder => Initialize(builder, container)))
             {

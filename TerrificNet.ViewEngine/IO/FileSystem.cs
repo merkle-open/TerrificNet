@@ -16,6 +16,7 @@ namespace TerrificNet.ViewEngine.IO
 
 		private HashSet<PathInfo> _fileInfo;
 		private HashSet<PathInfo> _directoryInfo;
+		private Dictionary<PathInfo, FileInfo> _fileInfoCache = new Dictionary<PathInfo, FileInfo>();
 		private FileSystemWatcher _watcher;
 		private readonly string _basePathConverted;
 
@@ -41,6 +42,8 @@ namespace TerrificNet.ViewEngine.IO
 			_fileInfo = new HashSet<PathInfo>(
 				Directory.EnumerateFiles(_basePathConverted, "*", SearchOption.AllDirectories)
 					.Select(fileName => PathInfo.GetSubPath(_basePath, fileName)));
+
+			_fileInfoCache = _fileInfo.ToDictionary(i => GetRootPath(i), i => FileInfo.Create(GetRootPath(i)));
 
 			_directoryInfo = new HashSet<PathInfo>(
 				Directory.EnumerateDirectories(_basePathConverted, "*", SearchOption.AllDirectories)
@@ -155,6 +158,11 @@ namespace TerrificNet.ViewEngine.IO
 
 		public IFileInfo GetFileInfo(PathInfo filePath)
 		{
+			FileInfo result;
+			if (_fileInfoCache.TryGetValue(GetRootPath(filePath), out result))
+				return result;
+
+			return null;
 			return FileInfo.Create(GetRootPath(filePath));
 		}
 
