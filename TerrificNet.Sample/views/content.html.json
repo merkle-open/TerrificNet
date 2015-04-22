@@ -61,27 +61,6 @@
 				}
 			},
 			{
-				"template": "views/_layouts/grid/g-2",
-				"data": {
-					"css": "g-offset-bottom"
-				},
-
-				"_placeholder": {
-					"phcell_1_2": [
-						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-3"
-						}
-					],
-					"phcell_2_2": [
-						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-4"
-						}
-					]
-				}
-			},
-			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
 					"css": "g-offset-top"
