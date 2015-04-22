@@ -53,7 +53,7 @@
 	ul, ul& {
 
 		list-style: none;
-		margin-bottom: 16px;
+		margin-bottom: 32px;
 
 		li {
 			.font-style(@font-lato, @font-size-16px, @onyx);
@@ -92,15 +92,29 @@
 	table& {
 		width: 100%;
 		border-collapse: collapse;
-		border: 1px solid #dbdddf;
-		color: #333333;
+		border: 1px solid @space-gray;
+		color: @dark-gray;
+		margin-bottom: 48px;
 
-		tr:nth-child(2n+2) {
-			background: #edeeef;
-		}
+		tr {
+			.font-style(@font-lato, @font-size-16px, @onyx);
+			font-weight: 100;
+			background-color: @white;
+			.transition(.25s);
 
-		tr:last-child {
-			background: #edeeef;
+			&:nth-child(2n+2) {
+				background: @silver-gray;
+			}
+
+			&:last-child {
+				background: @silver-gray;
+			}
+
+			&:hover {
+				background-color: @pink;
+				color: @white;
+				.transition(.25s);
+			}
 		}
 
 		th, td {
@@ -109,9 +123,9 @@
 		}
 
 		th {
-			background: #868c91;
-			color: #fff;
-			font-weight: bold;
+			.font-style(@font-lato, @font-size-16px, @white);
+			font-weight: 600;
+			background: @dark-gray;
 		}
 	}
 }
@@ -125,6 +139,17 @@
 			font-size: 24px;
 			margin-right: 8px;
 			margin-left: 8px;
+		}
+
+		table,
+		table& {
+			display: block;
+			width: auto;
+			position: relative;
+			white-space: nowrap;
+			overflow: scroll;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
 		}
 	}
 }
