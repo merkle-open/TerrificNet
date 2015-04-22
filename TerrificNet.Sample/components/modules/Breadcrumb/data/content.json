@@ -1,0 +1,21 @@
+{
+	"links": [
+		{
+			"url": "/",
+			"name": "Home"
+		},
+		{
+			"url": "/detail",
+			"name": "Detail"
+		},
+		{
+			"url": "/",
+			"name": "Product"
+		},
+		{
+			"url": "/",
+			"selected": true,
+			"name": "Content"
+		}
+	]
+}
