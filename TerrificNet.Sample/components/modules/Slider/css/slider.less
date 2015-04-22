@@ -2,11 +2,22 @@
 	.slider {
 		.item {
 			margin: 2px;
+			.transition(.5s);
 
 			img {
 				display: block;
 				width: 100%;
 				height: auto;
+			}
+
+			&:hover {
+				-webkit-filter: grayscale(100%);
+				   -moz-filter: grayscale(100%);
+				    -ms-filter: grayscale(100%);
+				     -o-filter: grayscale(100%);
+				        filter: grayscale(100%);
+				        filter: @gray; /* IE 6-9 */
+				.transition(.25s);
 			}
 		}
 	}
@@ -21,7 +32,6 @@
 		.owl-item.loading {
 			margin-top: 10px;
 			display: block;
-			//background: red;
 		}
 	}
 }
@@ -31,10 +41,8 @@
 // -----------------------------------------
 @media (max-width: 659px) {
 	.mod-slider {
-
-
 		.owl-item.loading {
-			// margin-top: 65px;
+
 		}
 
 		.slider {

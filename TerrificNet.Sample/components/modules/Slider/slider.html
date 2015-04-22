@@ -4,14 +4,15 @@
 
 		<div class="slider js-slider owl-carousel owl-theme">
 
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl1.jpg" alt="Owl Image"></a></div>
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl2.jpg" alt="Owl Image"></a></div>
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl3.jpg" alt="Owl Image"></a></div>
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl4.jpg" alt="Owl Image"></a></div>
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl5.jpg" alt="Owl Image"></a></div>
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl6.jpg" alt="Owl Image"></a></div>
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl7.jpg" alt="Owl Image"></a></div>
-			<div class="item"><a href="/"><img class="lazyOwl" data-src="/components/modules/Slider/img/owl8.jpg" alt="Owl Image"></a></div>
+			{{#if images}}
+			{{#each images}}
+			<div class="item">
+				<a href="{{link}}">
+					<img class="lazyOwl" data-src="{{source}}" alt="{{alt}}">
+				</a>
+			</div>
+			{{/each}}
+			{{/if}}
 
 		</div>
 	</div>
