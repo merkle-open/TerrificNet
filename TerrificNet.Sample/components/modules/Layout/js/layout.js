@@ -30,6 +30,7 @@
 				$this.toggleClass('state-active');
 				$('.js-l-off-nav').addClass('state-open');
 				$page.addClass('state-dimmed');
+				$ctx.css('overflow-y', 'hidden');
 			});
 
 			$navMobClose.on('click', function (e) {
@@ -37,6 +38,7 @@
 				$this.toggleClass('state-active');
 				$('.js-l-off-nav').removeClass('state-open');
 				$page.removeClass('state-dimmed');
+				$ctx.css('overflow-y', 'scroll');
 			});
 
 
