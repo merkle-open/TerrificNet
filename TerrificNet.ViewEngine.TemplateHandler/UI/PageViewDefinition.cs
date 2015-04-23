@@ -39,17 +39,8 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
 
             var renderingContext = new RenderingContext(writer);
             renderingContext.Data["siteDefinition"] = this;
-            await view.RenderAsync(Data, renderingContext).ConfigureAwait(false);
+            await view.RenderAsync(this.Data, renderingContext);
         }
-
-	    public void Render(IViewEngine engine, StreamWriter writer)
-	    {
-			var view = engine.CreateViewAsync(TemplateInfo, typeof(T)).Result;
-
-			var renderingContext = new RenderingContext(writer);
-			renderingContext.Data["siteDefinition"] = this;
-			view.Render(Data, renderingContext);
-	    }
     }
 
     public class PageViewData

@@ -97,10 +97,6 @@
     <None Include="TerrificNet.ConsoleHost.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TerrificNet.ViewEngine\TerrificNet.ViewEngine.csproj">
-      <Project>{A2395B2D-F69E-420F-9534-E640DFE86138}</Project>
-      <Name>TerrificNet.ViewEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TerrificNet\TerrificNet.csproj">
       <Project>{68B78678-5EB5-4E5B-A181-1A2FFA804B3E}</Project>
       <Name>TerrificNet</Name>

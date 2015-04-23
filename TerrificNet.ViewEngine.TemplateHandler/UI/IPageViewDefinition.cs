@@ -8,6 +8,5 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
         string Id { get; set; }
 
         Task RenderAsync(IViewEngine engine, StreamWriter writer);
-        void Render(IViewEngine engine, StreamWriter writer);
     }
 }

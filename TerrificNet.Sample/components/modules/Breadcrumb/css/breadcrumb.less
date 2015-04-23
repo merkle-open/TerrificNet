@@ -11,7 +11,6 @@
 				font-weight: 100;
 				padding: 4px;
 				text-decoration: none;
-				.transition(.5s);
 
 				&:after {
 					.font-style (@font-icon, 18px, @link-state-active);
@@ -19,17 +18,21 @@
 					.transition(.5s);
 					content: @icon-arrow-right;
 					position: relative;
-					top: 3px;
+					top: 2px;
 					margin-left: 2px;
 				}
 
 				&:hover {
 					color: @link-hover-color;
-					.transition(.5s);
 				}
 
 				&.state-active {
+
 					color: @link-state-active;
+
+					&:after {
+						content: '';
+					}
 				}
 			}
 		}

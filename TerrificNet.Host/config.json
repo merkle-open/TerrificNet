@@ -2,11 +2,11 @@
     "workspace": {
         "projectsDirectoryName": "projects",
         "packagesDirectoryName": "packages",
-        "repositories": [ "http://ssitecore02.sg.ch.namics.com:1756/nuget", "http://www.nuget.org/api/v2/" ]
+        "repositories": [ "D:\\projects\\TerrificNet\\packages\\NuGet.CommandLine.2.8.3\\tools", "http://www.nuget.org/api/v2/" ]
     },
     "projects": {
         "terrific": {
-            "packageId": "TerrificNet.ConsoleHost",
+            "packageId": "TerrificNet",
             "preservedFiles": [
                 "application.json"
             ]

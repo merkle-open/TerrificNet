@@ -10,11 +10,13 @@
 				width: 100%;
 				height: auto;
 			}
+		}
+	}
 
-			.l-wrap {
-				position: relative;
-				height: 100%;
-			}
+	.carousel-image {
+		.l-wrap {
+			position: relative;
+			height: 100%;
 		}
 	}
 
@@ -39,15 +41,15 @@
 
 		&.pos-top-left {
 			left: 0;
-			margin-top: 48/16em;
-			padding: 16px 12px 16px 24px;
+			margin-top: 64/16em;
+			padding: 16px 8px 16px 24px;
 			max-width: 55%;
 			.border-radius(0 25px);
 		}
 
 		&.pos-top-right {
 			right: 0;
-			margin-top: 48/16em;
+			margin-top: 64/16em;
 			padding: 16px 24px 16px 8px;
 			max-width: 55%;
 			direction: rtl;
@@ -63,16 +65,29 @@
 			z-index: 1;
 			cursor: pointer;
 			background-color: rgba(17,17,17, 0);
+			visibility: hidden;
 			display: block;
 			.border-radius(5px);
 			.transition(.5s);
+
+			&:hover {
+				background-color: rgba(17,17,17, .36);
+				.transition(.25s);
+			}
+
+			&:hover {
+				&:after {
+					color: rgba(182,70,95, 1);
+					.transition(.25s);
+				}
+			}
 		}
 
 		.btn-nav-prev {
 			left: 2%;
 
 			&:after {
-				.font-style (@font-icon, 66px, rgba(255,255,255, 0));
+				.font-style (@font-icon, 66px, @white);
 				.icon-font();
 				display: inline-block;
 				content: @icon-arrow-left;
@@ -83,7 +98,7 @@
 			right: 2%;
 
 			&:after {
-				.font-style (@font-icon, 66px, rgba(255,255,255, 0));
+				.font-style (@font-icon, 66px, @white);
 				.icon-font();
 				display: inline-block;
 				content: @icon-arrow-right;
@@ -96,22 +111,12 @@
 			.btn-nav-prev,
 			.btn-nav-next {
 				visibility: visible;
-				background-color: rgba(182,70,95, .7);
+				background-color: rgba(17,17,17, .6);
 				.transition(.5s);
 
 				&:after {
 					color: rgba(255,255,255, 1);
-					.transition(.5s);
-				}
-
-				&:hover {
-					background-color: rgba(17,17,17, 0);
-					.transition(.25s);
-
-					&:after {
-						color: rgba(182,70,95, 1);
-						.transition(.25s);
-					}
+					.transition(.55s);
 				}
 			}
 		}
@@ -130,10 +135,18 @@
 // RWD: Stage 1680px > 1440px
 // ---------------------------------------------
 @media (max-width: 1680px) and (min-width: 1441px) {
-	.mod-carousel {
+	.mod-product-carousel {
+		.carousel {
+			margin: 0 auto;
+		}
 
-		.btn-nav-prev { left: 2%;  }
-		.btn-nav-next { right: 2%; }
+		.btn-nav-prev {
+			left: 2%;
+		}
+
+		.btn-nav-next {
+			right: 2%;
+		}
 	}
 }
 
@@ -141,7 +154,11 @@
 // RWD: Stage 1440px > 1280px
 // ---------------------------------------------
 @media (max-width: 1440px) and (min-width: 1281px) {
-	.mod-carousel {}
+	.mod-carousel {
+		.carousel {
+			margin: 0 auto;
+		}
+	}
 }
 
 // ---------------------------------------------
@@ -149,119 +166,68 @@
 // ---------------------------------------------
 @media (max-width: 1280px) and (min-width: 1025px) {
 	.mod-carousel {
-
-		.carousel-text-box {
-			h1 {
-				font-size: 36px;
-			}
+		.carousel {
+			margin: 0 auto;
+			max-width: 100%;
 		}
 
 		.carousel-nav {
 
 			.btn-nav-prev {
 				left: 2%;
-
-				&:after {
-					.font-style (@font-icon, 48px, rgba(255,255,255, 0));
-					.icon-font();
-					display: inline-block;
-					content: @icon-arrow-left;
-				}
 			}
 
 			.btn-nav-next {
 				right: 2%;
+			}
+		}
+	}
+}
+
+// --------------------------------------------
+// RWD: Stage 1024px - 800px / SaveArea = 500px
+// --------------------------------------------
+@media (max-width: 1024px) and (min-width: 800px) {
+	.mod-carousel {
+		.carousel {
+			margin: 0 auto;
+			max-width: 100%;
+		}
+
+		.carousel-nav {
+
+			.btn-nav-prev {
+				left: 1%;
 
 				&:after {
-					.font-style (@font-icon, 48px, rgba(255,255,255, 0));
-					.icon-font();
-					display: inline-block;
-					content: @icon-arrow-right;
+					font-size: 38px;
+				}
+			}
+
+			.btn-nav-next {
+				right: 1%;
+
+				&:after {
+					font-size: 38px;
 				}
 			}
 		}
 	}
 }
 
-// --------------------------------------------
-// RWD: Stage 1024px - 801px
-// --------------------------------------------
-@media (max-width: 1024px) and (min-width: 801px) {
-	.mod-carousel {
-
-		.carousel-text-box {
-			h1 {
-				font-size: 32px;
-			}
-
-			&.pos-top-left {
-				left: 5%;
-			}
-
-			&.pos-top-right {
-				right: 5%;
-			}
-		}
-
-		.carousel-nav {
-			display: none;
-		}
-	}
-}
-
-// --------------------------------------------
-// RWD: Stage 800px - 660px
-// --------------------------------------------
-@media (max-width: 800px) and (min-width: 600px) {
-	.mod-carousel {
-
-		.carousel-text-box {
-			h1 {
-				font-size: 32px;
-			}
-
-			&.pos-top-left {
-				margin-top: 32/16em;
-				left: 5%;
-			}
-
-			&.pos-top-right {
-				margin-top: 32/16em;
-				right: 5%;
-			}
-		}
-
-		.carousel-nav {
-			display: none;
-		}
-	}
-}
-
 // -----------------------------------------
-// RWD: Mobile Breakpoint < 600px
+// RWD: Mobile Breakpoint < 800px
 // -----------------------------------------
-@media (max-width: 599px) {
+
+@media (max-width: 799px) {
 	.mod-carousel {
-
-		.carousel-text-box {
-			h1 {
-				font-size: 18px;
-			}
-
-			&.pos-top-left {
-				margin-top: 5%;
-				left: 2%;
-				max-width: 80%;
-			}
-
-			&.pos-top-right {
-				margin-top: 5%;
-				right: 2%;
-				max-width: 80%;
-			}
+		.carousel {
+			margin: 0 auto;
+			max-width: 100%;
 		}
 
 		.carousel-nav {
+
 			display: none;
 		}
 

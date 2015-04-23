@@ -31,7 +31,7 @@ namespace TerrificNet.Controllers
             if (viewDefinition.TemplateInfo == null)
             {
                 var repo = (ITemplateRepository)dependencyResolver.GetService(typeof(ITemplateRepository));
-                viewDefinition.TemplateInfo = await repo.GetTemplateAsync(viewDefinition.Template).ConfigureAwait(false);
+                viewDefinition.TemplateInfo = await repo.GetTemplateAsync(viewDefinition.Template);
             }
 
             return View(viewEngine, viewDefinition);
@@ -56,8 +56,7 @@ namespace TerrificNet.Controllers
                 Exception error = null;
                 try
                 {
-					//await viewDefinition.RenderAsync(viewEngine, writer).ConfigureAwait(false);
-                    viewDefinition.Render(viewEngine, writer);
+                    await viewDefinition.RenderAsync(viewEngine, writer);
                 }
                 catch (VeilParserException ex)
                 {

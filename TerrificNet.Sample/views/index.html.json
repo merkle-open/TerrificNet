@@ -5,7 +5,7 @@
 		"title": null,
 		"styles": null,
 		"scripts": null,
-		"pageTitle": "Terrific Net Home"
+		"pageTitle": "Terrific Net Sample"
 	},
 	"_placeholder": {
 		"nav": [
@@ -133,6 +133,20 @@
 					"phcell_1": [
 						{
 							"module": "components/modules/Tab"
+						}
+					]
+				}
+			},
+			{
+				"template": "views/_layouts/grid/g-1",
+				"data": {
+					"css": "g-offset-top"
+				},
+
+				"_placeholder": {
+					"phcell_1": [
+						{
+							"module": "components/modules/Elements"
 						}
 					]
 				}
