@@ -79,7 +79,7 @@ namespace TerrificNet.ViewEngine.Schema.Test
         {
             var schema1 = new JSchema();
             var propSchema1 = new JSchema();
-            propSchema1.Properties.Add("sub_prop1", new JSchema());s
+            propSchema1.Properties.Add("sub_prop1", new JSchema());
             schema1.Properties.Add("prop1", propSchema1);
 
             var schema2 = new JSchema();
