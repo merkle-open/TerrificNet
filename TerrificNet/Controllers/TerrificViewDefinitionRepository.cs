@@ -62,7 +62,7 @@ namespace TerrificNet.Controllers
             await WritePageDefinition(viewDefinition, fileId).ConfigureAwait(false);
             return true;
         }
-
+		 
         public IEnumerable<IPageViewDefinition> GetAll()
         {
             foreach (var viewPath in _fileSystem.DirectoryGetFiles(_viewPathInfo, "html.json"))
@@ -95,12 +95,12 @@ namespace TerrificNet.Controllers
             return serializer.Deserialize<IPageViewDefinition>(reader);
         }
 
-        private Task WritePageDefinition(IPageViewDefinition viewDefinition, PathInfo fileName)
+        private async Task WritePageDefinition(IPageViewDefinition viewDefinition, PathInfo fileName)
         {
             using (var stream = new StreamWriter(_fileSystem.OpenWrite(fileName)))
             {
                 var value = JsonConvert.SerializeObject(viewDefinition, Formatting.Indented);
-                return stream.WriteAsync(value);
+                await stream.WriteAsync(value).ConfigureAwait(false);
             }
         }
     }

@@ -28,7 +28,7 @@ namespace TerrificNet.Controllers
 	{
 		public PageEditController(TerrificNetApplication[] applications)
 			: base(applications)
-		{
+		{ 
 		}
 
 		[HttpGet]
@@ -112,7 +112,7 @@ namespace TerrificNet.Controllers
 				context.Data.Add("renderPath", new List<string> { parent });
 				context.Data.Add("siteDefinition", new ModuleViewDefinition());
 				context.Data.Add("short_module", true);
-				await renderer.RenderModuleAsync(id, skin, context).ConfigureAwait(false);
+				renderer.RenderModule(id, skin, context);
 
 				var moduleViewDefinition = context.Data["siteDefinition"] as ModuleViewDefinition;
 				return new ElementEditorDefinition
@@ -135,7 +135,7 @@ namespace TerrificNet.Controllers
 				context.Data.Add("pageEditor", true);
 				context.Data.Add("renderPath", new List<string> { parent });
 				context.Data.Add("siteDefinition", new PartialViewDefinition());
-				await renderer.RenderPartialAsync(id, null, context).ConfigureAwait(false);
+				renderer.RenderPartial(id, null, context);
 
 				var layoutViewDefinition = context.Data["siteDefinition"] as PartialViewDefinition;
 				return new ElementEditorDefinition
@@ -155,7 +155,7 @@ namespace TerrificNet.Controllers
 				context.Data.Add("pageEditor", true);
 				context.Data.Add("siteDefinition", siteDefinition);
 
-				await view.RenderAsync(JObject.FromObject(siteDefinition), context).ConfigureAwait(false);
+				view.Render(JObject.FromObject(siteDefinition), context);
 			}
 
 			var html = pageHtmlBuilder.ToString();
