@@ -37,11 +37,13 @@ namespace TerrificNet.ViewEngine.SchemaProviders
                 return null;
 
             var result = await _schemaProvider.GetSchemaFromTemplateAsync(enumerator.Current).ConfigureAwait(false);
-            var schema = await _schemaProvider.GetSchemaFromTemplateAsync(enumerator.Current).ConfigureAwait(false);
-
+            
             var report = new SchemaComparisionReport();
-            while (enumerator.MoveNext())
-                result = _schemaCombiner.Apply(result, schema, report);
+	        while (enumerator.MoveNext())
+	        {
+				var schema = await _schemaProvider.GetSchemaFromTemplateAsync(enumerator.Current).ConfigureAwait(false);
+				result = _schemaCombiner.Apply(result, schema, report);
+	        }
 
             return result;
         }
