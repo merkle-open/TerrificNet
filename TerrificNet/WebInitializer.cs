@@ -6,7 +6,6 @@ using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.IO;
 using TerrificNet.ViewEngine.TemplateHandler;
-using TerrificNet.ViewEngine.ViewEngines;
 
 namespace TerrificNet
 {
@@ -24,10 +23,10 @@ namespace TerrificNet
 		{
 			var container = new UnityContainer();
 		    container.RegisterType<ITerrificTemplateHandler, DefaultTerrificTemplateHandler>();
-			container
+			container 
 				.RegisterType
-				<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
-				//<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<PageEditDefaultTerrificTemplateHandler>>();
+				//<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<DefaultTerrificTemplateHandler>>();
+				<ITerrificTemplateHandlerFactory, GenericUnityTerrificTemplateHandlerFactory<PageEditDefaultTerrificTemplateHandler>>();
 			container.RegisterType<INamingRule, NamingRule>();
 			container.RegisterInstance(serverConfiguration);
 

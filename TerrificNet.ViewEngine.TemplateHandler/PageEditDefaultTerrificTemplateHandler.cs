@@ -11,16 +11,17 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 {
     public class PageEditDefaultTerrificTemplateHandler : DefaultTerrificTemplateHandler
     {
-        public PageEditDefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateRepository templateRepository, ILabelService labelService, IModuleRepository moduleRepository) : base(viewEngine, modelProvider, templateRepository, labelService, moduleRepository)
+        public PageEditDefaultTerrificTemplateHandler(IViewEngine viewEngine, IModelProvider modelProvider, ITemplateRepository templateRepository, ILabelService labelService, IModuleRepository moduleRepository) 
+			: base(viewEngine, modelProvider, templateRepository, labelService, moduleRepository)
         {
         }
 
-        public override async Task RenderPlaceholderAsync(object model, string key, RenderingContext context)
+        public override void RenderPlaceholder(object model, string key, RenderingContext context)
         {
             var isPageEditor = context.GetData("pageEditor", () => false);
             var renderPath = context.GetData("renderPath", () => new List<string>());
 
-            if (isPageEditor)
+            if (isPageEditor) 
             {
                 renderPath.Add(key);
                 context.Writer.Write("<div class='plh start' id='plh_" +
@@ -29,7 +30,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                                      "\" before</div>");
             }
 
-            await base.RenderPlaceholderAsync(model, key, context);
+            base.RenderPlaceholder(model, key, context);
 
             if (isPageEditor)
             {
@@ -42,7 +43,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             }
         }
 
-        public override async Task RenderModuleAsync(string moduleId, string skin, RenderingContext context)
+        public override void RenderModule(string moduleId, string skin, RenderingContext context)
         {
             var renderPath = context.GetData("renderPath", () => new List<string>());
             var isPageEditor = context.GetData("pageEditor", () => false);
@@ -64,7 +65,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                                      "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete module.'><i class='glyphicon glyphicon-remove'></i></span></div>");
             }
 
-            await base.RenderModuleAsync(moduleId, skin, context).ConfigureAwait(false);
+            base.RenderModule(moduleId, skin, context);
 
             if (isPageEditor)
             {
@@ -76,7 +77,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             }
         }
 
-        public override async Task RenderPartialAsync(string template, object model, RenderingContext context)
+        public override void RenderPartial(string template, object model, RenderingContext context)
         {
             var renderPath = context.GetData("renderPath", () => new List<string>());
             var isPageEditor = context.GetData("pageEditor", () => false);
@@ -101,7 +102,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                 }
             }
 
-            await base.RenderPartialAsync(template, model, context).ConfigureAwait(false);
+            base.RenderPartial(template, model, context);
 
             if (isPageEditor)
             {
