@@ -1,3 +1,40 @@
 .mod-download-list {
+	.download-list {
+		li {
+			display: block;
+			position: relative;
+			padding: 8px 0;
+			border-bottom: 1px dashed @space-gray;
 
+			a {
+				.font-style(@font-lato, @font-size-16px, @onyx);
+				font-weight: 100;
+				padding: 4px 0;
+				text-decoration: none;
+				.transition(.5s);
+
+				&:before {
+					.font-style (@font-icon, 14px, @link-state-active);
+					.icon-font();
+					.transition(.5s);
+					content: @icon-arrow-right;
+					margin-right: 6px;
+				}
+
+				&:hover {
+					color: @link-hover-color;
+					.transition(.25s);
+				}
+			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px
+// -----------------------------------------
+@media (max-width: 959px) {
+	.mod-download-list {
+		padding: 0 8px;
+	}
 }
