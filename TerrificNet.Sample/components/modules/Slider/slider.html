@@ -11,9 +11,17 @@
 
 			{{#if images}}
 			{{#each images}}
-			<div class="item">
-				<a href="{{link}}">
+			<div class="slider-item">
+				<a class="slider-link" href="{{link}}">
 					<img class="lazyOwl" data-src="{{source}}" alt="{{alt}}">
+
+					<h3 class="slider-title">{{slider-title}}</h3>
+					<p class="slider-text">
+						Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas faucibus mollis interdum.
+						Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas faucibus mollis
+						interdum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+						Aenean lacinia bibendum nulla sed consectetur.
+					</p>
 				</a>
 			</div>
 			{{/each}}
