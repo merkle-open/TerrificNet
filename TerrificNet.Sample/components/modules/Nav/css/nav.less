@@ -1,6 +1,8 @@
 .mod-nav {
+
+	position: relative;
+	
 	.nav-main {
-		margin-top: -2px;
 
 		li {
 			float: left;
@@ -10,7 +12,7 @@
 				font-weight: 200;
 				text-decoration: none;
 				margin-left: 8px;
-				padding: 6px;
+				padding: 6px 8px;
 				display: block;
 				.transition(.5s);
 
@@ -20,24 +22,41 @@
 				}
 
 				&.state-active {
-					color: @link-state-active;
-				}
-			}
-
-			&:last-child {
-				a {
-					padding-right: 0;
+					background-color: @onyx;
+					color: @white;
 				}
 			}
 		}
 	}
 	
 	.nav-main-flyout {
-		display: none;
+		top: 36px;
+		right: 0;
 		position: absolute;
-		z-index: 5;
-		background-color: red;
-		width: 100%;
+		min-height: 435px;
+		z-index: 50;
+		background-color: @onyx;
+		width: 960px;
+		padding: 16px;
+		visibility: hidden;
+
+		&.state-open {
+			visibility: visible;
+		}
+
+		.nav-close {
+			position: absolute;
+			top: 12px;
+			right: 12px;
+			display: block;
+			cursor: pointer;
+
+			&:after {
+				.font-style (@font-icon, 24px, @white);
+				.icon-font();
+				content: @icon-close;
+			}
+		}
 	}
 }
 
@@ -53,6 +72,14 @@
 					margin-left: 4px;
 				}
 			}
+		}
+
+		.nav-main-flyout {
+			top: 34px;
+			right: 0;
+			left: 0;
+			width: auto;
+			margin: 0 -8px 0 0;
 		}
 	}
 }
@@ -74,6 +101,10 @@
 					padding-left: 0;
 				}
 			}
+		}
+
+		.nav-main-flyout {
+			display: none;
 		}
 
 	}

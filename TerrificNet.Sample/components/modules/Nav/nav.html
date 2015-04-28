@@ -1,22 +1,48 @@
 <div class="mod mod-nav">
+
 	<ul class="nav-main">
 	{{#each entries}}
 
 		<li>
 			{{#if active}}
-			<a href="{{link}}" class="state-active">{{name}}</a>
-
+			<a href="javascript:;" class="state-active">{{name}}</a>
 			{{else}}
+			<a href="javascript:;">{{name}}</a>
+			{{/if}}
 
-			<a href="{{link}}">{{name}}</a>
 			<ul class="nav-main-flyout">
+				<i class="nav-close js-nav-close"></i>
 				<li>
-					<div>sfsdsd</div>
+					<ul>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+					</ul>
+					<ul>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+					</ul>
+					<ul>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+					</ul>
+					<ul>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+						<li>Link 1 //</li>
+					</ul>
 				</li>
 			</ul>
-			{{/if}}
+
 		</li>
 
 	{{/each}}
 	</ul>
+
 </div>
