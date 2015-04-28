@@ -12,8 +12,6 @@
 		white-space: nowrap;
 		box-sizing: border-box;
 		border: none;
-		.border-radius(5px);
-		margin: 12px 0;
 
 		// -----------------------------------------
 		// btn primary
@@ -21,11 +19,13 @@
 		&.btn-primary {
 			.font-style(@font-lato, @font-size-16px, @white);
 			padding: 8px 24px 6px;
+			margin: 12px 0;
 			font-weight: 600;
 			display: inline-block;
 			color: @white;
 			background-color: @gray;
 			.transition(.25s);
+			.border-radius(5px);
 
 			&:hover,
 			&:focus {
@@ -40,11 +40,13 @@
 		&.btn-secondary {
 			.font-style(@font-lato, @font-size-16px, @white);
 			padding: 8px 24px 6px;
+			margin: 12px 0;
 			font-weight: 600;
 			display: inline-block;
 			color: @white;
 			background-color: @light-blue;
 			.transition(.25s);
+			.border-radius(5px);
 
 			&:hover,
 			&:focus {
@@ -59,11 +61,13 @@
 		&.btn-success {
 			.font-style(@font-lato, @font-size-16px, @white);
 			padding: 8px 24px 6px;
+			margin: 12px 0;
 			font-weight: 600;
 			display: inline-block;
 			color: @white;
 			background-color: @dark-green;
 			.transition(.25s);
+			.border-radius(5px);
 
 			&:hover,
 			&:focus {
@@ -79,11 +83,13 @@
 		&.btn-error {
 			.font-style(@font-lato, @font-size-16px, @white);
 			padding: 8px 24px 6px;
+			margin: 12px 0;
 			font-weight: 600;
 			display: inline-block;
 			color: @white;
 			background-color: @pink;
 			.transition(.25s);
+			.border-radius(5px);
 
 			&:hover,
 			&:focus {
@@ -92,7 +98,6 @@
 				.transition(.5s);
 			}
 		}
-
 
 		// -----------------------------------------
 		// Button Mobile
@@ -120,7 +125,7 @@
 			background: transparent;
 			position: absolute;
 			left: 12px;
-			//top: 20px;
+			top: 20px;
 			cursor: pointer;
 			outline-style: none;
 			.user-select();
@@ -143,10 +148,11 @@
 		}
 
 		&.btn-m-mobile-close {
-			position: relative;
-			float: right;
-			margin-top: 6px;
+			position: absolute;
+			right: 10px;
+			top: 12px;
 			cursor: pointer;
+			z-index: 1;
 			.user-select();
 
 			&:before {

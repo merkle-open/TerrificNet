@@ -1,0 +1,32 @@
+{
+	"items": [
+		{
+			"content": "© 2015 Terrific.NET SC8"
+		},
+		{
+			"title": "Impressum",
+			"content": "Impressum",
+			"href": "#"
+		},
+		{
+			"title": "Disclaimer",
+			"content": "Disclaimer",
+			"href": "#"
+		},
+		{
+			"title": "Privacy",
+			"content": "Privacy",
+			"href": "#"
+		},
+		{
+			"title": "Downloads",
+			"content": "Downloads",
+			"href": "#"
+		},
+		{
+			"title": "Media",
+			"content": "Media",
+			"href": "#"
+		}
+	]
+}
