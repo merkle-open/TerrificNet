@@ -1,20 +1,21 @@
 ﻿{
-    "languages": [
-        {
-            "url": "/",
-            "name": "DE"
-        },
-        {
-            "url": "/index-fr",
-            "name": "FR"
-        },
-        {
-            "url": "/index-it",
-            "name": "IT"
-        },
-        {
-            "url": "/index-en",
-            "name": "EN"
-        }
-    ]
+	"languages": [
+		{
+			"url": "/",
+			"name": "DE",
+			"active": true
+		},
+		{
+			"url": "/",
+			"name": "FR"
+		},
+		{
+			"url": "/",
+			"name": "IT"
+		},
+		{
+			"url": "/",
+			"name": "EN"
+		}
+	]
 }

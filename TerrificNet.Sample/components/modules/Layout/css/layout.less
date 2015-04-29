@@ -9,6 +9,7 @@
 		.box-sizing(content-box);
 		background: @white;
 		min-height: 100%;
+		margin-top: 8px;
 
 		&.state-dimmed {
 			.opacity(40);
@@ -28,20 +29,18 @@
 		.l-service-wrapper {
 
 			.l-service-top {
-				margin-top: 38px;
 				float: right;
-				position: relative;
 
 				.l-service-login {
 					float: left;
 				}
 
 				.l-service-lang {
-					float: left;
+					float: right;
 				}
 
-				.l-service-shopping {
-					float: right;
+				.l-service-search {
+					margin: 8px 8px 16px 8px;
 				}
 			}
 
@@ -49,9 +48,6 @@
 				position: absolute;
 				right: 0;
 				bottom: 6px;
-
-				.l-nav {
-				}
 			}
 		}
 	}
@@ -226,16 +222,12 @@
 					right: 12px;
 					position: absolute;
 
-					.l-service-login {
+					.l-service-search {
 						display: none;
 					}
 
 					.l-service-lang {
 						display: none;
-					}
-
-					.l-service-shopping {
-						float: right;
 					}
 				}
 

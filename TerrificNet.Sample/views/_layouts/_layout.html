@@ -11,6 +11,7 @@
 		<div class="e-btn btn-m-mobile-close js-btn-m-mobile-close"></div>
 		{{ module template="components/modules/Nav" skin="mobile" }}
 		{{ module template="components/modules/LanguageSwitch" skin="mobile"}}
+		{{ module template="components/modules/Search" skin="mobile"}}
 	</div>
 
 	{{!-- Page --}}
@@ -29,14 +30,17 @@
 
 				<div class="l-service-top">
 
+					<div class="l-service-search">
+						{{ module template="components/modules/Search" }}
+					</div>
+
+
 					<div class="l-service-lang">
 						{{ module template="components/modules/LanguageSwitch" }}
 					</div>
-
 				</div>
 
 				<div class="l-service-bot">
-
 					<div class="l-nav" role="navigation">
 						{{ placeholder key="nav" }}
 					</div>

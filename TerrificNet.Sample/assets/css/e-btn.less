@@ -105,6 +105,33 @@
 		&.btn-m-mobile {
 			display: none;
 		}
+
+		// -----------------------------------------
+		// Button Search
+		// -----------------------------------------
+		&.btn-search {
+			.font-style(@font-lato, @font-size-16px, @white);
+			padding: 4px 16px 2px;
+			margin: 0;
+			font-weight: 600;
+			display: inline-block;
+			color: @white;
+			background-color: @gray;
+			.transition(.25s);
+
+			&:after {
+				content: '//';
+			}
+
+			&:hover {
+				background-color: @link-hover-color;
+				.transition(.5s);
+			}
+
+			&:focus {
+				outline: 0;
+			}
+		}
 	}
 }
 

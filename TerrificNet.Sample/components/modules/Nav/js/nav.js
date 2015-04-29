@@ -20,7 +20,7 @@
 
 				$link = $ctx.find('.js-nav-main li a'),
 				$flyout = $ctx.find('.js-nav-main-flyout'),
-				$close = $ctx.find('.js-nav-close');
+				$closeBtn = $ctx.find('.js-nav-close-btn');
 
 			mod.sandbox.subscribe('layout', mod);
 
@@ -28,11 +28,10 @@
 				var $this = $(this);
 				$this.toggleClass('state-active');
 				$this.next($flyout).toggleClass('state-open');
-				// $ctx.find('.state-active').not($this).toggleClass('state-active').next().toggleClass('state-open');
 				mod._close($this);
 			});
 
-			$close.on('click', function () {
+			$closeBtn.on('click', function () {
 				$link.removeClass('state-active');
 				$flyout.removeClass('state-open');
 			});
