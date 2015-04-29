@@ -22,6 +22,8 @@
 				$navMobBtn = $ctx.find('.js-btn-m-mobile'),
 				$navMobClose = $ctx.find('.js-btn-m-mobile-close');
 
+			mod.sandbox.subscribe('layout', mod);
+
 			// -----------------------------------------
 			// Mobile Navigaiton Button
 			// -----------------------------------------
@@ -29,17 +31,22 @@
 				var $this = $(this);
 				$this.toggleClass('state-active');
 				$('.js-l-off-nav').addClass('state-open');
-				//$page.addClass('state-dimmed');
+				$page.addClass('state-dimmed');
 				//$ctx.css('overflow-y', 'hidden');
 			});
 
 			$navMobClose.on('click', function (e) {
 				var $this = $(this);
-				//$this.toggleClass('state-active');
+				$this.toggleClass('state-active');
 				$('.js-l-off-nav').removeClass('state-open');
-				//$page.removeClass('state-dimmed');
+				$page.removeClass('state-dimmed');
 				//$ctx.css('overflow-y', 'scroll');
 			});
+
+			$ctx.click('click', function () {
+				console.log(1);
+			})
+
 
 			callback();
 		},
@@ -47,8 +54,6 @@
 		after: function() {
 			var mod = this,
 				$ctx = mod.$ctx;
-
-
 		}
 
 	});
