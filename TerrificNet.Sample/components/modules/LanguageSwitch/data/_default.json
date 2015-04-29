@@ -1,20 +1,20 @@
 ﻿{
 	"languages": [
 		{
-			"url": "/",
+			"link": "/",
 			"name": "DE",
 			"active": true
 		},
 		{
-			"url": "/",
+			"link": "/",
 			"name": "FR"
 		},
 		{
-			"url": "/",
+			"link": "/",
 			"name": "IT"
 		},
 		{
-			"url": "/",
+			"link": "/",
 			"name": "EN"
 		}
 	]
