@@ -26,6 +26,8 @@ namespace TerrificNet.ConsoleHost
             path = !string.IsNullOrEmpty(path) ? path.Substring(PathArgumentPrefix.Length) : ".";
 
             var container = WebInitializer.Initialize(Path.GetFullPath(path));
+	        container.RegisterType<IModelTypeProvider, DummyModelTypeProvider>();
+			
 			
             // Start OWIN host
 			using (WebApp.Start(bind, builder => Initialize(builder, container)))
@@ -42,5 +44,13 @@ namespace TerrificNet.ConsoleHost
 			new Startup().Configuration(container, config);
             builder.UseWebApi(config);
         }
+
+		private class DummyModelTypeProvider : IModelTypeProvider
+		{
+			public Task<Type> GetModelTypeFromTemplateAsync(TemplateInfo templateInfo)
+			{
+				return Task.FromResult<Type>(typeof(object));
+			}
+		}
     }
 }
