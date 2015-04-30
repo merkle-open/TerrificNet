@@ -22,6 +22,8 @@
 				$navMobBtn = $ctx.find('.js-btn-m-mobile'),
 				$navMobClose = $ctx.find('.js-btn-m-mobile-close');
 
+			mod.sandbox.subscribe('layout', mod);
+
 			// -----------------------------------------
 			// Mobile Navigaiton Button
 			// -----------------------------------------
@@ -41,6 +43,10 @@
 				$ctx.css('overflow-y', 'scroll');
 			});
 
+			$ctx.click('click', function () {
+				// console.log(1);
+			});
+
 
 			callback();
 		},
@@ -48,8 +54,6 @@
 		after: function() {
 			var mod = this,
 				$ctx = mod.$ctx;
-
-
 		}
 
 	});

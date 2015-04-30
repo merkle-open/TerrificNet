@@ -1,0 +1,23 @@
+<div class="mod mod-download-list">
+	<div class="e-box">
+
+		{{#if title}}
+		<div class="g-row">
+			<h2 class="e-text">{{title}}</h2>
+		</div>
+		{{/if}}
+
+		<ul class="download-list">
+			{{#each items}}
+			<li>
+				{{#if href}}
+				<a href="{{href}}" title="{{title}}">{{{content}}}</a>
+				{{else}}
+				<span>{{{content}}}</span>
+				{{/if}}
+			</li>
+			{{/each}}
+		</ul>
+
+	</div>
+</div>

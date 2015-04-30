@@ -1,6 +1,8 @@
 .mod-nav {
+
+	position: relative;
+	
 	.nav-main {
-		margin-top: -2px;
 
 		li {
 			float: left;
@@ -10,7 +12,7 @@
 				font-weight: 200;
 				text-decoration: none;
 				margin-left: 8px;
-				padding: 6px;
+				padding: 6px 8px;
 				display: block;
 				.transition(.5s);
 
@@ -20,24 +22,102 @@
 				}
 
 				&.state-active {
-					color: @link-state-active;
-				}
-			}
-
-			&:last-child {
-				a {
-					padding-right: 0;
+					background-color: @onyx;
+					color: @white;
 				}
 			}
 		}
 	}
 	
 	.nav-main-flyout {
-		display: none;
+		top: 36px;
+		right: 0;
 		position: absolute;
-		z-index: 5;
-		background-color: red;
+		min-height: 300px;
+		z-index: 50;
+		background-color: @onyx;
+		width: 960px;
+		padding: 16px;
+		display: none;
+		color: @white;
+
+		&.state-open {
+			display: block;
+		}
+
+		.nav-close-btn {
+			position: absolute;
+			top: 12px;
+			right: 12px;
+			display: block;
+			cursor: pointer;
+
+			&:after {
+				.font-style (@font-icon, 24px, @white);
+				.icon-font();
+				content: @icon-close;
+				.transition(.5s);
+			}
+
+			&:hover {
+				&:after {
+					color: @link-hover-color;
+					.transition(.25s);
+				}
+			}
+		}
+	}
+
+	.nav-main-content {
+
 		width: 100%;
+
+		h5 {
+			color: @white;
+			line-height: 2;
+			border-bottom: 1px solid @white;
+		}
+	}
+
+	.nav-main-block {
+		padding: 0 12px 0 0;
+	}
+
+	.nav-main-content-list {
+
+		margin-top: 12px;
+
+		li {
+			float: none;
+			margin: 4px 0 6px 0;
+
+			a {
+				.font-style(@font-lato, @font-size-16px, @white);
+				font-weight: 100;
+				padding: 4px 0 0 0;
+				position: relative;
+				margin-left: 16px;
+				display: inline-block;
+
+				&:before {
+					.font-style (@font-icon, 16px, @white);
+					.icon-font();
+					.transition(.5s);
+					content: @icon-arrow-right;
+					position: absolute;
+					top: 4px;
+					left: -18px;
+				}
+
+				&:hover {
+					color: @link-hover-color;
+
+					&:before {
+						color: @link-hover-color;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -54,6 +134,14 @@
 				}
 			}
 		}
+
+		.nav-main-flyout {
+			top: 34px;
+			right: 0;
+			left: 0;
+			width: auto;
+			margin: 0 -8px 0 0;
+		}
 	}
 }
 
@@ -63,7 +151,7 @@
 @media (max-width: 799px) {
 	.mod-nav {
 
-		padding: 12px 12px 8px 0;
+		//padding: 12px 12px 8px 0;
 
 		.nav-main {
 			li {
@@ -74,6 +162,10 @@
 					padding-left: 0;
 				}
 			}
+		}
+
+		.nav-main-flyout {
+			display: none;
 		}
 
 	}

@@ -1,22 +1,68 @@
 <div class="mod mod-nav">
-	<ul class="nav-main">
+
+	<ul class="nav-main js-nav-main">
 	{{#each entries}}
 
 		<li>
 			{{#if active}}
-			<a href="{{link}}" class="state-active">{{name}}</a>
-
+			<a href="javascript:;" class="state-active">{{name}}</a>
 			{{else}}
+			<a href="javascript:;">{{name}}</a>
+			{{/if}}
 
-			<a href="{{link}}">{{name}}</a>
-			<ul class="nav-main-flyout">
-				<li>
-					<div>sfsdsd</div>
+			<ul class="nav-main-flyout js-nav-main-flyout">
+				<i class="nav-close-btn js-nav-close-btn"></i>
+				<li class="nav-main-content g-row">
+					<div class="g-cell s-1of4 nav-main-block">
+						<h5 class="e-text">Maintitle #1 //</h5>
+						<ul class="nav-main-content-list">
+							<li><a href="/">Link 1a</a></li>
+							<li><a href="/">Link 1b</a></li>
+							<li><a href="/">Link 1c</a></li>
+							<li><a href="/">Link 1d</a></li>
+							<li><a href="/">Link 1e</a></li>
+							<li><a href="/">Link 1f</a></li>
+						</ul>
+					</div>
+					<div class="g-cell s-1of4 nav-main-block">
+						<h5 class="e-text">Maintitle #2 //</h5>
+						<ul class="nav-main-content-list">
+							<li><a href="/">Link 2a</a></li>
+							<li><a href="/">Link 2b</a></li>
+							<li><a href="/">Link 2c</a></li>
+							<li><a href="/">Link 2d</a></li>
+							<li><a href="/">Link 2e</a></li>
+							<li><a href="/">Link 2f</a></li>
+						</ul>
+					</div>
+					<div class="g-cell s-1of4 nav-main-block">
+						<h5 class="e-text">Maintitle #3 //</h5>
+						<ul class="nav-main-content-list">
+							<li><a href="/">Link 3a</a></li>
+							<li><a href="/">Link 3b</a></li>
+							<li><a href="/">Link 3c</a></li>
+							<li><a href="/">Link 3d</a></li>
+							<li><a href="/">Link 3e</a></li>
+							<li><a href="/">Link 3f</a></li>
+						</ul>
+					</div>
+					<div class="g-cell s-1of4 nav-main-block">
+						<h5 class="e-text">Maintitle #4 //</h5>
+						<ul class="nav-main-content-list">
+							<li><a href="/">Link 4a</a></li>
+							<li><a href="/">Link 4b</a></li>
+							<li><a href="/">Link 4c</a></li>
+							<li><a href="/">Link 4d</a></li>
+							<li><a href="/">Link 4e</a></li>
+							<li><a href="/">Link 4f</a></li>
+						</ul>
+					</div>
 				</li>
 			</ul>
-			{{/if}}
+
 		</li>
 
 	{{/each}}
 	</ul>
+
 </div>
