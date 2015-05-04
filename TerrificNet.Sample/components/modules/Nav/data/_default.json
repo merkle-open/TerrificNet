@@ -1,27 +1,27 @@
 {
 	"entries": [
 		{
-			"link": "/",
+			"url": "/",
 			"name": "Dolor Euismod"
 		},
 		{
-			"link": "/",
+			"url": "/",
 			"name": "Quam Fermentum"
 		},
 		{
-			"link": "/",
+			"url": "/",
 			"name": "Pellentesque"
 		},
 		{
-			"link": "/",
+			"url": "/",
 			"name": "Porta Quam"
 		},
 		{
-			"link": "/",
+			"url": "/",
 			"name": "Tortor Tristique"
 		},
 		{
-			"link": "/",
+			"url": "/",
 			"name": "Sem Ridiculus"
 		}
 	]

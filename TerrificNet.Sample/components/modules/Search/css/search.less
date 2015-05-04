@@ -29,21 +29,19 @@
 		}
 
 		input {
-			.font-style(@font-lato, @font-size-16px, @white);
+			.font-style(@font-lato, @font-size-16px, @pink);
 			font-weight: 100;
 			float: left;
 			line-height: normal;
 			height: 38px;
 			padding: 0 6px 0 12px;
-			border: none;
-			background: @onyx;
+			border: 1px solid @space-gray;
+			background: @white;
 			.border-radius(6px 0 0 6px);
 
-			&:focus {
-				outline: 0;
-			}
 
-			// Todo error
+			&:focus { outline: 0; }
+
 			&.error {
 				border: 1px solid @red;
 				// background-color: @error-bg;

@@ -7,7 +7,7 @@
 		li {
 			float: left;
 
-			a {
+			a.nav-main-link {
 				.font-style(@font-lato,@font-size-16px, @mine-shaft);
 				font-weight: 200;
 				text-decoration: none;
@@ -47,8 +47,8 @@
 
 		.nav-close-btn {
 			position: absolute;
-			top: 12px;
-			right: 12px;
+			bottom: 8px;
+			right: 8px;
 			display: block;
 			cursor: pointer;
 
@@ -76,10 +76,19 @@
 			color: @white;
 			line-height: 2;
 			border-bottom: 1px solid @white;
+
+			a:link {
+				font-size: 20px;
+				display: block;
+			}
+
+			&:hover {
+				border-bottom: 1px solid @link-hover-color;
+			}
 		}
 	}
 
-	.nav-main-block {
+	.nav-main-wrap {
 		padding: 0 12px 0 0;
 	}
 
@@ -89,15 +98,17 @@
 
 		li {
 			float: none;
-			margin: 4px 0 6px 0;
+			margin: 4px 0 8px 0;
 
 			a {
 				.font-style(@font-lato, @font-size-16px, @white);
 				font-weight: 100;
-				padding: 4px 0 0 0;
+				padding: 4px 0;
 				position: relative;
 				margin-left: 16px;
-				display: inline-block;
+				display: block;
+				text-decoration: none;
+				.transition(.5s);
 
 				&:before {
 					.font-style (@font-icon, 16px, @white);
@@ -111,9 +122,11 @@
 
 				&:hover {
 					color: @link-hover-color;
+					.transition(.25s);
 
 					&:before {
 						color: @link-hover-color;
+						.transition(.25s);
 					}
 				}
 			}
@@ -128,7 +141,7 @@
 	.mod-nav {
 		.nav-main {
 			li {
-				a {
+				a.nav-main-link {
 					font-size: @font-size-14px;
 					margin-left: 4px;
 				}
@@ -159,7 +172,7 @@
 				margin-bottom: 4px;
 				width: 90%;
 
-				a {
+				a.nav-main-link {
 					margin-left: 0;
 					padding-left: 0;
 					display: inline-block;
