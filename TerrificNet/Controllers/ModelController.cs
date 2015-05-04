@@ -28,9 +28,9 @@ namespace TerrificNet.Controllers
         [HttpPut]
 		public async Task Put(string path, [FromBody] object content, string dataId = null)
         {
-            var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(path);
+            var moduleDefinition = await _moduleRepository.GetModuleDefinitionByIdAsync(path).ConfigureAwait(false);
             if (moduleDefinition != null)
-                await _modelProvider.UpdateModelForModuleAsync(moduleDefinition, dataId, content);
+                await _modelProvider.UpdateModelForModuleAsync(moduleDefinition, dataId, content).ConfigureAwait(false);
         }
 	}
 }

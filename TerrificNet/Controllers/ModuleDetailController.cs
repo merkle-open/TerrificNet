@@ -8,7 +8,6 @@ using System.Web.Http;
 using TerrificNet.Models;
 using TerrificNet.UnityModules;
 using TerrificNet.ViewEngine;
-using TerrificNet.ViewEngine.TemplateHandler;
 using TerrificNet.ViewEngine.TemplateHandler.UI;
 
 namespace TerrificNet.Controllers
@@ -47,7 +46,7 @@ namespace TerrificNet.Controllers
 				Link = "#"
 			});
 
-            return await View(viewDefinition);
+            return await View(viewDefinition).ConfigureAwait(false);
 		}
 
 		[HttpGet]
@@ -59,7 +58,7 @@ namespace TerrificNet.Controllers
 				return new HttpResponseMessage(HttpStatusCode.NotFound);
 
 			var dataRepository = this.ResolveForApp<IModelProvider>(app);
-			await dataRepository.UpdateModelForModuleAsync(moduleDefinition, Guid.NewGuid().ToString("N"), null);
+			await dataRepository.UpdateModelForModuleAsync(moduleDefinition, Guid.NewGuid().ToString("N"), null).ConfigureAwait(false);
 
 			var response = new HttpResponseMessage(HttpStatusCode.Redirect);
 			response.Headers.Location = new Uri(string.Format("/web/module?id={0}&app={1}", id, app), UriKind.Relative);
