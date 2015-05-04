@@ -19,7 +19,7 @@
 				$ctx = mod.$ctx;
 
 			function search (text) {
-				window.location = $ctx.data('url') + "#query=" + text;
+				//window.location = $ctx.data('url') + "#query=" + text;
 			}
 
 			$('.js-search', $ctx).on('keyup', function(e){
@@ -27,7 +27,6 @@
 					search($(this).val());
 				}
 			});
-
 
 			$ctx.on('click', '.btn-search', function() {
 				search($ctx.find('.js-search').val());

@@ -34,7 +34,7 @@
 		right: 0;
 		position: absolute;
 		min-height: 300px;
-		z-index: 50;
+		z-index: 100;
 		background-color: @onyx;
 		width: 960px;
 		padding: 16px;
@@ -151,15 +151,18 @@
 @media (max-width: 799px) {
 	.mod-nav {
 
-		//padding: 12px 12px 8px 0;
+		padding-bottom: 4px;
 
 		.nav-main {
 			li {
 				float: none;
+				margin-bottom: 4px;
+				width: 90%;
 
 				a {
 					margin-left: 0;
 					padding-left: 0;
+					display: inline-block;
 				}
 			}
 		}
