@@ -3,7 +3,11 @@
 	<ul>
 		{{#each languages}}
 		<li>
-			<a href="{{link}}">{{name}}</a>
+			{{#if active}}
+			<a href="{{url}}" class="state-active">{{name}}</a>
+			{{else}}
+			<a href="{{url}}">{{name}}</a>
+			{{/if}}
 		</li>
 		{{/each}}
 	</ul>

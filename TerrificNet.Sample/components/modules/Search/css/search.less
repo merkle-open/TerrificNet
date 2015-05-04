@@ -76,5 +76,75 @@
 @media (max-width: 799px) {
 	.mod-search {
 
+		padding: 16px 0;
+		display: inline-block;
+		border-bottom: 1px solid @space-gray;
+		width: 100%;
+
+		.search-formline {
+
+			input, select, textarea{
+				color: @onyx;
+				font-size: 14px;
+			}
+
+			::-webkit-input-placeholder { /* WebKit browsers */
+				color: @gray;
+				font-size: 14px;
+			}
+			:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+				color: @gray;
+				opacity:  1;
+				font-size: 14px;
+			}
+			::-moz-placeholder { /* Mozilla Firefox 19+ */
+				color: @gray;
+				opacity:  1;
+				font-size: 14px;
+			}
+			:-ms-input-placeholder { /* Internet Explorer 10+ */
+				color: @gray;
+				font-size: 14px;
+			}
+
+			input {
+				.font-style(@font-lato, @font-size-16px, @white);
+				font-weight: 100;
+				float: left;
+				line-height: normal;
+				height: 38px;
+				padding: 0 6px 0 12px;
+				border: none;
+				background: @onyx;
+				.border-radius(0);
+
+				&:focus {
+					outline: 0;
+				}
+
+				&.error {
+					border: 1px solid @red;
+					// background-color: @error-bg;
+
+					&::-webkit-input-placeholder {
+						color: @red;
+					}
+
+					&:-moz-placeholder {
+						/* Firefox 18- */
+						color: @red;
+					}
+
+					&::-moz-placeholder {
+						/* Firefox 19+ */
+						color: @red;
+					}
+
+					&:-ms-input-placeholder {
+						color: @red;
+					}
+				}
+			}
+		}
 	}
 }
