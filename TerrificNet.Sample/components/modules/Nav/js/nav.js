@@ -30,7 +30,7 @@
 				$this.next($flyout).toggleClass('state-open');
 				mod._close($this);
 
-				if ($('.l-content-wrapper').data('blockUI.isBlocked') !== 1) {
+				if ($('.l-content-wrapper').data('blockUI.isBlocked') !== 1 || $link.hasClass('state-active'))  {
 					$('.l-content-wrapper').block({
 						message: null,
 						overlayCSS: {
