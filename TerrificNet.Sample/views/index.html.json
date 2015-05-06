@@ -21,7 +21,9 @@
 		],
 
 		"main": [
-
+			{
+				"module": "components/modules/Clientside"
+			},
 			{
 				"template": "views/_layouts/grid/g-1",
 				"data": {
