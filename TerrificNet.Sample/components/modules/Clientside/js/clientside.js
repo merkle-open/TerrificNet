@@ -24,6 +24,7 @@
 			var render = function(){
 				var renderData = {
 					'title': 'Clientside ' + new Date(),
+					'input': $ctx.find('input').val(),
 					'title2':'additional client side data'
 				};
 				
