@@ -22,15 +22,13 @@
 				$ctx = mod.$ctx;
 			
 			$ctx.on('click', function(){
-				console.log('click');
-				
 				var renderData = {
 					'title': 'Clientside ' + new Date(),
 					'title2':'additional client side data'
 				};
 				
-				Tcn.ViewEngine.loadAndRenderAsync(mod.dataTemplate, renderData).then(function (data) {
-					$ctx.html(data);
+				Tcn.ViewEngine.loadAndRenderAsync(mod.dataTemplate, renderData).then(function (html) {
+					$ctx.html(html);
 					mod.bind();
 				});
 
