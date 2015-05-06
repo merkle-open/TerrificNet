@@ -20,18 +20,32 @@
 		bind: function() {
 			var mod = this,
 				$ctx = mod.$ctx;
-			
-			$ctx.on('click', function(){
+				
+			var render = function(){
 				var renderData = {
 					'title': 'Clientside ' + new Date(),
 					'title2':'additional client side data'
 				};
 				
 				Tcn.ViewEngine.loadAndRenderAsync(mod.dataTemplate, renderData).then(function (html) {
-					$ctx.html(html);
-					mod.bind();
+					var dd = new diffDOM();
+					var newElement = document.createElement('div');
+					newElement.innerHTML = html;
+					var newDom = newElement.children[0]; 
+					
+					dd.apply($ctx[0], dd.diff($ctx[0], newDom));
+					
+//					$ctx.html(html);
+//					mod.bind();
 				});
-
+			};
+			
+			$ctx.find('input').on('keyup', function(){
+				render();
+			});
+			
+			$ctx.on('click', function(){
+				render();
 			});
 		},
 
