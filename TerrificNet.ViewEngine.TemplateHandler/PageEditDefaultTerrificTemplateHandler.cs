@@ -16,7 +16,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         {
         }
 
-        public override void RenderPlaceholder(object model, string key, RenderingContext context)
+		public override void RenderPlaceholder(object model, string key, int? index, RenderingContext context)
         {
             var isPageEditor = context.GetData("pageEditor", () => false);
             var renderPath = context.GetData("renderPath", () => new List<string>());
@@ -30,7 +30,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                                      "\" before</div>");
             }
 
-            base.RenderPlaceholder(model, key, context);
+            base.RenderPlaceholder(model, key, index, context);
 
             if (isPageEditor)
             {

@@ -23,13 +23,33 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
         {
             var key = parameters["key"].Trim('"');
-            return _handler.RenderPlaceholderAsync(model, key, context);
+	        var index = TryGetIndex(parameters, model);
+	        return _handler.RenderPlaceholderAsync(model, key, index, context);
         }
 
-		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
+	    public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
 			var key = parameters["key"].Trim('"');
-			_handler.RenderPlaceholder(model, key, context);
+			var index = TryGetIndex(parameters, model);
+			_handler.RenderPlaceholder(model, key, index, context);
+		}
+
+		private static int? TryGetIndex(IDictionary<string, string> parameters, object model)
+		{
+			string indexProperty;
+			if (!parameters.TryGetValue("index", out indexProperty)) 
+				return null;
+
+			int? index = null;
+			var indexLocal = GetPropValue(model, indexProperty) as int?;
+			if (indexLocal != null)
+				index = indexLocal;
+			return index;
+		}
+
+		private static object GetPropValue(object src, string propName)
+		{
+			return src.GetType().GetProperty(propName).GetValue(src, null);
 		}
     }
 }
