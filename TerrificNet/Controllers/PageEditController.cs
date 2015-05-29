@@ -31,8 +31,6 @@ namespace TerrificNet.Controllers
 		{ 
 		}
 
-        //askldjfslk
-
 		[HttpGet]
 		public async Task<HttpResponseMessage> Index(string id, string app)
 		{
