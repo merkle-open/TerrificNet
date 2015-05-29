@@ -1,27 +1,23 @@
 <div class="mod mod-tab">
-
 	<div class="e-box">
-
 		<div class="g-row">
-			<h2 class="e-text">Tab Modul</h2>
+			<h2 class="e-text">{{title}}</h2>
 		</div>
-
 		<div class="tab-container js-tab-container">
 			<ul class="tab-list js-tab-list">
-				{{#each tabs}}
-					<li class="tab-link state-active" data-tab="tab-{{id}}">{{title}}</li>
+				{{#each items}}
+					<li class="tab-link {{#if active}}state-active{{/if}}" data-tab="tab-{{id}}">{{title}}</li>
 				{{/each}}
 			</ul>
-			
-			{{#each tabs}}
-				{{#grid-cell padding=16}}
-				<div id="tab-{{id}}" class="tab-content js-tab-content">
+			{{#each items}}
+		        {{{editframe.editframeStart}}}
+                {{#grid-cell padding=16}}
+				<div id="tab-{{id}}" class="tab-content js-tab-content {{#if active}}state-active{{/if}}">
 					{{placeholder key="tab" index="id"}}
 				</div>
-				{{/grid-cell}}
+		        {{/grid-cell}}
+                {{{editframe.editframeStop}}}
 			{{/each}}
 		</div>
-
 	</div>
-
 </div>

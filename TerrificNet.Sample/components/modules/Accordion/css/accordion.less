@@ -1,4 +1,5 @@
-.mod-accordion {
+@media all {
+	.mod-accordion {
 	margin: 20px 0 40px;
 
 	.accordion-wrapper {
@@ -26,27 +27,27 @@
 			height: 20px;
 			margin-left: -28px;
 			margin-top: -5px;
-			font-size: 32px;
+			font-size: 28px;
 			-webkit-transition: all 400ms ease, opacity 200ms ease;
 			   -moz-transition: all 400ms ease, opacity 200ms ease;
 			    -ms-transition: all 400ms ease, opacity 200ms ease;
 			     -o-transition: all 400ms ease, opacity 200ms ease;
 			        transition: all 400ms ease, opacity 200ms ease;
 		}
-		.icon-swp-plus {
+		.icon-sc-plus {
 			.opacity(100);
 			.transform(rotate(0deg) scale(1));
 		}
-		.icon-swp-minus {
+		.icon-sc-minus {
 			.opacity(0);
 			.transform(rotate(-90deg) scale(.5));
 		}
 		&.state-open {
-			.icon-swp-plus {
+			.icon-sc-plus {
 				.opacity(0);
 				.transform(rotate(90deg) scale(.1));
 			}
-			.icon-swp-minus {
+			.icon-sc-minus {
 				.opacity(100);
 				.transform(rotate(0deg) scale(1));
 			}
@@ -58,13 +59,13 @@
 		padding: 8px 0 16px;
 	}
 }
+}
 
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 960px
 // -----------------------------------------
-@media (max-width: 959px) {
+@media screen and (max-width: 959px) {
 	.mod-accordion {
-
-		padding: 0 8px;
+		//padding: 0 8px;
 	}
 }

@@ -1,23 +1,43 @@
 // ------------------------------------------
 // elements helper classes, prefixed with g-
 // ------------------------------------------
+@media all {
+	.g-offset-top {
+		margin-top: 42px;
+	}
 
-.g-offset-top      { margin-top: 42px;}
-.g-offset-bottom   { margin-bottom: 48px;}
+	.g-offset-bottom {
+		margin-bottom: 48px;
+	}
 
-.g-center          { text-align: center; }
-.g-right           { float: right; }
-.g-left            { float: left; }
+	.g-center {
+		text-align: center;
+	}
 
-.g-title {}
+	.g-right {
+		float: right;
+	}
+
+	.g-left {
+		float: left;
+	}
+
+	.g-title {
+	}
+}
 
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 960px
 // -----------------------------------------
-@media (max-width: 959px) {
+@media screen and (max-width: 959px) {
 
-	.g-offset-top      { margin-top: 24px;}
-	.g-offset-bottom   { margin-bottom: 32px;}
+	.g-offset-top {
+		margin-top: 24px;
+	}
+
+	.g-offset-bottom {
+		margin-bottom: 32px;
+	}
 
 	.g-title {
 		padding: 0 8px;

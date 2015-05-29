@@ -17,8 +17,6 @@
 			var mod = this,
 				$ctx = mod.$ctx;
 
-
-
 			callback();
 		},
 

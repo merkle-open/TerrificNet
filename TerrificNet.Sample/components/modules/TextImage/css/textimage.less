@@ -1,50 +1,52 @@
-.mod-text-image {
+@media all {
+	.mod-text-image {
 
-	.text-box {
-		.text {
-			.font-style(@font-lato, @font-size-16px, @onyx);
-			font-weight: 200;
-		}
+		.text-box {
+			.text {
+				.font-style(@font-lato, @font-size-16px, @onyx);
+				font-weight: 200;
+			}
 
-		.title {
-			margin: 0 0 12px 0;
-			font-size: 24px;
-		}
-	}
-
-	.image-box {
-		img {
-			vertical-align: bottom;
-			width: 100%;
-			height: auto;
-			display: inherit;
-		}
-	}
-
-	.video-box {
-		iframe {
-			width: 100%;
-		}
-	}
-
-	table {
-		width: 100%;
-
-		tbody {
-			.font-style(@font-lato, @font-size-16px, @onyx);
-			font-weight: 200;
-		}
-
-		tr {
-			border-bottom: 1px solid @space-gray;
-
-			&:first-child {
-				background: #fff;
+			.title {
+				margin: 0 0 12px 0;
+				font-size: 24px;
 			}
 		}
 
-		td {
-			padding: 12px 4px;
+		.image-box {
+			img {
+				vertical-align: bottom;
+				width: 100%;
+				height: auto;
+				display: inherit;
+			}
+		}
+
+		.video-box {
+			iframe {
+				width: 100%;
+			}
+		}
+
+		table {
+			width: 100%;
+
+			tbody {
+				.font-style(@font-lato, @font-size-16px, @onyx);
+				font-weight: 200;
+			}
+
+			tr {
+				border-bottom: 1px solid @space-gray;
+
+				&:first-child {
+					background: #fff;
+				}
+			}
+
+			td {
+				padding: 12px 4px;
+			}
 		}
 	}
 }
@@ -52,7 +54,7 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 960px
 // -----------------------------------------
-@media (max-width: 959px) {
+@media screen and (max-width: 959px) {
 	.mod-text-image {
 
 		padding: 0;
@@ -68,14 +70,15 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 660px
 // -----------------------------------------
-@media (max-width: 659px) {
+@media screen and (max-width: 659px) {
 	.mod-text-image {
 
 		padding: 0;
 		position: relative;
 
 		.text-box {
-			.text {}
+			.text {
+			}
 
 			.title {
 				margin: 12px 0;

@@ -1,6 +1,6 @@
 {
 	"image": {
-		"source": "https://placeimg.com/640/400/nature/grayscale",
+		"source": "/components/modules/TextImage/img/img-1.jpg",
 		"alt": "Nature",
 		"width": 640,
 		"height": 400

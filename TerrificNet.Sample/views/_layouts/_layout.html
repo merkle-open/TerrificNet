@@ -3,10 +3,10 @@
 {{!-- Meta Head --}}
 {{ partial template="components/modules/MetaHead/metahead" }}
 
-{{!-- Body --}}
+	{{!-- Body --}}
 	<body>
 
-	{{!-- Off Screen --}}
+	{{!-- Off-Screen --}}
 	<div class="l-off-nav js-l-off-nav">
 		<i class="e-btn btn-m-mobile-close js-btn-m-mobile-close"></i>
 		{{ module template="components/modules/Nav" skin="mobile" }}
@@ -15,13 +15,12 @@
 	</div>
 
 	{{!-- Page --}}
-	{{#grid-cell width=960 component-padding=8}}
 	<div class="l-page js-l-page">
 
 		{{!-- Header --}}
 		<header class="l-head l-wrap" role="banner">
 
-			<div class="e-btn btn-m-mobile js-btn-m-mobile"></div>
+			<i class="e-btn btn-m-mobile js-btn-m-mobile"></i>
 
 			<div class="l-logo">
 				{{ module template="components/modules/Logo"}}
@@ -34,7 +33,6 @@
 					<div class="l-service-search">
 						{{ module template="components/modules/Search" }}
 					</div>
-
 
 					<div class="l-service-lang">
 						{{ module template="components/modules/LanguageSwitch" }}
@@ -52,7 +50,7 @@
 		</header>
 
 		{{!-- Content --}}
-		<div class="l-content-wrapper">
+		<div class="l-content-wrapper js-l-content-wrapper">
 
 			{{!-- Stage --}}
 			{{ placeholder key="stage" }}
@@ -77,11 +75,11 @@
 				</div>
 			</div>
 		</footer>
+
+		<button class="e-btn btn-back-top js-btn-back-top"></button>
 	</div>
 
 	{{!-- Meta Foot --}}
 	{{ partial template="components/modules/MetaFoot/metafoot" }}
-	
-	{{/grid-cell}}
 	</body>
 </html>

@@ -1,21 +1,21 @@
 ﻿{
 	"languages": [
 		{
-			"link": "/",
-			"name": "DE",
+			"url": "/",
+			"content": "DE",
 			"active": true
 		},
 		{
-			"link": "/",
-			"name": "FR"
+			"url": "/",
+			"content": "FR"
 		},
 		{
-			"link": "/",
-			"name": "IT"
+			"url": "/",
+			"content": "IT"
 		},
 		{
-			"link": "/",
-			"name": "EN"
+			"url": "/",
+			"content": "EN"
 		}
 	]
 }

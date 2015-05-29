@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
 	"use strict";
 	/**
 	 * Elements module implementation.
@@ -10,23 +10,24 @@
 	 */
 	Tc.Module.Elements = Tc.Module.extend({
 
-		init: function($ctx, sandbox, modId) {
+		init: function ($ctx, sandbox, modId) {
 			this._super($ctx, sandbox, modId);
-
-
-
 		},
 
-		on: function(callback) {
+		on: function (callback) {
 			var mod = this,
 				$ctx = mod.$ctx;
 
+			fluidvids.init({
+				selector: ['iframe'],
+				players: ['www.youtube.com', 'player.vimeo.com']
+			});
 
 
 			callback();
 		},
 
-		after: function() {
+		after: function () {
 			var mod = this,
 				$ctx = mod.$ctx;
 

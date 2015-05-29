@@ -1,257 +1,251 @@
 {
-	"Id": "views/index.html.json",
-	"template": "views/_layouts/_layout",
-	"data": {
-		"title": null,
-		"styles": null,
-		"scripts": null,
-		"pageTitle": "Terrific Net Home"
-	},
-	"_placeholder": {
-		"nav": [
-			{
-				"module": "components/modules/Nav"
-			}
-		],
+    "Id": "views/index.html.json",
+    "template": "views/_layouts/_layout",
+    "data": {
+        "title": null,
+        "styles": null,
+        "scripts": null,
+        "pageTitle": "Terrific Net Home"
+    },
+    "_placeholder": {
+        "nav": [
+            {
+                "module": "components/modules/Nav"
+            }
+        ],
 
-		"stage": [
-			{
-				"module": "components/modules/Carousel"
-			}
-		],
+        "stage": [
+            {
+                "module": "components/modules/Carousel"
+            }
+        ],
 
-		"main": [
-			{
-				"module": "components/modules/Clientside"
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-top"
-				},
+        "main": [
 
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"module": "components/modules/Breadcrumb"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-top"
-				},
+            {
+                "template": "views/_layouts/grid/g-1",
+                "data": {
+                    "css": "g-offset-top"
+                },
 
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"template": "views/_partials/title",
-							"data": {
-								"text": "Terrific.NET SC8 //"
-							}
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-2",
-				"data": {
-					"css": "g-offset-top"
-				},
+                "_placeholder": {
+                    "phcell_1": [
+                        {
+                            "module": "components/modules/Breadcrumb"
+                        }
+                    ]
+                }
+            },
+            {
+                "template": "views/_layouts/grid/g-1",
+                "data": {
+                    "css": "g-offset-top"
+                },
 
-				"_placeholder": {
-					"phcell_1_2": [
-						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-1"
-						}
-					],
-					"phcell_2_2": [
-						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-2"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-2",
-				"data": {
-					"css": "g-offset-bottom"
-				},
+                "_placeholder": {
+                    "phcell_1": [
+                        {
+                            "template": "views/_partials/title",
+                            "data": {
+                                "text": "Terrific.NET SC8 //"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "template": "views/_layouts/grid/g-2",
+                "data": {
+                    "css": "g-offset-top"
+                },
 
-				"_placeholder": {
-					"phcell_1_2": [
-						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-3"
-						}
-					],
-					"phcell_2_2": [
-						{
-							"module": "components/modules/Teaser",
-							"data_variation": "teaser-4"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-bottom"
-				},
+                "_placeholder": {
+                    "phcell_1_2": [
+                        {
+                            "module": "components/modules/Teaser",
+                            "data_variation": "teaser-1"
+                        }
+                    ],
+                    "phcell_2_2": [
+                        {
+                            "module": "components/modules/Teaser",
+                            "data_variation": "teaser-2"
+                        }
+                    ]
+                }
+            },
+            {
+                "template": "views/_layouts/grid/g-2",
+                "data": {
+                    "css": "g-offset-bottom"
+                },
 
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"module": "components/modules/Slider"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-2",
-				"data": {
-					"css": "g-offset-top"
-				},
+                "_placeholder": {
+                    "phcell_1_2": [
+                        {
+                            "module": "components/modules/Teaser",
+                            "data_variation": "teaser-3"
+                        }
+                    ],
+                    "phcell_2_2": [
+                        {
+                            "module": "components/modules/Teaser",
+                            "data_variation": "teaser-4"
+                        }
+                    ]
+                }
+            },
+            {
+                "template": "views/_layouts/grid/g-1",
+                "data": {
+                    "css": "g-offset-bottom"
+                },
 
-				"_placeholder": {
-					"phcell_1_2": [
-						{
-							"module": "components/modules/DownloadList",
-							"data_variation": "download-list-1"
-						}
-					],
-					"phcell_2_2": [
-						{
-							"module": "components/modules/DownloadList",
-							"data_variation": "download-list-2"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-bottom"
-				},
+                "_placeholder": {
+                    "phcell_1": [
+                        {
+                            "module": "components/modules/Slider"
+                        }
+                    ]
+                }
+            },
+            {
+                "template": "views/_layouts/grid/g-2",
+                "data": {
+                    "css": "g-offset-top"
+                },
 
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"module": "components/modules/Accordion"
-						}
-					]
-				}
-			},
-			{
-				"template": "views/_layouts/grid/g-1",
-				"data": {
-					"css": "g-offset-bottom"
-				},
+                "_placeholder": {
+                    "phcell_1_2": [
+                        {
+                            "module": "components/modules/DownloadList",
+                            "data_variation": "download-list-1"
+                        }
+                    ],
+                    "phcell_2_2": [
+                        {
+                            "module": "components/modules/DownloadList",
+                            "data_variation": "download-list-2"
+                        }
+                    ]
+                }
+            },
+            {
+                "template": "views/_layouts/grid/g-1",
+                "data": {
+                    "css": "g-offset-bottom"
+                },
 
-				"_placeholder": {
-					"phcell_1": [
-						{
-							"template": "components/modules/Tab/tab",
-							"data":{
-								"tabs":[
-									{
-										"id": 1,
-										"title":"tab1"
-									},
-									{
-										"id": 2,
-										"title":"tab2"
-									}
-								]
-							},
-							"_placeholder":{
-								"tab_1":[
-									{
-										"module": "components/modules/Teaser",
-										"data_variation": "teaser-3"
-									}
-								],
-								"tab_2":[
-									{
-										"module": "components/modules/Teaser",
-										"data_variation": "teaser-4"
-									}
-								]
-							}
-						}
-					]
-				}
-			}
-		],
+                "_placeholder": {
+                    "phcell_1": [
+                        {
+                            "module": "components/modules/Accordion"
+                        }
+                    ]
+                }
+            },
+            {
+                "template": "views/_layouts/grid/g-1",
+                "data": {
+                    "css": "g-offset-bottom"
+                },
 
-		"footer": [
-			{
-				"template": "views/_layouts/grid/g-5",
-				"data": {
-					"css": "footer-list"
-				},
-				"_placeholder": {
-					"phcell_1_5_1": [
-						{
-							"module": "components/modules/Linklist",
-							"skin": "vertical"
-						}
-					],
-					"phcell_1_5_2": [
-						{
-							"module": "components/modules/Linklist",
-							"skin": "vertical"
-						}
-					],
-					"phcell_1_5_3": [
-						{
-							"module": "components/modules/Linklist",
-							"skin": "vertical"
-						}
-					],
-					"phcell_1_5_4": [
-						{
-							"module": "components/modules/Linklist",
-							"skin": "vertical"
-						}
-					],
-					"phcell_1_5_5": [
-						{
-							"module": "components/modules/Linklist",
-							"skin": "vertical"
-						}
-					]
-				}
-			}
-		],
+                "_placeholder": {
+                    "phcell_1": [
+                        {
+                            "template": "components/modules/Tab/tab",
+                            "data": {
+                                "title": "Tab",
+                                "items": [
+                                    {
+                                        "id": 1,
+                                        "title": "Tab // 1",
+                                        "active": true,
+                                        "editframe": {
+                                            "editframeStart": "",
+                                            "editframeStop": ""
+                                        }
+                                    }
+                                ]
+                            },
 
-		"footer-info": [
-			{
-				"template": "views/_layouts/grid/g-4__s-3of4--s-1of4",
-				"data": {
-					"css": "footer-info"
-				},
-				"_placeholder": {
-					"phcell_1_4": [
-						{
-							"module": "components/modules/Linklist",
-							"skin": "horizontal",
-							"data_variation": "social_media"
-						}
-					],
-					"phcell_3_4": [
-						{
-							"module": "components/modules/Linklist",
-							"skin": "horizontal",
-							"data_variation": "footer_copy"
-						}
-					]
-				}
-			}
-		]
-	}
+                            "_placeholder": {
+                                "tab": [
+                                    {
+                                        "module": "components/modules/Accordion"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+
+        "footer": [
+            {
+                "template": "views/_layouts/grid/g-5",
+                "data": {
+                    "css": "footer-list"
+                },
+                "_placeholder": {
+                    "phcell_1_5_1": [
+                        {
+                            "module": "components/modules/Linklist",
+                            "skin": "vertical"
+                        }
+                    ],
+                    "phcell_1_5_2": [
+                        {
+                            "module": "components/modules/Linklist",
+                            "skin": "vertical"
+                        }
+                    ],
+                    "phcell_1_5_3": [
+                        {
+                            "module": "components/modules/Linklist",
+                            "skin": "vertical"
+                        }
+                    ],
+                    "phcell_1_5_4": [
+                        {
+                            "module": "components/modules/Linklist",
+                            "skin": "vertical"
+                        }
+                    ],
+                    "phcell_1_5_5": [
+                        {
+                            "module": "components/modules/Linklist",
+                            "skin": "vertical"
+                        }
+                    ]
+                }
+            }
+        ],
+
+        "footer-info": [
+            {
+                "template": "views/_layouts/grid/g-4__s-3of4--s-1of4",
+                "data": {
+                    "css": "footer-info"
+                },
+                "_placeholder": {
+                    "phcell_1_4": [
+                        {
+                            "module": "components/modules/Linklist",
+                            "skin": "horizontal",
+                            "data_variation": "social_media"
+                        }
+                    ],
+                    "phcell_3_4": [
+                        {
+                            "module": "components/modules/Linklist",
+                            "skin": "horizontal",
+                            "data_variation": "footer_copy"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

@@ -30,29 +30,32 @@
 				$this.next($flyout).toggleClass('state-open');
 				mod._close($this);
 
-				if ($('.l-content-wrapper').data('blockUI.isBlocked') !== 1 || $link.hasClass('state-active'))  {
-					$('.l-content-wrapper').block({
-						message: null,
-						overlayCSS: {
-							backgroundColor: '#fff',
-							opacity: 0.7,
-							cursor: 'default',
-							baseZ: 100
-						},
-						fadeIn: 400,
-						fadeOut: 500
-					});
+				if ($this.hasClass('state-active')) { // if clicked item is open
+					mod._block();
 				} else {
-					$('.l-content-wrapper').unblock();
+					if ($('.l-content-wrapper, .l-footer-wrapper').data('blockUI.isBlocked') !== 1 || $link.hasClass('state-active')) {
+						$('.l-content-wrapper, .l-footer-wrapper').block({
+							message: null,
+							overlayCSS: {
+								backgroundColor: '#fff',
+								opacity: 0.7,
+								cursor: 'default',
+								baseZ: 100
+							},
+							fadeIn: 400,
+							fadeOut: 500
+						});
+					} else {
+						$('.l-content-wrapper').unblock();
+					}
 				}
-
 				return false; // no link but we never know ;-)
 			});
 
 			$closeBtn.on('click', function () {
 				$link.removeClass('state-active');
 				$flyout.removeClass('state-open');
-				$('.l-content-wrapper').unblock();
+				$('.l-content-wrapper, .l-footer-wrapper').unblock();
 			});
 
 			callback();
@@ -63,8 +66,21 @@
 				$ctx = mod.$ctx;
 
 			$ctx.find('.state-active').not($keep).toggleClass('state-active').next().toggleClass('state-open');
-
 			// $('.l-content-wrapper').unblock();
+		},
+
+		_block: function () {
+			$('.l-content-wrapper, .l-footer-wrapper').block({
+				message: null,
+				overlayCSS: {
+					backgroundColor: '#fff',
+					opacity: 0.7,
+					cursor: 'default',
+					baseZ: 100
+				},
+				fadeIn: 400,
+				fadeOut: 500
+			});
 		}
 	});
 }(Tc.$));

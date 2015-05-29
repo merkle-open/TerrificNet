@@ -12,7 +12,6 @@
 
 		init: function($ctx, sandbox, modId) {
 			this._super($ctx, sandbox, modId);
-
 		},
 
 		on: function(callback) {
@@ -20,33 +19,46 @@
 				$ctx = mod.$ctx,
 				$page = $ctx.find('.js-l-page'),
 				$navMobBtn = $ctx.find('.js-btn-m-mobile'),
-				$navMobClose = $ctx.find('.js-btn-m-mobile-close');
+				$offNav = $ctx.find('.js-l-off-nav'),
+				$backTopBtn = $ctx.find('.js-btn-back-top');
 
 			mod.sandbox.subscribe('layout', mod);
 
 			// -----------------------------------------
-			// Mobile Navigaiton Button
+			// Mobile Navigation Button
 			// -----------------------------------------
 			$navMobBtn.on('click', function (e) {
 				var $this = $(this);
 				$this.toggleClass('state-active');
-				$('.js-l-off-nav').addClass('state-open');
-				$page.addClass('state-dimmed');
-				$ctx.css('overflow-y', 'hidden');
-			});
-
-			$navMobClose.on('click', function (e) {
-				var $this = $(this);
-				$this.toggleClass('state-active');
-				$('.js-l-off-nav').removeClass('state-open');
-				$page.removeClass('state-dimmed');
-				$ctx.css('overflow-y', 'scroll');
+				$offNav.toggleClass('state-open');
+				$page.toggleClass('state-overflow');
 			});
 
 			$ctx.click('click', function () {
 				// console.log(1);
 			});
 
+			// -----------------------------------------
+			// Back Top Button
+			// -----------------------------------------
+			$backTopBtn.hide();
+
+			$(function () {
+				$(window).scroll(function () {
+					if ($(this).scrollTop() > 100) {
+						$backTopBtn.fadeIn('fast');
+					} else {
+						$backTopBtn.fadeOut('fast');
+					}
+				});
+
+				$backTopBtn.on('click', function () {
+					$('body, html').animate({
+						scrollTop: 0
+					}, 800);
+					return false;
+				});
+			});
 
 			callback();
 		},

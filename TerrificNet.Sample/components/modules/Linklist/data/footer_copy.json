@@ -6,27 +6,27 @@
 		{
 			"title": "Impressum",
 			"content": "Impressum",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "Disclaimer",
 			"content": "Disclaimer",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "Privacy",
 			"content": "Privacy",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "Downloads",
 			"content": "Downloads",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "Media",
 			"content": "Media",
-			"href": "#"
+			"url": "#"
 		}
 	]
 }

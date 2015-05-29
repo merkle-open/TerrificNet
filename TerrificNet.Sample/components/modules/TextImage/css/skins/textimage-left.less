@@ -1,12 +1,14 @@
-.skin-text-image-left {
-	.text-box {
-		.text {
-			.font-style(@font-lato, @font-size-16px, @onyx);
-			font-weight: 200;
-		}
+@media all {
+	.skin-text-image-left {
+		.text-box {
+			.text {
+				.font-style(@font-lato, @font-size-16px, @onyx);
+				font-weight: 200;
+			}
 
-		.title {
-			margin: 0 0 12px 0;
+			.title {
+				margin: 0 0 12px 0;
+			}
 		}
 	}
 }
@@ -14,7 +16,7 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 960px
 // -----------------------------------------
-@media (max-width: 959px) {
+@media screen and (max-width: 959px) {
 	.skin-text-image-left {
 		.text-box {
 			//padding-left: 8px;
@@ -25,6 +27,7 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 660px
 // -----------------------------------------
-@media (max-width: 659px) {
-	.skin-text-image-left {}
+@media screen and (max-width: 659px) {
+	.skin-text-image-left {
+	}
 }

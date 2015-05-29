@@ -1,42 +1,41 @@
-.skin-linklist-vertical {
-	.linklist {
-		li a {
-			.opacity(70);
+@media all {
+	.skin-linklist-vertical {
+		.linklist {
+			li a {
+				.opacity(70);
 
-			&:hover {
-				.opacity(100);
+				&:hover {
+					.opacity(100);
+				}
 			}
 		}
 	}
 }
 
-
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 660px
 // -----------------------------------------
-@media (max-width: 659px) {
+@media screen and (max-width: 659px) {
 	.skin-linklist-vertical {
 
 		h3 {
 			position: relative;
 			cursor: pointer;
 
-			&:before {
-				//.font-style (@font-ifolor-icon, 24px, @white);
+			&:after {
+				.font-style (@font-icon, 20px, @link-state-active);
 				.icon-font();
-
-				//content: @icon-arrow-right;
+				.transition(.5s);
+				.rotate(270deg);
+				content: @icon-arrow-right;
 				position: absolute;
-				left: -30px;
-				top: -3px;
-
-				.rotate(-270deg);
-				.transition-duration(0.5s);
+				top: 0;
+				margin-left: 6px;
 			}
 
 			&.state-active {
-				&:before {
-					.rotate(-90deg);
+				&:after {
+					.rotate(90deg);
 					.transition(0.5s);
 				}
 			}

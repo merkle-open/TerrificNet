@@ -1,16 +1,18 @@
-.skin-linklist-centric {
+@media all {
+	.skin-linklist-centric {
 
-	text-align: center;
+		text-align: center;
 
-	h3 {
-		height: 40px;
-		margin-bottom: 5px;
-	}
+		h3 {
+			height: 40px;
+			margin-bottom: 5px;
+		}
 
-	.linklist {
+		.linklist {
 
-		li {
-			display: block;
+			li {
+				display: block;
+			}
 		}
 	}
 }
@@ -18,9 +20,6 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 660px
 // -----------------------------------------
-@media (max-width: 659px) {
-	.skin-linklist-centric {
-
-		text-align: left;
-	}
+@media screen and (max-width: 659px) {
+	.skin-linklist-centric { text-align: left; }
 }

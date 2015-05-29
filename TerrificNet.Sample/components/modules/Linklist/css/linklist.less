@@ -1,39 +1,52 @@
-.mod-linklist {
+@media all {
+	.mod-linklist {
+		margin-left: 8px;
 
-	h3 {
-		.font-style(@font-lato, @font-size-16px, @white);
-		font-weight: bold;
-		margin-bottom: 20px;
-		display: inline-block;
-	}
+		h3 {
+			.font-style(@font-lato, @font-size-16px, @white);
+			font-weight: bold;
+			padding-bottom: 16px;
+			display: inline-block;
 
-	.linklist {
+		}
 
-		margin-bottom: 24px;
+		.linklist {
 
-		li {
+			padding-bottom: 24px;
 
-			margin-bottom: 8px;
+			li {
 
-			a {
-				.font-style(@font-lato, @font-size-15px, @white);
-				font-weight: 200;
-				text-decoration: none;
-				display: inline-block;
-				.transition(.5s);
+				margin-bottom: 8px;
 
-				&:hover {
-					color: @link-hover-color;
-					.transition(.25s);
+				a {
+					.font-style(@font-lato, @font-size-15px, @white);
+					font-weight: 200;
+					text-decoration: none;
+					display: inline-block;
+					.transition(.5s);
+
+					&:hover {
+						color: @link-hover-color;
+						.transition(.25s);
+					}
 				}
-			}
 
-			span {
-				.font-style(@font-lato, @font-size-15px, @white);
-				font-weight: 200;
+				span {
+					.font-style(@font-lato, @font-size-15px, @white);
+					font-weight: 200;
+				}
 			}
 		}
 	}
 }
 
-
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 660px
+// -----------------------------------------
+@media screen and (max-width: 659px) {
+	.mod-linklist {
+		.linklist {
+			//display: inline-block;
+		}
+	}
+}

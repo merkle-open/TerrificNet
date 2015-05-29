@@ -4,27 +4,27 @@
 		{
 			"title": "title",
 			"content": "Company",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "title",
 			"content": "Jobs",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "title",
 			"content": "Imprint",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "title",
 			"content": "GTC",
-			"href": "#"
+			"url": "#"
 		},
 		{
 			"title": "title",
 			"content": "Sitemap",
-			"href": "#"
+			"url": "#"
 		}
 	]
 }

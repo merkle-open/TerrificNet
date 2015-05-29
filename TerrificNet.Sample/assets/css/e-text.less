@@ -2,187 +2,158 @@
 // Elements - Text
 // -----------------------------------------
 
-.e-text {
+@media all {
+	.e-text {
 
-	// -----------------------------------------
-	// Headlines & Text
-	// -----------------------------------------
+		// -----------------------------------------
+		// Headlines & Text
+		// -----------------------------------------
 
-	h1, h1& {
-		.font-style (@font-lato, @font-size-46px, @text-color);
-		font-weight: 200;
-	}
+		h1, h1& {
+			.font-style (@font-lato, @font-size-46px, @text-color);
+			font-weight: 200;
+		}
 
-	h2, h2& {
-		.font-style (@font-lato, @font-size-32px, @text-color);
-		margin: 16px 0;
-		font-weight: 100;
-		border-bottom: 1px solid @gray;
-		display: inline-block;
-	}
-
-	h3, h3& {
-		.font-style (@font-lato, @font-size-26px, @text-color);
-		font-weight: 100;
-		margin: 16px 0;
-	}
-
-	h4, h4& {
-		.font-style (@font-lato, @font-size-22px, @text-color);
-		font-weight: 100;
-		margin: 16px 0;
-	}
-
-	h5, h5& {
-		.font-style (@font-lato, @font-size-20px, @text-color);
-		font-weight: 100;
-	}
-
-	h6, h6& {
-		.font-style (@font-lato, @font-size-18px, @text-color);
-		font-weight: 100;
-	}
-
-	p, p& {
-		.font-style (@font-lato, @font-size-16px, @text-color);
-		font-weight: 100;
-		margin-bottom: 24px;
-		line-height: 24px;
-	}
-
-	ul, ul& {
-
-		list-style: none;
-		margin-bottom: 32px;
-
-		li {
-			.font-style(@font-lato, @font-size-16px, @text-color);
+		h2, h2& {
+			.font-style (@font-lato, @font-size-32px, @text-color);
+			margin: 16px 0;
 			font-weight: 100;
-			padding-left: 2px;
-			margin-bottom: 4px;
+			border-bottom: 1px solid @gray;
+			display: inline-block;
+		}
 
-			&:before {
-				content: "■";
-				color: @pink;
-				margin-right: 8px;
+		h3, h3& {
+			.font-style (@font-lato, @font-size-26px, @text-color);
+			font-weight: 100;
+			margin: 16px 0;
+		}
+
+		h4, h4& {
+			.font-style (@font-lato, @font-size-22px, @text-color);
+			font-weight: 100;
+			margin: 16px 0;
+		}
+
+		h5, h5& {
+			.font-style (@font-lato, @font-size-20px, @text-color);
+			font-weight: 100;
+		}
+
+		h6, h6& {
+			.font-style (@font-lato, @font-size-18px, @text-color);
+			font-weight: 100;
+		}
+
+		p, p& {
+			.font-style (@font-lato, @font-size-16px, @text-color);
+			font-weight: 100;
+			margin-bottom: 24px;
+			line-height: 24px;
+		}
+
+		ul, ul& {
+
+			list-style: none;
+			margin-bottom: 32px;
+
+			li {
+				.font-style(@font-lato, @font-size-16px, @text-color);
+				font-weight: 100;
+				padding-left: 2px;
+				margin-bottom: 4px;
+
+				&:before {
+					content: "■";
+					color: @pink;
+					margin-right: 8px;
+				}
 			}
 		}
-	}
 
-	a, a& {
-		.font-style(@font-lato, @font-size-16px, @pink);
-		font-weight: 100;
-		padding: 4px;
-		text-decoration: none;
-		.transition(.5s);
-
-		&:hover {
-			color: @white;
+		a, a& {
+			.font-style(@font-lato, @font-size-16px, @pink);
+			font-weight: 100;
+			padding: 4px;
 			text-decoration: none;
-			background: @link-hover-color;
-			.transition(.25s);
-		}
-
-		&.state-active {
-			color: @link-state-active;
-		}
-	}
-
-	.text-table-container {
-		width: 100%;
-		overflow-y: auto;
-		margin: 0 0 48px 0;
-
-		&::-webkit-scrollbar
-		{
-			-webkit-appearance: none;
-			width: 14px;
-			height: 14px;
-		}
-
-		&::-webkit-scrollbar-thumb
-		{
-			border-radius: 8px;
-			border: 3px solid #fff;
-			background-color: rgba(0, 0, 0, .3);
-		}
-	}
-
-	table,
-	table& {
-		width: 100%;
-		border-collapse: collapse;
-		border: 1px solid @space-gray;
-		color: @dark-gray;
-
-		tr {
-			.font-style(@font-lato, @font-size-16px, @onyx);
-			font-weight: 100;
-			background-color: @white;
-			.transition(.25s);
-
-			&:nth-child(2n+2) {
-				background: @silver-gray;
-			}
-
-			&:last-child {
-				background: @silver-gray;
-			}
+			.transition(.5s);
 
 			&:hover {
-				background-color: @pink;
 				color: @white;
+				text-decoration: none;
+				background: @link-hover-color;
 				.transition(.25s);
+			}
+
+			&.state-active {
+				color: @link-state-active;
 			}
 		}
 
-		th, td {
-			padding: 12px 15px;
-			border-collapse: collapse;
-		}
-
-		th {
-			.font-style(@font-lato, @font-size-16px, @white);
-			font-weight: 400;
-			background: @dark-gray;
-		}
-	}
-
-	.text-elastic-iframe,
-	.text-elastic-iframe& {
-		position: relative;
-		padding-bottom: 55%;
-		padding-top: 15px;
-		height: 0;
-		overflow: hidden;
-
-		iframe {
-			position: absolute;
-			top: 0;
-			left: 0;
+		.text-table-container {
 			width: 100%;
-		}
-	}
-}
+			overflow-y: auto;
+			margin: 0 0 48px 0;
 
-// -----------------------------------------
-// RWD: Mobile Breakpoint < 960px
-// -----------------------------------------
-@media (max-width: 959px) {
-	.e-text {
-		h2, h2& {
-			font-size: 24px;
-			margin-right: 8px;
-			margin-left: 8px;
+			&::-webkit-scrollbar {
+				-webkit-appearance: none;
+				width: 14px;
+				height: 14px;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				border-radius: 8px;
+				border: 3px solid #fff;
+				background-color: rgba(0, 0, 0, .3);
+			}
 		}
 
-		.text-elastic-iframe,
-		.text-elastic-iframe& {
+		table,
+		table& {
+			width: 100%;
+			border-collapse: collapse;
+			border: 1px solid @space-gray;
+			color: @dark-gray;
+
+			tr {
+				.font-style(@font-lato, @font-size-16px, @onyx);
+				font-weight: 100;
+				background-color: @white;
+				.transition(.25s);
+
+				&:nth-child(2n+2) {
+					background: @silver-gray;
+				}
+
+				&:last-child {
+					background: @silver-gray;
+				}
+
+				&:hover {
+					background-color: @pink;
+					color: @white;
+					.transition(.25s);
+				}
+			}
+
+			th, td {
+				padding: 12px 15px;
+				border-collapse: collapse;
+			}
+
+			th {
+				.font-style(@font-lato, @font-size-16px, @white);
+				font-weight: 400;
+				background: @dark-gray;
+			}
+		}
+
+		.text-rwd-media,
+		.text-rwd-media& {
 			position: relative;
-			padding-bottom: 55%;
+			padding-bottom: 52.25%;
+			padding-top: 30px;
 			height: 0;
 			overflow: hidden;
-			margin-bottom: 48px;
 
 			iframe {
 				position: absolute;
@@ -190,13 +161,31 @@
 				left: 0;
 				width: 100%;
 				height: 100%;
-
-				.rwd {
-					display: block;
-					width: 100% !important;
-					height: auto !important;
-				}
 			}
+		}
+	}
+}
+
+// -----------------------------------------
+// RWD: Mobile Breakpoint < 960px
+// -----------------------------------------
+@media screen and (max-width: 959px) {
+	.e-text {
+
+		h1, h1& {
+			font-size: 32px;
+			margin-bottom: 8px;
+		}
+
+		h2, h2& {
+			font-size: 24px;
+			margin-right: 8px;
+			margin-left: 8px;
+		}
+
+		.text-rwd-media,
+		.text-rwd-media& {
+			margin-bottom: 36px;
 		}
 	}
 }

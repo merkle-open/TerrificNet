@@ -1,46 +1,49 @@
-.mod-breadcrumb {
+@media all {
+	.mod-breadcrumb {
 
-	.breadcrumb-list {
+		.breadcrumb-list {
 
-		li {
-			float: left;
-			margin-left: 8px;
+			li {
+				float: left;
+				margin-left: 8px;
 
-			a {
-				.font-style(@font-lato, @font-size-16px, @mine-shaft);
-				font-weight: 100;
-				padding: 4px;
-				text-decoration: none;
-				.transition(.5s);
-
-				&:after {
-					.font-style (@font-icon, 18px, @link-state-active);
-					.icon-font();
+				a {
+					.font-style(@font-lato, @font-size-16px, @mine-shaft);
+					font-weight: 100;
+					padding: 4px;
+					text-decoration: none;
 					.transition(.5s);
-					content: @icon-arrow-right;
-					position: relative;
-					top: 3px;
-					margin-left: 2px;
-				}
 
-				&:hover {
-					color: @link-hover-color;
-					.transition(.5s);
-				}
+					&:after {
+						.font-style (@font-icon, 18px, @link-state-active);
+						.icon-font();
+						.transition(.5s);
+						content: @icon-arrow-right;
+						position: relative;
+						top: 3px;
+						margin-left: 2px;
+					}
 
-				&.state-active {
-					color: @link-state-active;
+					&:hover {
+						color: @link-hover-color;
+						.transition(.5s);
+					}
+
+					&.state-active {
+						color: @link-state-active;
+					}
 				}
 			}
 		}
 	}
 }
 
+
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 960px
 // -----------------------------------------
-@media (max-width: 959px) {
+@media screen and (max-width: 959px) {
 	.mod-breadcrumb {
-		margin: 8px 8px 8px 4px;
+		// margin: 8px 8px 8px 4px;
 	}
 }

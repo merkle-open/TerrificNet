@@ -3,7 +3,7 @@
 // -----------------------------------------
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'ifolor';
+	font-family: 'sc8-tnet';
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -14,44 +14,18 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-desktop {
+.icon-sc-plus {
 	&:before {
-		content: @icon-desktop;
-		.font-style (font-icon, 32px, @light-blue);
-		.icon-font();
-		position: absolute;
-	}
-}
-
-.icon-tablet {
-	&:before {
-		content: @icon-tablet;
-		.font-style (font-icon, 32px, @light-blue);
-		.icon-font();
-		position: absolute;
-	}
-}
-
-.icon-mobile {
-	&:before {
-		content: @icon-phone;
-		.icon-font();
-		position: absolute;
-	}
-}
-
-.icon-swp-plus {
-	&:before {
-		.font-style (@font-icon, 26px, @dark-gray);
+		.font-style (@font-icon, 20px, @dark-gray);
 		.icon-font();
 		content: @icon-plus;
 		display: inline-block;
 	}
 }
 
-.icon-swp-minus {
+.icon-sc-minus {
 	&:before {
-		.font-style (@font-icon, 26px, @dark-gray);
+		.font-style (@font-icon, 20px, @dark-gray);
 		.icon-font();
 		content: @icon-minus;
 		display: inline-block;

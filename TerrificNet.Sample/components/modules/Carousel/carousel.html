@@ -10,19 +10,21 @@
 		<div class="carousel js-carousel owl-carousel owl-theme">
 
 			{{#if images}}
-			{{#each images}}
-			<div class="carousel-image">
+		    {{#each images}}
+            {{{editframe.editframeStart}}}
+            <div class="carousel-image">
 
-				{{#if title}}
-				<div class="l-wrap">
-					<a href="/" class="carousel-text-box {{#if alignment}}{{alignment}}{{/if}}">
-						<h1 class="e-text">{{title}}</h1>
-					</a>
-				</div>
-				{{/if}}
+                {{#if title}}
+                <div class="l-wrap">
+                    <a href="/" class="carousel-text-box {{#if alignment}}pos-top-{{alignment}}{{/if}}">
+                        <h1 class="e-text">{{title}}</h1>
+                    </a>
+                </div>
+                {{/if}}
 
-				<img src="{{source}}" alt="{{alt}}" width="{{width}}" height="{{height}}">
-			</div>
+                <img src="{{source}}" alt="{{alt}}" width="{{width}}" height="{{height}}">
+            </div>
+            {{{editframe.editframeStop}}}
 			{{/each}}
 			{{/if}}
 

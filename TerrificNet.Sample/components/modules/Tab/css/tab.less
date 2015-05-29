@@ -1,45 +1,47 @@
-.mod-tab {
+@media all {
+	.mod-tab {
+		.tab-container {
+			width: 100%;
+			margin-top: 12px;
+		}
 
-	.tab-container {
-		width: 100%;
-		margin-top: 12px;
-	}
+		.tab-list {
+			margin: 0;
+			padding: 0;
+			list-style: none;
 
-	.tab-list {
-		margin: 0;
-		padding: 0;
-		list-style: none;
+			li {
+				.font-style(@font-lato, @font-size-16px, @onyx);
+				font-weight: 100;
+				background: none;
+				color: @dark-gray;
+				display: inline-block;
+				padding: 12px 16px;
+				cursor: pointer;
 
-		li {
-			.font-style(@font-lato, @font-size-16px, @onyx);
-			font-weight: 100;
-			background: none;
-			color: @dark-gray;
-			display: inline-block;
-			padding: 12px 16px;
-			cursor: pointer;
+				&.state-active {
+					background: @space-gray;
+					color: @link-state-active;
+				}
+
+				&:hover {
+					color: @link-hover-color;
+				}
+			}
+		}
+		.tab-content {
+			display: none;
+			background: @space-gray;
+			padding: 16px;
+			min-height: 40px;
 
 			&.state-active {
-				background: @space-gray;
-				color: @link-state-active;
+				display: inherit;
 			}
 
-			&:hover {
-				color: @link-hover-color;
+			p {
+				margin: 0;
 			}
-		}
-	}
-	.tab-content {
-		display: none;
-		background: @space-gray;
-		padding: 16px;
-
-		&.state-active {
-			display: inherit;
-		}
-
-		p {
-			margin: 0;
 		}
 	}
 }
@@ -47,16 +49,16 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 960px
 // -----------------------------------------
-@media (max-width: 959px) {
+@media screen and (max-width: 959px) {
 	.mod-tab {
-		padding: 0 8px;
+		// padding: 0 8px;
 	}
 }
 
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 660px
 // -----------------------------------------
-@media (max-width: 659px) {
+@media screen and (max-width: 659px) {
 	.mod-tab {
 		.tab-list {
 			li {

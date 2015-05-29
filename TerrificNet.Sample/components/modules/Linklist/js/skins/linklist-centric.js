@@ -13,16 +13,12 @@
 			var mod = this,
 				$ctx = mod.$ctx;
 
-
-
 			parent.on(callback);
 		};
 
 		this.after = function() {
 			var mod = this,
 				$ctx = mod.$ctx;
-
-
 
 			parent.after();
 		};

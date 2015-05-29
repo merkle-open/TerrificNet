@@ -1,9 +1,10 @@
-.skin-linklist-horizontal {
-
-	.linklist {
-		li {
-			float: left;
-			margin-right: 20px;
+@media all {
+	.skin-linklist-horizontal {
+		.linklist {
+			li {
+				float: left;
+				margin-right: 20px;
+			}
 		}
 	}
 }
@@ -11,32 +12,33 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 660px
 // -----------------------------------------
-@media (max-width: 659px) {
+@media screen and (max-width: 659px) {
 	.skin-linklist-horizontal {
+		margin-top: 16px;
 
 		h3 {
 			position: relative;
 			cursor: pointer;
 
-			&:before {
-				//.font-style (@font-ifolor-icon, 24px, @white);
+			&:after {
+				.font-style (@font-icon, 18px, @link-state-active);
 				.icon-font();
-
-				//content: @icon-arrow-right;
-				position: absolute;
-				left: -30px;
-				top: -3px;
-
-				.rotate(-270deg);
-				.transition-duration(0.5s);
+				.transition(.5s);
+				.rotate(-180deg);
+				content: @icon-arrow-right;
+				position: relative;
+				top: 3px;
+				margin-left: 2px;
 			}
 
+			/*
 			&.state-active {
 				&:before {
 					.rotate(-90deg);
 					.transition(0.5s);
 				}
 			}
+			*/
 		}
 	}
 }

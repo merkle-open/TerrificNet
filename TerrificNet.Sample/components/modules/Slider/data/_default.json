@@ -1,54 +1,70 @@
 {
-	"title": "Slider Module",
+    "title": "Slider Module",
 
-	"images": [
-		{
-			"source": "/components/modules/Slider/img/owl1.jpg",
-			"alt": "Image 1",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 1"
-		},
-		{
-			"source": "/components/modules/Slider/img/owl2.jpg",
-			"alt": "Image 2",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 2"
-		},
-		{
-			"source": "/components/modules/Slider/img/owl3.jpg",
-			"alt": "Image 3",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 3"
-		},
-		{
-			"source": "/components/modules/Slider/img/owl4.jpg",
-			"alt": "Image 4",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 4"
-		},
-		{
-			"source": "/components/modules/Slider/img/owl5.jpg",
-			"alt": "Image 5",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 5"
-		},
-		{
-			"source": "/components/modules/Slider/img/owl6.jpg",
-			"alt": "Image 6",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 6"
-		},
-		{
-			"source": "/components/modules/Slider/img/owl7.jpg",
-			"alt": "Image 7",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 7"
-		},
-		{
-			"source": "/components/modules/Slider/img/owl8.jpg",
-			"alt": "Image 8",
-			"link": "/content",
-			"slider-title": "Amet Cursus Sit // 8"
-		}
-	]
+    "items": [
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl1.jpg",
+                "alt": "Image 1"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 1"
+        },
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl2.jpg",
+                "alt": "Image 2"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 2"
+        },
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl3.jpg",
+                "alt": "Image 3"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 3"
+        },
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl4.jpg",
+                "alt": "Image 4"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 4"
+        },
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl5.jpg",
+                "alt": "Image 5"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 5"
+        },
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl6.jpg",
+                "alt": "Image 6"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 6"
+        },
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl7.jpg",
+                "alt": "Image 7"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 7"
+        },
+        {
+            "image": {
+                "source": "/components/modules/Slider/img/owl8.jpg",
+                "alt": "Image 8"
+            },
+            "url": "/content",
+            "title": "Amet Cursus Sit // 8"
+        }
+    ]
 }

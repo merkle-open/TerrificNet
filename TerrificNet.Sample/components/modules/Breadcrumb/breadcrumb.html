@@ -1,7 +1,9 @@
 <div class="mod mod-breadcrumb" data-templateid="{{template-id}}">
-	<ul class="breadcrumb-list">
-		{{#each links}}
-		<li><a href="{{url}}" {{#if selected}}class="state-active"{{/if}}>{{name}}</a></li>
-		{{/each}}
-	</ul>
+	<div class="e-box">
+		<ul class="breadcrumb-list">
+			{{#each links}}
+			<li><a href="{{url}}" {{#if selected}}class="state-active"{{/if}}>{{name}}</a></li>
+			{{/each}}
+		</ul>
+	</div>
 </div>

@@ -1,68 +1,29 @@
 <div class="mod mod-nav">
-
 	<ul class="nav-main js-nav-main">
 	{{#each entries}}
-
 		<li>
-			{{#if active}}
-			<a href="javascript:;" class="nav-main-link js-nav-main-link state-active">{{name}}</a>
-			{{else}}
-			<a href="javascript:;" class="nav-main-link js-nav-main-link">{{name}}</a>
-			{{/if}}
-
+            <a href="{{url}}" class="nav-main-link {{#if subentries}}js-nav-main-link{{/if}} {{#if active}}state-active{{/if}}">{{content}}</a>
+			{{#if subentries}}
 			<ul class="nav-main-flyout js-nav-main-flyout">
 				<i class="nav-close-btn js-nav-close-btn"></i>
+
 				<li class="nav-main-content g-row">
-					<div class="g-cell s-1of4 nav-main-wrap">
-						<h5 class="e-text"><a href="/content">Maintitle #1 //</a></h5>
+					{{#each subentries}}
+					<div class="g-cell s-1of{{columns}} nav-main-wrap">
+						<h5 class="e-text main-flyout-title"><a href="{{url}}">{{content}}</a></h5>
+						{{#if subentries}}
 						<ul class="nav-main-content-list">
-							<li><a href="/">Link 1a</a></li>
-							<li><a href="/">Link 1b</a></li>
-							<li><a href="/">Link 1c</a></li>
-							<li><a href="/">Link 1d</a></li>
-							<li><a href="/">Link 1e</a></li>
-							<li><a href="/">Link 1f</a></li>
+							{{#each subentries}}
+							<li><a href="{{url}}">{{content}}</a></li>
+							{{/each}}
 						</ul>
+						{{/if}}
 					</div>
-					<div class="g-cell s-1of4 nav-main-wrap">
-						<h5 class="e-text"><a href="/content">Maintitle #2 //</a></h5>
-						<ul class="nav-main-content-list">
-							<li><a href="/">Link 2a</a></li>
-							<li><a href="/">Link 2b</a></li>
-							<li><a href="/">Link 2c</a></li>
-							<li><a href="/">Link 2d</a></li>
-							<li><a href="/">Link 2e</a></li>
-							<li><a href="/">Link 2f</a></li>
-						</ul>
-					</div>
-					<div class="g-cell s-1of4 nav-main-wrap">
-						<h5 class="e-text"><a href="/content">Maintitle #3 //</a></h5>
-						<ul class="nav-main-content-list">
-							<li><a href="/">Link 3a</a></li>
-							<li><a href="/">Link 3b</a></li>
-							<li><a href="/">Link 3c</a></li>
-							<li><a href="/">Link 3d</a></li>
-							<li><a href="/">Link 3e</a></li>
-							<li><a href="/">Link 3f</a></li>
-						</ul>
-					</div>
-					<div class="g-cell s-1of4 nav-main-wrap">
-						<h5 class="e-text"><a href="/content">Maintitle #4 //</a></h5>
-						<ul class="nav-main-content-list">
-							<li><a href="/">Link 4a</a></li>
-							<li><a href="/">Link 4b</a></li>
-							<li><a href="/">Link 4c</a></li>
-							<li><a href="/">Link 4d</a></li>
-							<li><a href="/">Link 4e</a></li>
-							<li><a href="/">Link 4f</a></li>
-						</ul>
-					</div>
+					{{/each}}
 				</li>
 			</ul>
-
+			{{/if}}
 		</li>
-
 	{{/each}}
 	</ul>
-
 </div>

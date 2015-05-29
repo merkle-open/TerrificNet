@@ -1,49 +1,51 @@
-.mod-slider {
-	.slider {
-		.slider-item {
-			margin: 2px;
-			.transition(.5s);
+@media all {
+	.mod-slider {
+		.slider {
+			.slider-item {
+				margin: 2px;
+				.transition(.5s);
 
-			img {
-				display: block;
-				width: 100%;
-				height: auto;
-				margin-bottom: 8px;
+				img {
+					display: block;
+					width: 100%;
+					height: auto;
+					margin-bottom: 8px;
 
-				&:hover {
-					-webkit-filter: grayscale(100%);
-					-moz-filter: grayscale(100%);
-					-ms-filter: grayscale(100%);
-					-o-filter: grayscale(100%);
-					filter: grayscale(100%);
-					filter: @gray; /* IE 6-9 */
-					.transition(.25s);
+					&:hover {
+						-webkit-filter: grayscale(100%);
+						-moz-filter: grayscale(100%);
+						-ms-filter: grayscale(100%);
+						-o-filter: grayscale(100%);
+						filter: grayscale(100%);
+						filter: @gray; /* IE 6-9 */
+						.transition(.25s);
+					}
+				}
+
+				.slider-link {
+					text-decoration: none;
 				}
 			}
 
-			.slider-link {
-				text-decoration: none;
+			.slider-title {
+				.font-style(@font-lato, @font-size-16px, @onyx);
+				font-weight: 100;
+				padding: 8px 4px;
+				text-decoration: underline;
 			}
-		}
 
-		.slider-title {
-			.font-style(@font-lato, @font-size-16px, @onyx);
-			font-weight: 100;
-			padding: 8px 4px;
-			text-decoration: underline;
-		}
+			.slider-text {
+				.font-style(@font-lato, @font-size-13px, @onyx);
+				font-weight: 100;
+				line-height: 1.4;
+				padding: 8px 4px;
+				.transition(.5s);
 
-		.slider-text {
-			.font-style(@font-lato, @font-size-13px, @onyx);
-			font-weight: 100;
-			line-height: 1.4;
-			padding: 8px 4px;
-			.transition(.5s);
-
-			&:hover {
-				background: @link-hover-color;
-				color: @white;
-				.transition(.25s);
+				&:hover {
+					background: @link-hover-color;
+					color: @white;
+					.transition(.25s);
+				}
 			}
 		}
 	}
@@ -52,9 +54,8 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 960px
 // -----------------------------------------
-@media (max-width: 959px) {
+@media screen and (max-width: 959px) {
 	.mod-slider {
-
 		.owl-item.loading {
 			margin-top: 10px;
 			display: block;
@@ -65,7 +66,7 @@
 // -----------------------------------------
 // RWD: Mobile Breakpoint < 660px
 // -----------------------------------------
-@media (max-width: 659px) {
+@media screen and (max-width: 659px) {
 	.mod-slider {
 		.owl-item.loading {
 			// todo
