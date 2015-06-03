@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
+using Microsoft.Practices.Unity;
 using TerrificNet.Configuration;
+using TerrificNet.ViewEngine;
 
 namespace TerrificNet.WebHost
 {
@@ -35,9 +38,20 @@ namespace TerrificNet.WebHost
 
 	            var serverConfiguration = ServerConfiguration.LoadConfiguration(this.Server.MapPath("/server.json"));
                 var container = WebInitializer.Initialize(this.Server.MapPath("/"), configuration, serverConfiguration);
+				
+				container.RegisterType<IModelTypeProvider, DummyModelTypeProvider>();
+
                 new Startup().Configuration(container, config);
             });
             RouteTable.Routes.RouteExistingFiles = true;
         }
+
+		private class DummyModelTypeProvider : IModelTypeProvider
+		{
+			public Task<Type> GetModelTypeFromTemplateAsync(TemplateInfo templateInfo)
+			{
+				return Task.FromResult<Type>(typeof(object));
+			}
+		}
     }
 }
