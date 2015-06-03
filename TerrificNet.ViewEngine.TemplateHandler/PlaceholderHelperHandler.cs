@@ -75,7 +75,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 				return true;
 			}
 
-			var property = src.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase);
+			var property = src.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 			if (property != null)
 			{
 				value = (TValue)property.GetValue(src, null);
