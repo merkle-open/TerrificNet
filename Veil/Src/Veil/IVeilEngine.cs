@@ -20,8 +20,7 @@ namespace Veil
 	    /// <returns>A compiled action ready to be executed as needed to render the template</returns>
 		Action<RenderingContext, T> Compile<T>(string templateId, string parserKey, TextReader templateContents);
 		Action<RenderingContext, T> Compile<T>(string templateId, ITemplateParser parser, TextReader templateContents);
-		Func<RenderingContext, T, Task> CompileAsync<T>(string templateId, ITemplateParser parser, TextReader templateContents);
-
+		
 	    /// <summary>
 	    /// Parses and compiles the specified template when the model type is not known
 	    /// </summary>
@@ -32,9 +31,7 @@ namespace Veil
 	    /// <returns>A compiled action that will cast the model before execution</returns>
 		Action<RenderingContext, object> CompileNonGeneric(string templateId, string parserKey, TextReader templateContents, Type modelType);
 		Action<RenderingContext, object> CompileNonGeneric(string templateId, ITemplateParser parser, TextReader templateContents, Type modelType);
-		Func<RenderingContext, object, Task> CompileNonGenericAsync(string templateId, ITemplateParser parser, TextReader templateContents, Type modelType);
-
+		
         Action<RenderingContext, T> CompileFromTree<T>(SyntaxTreeNode syntaxTree);
-        Func<RenderingContext, T, Task> CompileFromTreeAsync<T>(SyntaxTreeNode syntaxTree);
     }
 }

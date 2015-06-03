@@ -13,7 +13,6 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
         [JsonExtensionData]
         public IDictionary<string, object> ExtensionData { get; set; }
 
-		protected internal abstract Task RenderAsync(ITerrificTemplateHandler templateHandler, object model, RenderingContext context);
 		protected internal abstract void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context);
 	}
 }

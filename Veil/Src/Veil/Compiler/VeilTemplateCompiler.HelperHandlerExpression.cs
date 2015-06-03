@@ -15,17 +15,6 @@ namespace Veil.Compiler
 			handler.Evaluate(model, renderingContext, node.Parameters);
         }
 
-		public static Task EvaluateAsync(Task before, IHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
-		{
-			return Helpers.Then(before, () => handler.EvaluateAsync(model, renderingContext, node.Parameters));
-		}
-
-        public async static Task LeaveAsync(Task before, IBlockHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
-        {
-            await before.ConfigureAwait(false);
-            handler.Leave(model, renderingContext, node.Name, node.Parameters);
-        }
-
 		public static void Leave(IBlockHelperHandler handler, object model, RenderingContext renderingContext, HelperExpressionNode node)
 		{
 			handler.Leave(model, renderingContext, node.Name, node.Parameters);

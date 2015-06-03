@@ -10,7 +10,8 @@ var Tcn;
             var _this = this;
             if (this.views[id])
                 return jQuery.Deferred().resolve(this.views[id]);
-            return jQuery.getScript(this.url.replace("{id}", id)).then(function () { return _this.views[id]; });
+            return jQuery.getScript(this.url.replace("{id}", id))
+                .then(function () { return _this.views[id]; });
         };
         TemplateRepositoryInternal.prototype.register = function (id, view) {
             this.views[id] = view;
@@ -28,7 +29,8 @@ var Tcn;
         };
         ViewEngineImplementation.prototype.loadAndRenderAsync = function (templateId, modelPromise) {
             var templatePromise = this.templateRepository.getAsync(templateId);
-            return jQuery.when(templatePromise, modelPromise).then(this.render);
+            return jQuery.when(templatePromise, modelPromise)
+                .then(this.render);
         };
         ViewEngineImplementation.prototype.render = function (view, model) {
             var ctx = new StringRenderingContext();

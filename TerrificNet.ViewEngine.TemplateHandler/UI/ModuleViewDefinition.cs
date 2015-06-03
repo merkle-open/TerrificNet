@@ -15,16 +15,6 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
         [JsonProperty("data_variation")]
         public string DataVariation { get; set; }
 
-        protected internal override Task RenderAsync(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
-        {
-            if (context.Data.ContainsKey("data_variation"))
-                context.Data["data_variation"] = this.DataVariation;
-            else
-                context.Data.Add("data_variation", this.DataVariation);
-
-            return templateHandler.RenderModuleAsync(Module, Skin, context);
-        }
-
 		protected internal override void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
 		{
 			if (context.Data.ContainsKey("data_variation"))

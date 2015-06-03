@@ -210,7 +210,7 @@ namespace TerrificNet.Test
             var builder = new StringBuilder();
             using (var writer = new StringWriterDelayed(builder))
             {
-                await view.RenderAsync(model, new RenderingContext(writer));
+                view.Render(model, new RenderingContext(writer));
             }
             var resultString = builder.ToString();
             this.TestContext.EndTimer("ServerStrong");
@@ -240,7 +240,7 @@ namespace TerrificNet.Test
             var builder = new StringBuilder();
             using (var writer = new StringWriterDelayed(builder))
             {
-                await view.RenderAsync(model, new RenderingContext(writer));
+                view.Render(model, new RenderingContext(writer));
             }
             var resultString = builder.ToString();
             this.TestContext.EndTimer("Server");

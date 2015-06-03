@@ -58,9 +58,8 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		private static IView CreateNonGenericView(string templateId, string content, IVeilEngine viewEngine)
 		{
-			var renderAsync = viewEngine.CompileNonGenericAsync(templateId, new HandlebarsParser(), new StringReader(content), typeof(object));
 			var render = viewEngine.CompileNonGeneric(templateId, new HandlebarsParser(), new StringReader(content), typeof(object));
-			var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(renderAsync, render));
+			var view = new VeilViewAdapter<object>(templateId, new VeilView<object>(render));
 			return view;
 		}
 
@@ -68,9 +67,8 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		// ReSharper disable once UnusedMember.Local
 		private static IView CreateView<T>(string templateId, string content, IVeilEngine veilEngine)
 		{
-			var renderAsync = veilEngine.CompileAsync<T>(templateId, new HandlebarsParser(), new StringReader(content));
 			var render = veilEngine.Compile<T>(templateId, new HandlebarsParser(), new StringReader(content));
-			return new VeilViewAdapter<T>(templateId, new VeilView<T>(renderAsync, render));
+			return new VeilViewAdapter<T>(templateId, new VeilView<T>(render));
 		}
 
 		private class VeilViewAdapter<T> : IView
@@ -82,21 +80,6 @@ namespace TerrificNet.ViewEngine.ViewEngines
 			{
 				_templateId = templateId;
 				_adaptee = adaptee;
-			}
-
-			public Task RenderAsync(object model, RenderingContext context)
-			{
-				context.Data["templateId"] = _templateId;
-
-				var castModel = model is T ? (T)model : default(T);
-				if (castModel != null)
-					return _adaptee.RenderAsync(castModel, context);
-
-				// TODO: Verify what is to be done with null model values
-				if (typeof(T) == typeof(object))
-					return _adaptee.RenderAsync((T)(object)new JObject(), context);
-
-				return _adaptee.RenderAsync(Activator.CreateInstance<T>(), context);
 			}
 
 			public void Render(object model, RenderingContext context)
@@ -123,18 +106,11 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 		private class VeilView<T> : IView<T>
 		{
-			private readonly Func<RenderingContext, T, Task> _renderAsync;
 			private readonly Action<RenderingContext, T> _render;
 
-			public VeilView(Func<RenderingContext, T, Task> renderAsync, Action<RenderingContext, T> render )
+			public VeilView(Action<RenderingContext, T> render )
 			{
-				_renderAsync = renderAsync;
 				_render = render;
-			}
-
-			public Task RenderAsync(T model, RenderingContext context)
-			{
-				return _renderAsync(context, model);
 			}
 
 			public void Render(T model, RenderingContext context)

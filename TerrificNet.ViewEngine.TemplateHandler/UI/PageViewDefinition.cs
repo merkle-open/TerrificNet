@@ -33,16 +33,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
 
         public string Id { get; set; }
 
-        public async Task RenderAsync(IViewEngine engine, StreamWriter writer)
-        {
-            var view = await engine.CreateViewAsync(TemplateInfo, typeof(T)).ConfigureAwait(false);
-
-            var renderingContext = new RenderingContext(writer);
-            renderingContext.Data["siteDefinition"] = this;
-            await view.RenderAsync(Data, renderingContext).ConfigureAwait(false);
-        }
-
-	    public void Render(IViewEngine engine, StreamWriter writer)
+        public void Render(IViewEngine engine, StreamWriter writer)
 	    {
 			var view = engine.CreateViewAsync(TemplateInfo, typeof(T)).Result;
 

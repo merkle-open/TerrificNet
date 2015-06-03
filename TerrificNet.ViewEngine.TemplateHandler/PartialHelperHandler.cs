@@ -29,12 +29,6 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 			return name.StartsWith("partial", StringComparison.OrdinalIgnoreCase);
 		}
 
-		public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
-		{
-			var template = parameters["template"].Trim('"');
-			return _handler.RenderPartialAsync(template, model, context);
-		}
-
 		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
 			var template = parameters["template"].Trim('"');

@@ -129,7 +129,7 @@ namespace TerrificNet.Test
 	        using (var writer = new StringWriter(builder))
 	        {
 	            var context = new RenderingContext(writer);
-	            await view.RenderAsync(model, context);
+	            view.Render(model, context);
 	        }
 	        return builder.ToString();
 	    }

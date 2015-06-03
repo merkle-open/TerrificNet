@@ -56,7 +56,6 @@ namespace TerrificNet.Controllers
                 Exception error = null;
                 try
                 {
-					//await viewDefinition.RenderAsync(viewEngine, writer).ConfigureAwait(false);
                     viewDefinition.Render(viewEngine, writer);
                 }
                 catch (VeilParserException ex)
@@ -75,7 +74,7 @@ namespace TerrificNet.Controllers
                 }
                 
                 if (error != null)
-                    await GetErrorPage(writer, error, errorLocation);
+                    await GetErrorPage(writer, error, errorLocation).ConfigureAwait(false);
             }
         }
 
@@ -90,8 +89,8 @@ namespace TerrificNet.Controllers
 
             var templateInfo = new StringTemplateInfo("error", content);
 
-            var view = await ((IViewEngine)this.Resolver.GetService(typeof(IViewEngine)))
-                .CreateViewAsync(templateInfo, typeof(ErrorViewModel));
+            var view = await ((IViewEngine)Resolver.GetService(typeof(IViewEngine)))
+	            .CreateViewAsync(templateInfo, typeof(ErrorViewModel)).ConfigureAwait(false);
 
             if (location == null)
             {
@@ -100,17 +99,17 @@ namespace TerrificNet.Controllers
                     ErrorMessage = error.Message,
                     Details = error.StackTrace
                 };
-                await view.RenderAsync(modelWithoutLocation, new RenderingContext(writer));
+                view.Render(modelWithoutLocation, new RenderingContext(writer));
                 return;
             }
 
             var templateRepository = (ITemplateRepository)this.Resolver.GetService(typeof(ITemplateRepository));
-            var sourceTemplate = await templateRepository.GetTemplateAsync(location.TemplateId);
+            var sourceTemplate = await templateRepository.GetTemplateAsync(location.TemplateId).ConfigureAwait(false);
             string sourceTemplateSource;
 
             using (var reader = new StreamReader(sourceTemplate.Open()))
             {
-                sourceTemplateSource = await reader.ReadToEndAsync();
+                sourceTemplateSource = await reader.ReadToEndAsync().ConfigureAwait(false);
             }
 
             var model = new ErrorViewModel
@@ -125,7 +124,7 @@ namespace TerrificNet.Controllers
                 Range = GetRange(sourceTemplateSource, location)
             };
 
-            await view.RenderAsync(model, new RenderingContext(writer));
+            view.Render(model, new RenderingContext(writer));
         }
 
         private static ErrorRange GetRange(string sourceTemplateSource, SourceLocation location)

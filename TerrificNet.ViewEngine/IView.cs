@@ -9,7 +9,6 @@ namespace TerrificNet.ViewEngine
 
     public interface IView<in T>
 	{
-		Task RenderAsync(T model, RenderingContext context);
 		void Render(T model, RenderingContext context);
     }
 }

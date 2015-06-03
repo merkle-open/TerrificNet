@@ -14,41 +14,41 @@ using Veil.Helper;
 
 namespace TerrificNet.Test
 {
-    [TestClass]
-    public class IntegrationTest
-    {
-        [TestMethod]
-        public async Task TemplateEngineShouldUseSameNamingConventionForBinding()
-        {
-            var cacheProvider = new MemoryCacheProvider();
-            var handlerFactory = new Mock<IHelperHandlerFactory>();
+	[TestClass]
+	public class IntegrationTest
+	{
+		[TestMethod]
+		public async Task TemplateEngineShouldUseSameNamingConventionForBinding()
+		{
+			var cacheProvider = new MemoryCacheProvider();
+			var handlerFactory = new Mock<IHelperHandlerFactory>();
 
-            handlerFactory.Setup(f => f.Create()).Returns(Enumerable.Empty<IHelperHandler>());
+			handlerFactory.Setup(f => f.Create()).Returns(Enumerable.Empty<IHelperHandler>());
 
-            var namingRule = new NamingRule();
-            var schemaProvider = new HandlebarsViewSchemaProvider(null, new MemberLocatorFromNamingRule(namingRule));
-            var codeGenerator = new JsonSchemaCodeGenerator(namingRule);
-            const string input = "<p>{{name}}</p><p>{{first_name}}</p>";
-            var templateInfo = new StringTemplateInfo("views/test", input);
+			var namingRule = new NamingRule();
+			var schemaProvider = new HandlebarsViewSchemaProvider(null, new MemberLocatorFromNamingRule(namingRule));
+			var codeGenerator = new JsonSchemaCodeGenerator(namingRule);
+			const string input = "<p>{{name}}</p><p>{{first_name}}</p>";
+			var templateInfo = new StringTemplateInfo("views/test", input);
 
-            var schema = await schemaProvider.GetSchemaFromTemplateAsync(templateInfo);            
-            var modelType = codeGenerator.Compile(schema);
+			var schema = await schemaProvider.GetSchemaFromTemplateAsync(templateInfo).ConfigureAwait(false);
+			var modelType = codeGenerator.Compile(schema);
 
-            var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object,  namingRule);
+			var viewEngine = new VeilViewEngine(cacheProvider, handlerFactory.Object, namingRule);
 
-            var view = await viewEngine.CreateViewAsync(templateInfo, modelType).ConfigureAwait(false);
+			var view = await viewEngine.CreateViewAsync(templateInfo, modelType).ConfigureAwait(false);
 
-            var model = Activator.CreateInstance(modelType);
+			var model = Activator.CreateInstance(modelType);
 
-            modelType.GetProperty("Name").SetValue(model, "{{name}}");
-            modelType.GetProperty("FirstName").SetValue(model, "{{first_name}}");
+			modelType.GetProperty("Name").SetValue(model, "{{name}}");
+			modelType.GetProperty("FirstName").SetValue(model, "{{first_name}}");
 
-            var writer = new StringWriter();
-            await view.RenderAsync(model, new RenderingContext(writer));
-            var stringResult = writer.ToString();
+			var writer = new StringWriter();
+			view.Render(model, new RenderingContext(writer));
+			var stringResult = writer.ToString();
 
-            Assert.AreEqual(input, stringResult);
-        }
+			Assert.AreEqual(input, stringResult);
+		}
 
-    }
+	}
 }

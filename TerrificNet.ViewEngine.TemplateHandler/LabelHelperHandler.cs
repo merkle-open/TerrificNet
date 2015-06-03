@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TerrificNet.ViewEngine.Client;
 using Veil;
 using Veil.Helper;
@@ -24,12 +23,6 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             return name.StartsWith("label", StringComparison.OrdinalIgnoreCase);
         }
 
-        public Task EvaluateAsync(object model, RenderingContext context, IDictionary<string, string> parameters)
-        {
-            var key = parameters.Keys.First().Trim('"');
-            return _handler.RenderLabelAsync(key, context);
-        }
-
 		public void Evaluate(object model, RenderingContext context, IDictionary<string, string> parameters)
 		{
 			var key = parameters.Keys.First().Trim('"');
@@ -42,7 +35,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             var builder = new StringBuilder();
             using (var writer = new StringWriter(builder))
             {
-                _handler.RenderLabelAsync(key, new RenderingContext(writer)).Wait();
+                _handler.RenderLabel(key, new RenderingContext(writer));
             }
 
             context.WriteLiteral(builder.ToString());
