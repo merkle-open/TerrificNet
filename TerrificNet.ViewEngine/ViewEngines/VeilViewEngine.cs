@@ -31,7 +31,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		{
 			if (templateInfo == null)
 				return null;
-			
+
 			var hash = string.Concat("template_", templateInfo.Id, templateInfo.ETag, modelType.FullName);
 
 			IView view;
@@ -108,7 +108,7 @@ namespace TerrificNet.ViewEngine.ViewEngines
 		{
 			private readonly Action<RenderingContext, T> _render;
 
-			public VeilView(Action<RenderingContext, T> render )
+			public VeilView(Action<RenderingContext, T> render)
 			{
 				_render = render;
 			}
