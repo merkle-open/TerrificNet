@@ -24,9 +24,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 			_moduleRepository = moduleRepository;
 		}
 
-		public virtual void RenderPlaceholder(object model, string key, int? index, RenderingContext context)
+		public virtual void RenderPlaceholder(object model, string key, string index, RenderingContext context)
 		{
-			if (index.HasValue)
+			if (index != null)
 				key = string.Join("_", key, index);
 
 			ViewDefinition definition;

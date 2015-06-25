@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using TerrificNet.ViewEngine.Globalization;
 using TerrificNet.ViewEngine.TemplateHandler.UI;
@@ -16,7 +15,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
         {
         }
 
-		public override void RenderPlaceholder(object model, string key, int? index, RenderingContext context)
+		public override void RenderPlaceholder(object model, string key, string index, RenderingContext context)
         {
             var isPageEditor = context.GetData("pageEditor", () => false);
             var renderPath = context.GetData("renderPath", () => new List<string>());

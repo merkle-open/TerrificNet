@@ -28,7 +28,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 			_handler.RenderPlaceholder(model, key, index, context);
 		}
 
-		private static int? TryGetIndex(IDictionary<string, string> parameters, object model)
+		private static string TryGetIndex(IDictionary<string, string> parameters, object model)
 		{
 			string indexProperty;
 			if (!parameters.TryGetValue("index", out indexProperty))
@@ -36,8 +36,8 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
 			indexProperty = indexProperty.Trim('"');
 
-			int? index = null;
-			int indexLocal;
+			string index = null;
+			string indexLocal;
 			if (TryGetPropValue(model, indexProperty, out indexLocal))
 				index = indexLocal;
 

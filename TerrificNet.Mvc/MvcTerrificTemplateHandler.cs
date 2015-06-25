@@ -9,12 +9,12 @@ namespace TerrificNet.Mvc
 {
 	public class MvcTerrificTemplateHandler : ITerrificTemplateHandler
 	{
-		public Task RenderPlaceholderAsync(object model, string key, int? index, RenderingContext context)
+		public Task RenderPlaceholderAsync(object model, string key, string index, RenderingContext context)
 		{
 			return context.Writer.WriteAsync("Placeholder for:" + key);
 		}
 
-		public void RenderPlaceholder(object model, string key, int? index, RenderingContext context)
+		public void RenderPlaceholder(object model, string key, string index, RenderingContext context)
 		{
 			context.Writer.Write("Placeholder for:" + key);
 		}
