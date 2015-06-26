@@ -48,7 +48,8 @@ namespace TerrificNet.ViewEngine.Config
                 DataPath =
                     fileSystem.Path.Combine(basePathInfo,
                         GetDefaultValueIfNotSet(config.DataPath, fileSystem, basePathInfo, PathInfo.Create("project"),
-                            PathInfo.Create("data")))
+                            PathInfo.Create("data"))),
+				Minify = config.Minify
             };
         }
 
@@ -60,10 +61,10 @@ namespace TerrificNet.ViewEngine.Config
 
             public PathInfo ModulePath { get; set; }
             public PathInfo AssetPath { get; set; }
-
             public PathInfo DataPath { get; set; }
+	        public bool Minify { get; set; }
 
-            public Dictionary<string, string[]> Assets { get; set; }
+	        public Dictionary<string, string[]> Assets { get; set; }
         }
 
         private static PathInfo GetDefaultValueIfNotSet(string value, IFileSystem fileSystem, params PathInfo[] defaultLocation)

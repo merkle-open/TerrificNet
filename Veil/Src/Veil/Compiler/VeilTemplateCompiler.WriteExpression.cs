@@ -37,8 +37,7 @@ namespace Veil.Compiler
 			if (expression.Type == typeof(void))
 				return expression;
 
-			// TODO: find better solution
-			return Expression.Call(writeMethodAsync, _task, _writer, Expression.Call(expression, typeof(object).GetMethod("ToString")));
+			return Expression.Call(encodeMethodObjectAsync, this._writer, Expression.Convert(expression, typeof(object)));
 		}
 
 		private Expression HandleWriteExpression(WriteExpressionNode node)
@@ -60,13 +59,7 @@ namespace Veil.Compiler
 			if (expression.Type == typeof(void))
 				return expression;
 
-			// TODO: find better solution
-			return Expression.Call(writeMethod, _writer, Expression.Call(expression, typeof(object).GetMethod("ToString")));
+			return Expression.Call(encodeMethodObject, this._writer, Expression.Convert(expression, typeof(object)));
 		}
-
-		//private Expression CompileToTask(Expression expression)
-		//{
-		//    Expression.Lambda<Func<Task>>(
-		//}
 	}
 }

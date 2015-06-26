@@ -10,6 +10,7 @@ namespace TerrificNet.ViewEngine.Config
         PathInfo ModulePath { get; }
         PathInfo AssetPath { get; }
         PathInfo DataPath { get; }
+		bool Minify { get; }
 
         Dictionary<string, string[]> Assets { get; set; }
 	}

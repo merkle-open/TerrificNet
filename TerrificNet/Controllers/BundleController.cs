@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TerrificNet.AssetCompiler;
 using TerrificNet.AssetCompiler.Helpers;
-using TerrificNet.ViewEngine;
 using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.IO;
 
@@ -35,9 +35,12 @@ namespace TerrificNet.Controllers
 		{
 			var components = _assetHelper.GetGlobComponentsForAsset(_config.Assets[name], _fileSystem.BasePath.ToString());
 			var content = await _assetBundler.BundleAsync(components).ConfigureAwait(false);
+
 			var compiler = _assetCompilerFactory.GetCompiler(name);
-			var compiledContent = await compiler.CompileAsync(content).ConfigureAwait(false);
-			var response = new HttpResponseMessage { Content = new StringContent(compiledContent, System.Text.Encoding.Default, compiler.MimeType) };
+			if (_config.Minify)
+				content = await compiler.CompileAsync(content).ConfigureAwait(false);
+
+			var response = new HttpResponseMessage { Content = new StringContent(content, Encoding.Default, compiler.MimeType) };
 			return response;
 		}
 	}

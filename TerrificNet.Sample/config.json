@@ -36,5 +36,6 @@
     "dataPath": "project/data",
 
     "default_layout":  "views/_layouts/_layout.html",
-    "default_layout_placeholder":  "content"
+    "default_layout_placeholder": "content",
+    "minify": false
 }
