@@ -29,7 +29,23 @@ namespace Veil
 			HtmlEncode(writer, string.Empty);
 		}
 
-		public static void Write(TextWriter writer, string value)
+	    public static void Write(TextWriter writer, object value)
+	    {
+            if (value != null)
+            {
+                Write(writer, value.ToString());
+                return;
+            }
+
+            Write(writer, string.Empty);
+	    }
+
+	    public static Task WriteAsync(Task before, TextWriter writer, object value)
+	    {
+            return Then(before, () => writer.Write(value));
+	    }
+
+	    public static void Write(TextWriter writer, string value)
 		{
 			writer.Write(value);
 			//await before.ConfigureAwait(false);

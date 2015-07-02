@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,6 +11,8 @@ namespace Veil.Compiler
 		private static readonly MethodInfo writeMethodAsync = typeof(Helpers).GetMethod("WriteAsync", new[] { typeof(Task), typeof(TextWriter), typeof(string) });
 		private static readonly MethodInfo writeMethod = typeof(Helpers).GetMethod("Write", new[] { typeof(TextWriter), typeof(string) });
 		//private static readonly MethodInfo writeMethodObject = typeof(Helpers).GetMethod("WriteAsync", new[] { typeof(object) });
+        private static readonly MethodInfo writeMethodObject = typeof(Helpers).GetMethod("Write", new[] { typeof(TextWriter), typeof(object) });
+        private static readonly MethodInfo writeMethodObjectAsync = typeof(Helpers).GetMethod("WriteAsync", new[] { typeof(Task), typeof(TextWriter), typeof(object) });
 		private static readonly MethodInfo encodeMethodAsync = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(Task), typeof(TextWriter), typeof(string) });
 		private static readonly MethodInfo encodeMethod = typeof(Helpers).GetMethod("HtmlEncode", new[] { typeof(TextWriter), typeof(string) });
 		private static readonly MethodInfo encodeMethodObjectAsync = typeof(Helpers).GetMethod("HtmlEncodeAsync", new[] { typeof(Task), typeof(TextWriter), typeof(object) });
@@ -26,9 +27,9 @@ namespace Veil.Compiler
 			if (node.HtmlEncode && escapeHtml)
 			{
 				if (expression.Type == typeof(string))
-					return Expression.Call(encodeMethodAsync, _task, this._writer, expression);
+					return Expression.Call(encodeMethodAsync, _task, _writer, expression);
 
-				return Expression.Call(encodeMethodObjectAsync, _task, this._writer, Expression.Convert(expression, typeof(object)));
+				return Expression.Call(encodeMethodObjectAsync, _task, _writer, expression);
 			}
 
 			if (expression.Type == typeof(string))
@@ -37,7 +38,7 @@ namespace Veil.Compiler
 			if (expression.Type == typeof(void))
 				return expression;
 
-			return Expression.Call(encodeMethodObjectAsync, this._writer, Expression.Convert(expression, typeof(object)));
+			return Expression.Call(encodeMethodObjectAsync, _writer, expression);
 		}
 
 		private Expression HandleWriteExpression(WriteExpressionNode node)
@@ -48,9 +49,9 @@ namespace Veil.Compiler
 			if (node.HtmlEncode && escapeHtml)
 			{
 				if (expression.Type == typeof(string))
-					return Expression.Call(encodeMethod, this._writer, expression);
+					return Expression.Call(encodeMethod, _writer, expression);
 
-				return Expression.Call(encodeMethodObject, this._writer, Expression.Convert(expression, typeof(object)));
+				return Expression.Call(encodeMethodObject, _writer, expression);
 			}
 
 			if (expression.Type == typeof(string))
@@ -59,7 +60,7 @@ namespace Veil.Compiler
 			if (expression.Type == typeof(void))
 				return expression;
 
-			return Expression.Call(encodeMethodObject, this._writer, Expression.Convert(expression, typeof(object)));
+            return Expression.Call(writeMethodObject, _writer, expression);
 		}
 	}
 }
