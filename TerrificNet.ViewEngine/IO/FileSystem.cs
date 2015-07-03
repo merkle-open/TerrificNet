@@ -75,12 +75,12 @@ namespace TerrificNet.ViewEngine.IO
 
 		private void NotifySubscriptions(IFileInfo file)
 		{
-			foreach (var subscription in _subscriptions)
+            foreach (var subscription in _subscriptions.ToList())
 			{
 				subscription.Notify(file);
 			}
 
-			foreach (var subscription in _directorySubscriptions)
+			foreach (var subscription in _directorySubscriptions.ToList())
 			{
 				if (!subscription.IsMatch(file.FilePath))
 					continue;
