@@ -20,15 +20,10 @@ namespace TerrificNet.AssetCompiler.Processors
 			var bundler = _container.Resolve<IAssetBundler>();
 			var result = await bundler.BundleAsync(_assetHelper.GetGlobComponentsForAsset(files, basePath));
 
-			if (flags.HasFlag(ProcessorFlags.Minify))
-			{
-				var factory = _container.Resolve<IAssetCompilerFactory>();
-				var compiler = factory.GetCompiler(name);
+			var factory = _container.Resolve<IAssetCompilerFactory>();
+			var compiler = factory.GetCompiler(name);
 
-				result = await compiler.CompileAsync(result);
-			}
-
-			return result;
+            return await compiler.CompileAsync(result, flags.HasFlag(ProcessorFlags.Minify));
 		}
 	}
 }

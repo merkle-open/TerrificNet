@@ -16,14 +16,14 @@ namespace TerrificNet.AssetCompiler.Compiler
 			_compiler = compiler;
 		}
 
-		public async Task<string> CompileAsync(string content)
+		public async Task<string> CompileAsync(string content, bool minify)
 		{
 			var hash = GetHash(new MD5CryptoServiceProvider(), content);
 
 			var cacheContent = _cache.Get(hash) as string;
 			if (cacheContent == null)
 			{
-				cacheContent = await _compiler.CompileAsync(content);
+                cacheContent = await _compiler.CompileAsync(content, minify);
 				_cache.Set(hash, cacheContent, new CacheItemPolicy
 				{
 					Priority = CacheItemPriority.NotRemovable,

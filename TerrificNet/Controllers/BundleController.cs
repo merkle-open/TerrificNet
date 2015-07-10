@@ -37,8 +37,7 @@ namespace TerrificNet.Controllers
 			var content = await _assetBundler.BundleAsync(components).ConfigureAwait(false);
 
 			var compiler = _assetCompilerFactory.GetCompiler(name);
-			if (_config.Minify)
-				content = await compiler.CompileAsync(content).ConfigureAwait(false);
+            content = await compiler.CompileAsync(content, _config.Minify).ConfigureAwait(false);
 
 			var response = new HttpResponseMessage { Content = new StringContent(content, Encoding.Default, compiler.MimeType) };
 			return response;

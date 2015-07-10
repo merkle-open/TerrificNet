@@ -8,14 +8,15 @@ namespace TerrificNet.AssetCompiler.Compiler
 {
 	public class LessAssetCompiler : IAssetCompiler
 	{
-		/// <summary>
-		/// (Awaitable) Compiles content with the give configuration (files and minify flag).
-		/// </summary>
-		/// <param name="content">Content to Compile</param>
-		/// <returns>string with compiled content</returns>
-		public Task<string> CompileAsync(string content)
+	    /// <summary>
+	    /// (Awaitable) Compiles content with the give configuration (files and minify flag).
+	    /// </summary>
+	    /// <param name="content">Content to Compile</param>
+	    /// <param name="minify"></param>
+	    /// <returns>string with compiled content</returns>
+	    public Task<string> CompileAsync(string content, bool minify)
 		{
-			return Task.FromResult(Less.Parse(content, new DotlessConfiguration { MinifyOutput = true }));
+            return Task.FromResult(Less.Parse(content, new DotlessConfiguration { MinifyOutput = minify }));
 		}
 
 		public bool CanProcess(string filename)

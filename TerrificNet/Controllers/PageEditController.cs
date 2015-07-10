@@ -88,7 +88,7 @@ namespace TerrificNet.Controllers
 			var content = await assetBundler.BundleAsync(components).ConfigureAwait(false);
 			content = ".page-editor .page, .page-editor .sidebar{" + content + "}";
 			var compiler = assetCompilerFactory.GetCompiler(name);
-			var compiledContent = await compiler.CompileAsync(content).ConfigureAwait(false);
+			var compiledContent = await compiler.CompileAsync(content, false).ConfigureAwait(false);
 
 			var response = new HttpResponseMessage
 			{
