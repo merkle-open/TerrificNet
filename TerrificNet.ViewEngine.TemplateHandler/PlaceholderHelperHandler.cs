@@ -35,7 +35,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 		    string index;
 		    if (parameters.TryGetValue("index", out index))
 		    {
-		        fullIndex = index;
+		        fullIndex = index.Trim('"');
 		    }
 
 			string indexProperty;
