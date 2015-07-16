@@ -30,18 +30,30 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 
 		private static string TryGetIndex(IDictionary<string, string> parameters, object model)
 		{
+            string fullIndex = null;
+
+		    string index;
+		    if (parameters.TryGetValue("index", out index))
+		    {
+		        fullIndex = index;
+		    }
+
 			string indexProperty;
-			if (!parameters.TryGetValue("index", out indexProperty))
-				return null;
+		    if (parameters.TryGetValue("indexprop", out indexProperty))
+		    {
+		        indexProperty = indexProperty.Trim('"');
 
-			indexProperty = indexProperty.Trim('"');
+                string indexPropertyValue;
+		        if (TryGetPropValue(model, indexProperty, out indexPropertyValue))
+		        {
+		            if (fullIndex == null)
+		                return indexPropertyValue;
 
-			string index = null;
-			string indexLocal;
-			if (TryGetPropValue(model, indexProperty, out indexLocal))
-				index = indexLocal;
+                    fullIndex += "_" + indexPropertyValue;
+		        }
+		    }
 
-			return index;
+		    return fullIndex;
 		}
 
 		private static bool TryGetPropValue<TValue>(object src, string propertyName, out TValue value)
