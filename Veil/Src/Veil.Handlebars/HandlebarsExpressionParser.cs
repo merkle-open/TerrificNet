@@ -32,7 +32,7 @@ namespace Veil.Handlebars
                     }
                     
                 }
-                return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.ModelOfParentScope, memberLocator, location.MoveIndex(3));
+                return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.ModelOfParentScope, memberLocator, location);
             }
 
             return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack, memberLocator, location);
