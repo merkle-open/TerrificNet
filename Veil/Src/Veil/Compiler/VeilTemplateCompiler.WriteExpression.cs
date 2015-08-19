@@ -29,7 +29,7 @@ namespace Veil.Compiler
 				if (expression.Type == typeof(string))
 					return Expression.Call(encodeMethodAsync, _task, _writer, expression);
 
-				return Expression.Call(encodeMethodObjectAsync, _task, _writer, expression);
+                return Expression.Call(encodeMethodObjectAsync, _task, _writer, Expression.Convert(expression, typeof(object)));
 			}
 
 			if (expression.Type == typeof(string))
@@ -38,7 +38,7 @@ namespace Veil.Compiler
 			if (expression.Type == typeof(void))
 				return expression;
 
-			return Expression.Call(encodeMethodObjectAsync, _writer, expression);
+            return Expression.Call(encodeMethodObjectAsync, _writer, Expression.Convert(expression, typeof(object)));
 		}
 
 		private Expression HandleWriteExpression(WriteExpressionNode node)
@@ -51,7 +51,7 @@ namespace Veil.Compiler
 				if (expression.Type == typeof(string))
 					return Expression.Call(encodeMethod, _writer, expression);
 
-				return Expression.Call(encodeMethodObject, _writer, expression);
+                return Expression.Call(encodeMethodObject, _writer, Expression.Convert(expression, typeof(object)));
 			}
 
 			if (expression.Type == typeof(string))
@@ -60,7 +60,7 @@ namespace Veil.Compiler
 			if (expression.Type == typeof(void))
 				return expression;
 
-            return Expression.Call(writeMethodObject, _writer, expression);
+            return Expression.Call(writeMethodObject, _writer, Expression.Convert(expression, typeof(object)));
 		}
 	}
 }
