@@ -17,11 +17,22 @@ namespace Veil.Handlebars
 
             if (expression == "this")
             {
-                return SyntaxTreeExpression.Self(blockStack.GetCurrentModelType(), location, ExpressionScope.CurrentModelOnStack);
+                return SyntaxTreeExpression.Self(blockStack.GetCurrentModelType(), location);
             }
             if (expression.StartsWith("../"))
             {
-                return ParseAgainstModel(blockStack.GetParentModelType(), expression.Substring(3), ExpressionScope.ModelOfParentScope, memberLocator, location.MoveIndex(3));
+                var blockNode = blockStack.FirstNode();
+                while (expression.StartsWith("../"))
+                {
+                    blockNode = blockStack.GetParentNode(blockNode);
+                    if (blockNode != null)
+                    {
+                        expression = expression.Substring(3);
+                        location = location.MoveIndex(3);
+                    }
+                    
+                }
+                return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.ModelOfParentScope, memberLocator, location.MoveIndex(3));
             }
 
             return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack, memberLocator, location);

@@ -71,5 +71,15 @@ namespace Veil.Handlebars
         {
             return blocks.First.Next.Value.Block.Nodes.Last() is T;
         }
+
+        public LinkedListNode<HandlebarsParserBlock> FirstNode()
+        {
+            return blocks.First;
+        }
+
+        public LinkedListNode<HandlebarsParserBlock> GetParentNode(LinkedListNode<HandlebarsParserBlock> blockNode)
+        {
+            return blockNode.Next;
+        }
     }
 }
