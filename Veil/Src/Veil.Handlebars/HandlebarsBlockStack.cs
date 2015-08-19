@@ -81,5 +81,10 @@ namespace Veil.Handlebars
         {
             return blockNode.Next;
         }
+
+        public Type GetCurrentModelType(LinkedListNode<HandlebarsParserBlock> blockNode)
+        {
+            return blockNode.Value.ModelInScope;
+        }
     }
 }

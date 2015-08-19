@@ -25,14 +25,10 @@ namespace Veil.Handlebars
                 while (expression.StartsWith("../"))
                 {
                     blockNode = blockStack.GetParentNode(blockNode);
-                    if (blockNode != null)
-                    {
-                        expression = expression.Substring(3);
-                        location = location.MoveIndex(3);
-                    }
-                    
+                    expression = expression.Substring(3);
+                    location = location.MoveIndex(3);
                 }
-                return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.ModelOfParentScope, memberLocator, location);
+                return ParseAgainstModel(blockStack.GetCurrentModelType(blockNode), expression, ExpressionScope.ModelOfParentScope, memberLocator, location);
             }
 
             return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack, memberLocator, location);
