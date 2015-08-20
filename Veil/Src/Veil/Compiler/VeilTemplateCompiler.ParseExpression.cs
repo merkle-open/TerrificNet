@@ -31,7 +31,7 @@ namespace Veil.Compiler
 
 		private Expression EvaluateFunctionCall(FunctionCallExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope, node);
+			var modelExpression = EvaluateScope(node);
 			return Expression.Call(modelExpression, node.MethodInfo);
 		}
 
@@ -44,7 +44,7 @@ namespace Veil.Compiler
 
 		private Expression EvaluateLateBoundExpression(LateBoundExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope, node);
+			var modelExpression = EvaluateScope(node);
 			return Expression.Call(null, RuntimeBindFunction, new[] {
                 modelExpression,
                 Expression.Constant(node)
@@ -53,7 +53,7 @@ namespace Veil.Compiler
 
 		private Expression EvaluateSelfExpressionNode(SelfExpressionNode node)
 		{
-			return EvaluateScope(node.Scope, node);
+			return EvaluateScope(node);
 		}
 
 		private Expression EvaluateSubModel(SubModelExpressionNode node)
@@ -67,27 +67,42 @@ namespace Veil.Compiler
 
 		private Expression EvaluateField(FieldExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope, node);
+			var modelExpression = EvaluateScope(node);
 			return Expression.Field(modelExpression, node.FieldInfo);
 		}
 
 		private Expression EvaluateProperty(PropertyExpressionNode node)
 		{
-			var modelExpression = EvaluateScope(node.Scope, node);
+			var modelExpression = EvaluateScope(node);
 			return Expression.Block(
                 NullCheck(string.Format("Cannot access property '{0}' because value is null", node.PropertyInfo.Name), node, modelExpression),
                 Expression.Property(modelExpression, node.PropertyInfo));
 		}
 
-		private Expression EvaluateScope(ExpressionScope scope, SyntaxTreeNode node)
+		private Expression EvaluateScope(ExpressionNode node)
 		{
-			switch (scope)
+			switch (node.Scope)
 			{
 				case ExpressionScope.CurrentModelOnStack: return this._modelStack.First.Value;
 				case ExpressionScope.RootModel: return this._modelStack.Last.Value;
-				case ExpressionScope.ModelOfParentScope: return this._modelStack.First.Next.Value;
+				case ExpressionScope.ModelOfParentScope:
+			        var recursionLevel = 0;
+                    var expressionNode = _modelStack.First;
+			        if (recursionLevel < 100)
+			        {
+			            while (recursionLevel < node.RecursionLevel)
+			            {
+			                var parentExpressionNode = expressionNode.Next;
+			                if (parentExpressionNode != null)
+			                {
+			                    expressionNode = expressionNode.Next;
+			                }
+                            recursionLevel++;
+			            }
+			        }
+			        return expressionNode.Value;
 				default:
-					throw new VeilCompilerException("Unknown expression scope '{0}'".FormatInvariant(scope), node);
+                    throw new VeilCompilerException("Unknown expression scope '{0}'".FormatInvariant(node.Scope), node);
 			}
 		}
 	}

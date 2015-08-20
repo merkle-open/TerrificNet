@@ -13,6 +13,11 @@ namespace Veil.Parser
         public ExpressionScope Scope { get; set; }
 
         /// <summary>
+        /// The recursion level if Scope is ExpressionScope.ModelOfParentScope
+        /// </summary>
+        public int RecursionLevel { get; set; }
+
+        /// <summary>
         /// The type of result from this expression evaluation
         /// </summary>
         public abstract Type ResultType { get; }

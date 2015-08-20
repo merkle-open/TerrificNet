@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TerrificNet.ViewEngine.Schema;
@@ -97,10 +98,22 @@ namespace TerrificNet.ViewEngine.Client
 			{
 		        if (lateboundExpression.Scope == ExpressionScope.ModelOfParentScope)
 		        {
-		            var self = _modelStack.Pop();
-		            var outer = _modelStack.Peek();
-		            _modelStack.Push(self);
-		            
+                    var outer = _modelStack.Peek();
+
+                    if (lateboundExpression.RecursionLevel < _modelStack.Count && lateboundExpression.RecursionLevel < 100)
+		            {
+		                var expressionNodes = new IClientModel[100];
+		                var recursionLevel = 0;
+                        while (recursionLevel < lateboundExpression.RecursionLevel)
+                        {
+                            expressionNodes[recursionLevel] = _modelStack.Pop();
+                            recursionLevel++;
+                        }
+                        outer = _modelStack.Peek();
+                        for (var i = recursionLevel - 1; i >= 0; i--)
+                            _modelStack.Push(expressionNodes[i]);
+		            }
+
                     return outer.Get(lateboundExpression.ItemName);
 		        }
 

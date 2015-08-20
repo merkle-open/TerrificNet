@@ -11,6 +11,8 @@ namespace Veil.Handlebars
     {
         public static ExpressionNode Parse(HandlebarsParserState state, HandlebarsBlockStack blockStack, SourceLocation location, string expression, IMemberLocator memberLocator = null)
         {
+            int recursionLevel = 0;
+
 	        memberLocator = memberLocator ?? MemberLocator.Default;
 
             expression = expression.Trim();
@@ -24,25 +26,30 @@ namespace Veil.Handlebars
                 var blockNode = blockStack.FirstNode();
                 while (expression.StartsWith("../"))
                 {
-                    blockNode = blockStack.GetParentNode(blockNode);
-                    expression = expression.Substring(3);
-                    location = location.MoveIndex(3);
+                    var parentBlockNode = blockStack.GetParentNode(blockNode);
+                    if (parentBlockNode != null)
+                    {
+                        blockNode = parentBlockNode;
+                        expression = expression.Substring(3);
+                        location = location.MoveIndex(3);
+                    }
+                    recursionLevel++;
                 }
-                return ParseAgainstModel(blockStack.GetCurrentModelType(blockNode), expression, ExpressionScope.ModelOfParentScope, memberLocator, location);
+                return ParseAgainstModel(blockStack.GetCurrentModelType(blockNode), expression, ExpressionScope.ModelOfParentScope, recursionLevel, memberLocator, location);
             }
 
-            return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack, memberLocator, location);
+            return ParseAgainstModel(blockStack.GetCurrentModelType(), expression, ExpressionScope.CurrentModelOnStack, recursionLevel, memberLocator, location);
         }
 
-		private static ExpressionNode ParseAgainstModel(Type modelType, string expression, ExpressionScope expressionScope, IMemberLocator memberLocator, SourceLocation location)
+		private static ExpressionNode ParseAgainstModel(Type modelType, string expression, ExpressionScope expressionScope, int recursionLevel, IMemberLocator memberLocator, SourceLocation location)
         {
             var dotIndex = expression.IndexOf('.');
             if (dotIndex >= 0)
             {
-				var subModel = ParseAgainstModel(modelType, expression.Substring(0, dotIndex), expressionScope, memberLocator, location.SetLength(dotIndex));
+				var subModel = ParseAgainstModel(modelType, expression.Substring(0, dotIndex), expressionScope, recursionLevel, memberLocator, location.SetLength(dotIndex));
                 return SyntaxTreeExpression.SubModel(
                     subModel,
-                    ParseAgainstModel(subModel.ResultType, expression.Substring(dotIndex + 1), ExpressionScope.CurrentModelOnStack, memberLocator, location.MoveIndex(dotIndex + 1)),
+                    ParseAgainstModel(subModel.ResultType, expression.Substring(dotIndex + 1), ExpressionScope.CurrentModelOnStack, 0, memberLocator, location.MoveIndex(dotIndex + 1)),
 					location
                 );
             }
@@ -58,13 +65,13 @@ namespace Veil.Handlebars
             {
                 switch (prop.MemberType)
                 {
-                    case MemberTypes.Property: return SyntaxTreeExpression.Property(modelType, prop.Name, location, expressionScope);
-                    case MemberTypes.Field: return SyntaxTreeExpression.Field(modelType, prop.Name, location, expressionScope);
+                    case MemberTypes.Property: return SyntaxTreeExpression.Property(modelType, prop.Name, location, expressionScope, recursionLevel);
+                    case MemberTypes.Field: return SyntaxTreeExpression.Field(modelType, prop.Name, location, expressionScope, recursionLevel);
                 }
             }
 
-            if (IsLateBoundAcceptingType(modelType)) 
-				return SyntaxTreeExpression.LateBound(expression, location, memberLocator, false, expressionScope);
+            if (IsLateBoundAcceptingType(modelType))
+                return SyntaxTreeExpression.LateBound(expression, location, memberLocator, false, expressionScope, recursionLevel);
 
             throw new VeilParserException(String.Format("Unable to parse model expression '{0}' againt model '{1}'", expression, modelType.Name), location);
         }

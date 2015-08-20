@@ -106,9 +106,19 @@ namespace TerrificNet.ViewEngine.Schema
                 var modelSchema = _schemas.Peek();
                 if (lateboundExpression.Scope == ExpressionScope.ModelOfParentScope)
                 {
-                    var subSchema = _schemas.Pop();
-                    modelSchema = _schemas.Peek();
-                    _schemas.Push(subSchema);
+                    if (lateboundExpression.RecursionLevel < _schemas.Count && lateboundExpression.RecursionLevel < 100)
+                    {
+                        var expressionNodes = new JSchema[100];
+                        var recursionLevel = 0;
+                        while (recursionLevel < lateboundExpression.RecursionLevel)
+                        {
+                            expressionNodes[recursionLevel] = _schemas.Pop();
+                            recursionLevel++;
+                        }
+                        modelSchema = _schemas.Peek();
+                        for (var i = recursionLevel - 1; i >= 0; i--)
+                            _schemas.Push(expressionNodes[i]);
+                    }
                 }
 
                 string propertyName = lateboundExpression.ItemName;
