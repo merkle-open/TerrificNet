@@ -110,22 +110,27 @@
                 }
             },
             {
-                "template": "views/_layouts/grid/g-2",
+                "template": "views/_layouts/grid/g-3",
                 "data": {
                     "css": "g-offset-top"
                 },
 
                 "_placeholder": {
-                    "phcell_1_2": [
+                    "phcell_1_3_1": [
                         {
                             "module": "components/modules/DownloadList",
                             "data_variation": "download-list-1"
                         }
                     ],
-                    "phcell_2_2": [
+                    "phcell_1_3_2": [
                         {
                             "module": "components/modules/DownloadList",
                             "data_variation": "download-list-2"
+                        }
+                    ],
+                    "phcell_1_3_3": [
+                        {
+                            "module": "components/modules/Recursive"
                         }
                     ]
                 }

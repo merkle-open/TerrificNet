@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.SessionState;
-using Microsoft.Practices.Unity;
 using TerrificNet.Mvc;
 
 namespace TerrificNet.Sample.Net
@@ -11,13 +10,11 @@ namespace TerrificNet.Sample.Net
     {
         protected void Application_Start()
         {
-            var container = Bootstrapper.Initialise();
-
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(container.Resolve<TerrificNetViewEngine>());
+            ViewEngines.Engines.Add(DependencyResolver.Current.GetService<TerrificNetViewEngine>());
 
             var factory = ControllerBuilder.Current.GetControllerFactory();
             ControllerBuilder.Current.SetControllerFactory(new FallbackControllerFactory(factory));

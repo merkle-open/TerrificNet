@@ -1,0 +1,13 @@
+{
+    "testtext": "test",
+    "entries": [
+        {
+             "output": "test2",
+             "subentries": [
+                 {
+                     "output": "test3"
+                 }
+             ]
+        }
+    ]
+}
