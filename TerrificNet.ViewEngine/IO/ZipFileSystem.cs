@@ -11,6 +11,8 @@ namespace TerrificNet.ViewEngine.IO
     {
         private readonly PathInfo _filePath;
         private readonly PathInfo _rootPath;
+        private readonly string _rootPathString;
+        private readonly int _rootPathLength;
         private static readonly IPathHelper PathHelper = new ZipPathHelper();
         private readonly ZipFile _file;
         private readonly string _etag;
@@ -19,6 +21,8 @@ namespace TerrificNet.ViewEngine.IO
         {
             _filePath = PathInfo.Create(filePath);
             _rootPath = PathInfo.Create(rootPath);
+            _rootPathString = _rootPath.ToString();
+            _rootPathLength = _rootPathString.Length;
             _file = new ZipFile(filePath);
             _etag = new FileInfo(filePath).LastWriteTimeUtc.Ticks.ToString("X8");
         }
@@ -35,7 +39,7 @@ namespace TerrificNet.ViewEngine.IO
         {
             return _file.OfType<ZipEntry>()
                 .Where(e => e.IsFile && e.Name.StartsWith(GetFullPath(directory)) && e.Name.EndsWith(string.Concat(".", fileExtension)))
-                .Select(e => PathInfo.Create(e.Name.Substring(_rootPath.ToString().Length)));
+                .Select(e => PathInfo.Create(e.Name.Substring(_rootPathLength + 1)));
         }
 
 		public Stream OpenRead(PathInfo filePath)
@@ -98,7 +102,7 @@ namespace TerrificNet.ViewEngine.IO
         private string GetFullPath(PathInfo path)
         {
             if (path == null)
-                return _rootPath.ToString();
+                return _rootPathString;
 
             return Path.Combine(_rootPath, path).ToString();
         }
