@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TerrificNet.ViewEngine.Config;
 using TerrificNet.ViewEngine.IO;
 
 namespace TerrificNet.ViewEngine
@@ -9,28 +10,45 @@ namespace TerrificNet.ViewEngine
 	public class TerrificTemplateRepository : ITemplateRepository, IDisposable
 	{
 		private readonly IFileSystem _fileSystem;
+        private readonly ITerrificNetConfig _configuration;
 		private Dictionary<string, FileTemplateInfo> _templates;
-		private IDisposable _subscription;
+		private IDisposable _moduleSubscription;
+        private IDisposable _viewSubscription;
 
-		public TerrificTemplateRepository(IFileSystem fileSystem)
+        public TerrificTemplateRepository(IFileSystem fileSystem, ITerrificNetConfig configuration)
 		{
 			_fileSystem = fileSystem;
+            _configuration = configuration;
 
 			InitCache();
 
 			if (!_fileSystem.SupportsSubscribe)
 				return;
 
-			_fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(""), "html", files => InitCache());
+            _moduleSubscription =
+                _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(_configuration.ModulePath.ToString()),
+                    "html", files => InitCache());
+
+            _viewSubscription =
+                _fileSystem.SubscribeDirectoryGetFilesAsync(PathInfo.Create(_configuration.ViewPath.ToString()),
+                    "html", files => InitCache());
 		}
 
 		private void InitCache()
 		{
-			_templates = _fileSystem.DirectoryGetFiles(null, "html").Select(f =>
-			{
-				var relativePath = GetTemplateId(f).RemoveStartSlash();
-				return new FileTemplateInfo(relativePath.ToString(), f, _fileSystem);
-			}).ToDictionary(i => i.Id, i => i);
+		    var moduleTemplates = _fileSystem.DirectoryGetFiles(_configuration.ModulePath, "html").Select(f =>
+		    {
+		        var relativePath = GetTemplateId(f).RemoveStartSlash();
+		        return new FileTemplateInfo(relativePath.ToString(), f, _fileSystem);
+		    });
+
+		    var viewTemplates = _fileSystem.DirectoryGetFiles(_configuration.ViewPath, "html").Select(f =>
+		    {
+		        var relativePath = GetTemplateId(f).RemoveStartSlash();
+		        return new FileTemplateInfo(relativePath.ToString(), f, _fileSystem);
+		    });
+
+            _templates = moduleTemplates.Concat(viewTemplates).ToDictionary(i => i.Id, i => i);
 		}
 
 		public Task<TemplateInfo> GetTemplateAsync(string id)
@@ -65,10 +83,14 @@ namespace TerrificNet.ViewEngine
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if (disposing && _subscription != null)
-				_subscription.Dispose();
+		    if (disposing)
+		    {
+		        _moduleSubscription.Dispose();
+                _viewSubscription.Dispose();
+		    }
 
-			_subscription = null;
+		    _moduleSubscription = null;
+		    _viewSubscription = null;
 		}
 	}
 }

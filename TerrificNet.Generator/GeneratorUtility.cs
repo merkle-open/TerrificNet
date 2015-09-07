@@ -47,7 +47,7 @@ namespace TerrificNet.Generator
 
             var schemaProvider = new SchemaMergeProvider(new HandlebarsViewSchemaProvider(null, null),
                 new PhysicalSchemaProvider(config, fileSystem));
-            var repo = new TerrificTemplateRepository(fileSystem);
+            var repo = new TerrificTemplateRepository(fileSystem, config);
             var codeGenerator = new JsonSchemaCodeGenerator();
 
             var schemas = repo.GetAll().Select(schemaProvider.GetSchemaFromTemplateAsync).ToList();
