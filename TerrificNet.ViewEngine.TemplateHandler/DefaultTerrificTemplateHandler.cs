@@ -50,12 +50,14 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 			}
 		}
 
-		public virtual void RenderModule(string moduleId, string skin, RenderingContext context)
+        public virtual void RenderModule(string moduleId, string skin, RenderingContext context, string dataVariation)
 		{
-			string dataVariation = null;
-			object dataVariationObj;
-			if (context.Data.TryGetValue("data_variation", out dataVariationObj))
-				dataVariation = dataVariationObj as string;
+			string variation;
+			object variationObj;
+            if (string.IsNullOrEmpty(dataVariation) && context.Data.TryGetValue("data_variation", out variationObj))
+                variation = variationObj as string;
+            else
+                variation = dataVariation;
 
 			var moduleDefinition = _moduleRepository.GetModuleDefinitionByIdAsync(moduleId).Result;
 			if (moduleDefinition != null)
@@ -68,7 +70,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 				var view = _viewEngine.CreateViewAsync(templateInfo).Result;
 				if (view != null)
 				{
-					var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, dataVariation).Result;
+					var moduleModel = _modelProvider.GetModelForModuleAsync(moduleDefinition, variation).Result;
 					if (context.Data.ContainsKey("siteDefinition") && context.Data.ContainsKey("short_module"))
 						context.Data["siteDefinition"] = JsonConvert.DeserializeObject<ModuleViewDefinition>(JsonConvert.SerializeObject(moduleModel));
 

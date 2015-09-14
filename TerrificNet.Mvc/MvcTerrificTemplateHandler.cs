@@ -29,7 +29,7 @@ namespace TerrificNet.Mvc
 			return Task.FromResult(false);
 		}
 
-		public void RenderModule(string moduleId, string skin, RenderingContext context)
+		public void RenderModule(string moduleId, string skin, RenderingContext context, string dataVariation)
 		{
 			var mvcContext = context as MvcRenderingContext;
 			if (mvcContext == null)

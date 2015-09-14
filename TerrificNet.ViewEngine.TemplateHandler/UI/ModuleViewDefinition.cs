@@ -18,9 +18,9 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
 		protected internal override void Render(ITerrificTemplateHandler templateHandler, object model, RenderingContext context)
 		{
 			if (context.Data.ContainsKey("data_variation"))
-				context.Data["data_variation"] = this.DataVariation;
+				context.Data["data_variation"] = DataVariation;
 			else
-				context.Data.Add("data_variation", this.DataVariation);
+				context.Data.Add("data_variation", DataVariation);
 
 			templateHandler.RenderModule(Module, Skin, context);
 		}

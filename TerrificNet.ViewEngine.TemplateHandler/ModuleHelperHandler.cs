@@ -28,7 +28,11 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 			if (parameters.ContainsKey("skin"))
 				skin = parameters["skin"].Trim('"');
 
-			_handler.RenderModule(templateName, skin, context);
+            string dataVariation = null;
+            if (parameters.ContainsKey("data_variation"))
+                dataVariation = parameters["data_variation"].Trim('"');
+
+            _handler.RenderModule(templateName, skin, context, dataVariation);
 		}
     }
 }

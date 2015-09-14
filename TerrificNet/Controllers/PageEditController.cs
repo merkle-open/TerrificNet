@@ -112,7 +112,7 @@ namespace TerrificNet.Controllers
 				context.Data.Add("renderPath", new List<string> { parent });
 				context.Data.Add("siteDefinition", new ModuleViewDefinition());
 				context.Data.Add("short_module", true);
-				renderer.RenderModule(id, skin, context);
+                renderer.RenderModule(id, skin, context, dataVariation);
 
 				var moduleViewDefinition = context.Data["siteDefinition"] as ModuleViewDefinition;
 				return new ElementEditorDefinition
