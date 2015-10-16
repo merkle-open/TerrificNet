@@ -2,9 +2,9 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Unity.Web.WebApi</id>
-    <version>1.0.1-alpha1</version>
+    <version>1.0.0.1</version>
     <authors>Namics AG</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>My package description.</description>
+    <description>Unity Extension for the Web Api</description>
+    <language>en-US</language>
   </metadata>
 </package>
