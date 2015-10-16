@@ -3,7 +3,7 @@ using System.Web.Http.Dispatcher;
 using Microsoft.Practices.Unity;
 using TerrificNet.Dispatcher;
 using TerrificNet.UnityModules;
-using Unity.WebApi;
+using Unity.Web.WebApi;
 
 namespace TerrificNet
 {
