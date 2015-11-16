@@ -49,6 +49,10 @@ namespace TerrificNet.Controllers
             var message = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
             message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(_fileSystem.Path.GetExtension(pathInfo).ToLower()));
 	        message.Headers.ETag = eTag;
+
+			// IE11 with HTTPS stops downloading
+		    message.Headers.Remove("Pragma");
+
             return message;
 	    }
 
