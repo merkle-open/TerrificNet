@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Policy;
 using System.Web.Http;
 using TerrificNet.Configuration;
 using TerrificNet.ViewEngine;
@@ -50,10 +51,14 @@ namespace TerrificNet.Controllers
             message.Content.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(_fileSystem.Path.GetExtension(pathInfo).ToLower()));
 	        message.Headers.ETag = eTag;
 
-			// IE11 with HTTPS stops downloading
+			// remove Pragma
 		    message.Headers.Remove("Pragma");
 
-            return message;
+		    message.Headers.CacheControl = new CacheControlHeaderValue {Private = true, MaxAge = TimeSpan.Zero};
+			message.Content.Headers.Expires = DateTimeOffset.Now.Subtract(TimeSpan.FromSeconds(1));
+		    //message.Content.Headers.LastModified
+
+			return message;
 	    }
 
 		private string GetMimeType(string extension)
