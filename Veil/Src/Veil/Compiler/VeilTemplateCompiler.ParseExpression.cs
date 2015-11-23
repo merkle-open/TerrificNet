@@ -75,7 +75,7 @@ namespace Veil.Compiler
 		{
 			var modelExpression = EvaluateScope(node);
 			return Expression.Block(
-                NullCheck(string.Format("Cannot access property '{0}' because value is null", node.PropertyInfo.Name), node, modelExpression),
+                CheckNotNull(string.Format("Cannot access property '{0}' because value is null", node.PropertyInfo.Name), node, modelExpression),
                 Expression.Property(modelExpression, node.PropertyInfo));
 		}
 

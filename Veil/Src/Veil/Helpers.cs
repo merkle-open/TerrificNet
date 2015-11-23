@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Veil.Parser;
 using Veil.Parser.Nodes;
 
@@ -183,8 +185,62 @@ namespace Veil
 
 		public static bool Boolify(object o)
 		{
+			/* You can use the if helper to conditionally render a block.
+            If its argument returns false, undefined, null, "", 0, or [],
+            Handlebars will not render the block.
+            */
+
+			//Handle values from data-*.json files from the frontend
+			var s = o as JToken;
+			if (s != null)
+			{
+				switch (s.Type)
+				{
+					case JTokenType.String:
+						dynamic jsonString = (JValue)o;
+						return !string.IsNullOrEmpty(jsonString.Value);
+					case JTokenType.Integer:
+						dynamic jsonInteger = (JValue)o;
+						return jsonInteger.Value != 0;
+					case JTokenType.Boolean:
+						dynamic jsonBool = (JValue)o;
+						return jsonBool.Value;
+					case JTokenType.Null:
+						return false;
+					case JTokenType.Array:
+						var array = (JArray)o;
+						return array.HasValues;
+					default:
+						return true;
+				}
+			}
+
+			//Handle bool
 			if (o is bool) return (bool)o;
+			//Handle empty strings
+			var asString = o as string;
+			if (asString != null) return !string.IsNullOrEmpty(asString);
+			//Handle zero value
+			if (o is int) return 0 != (int)o;
+			//Handle empty array
+			var list = o as IList;
+			if (list != null)
+			{
+				return list.Count > 0;
+			}
+			var enumerable = o as IEnumerable;
+			if (enumerable != null)
+			{
+				var en = enumerable.GetEnumerator();
+				return en.MoveNext();
+			}
+
 			return o != null;
+		}
+
+		public static bool CheckNull(object obj)
+		{
+			return obj == null;
 		}
 
 		public static void CheckNotNull(string message, object obj, SyntaxTreeNode node)
