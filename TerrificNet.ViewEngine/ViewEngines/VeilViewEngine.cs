@@ -115,7 +115,14 @@ namespace TerrificNet.ViewEngine.ViewEngines
 
 			public void Render(T model, RenderingContext context)
 			{
-				_render(context, model);
+				try
+				{
+					_render(context, model);
+				}
+				catch (VeilCompilerException ex)
+				{
+					throw new VeilCompilerException(string.Format("Error in view '{0}'", context.Data["templateId"]), ex, null);
+				}
 			}
 		}
 	}
