@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,14 +24,19 @@ namespace TerrificNet.ViewEngine
 			var templates = _templateRepository.GetAll();
 
 			var refresh = !ReferenceEquals(templates, _templatesOriginal);
-			_templatesOriginal = templates;
 
 			if (refresh)
+			{
+				var modulePath = _configuration.ModulePath.ToString();
+
 				_templatesCached = templates
-					.Where(t => t.Id.StartsWith(_configuration.ModulePath.ToString()))
+					.Where(t => t.Id.StartsWith(modulePath))
 					.GroupBy(t => Path.GetDirectoryName(t.Id))
 					.Select(CreateModuleDefinition)
 					.ToDictionary(i => i.Id, i => i);
+			}
+
+			_templatesOriginal = templates;
 
 			return _templatesCached;
 		}

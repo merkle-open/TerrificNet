@@ -14,8 +14,9 @@ namespace TerrificNet.ViewEngine
 		private Dictionary<string, FileTemplateInfo> _templates;
 		private IDisposable _moduleSubscription;
         private IDisposable _viewSubscription;
+		private IEnumerable<TemplateInfo> _templateInfos;
 
-        public TerrificTemplateRepository(IFileSystem fileSystem, ITerrificNetConfig configuration)
+		public TerrificTemplateRepository(IFileSystem fileSystem, ITerrificNetConfig configuration)
 		{
 			_fileSystem = fileSystem;
             _configuration = configuration;
@@ -49,6 +50,7 @@ namespace TerrificNet.ViewEngine
 		    });
 
             _templates = moduleTemplates.Concat(viewTemplates).ToDictionary(i => i.Id, i => i);
+			_templateInfos = _templates.Values.ToList();
 		}
 
 		public Task<TemplateInfo> GetTemplateAsync(string id)
@@ -67,7 +69,7 @@ namespace TerrificNet.ViewEngine
 
 		public IEnumerable<TemplateInfo> GetAll()
 		{
-			return _templates.Values;
+			return _templateInfos;
 		}
 
 		~TerrificTemplateRepository()

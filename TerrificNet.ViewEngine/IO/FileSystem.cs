@@ -261,7 +261,7 @@ namespace TerrificNet.ViewEngine.IO
 			{
 				_parent = parent;
 				_handler = handler;
-				_prefix = prefix;
+				_prefix = PathInfo.Combine(parent._basePath, prefix);
 				_extension = extension;
 			}
 
