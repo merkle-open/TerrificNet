@@ -190,12 +190,6 @@
     <Content Include="components\modules\SubPlaceholder\data\_default.json" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="components\modules\Accordion\css\accordion.less" />
     <Content Include="components\modules\Carousel\css\carousel.less" />
     <Content Include="components\modules\Carousel\data\_default.json" />
@@ -228,6 +222,12 @@
     <Content Include="components\modules\TextImage\data\table.json" />
     <Content Include="components\modules\TextImage\data\video.json" />
     <Content Include="components\modules\TextImage\data\_default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
