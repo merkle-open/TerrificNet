@@ -7,7 +7,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using TerrificNet.UnityModules;
-using Unity.Web.WebApi;
+using Unity.WebApi;
 
 namespace TerrificNet.Dispatcher
 {

@@ -17,7 +17,7 @@ var Tcn;
             this.views[id] = view;
         };
         return TemplateRepositoryInternal;
-    })();
+    }());
     var ViewEngineImplementation = (function () {
         function ViewEngineImplementation(templateRepository) {
             this.templateRepository = templateRepository;
@@ -38,7 +38,7 @@ var Tcn;
             return ctx.out;
         };
         return ViewEngineImplementation;
-    })();
+    }());
     Tcn.ViewEngineImplementation = ViewEngineImplementation;
     var StringRenderingContext = (function () {
         function StringRenderingContext() {
@@ -51,7 +51,7 @@ var Tcn;
             this.out += Utils.escapeExpression(val);
         };
         return StringRenderingContext;
-    })();
+    }());
     Tcn.StringRenderingContext = StringRenderingContext;
     var Utils = (function () {
         function Utils() {
@@ -83,7 +83,7 @@ var Tcn;
         Utils.badChars = /[&<>"'`]/g;
         Utils.possible = /[&<>"'`]/;
         return Utils;
-    })();
+    }());
     Tcn.TemplateRepository = new TemplateRepositoryInternal("/js/{id}");
     Tcn.ViewEngine = new ViewEngineImplementation(Tcn.TemplateRepository);
 })(Tcn || (Tcn = {}));

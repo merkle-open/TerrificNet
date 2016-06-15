@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>TerrificNet</id>
-    <version>1.0.4</version>
+    <id>$id$.TerrificNet10</id>
+    <version>$version$</version>
     <authors>Namics AG</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>My package description.</description>
+    <description>TerrificNet.</description>
   </metadata>
   <files>
     <file src="obj\$configuration$\content\**\*.*" target="content"></file>

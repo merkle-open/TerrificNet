@@ -45,7 +45,8 @@ namespace TerrificNet.Controllers
         private HttpResponseMessage GetInternal(string path)
         {
             IPageViewDefinition viewDefinition;
-            if (_viewRepository.TryGetFromView(path, out viewDefinition))
+
+			if (_viewRepository.TryGetFromView(path, out viewDefinition))
                 return Get(viewDefinition);
 
             return new HttpResponseMessage(HttpStatusCode.NotFound);

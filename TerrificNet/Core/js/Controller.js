@@ -8,7 +8,7 @@ var Tcn;
             return new ctor();
         };
         return ControllerActivator;
-    })();
+    }());
     Tcn.ControllerActivator = ControllerActivator;
     var ControllerInjector = (function () {
         function ControllerInjector(activator) {
@@ -39,7 +39,7 @@ var Tcn;
             $(element).data("tc-controller-inst", controller);
         };
         return ControllerInjector;
-    })();
+    }());
     Tcn.ControllerInjector = ControllerInjector;
 })(Tcn || (Tcn = {}));
 //# sourceMappingURL=Controller.js.map

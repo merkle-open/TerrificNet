@@ -11,5 +11,5 @@ var Common = (function () {
         return vars;
     };
     return Common;
-})();
+}());
 //# sourceMappingURL=common.js.map
