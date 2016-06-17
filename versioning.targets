@@ -6,7 +6,7 @@
       define solution version here or pass it as MSBuild parameter
       (f.e. "... /p:PackageVersion="1.0.0.156" ...") 
     -->
-    <PackageVersion Condition="'$(PackageVersion)' == ''">1.0.0.1</PackageVersion>
+    <PackageVersion Condition="'$(PackageVersion)' == ''">1.1.0.0</PackageVersion>
     
   </PropertyGroup>
 
