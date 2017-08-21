@@ -19,7 +19,7 @@ namespace TerrificNet.Controllers
             _viewRepository = viewRepository;
         }
 
-        [HttpGet]
+        [AcceptVerbs("Get", "Post")]
         public HttpResponseMessage Get(string path)
         {
             SourceLocation errorLocation;
