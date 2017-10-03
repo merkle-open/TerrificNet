@@ -32,7 +32,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             if (parameters.ContainsKey("data_variation"))
                 dataVariation = parameters["data_variation"].Trim('"');
 
-            _handler.RenderModule(templateName, skin, context, dataVariation);
+            _handler.RenderModule(templateName, skin, dataVariation, model, context);
 		}
     }
 }

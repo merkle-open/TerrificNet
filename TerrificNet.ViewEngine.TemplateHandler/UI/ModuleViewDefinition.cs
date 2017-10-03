@@ -22,7 +22,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler.UI
 			else
 				context.Data.Add("data_variation", DataVariation);
 
-			templateHandler.RenderModule(Module, Skin, context);
+			templateHandler.RenderModule(Module, Skin, DataVariation, model, context);
 		}
     }
 }

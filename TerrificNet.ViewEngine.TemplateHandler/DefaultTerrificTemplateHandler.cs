@@ -50,7 +50,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
 			}
 		}
 
-        public virtual void RenderModule(string moduleId, string skin, RenderingContext context, string dataVariation)
+        public virtual void RenderModule(string moduleId, string skin, string dataVariation, object model, RenderingContext context)
 		{
 			string variation;
 			object variationObj;

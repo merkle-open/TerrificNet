@@ -42,7 +42,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
             }
         }
 
-        public override void RenderModule(string moduleId, string skin, RenderingContext context, string dataVariation)
+        public override void RenderModule(string moduleId, string skin, string dataVariation, object model, RenderingContext context)
         {
             var renderPath = context.GetData("renderPath", () => new List<string>());
             var isPageEditor = context.GetData("pageEditor", () => false);
@@ -64,7 +64,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
                                      "\" before <span class='btn-delete' data-toggle='tooltip' data-placement='top' title='Delete module.'><i class='glyphicon glyphicon-remove'></i></span></div>");
             }
 
-            base.RenderModule(moduleId, skin, context, dataVariation);
+            base.RenderModule(moduleId, skin, dataVariation, model, context);
 
             if (isPageEditor)
             {

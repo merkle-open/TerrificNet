@@ -7,7 +7,7 @@ namespace TerrificNet.ViewEngine.TemplateHandler
     {
         void RenderPlaceholder(object model, string key, string index, RenderingContext context);
         
-		void RenderModule(string moduleId, string skin, RenderingContext context, string dataVariation = null);
+		void RenderModule(string moduleId, string skin, string dataVariation, object model, RenderingContext context);
         
 		void RenderLabel(string key, RenderingContext context);
         
