@@ -2,7 +2,7 @@
 
 TerrificNet is an ASP.NET MVC view engine which integrates a [handlebars](http://handlebarsjs.com) respectively [terrificjs](https://github.com/brunschgi/terrificjs) frontend. It comes with its own runtime, an intelligent built-in file system and the possibility to add custom helpers.
 
-:warning: **The project is no longer maintained!**
+:warning: **The project is no longer maintained!**  
 There is now a successor available called [NitroNet](https://github.com/namics/NitroNet) and an additional project called [NitroNetSitecore](https://github.com/namics/NitroNetSitecore) with support for the WCMS Sitecore.
 
 ## Definitions
